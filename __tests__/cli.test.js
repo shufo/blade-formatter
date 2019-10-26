@@ -98,16 +98,16 @@ describe('The blade formatter CLI', () => {
   });
 
   test('should overwrite file with formatted output if write option enabled', async () => {
-    const tmpDir = path.resolve(os.tmpdir(), 'blade-formatter');
+    const tmpDir = path.resolve(os.tmpdir(), 'blade-formatter', 'fixtures');
     util.populateFixtures(tmpDir);
 
     // use index.blade.php as unformatted file
-    assertNotFormatted(path.resolve(tmpDir, 'fixtures', 'index.blade.php'));
+    assertNotFormatted(path.resolve(tmpDir, 'index.blade.php'));
 
     // format unformatted file
     const response = cmd.executeSync(
       path.resolve(__basedir, 'bin', 'blade-formatter'),
-      [path.resolve(tmpDir, 'fixtures', 'index.blade.php'), '--write'],
+      [path.resolve(tmpDir, 'index.blade.php'), '--write'],
     );
 
     const output = response.output.join('\n');
@@ -117,7 +117,7 @@ describe('The blade formatter CLI', () => {
     expect(output).toMatch('Fixed');
     expect(output).toMatch('Formatted Files');
 
-    assertFormatted(path.resolve(tmpDir, 'fixtures', 'index.blade.php'));
+    assertFormatted(path.resolve(tmpDir, 'index.blade.php'));
   });
 
   test('should show diffs if diff option enabled', async () => {
