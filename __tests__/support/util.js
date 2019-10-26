@@ -1,16 +1,10 @@
 const { spawnSync } = require('child_process');
 const path = require('path');
+const fs = require('fs-extra');
 
 function populateFixtures(targetDir) {
-  spawnSync(
-    'cp',
-    [path.resolve(__basedir, '__tests__', 'fixtures'), targetDir, '-fR'],
-    {
-      env: {
-        NODE_ENV: 'test',
-      },
-      encoding: 'utf-8',
-    },
+  fs.copy(path.resolve(__basedir, '__tests__', 'fixtures'), targetDir).catch(
+    err => console.error(err),
   );
 }
 
