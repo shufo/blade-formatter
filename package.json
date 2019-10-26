@@ -1,5 +1,10 @@
 {
   "name": "blade-formatter",
+  "keywords": [
+    "php",
+    "formatter",
+    "laravel"
+  ],
   "version": "1.0.1",
   "description": "An opinionated blade template formatter for Laravel",
   "main": "src/main.js",
