@@ -81,3 +81,7 @@ $ blade-formatter -c -d resources/**/*.blade.php
 ## LICENSE
 
 MIT
+
+## TODO
+
+- [ ] Editable custom directives
