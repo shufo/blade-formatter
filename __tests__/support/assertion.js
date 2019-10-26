@@ -1,3 +1,4 @@
+const fs = require('fs');
 const path = require('path');
 const cmd = require('./cmd');
 
@@ -16,6 +17,13 @@ function assertFormatted(file) {
 }
 
 function assertNotFormatted(file) {
+  fs.exists(file, exists => {
+    if (!exists) {
+      process.stdout.write('Format target file not found\n');
+      process.exit(1);
+    }
+  });
+
   const response = cmd.executeSync(
     path.resolve(__basedir, 'bin', 'blade-formatter'),
     [file, '-c'],
