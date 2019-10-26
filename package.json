@@ -1,0 +1,41 @@
+{
+  "name": "blade-formatter",
+  "version": "1.0.0",
+  "description": "An opinionated blade template formatter for Laravel",
+  "main": "src/main.js",
+  "scripts": {
+    "test": "jest",
+    "lint": "eslint src -c .eslintrc.json --ext js",
+    "format": "prettier {src,__{tests,mocks}__}/**/*.js --write",
+    "check_formatted": "prettier **/*.js -c"
+  },
+  "bin": {
+    "shufo/blade-formatter": "bin/blade-formatter",
+    "blade-formatter": "bin/blade-formatter"
+  },
+  "author": "Shuhei Hayashibara",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^2.4.2",
+    "esm": "^3.2.25",
+    "glob": "^7.1.4",
+    "js-beautify": "^1.10.2",
+    "lodash": "^4.17.15",
+    "vscode-textmate": "^4.2.2",
+    "yargs": "^14.2.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.6.4",
+    "@babel/preset-env": "^7.6.3",
+    "app-root-path": "^2.2.1",
+    "babel-jest": "^24.9.0",
+    "concat-stream": "^2.0.0",
+    "eslint": "^6.5.1",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-config-prettier": "^6.4.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-prettier": "^3.1.1",
+    "jest": "^24.9.0",
+    "prettier": "^1.18.2"
+  }
+}

@@ -1,0 +1,6 @@
+#!/usr/bin/env node
+
+const esmRequire = require('esm')(module /*, options*/);
+
+const cli = esmRequire('../src/cli');
+cli.default();
