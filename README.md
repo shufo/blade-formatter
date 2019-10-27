@@ -25,13 +25,13 @@ An opinionated blade template formatter for Laravel
                 @foreach($users as $user)
         <li>
             <img src="{{ asset('img/frontend/icon/branch-arrow.svg') }}" alt="branch_arrow">
-            {{ link_to_route('frontend.users.user.show',$users["name"],$users['_id']) }}
+            {{ link_to_route("frontend.users.user.show",$users["name"],$users['_id']) }}
         </li>
         @endforeach
       </ul>
       <div class="pf-users-branch__btn">
       @can('create', App\Models\User::class)
-            {!! link_to_route('frontend.users.user.create',__('users.create'),[1,2,3],['class' => 'btn']) !!}
+            {!! link_to_route("frontend.users.user.create",__('users.create'),[1,2,3],['class' => 'btn']) !!}
             @endcan
         </div>
   </div>
@@ -40,7 +40,6 @@ An opinionated blade template formatter for Laravel
 @endsection
 @section('footer')
 @stop
-
 ```
 
 ### Output
