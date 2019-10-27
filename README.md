@@ -1,3 +1,5 @@
+[![npm version](https://badge.fury.io/js/blade-formatter.svg)](https://badge.fury.io/js/blade-formatter)
+
 # blade-formatter
 
 An opinionated blade template formatter for Laravel
