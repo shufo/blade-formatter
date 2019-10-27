@@ -86,13 +86,13 @@ $ node_modules/.bin/blade-formatter -h
 
 yarn
 
-```
+```bash
 $ yarn add --dev blade-formatter
 ```
 
 global
 
-```
+```bash
 $ npm install -g blade-formatter
 $ yarn global add blade-formatter
 ```
@@ -162,6 +162,23 @@ $ blade-formatter -c -d resources/**/*.blade.php
 ## LICENSE
 
 MIT
+
+## Troubleshoot
+
+- If you encounter the error until installation like below
+
+```
+$ npm install -g blade-formatter
+~~
+current user ("nobody") does not have permission to access the dev dir
+~~
+```
+
+Try set global user as root
+
+```
+$ npm -g config set user root
+```
 
 ## TODO
 
