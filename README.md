@@ -97,6 +97,12 @@ $ npm install -g blade-formatter
 $ yarn global add blade-formatter
 ```
 
+docker
+
+```bash
+$ docker run -it -v $(pwd):/app -w /app shufo/blade-formatter resources/**/*.blade.php
+```
+
 ## Usage
 
 - Basic
