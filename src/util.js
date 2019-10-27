@@ -1,6 +1,7 @@
 const _ = require('lodash');
 const fs = require('fs');
 const chalk = require('chalk');
+const prettier = require('prettier');
 
 export const optional = obj => {
   const chain = {
@@ -67,6 +68,56 @@ export function generateDiff(path, originalLines, formattedLines) {
   });
 
   return _.without(diff, null);
+}
+
+export function prettifyPhpContentWithUnescapedTags(content) {
+  let prettified = _.replace(content, /\{\{--/g, '<?php //');
+  prettified = _.replace(prettified, /--\}\}/g, '// ?>');
+  prettified = _.replace(prettified, /\{\{/g, '<?php ');
+  prettified = _.replace(prettified, /\}\}/g, ' ?>');
+
+  prettified = prettier.format(prettified, {
+    parser: 'php',
+    printWidth: 1000,
+    singleQuote: true,
+  });
+
+  prettified = _.replace(prettified, /<\?php\s\/\//g, '{{--');
+  prettified = _.replace(prettified, /\/\/\s\?>/g, '--}}');
+  prettified = _.replace(prettified, /<\?php\s/g, '{{ ');
+  prettified = _.replace(prettified, /\s\?>/g, ' }}');
+
+  return prettified;
+}
+
+export function prettifyPhpContentWithEscapedTags(content) {
+  let prettified = _.replace(content, /{!!/g, '<?php ');
+  prettified = _.replace(prettified, /!!}/g, ' ?>');
+
+  prettified = prettier.format(prettified, {
+    parser: 'php',
+    printWidth: 1000,
+    singleQuote: true,
+  });
+
+  prettified = _.replace(prettified, /<\?php\s/g, '{!! ');
+  prettified = _.replace(prettified, /\s\?>/g, ' !!}');
+  return prettified;
+}
+
+export function removeSemicolon(content) {
+  let prettified = _.replace(content, /;\s\}\}/g, ' }}');
+  prettified = _.replace(prettified, /;\s!!\}/g, ' !!}');
+
+  return prettified;
+}
+
+export function formatAsPhp(content) {
+  let prettified = prettifyPhpContentWithUnescapedTags(content);
+  prettified = prettifyPhpContentWithEscapedTags(prettified);
+  prettified = removeSemicolon(prettified);
+
+  return Promise.resolve(prettified);
 }
 
 export function printDescription() {

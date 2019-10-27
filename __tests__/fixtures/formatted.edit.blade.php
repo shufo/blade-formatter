@@ -8,7 +8,7 @@
                 <div></div>
                 <p>@lang('user.edit')</p>
             </div>
-            {!! Form::model($user, ['route' => ['frontend.user.user.update', $user['id']], 'method'=>'put', 'class' =>
+            {!! Form::model($user, ['route' => ['frontend.user.user.update', $user['id']], 'method' => 'put', 'class' =>
             'form-horizontal', 'role' => 'form']) !!}
             <ul class="pf-user-form">
                 <li>

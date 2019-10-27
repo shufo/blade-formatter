@@ -25,7 +25,9 @@ export default class Formatter {
   }
 
   formatContent(content) {
-    return this.formatAsHtml(content)
+    return util
+      .formatAsPhp(content)
+      .then(formattedAsPhp => this.formatAsHtml(formattedAsPhp))
       .then(formattedAsHtml => this.formatAsBlade(formattedAsHtml))
       .then(formattedAsBlade => {
         return formattedAsBlade;
