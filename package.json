@@ -5,7 +5,7 @@
     "formatter",
     "laravel"
   ],
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "An opinionated blade template formatter for Laravel",
   "main": "src/main.js",
   "scripts": {
@@ -15,7 +15,6 @@
     "check_formatted": "prettier **/*.js -c"
   },
   "bin": {
-    "shufo/blade-formatter": "bin/blade-formatter",
     "blade-formatter": "bin/blade-formatter"
   },
   "author": "Shuhei Hayashibara",
@@ -27,9 +26,9 @@
     "glob": "^7.1.4",
     "js-beautify": "^1.10.2",
     "lodash": "^4.17.15",
+    "prettier": "^1.18.2",
     "vscode-textmate": "^4.2.2",
-    "yargs": "^14.2.0",
-    "prettier": "^1.18.2"
+    "yargs": "^14.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.6.4",
