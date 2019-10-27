@@ -22,16 +22,16 @@ An opinionated blade template formatter for Laravel
     </div>
         <div class="pf-users-branch">
             <ul class="pf-users-branch__list">
-                @foreach($users as $index=>$user)
+                @foreach($users as $user)
         <li>
-            <img src="{{ asset("img/frontend/icon/branch-arrow.svg") }}" alt="branch_arrow">
+            <img src="{{ asset('img/frontend/icon/branch-arrow.svg') }}" alt="branch_arrow">
             {{ link_to_route('frontend.users.user.show',$users["name"],$users['_id']) }}
         </li>
         @endforeach
       </ul>
       <div class="pf-users-branch__btn">
-      @can("create", App\Models\User::class)
-            {!! link_to_route('frontend.users.user.create',__('users.create'),[1,2,3,4,5],['class' => 'btn']) !!}
+      @can('create', App\Models\User::class)
+            {!! link_to_route('frontend.users.user.create',__('users.create'),[1,2,3],['class' => 'btn']) !!}
             @endcan
         </div>
   </div>
@@ -40,6 +40,7 @@ An opinionated blade template formatter for Laravel
 @endsection
 @section('footer')
 @stop
+
 ```
 
 ### Output
@@ -57,7 +58,7 @@ An opinionated blade template formatter for Laravel
             </div>
             <div class="pf-users-branch">
                 <ul class="pf-users-branch__list">
-                    @foreach($users as $index=>$user)
+                    @foreach($users as $user)
                         <li>
                             <img src="{{ asset('img/frontend/icon/branch-arrow.svg') }}" alt="branch_arrow">
                             {{ link_to_route('frontend.users.user.show', $users['name'], $users['_id']) }}
@@ -65,9 +66,8 @@ An opinionated blade template formatter for Laravel
                     @endforeach
                 </ul>
                 <div class="pf-users-branch__btn">
-                    @can("create", App\Models\User::class)
-                        {!! link_to_route('frontend.users.user.create', __('users.create'), [1, 2, 3, 4, 5], ['class' => 'btn'])
-                        !!}
+                    @can('create', App\Models\User::class)
+                        {!! link_to_route('frontend.users.user.create', __('users.create'), [1, 2, 3], ['class' => 'btn']) !!}
                     @endcan
                 </div>
             </div>
