@@ -76,6 +76,7 @@ export default class Formatter {
 
   processLine(tokenizeLineResult, originalLine) {
     if (hasStartAndEndToken(tokenizeLineResult, originalLine)) {
+      this.result.push(originalLine);
       return;
     }
 

@@ -248,4 +248,45 @@ describe('formatter', () => {
         assert.equal(result, expected);
       });
   });
+
+  test('should not clear inline level directive', () => {
+    const content = [`<div>`, `@section foo @endsection`, `</div>`, ``].join(
+      '\n',
+    );
+
+    const expected = [
+      `<div>`,
+      `    @section foo @endsection`,
+      `</div>`,
+      ``,
+    ].join('\n');
+
+    return formatter()
+      .formatContent(content)
+      .then(function(result) {
+        assert.equal(result, expected);
+      });
+  });
+
+  test('should not clear php code inside inline @php directive #3', () => {
+    const content = [
+      `<div>`,
+      `@php $bg = rand(1, 13); $bgchange = $bg.".jpg"; @endphp`,
+      `</div>`,
+      ``,
+    ].join('\n');
+
+    const expected = [
+      `<div>`,
+      `    @php $bg = rand(1, 13); $bgchange = $bg.".jpg"; @endphp`,
+      `</div>`,
+      ``,
+    ].join('\n');
+
+    return formatter()
+      .formatContent(content)
+      .then(function(result) {
+        assert.equal(result, expected);
+      });
+  });
 });
