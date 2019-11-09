@@ -15,8 +15,9 @@ const _ = require('lodash');
 
 export default class Formatter {
   constructor(options) {
-    this.indentCharacter = util.optional(options).useTabs ? '\t' : ' ';
-    this.indentSize = util.optional(options).indentSize || 4;
+    this.options = options;
+    this.indentCharacter = util.optional(this.options).useTabs ? '\t' : ' ';
+    this.indentSize = util.optional(this.options).indentSize || 4;
     this.currentIndentLevel = 0;
     this.shouldBeIndent = false;
     this.stack = [];
