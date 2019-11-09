@@ -36,7 +36,6 @@
     "app-root-path": "^2.2.1",
     "babel-jest": "^24.9.0",
     "concat-stream": "^2.0.0",
-    "cz-conventional-changelog": "3.0.2",
     "eslint": "^6.5.1",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-config-prettier": "^6.4.0",
@@ -49,10 +48,5 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/shufo/blade-formatter.git"
-  },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
-    }
   }
 }
