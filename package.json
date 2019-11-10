@@ -12,7 +12,8 @@
     "test": "jest",
     "lint": "eslint src -c .eslintrc.json --ext js",
     "format": "prettier {src,__{tests,mocks}__}/**/*.js --write",
-    "check_formatted": "prettier **/*.js -c"
+    "check_formatted": "prettier **/*.js -c",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0"
   },
   "bin": {
     "blade-formatter": "bin/blade-formatter"
