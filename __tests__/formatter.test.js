@@ -248,4 +248,75 @@ describe('formatter', () => {
         assert.equal(result, expected);
       });
   });
+
+  test('should not clear inline level directive', () => {
+    const content = [`<div>`, `@section foo @endsection`, `</div>`, ``].join(
+      '\n',
+    );
+
+    const expected = [
+      `<div>`,
+      `    @section foo @endsection`,
+      `</div>`,
+      ``,
+    ].join('\n');
+
+    return formatter()
+      .formatContent(content)
+      .then(function(result) {
+        assert.equal(result, expected);
+      });
+  });
+
+  test('should not clear php code inside inline @php directive #3', () => {
+    const content = [
+      `<div>`,
+      `@php $bg = rand(1, 13); $bgchange = $bg.".jpg"; @endphp`,
+      `</div>`,
+      ``,
+    ].join('\n');
+
+    const expected = [
+      `<div>`,
+      `    @php $bg = rand(1, 13); $bgchange = $bg.".jpg"; @endphp`,
+      `</div>`,
+      ``,
+    ].join('\n');
+
+    return formatter()
+      .formatContent(content)
+      .then(function(result) {
+        assert.equal(result, expected);
+      });
+  });
+
+  // https://github.com/shufo/blade-formatter/issues/3#issuecomment-552139588
+  // eslint-disable-next-line max-len
+  test('should indent correctly even if inline directive and div tags are mixed', () => {
+    const content = [
+      `@section('content')`,
+      `    <div class="content-header">`,
+      `        <div>@php echo 'FOO'; @endphp</div>`,
+      `    </div>`,
+      `    <div>@php echo 'FOO'; @endphp</div>`,
+      `@endsection`,
+      '',
+    ].join('\n');
+
+    const expected = [
+      `@section('content')`,
+      `    <div class="content-header">`,
+      `        <div>@php echo 'FOO'; @endphp</div>`,
+      `    </div>`,
+      `    <div>@php echo 'FOO'; @endphp</div>`,
+      `@endsection`,
+      '',
+    ].join('\n');
+
+    return formatter()
+      .formatContent(content)
+      .then(function(result) {
+        assert.equal(result, expected);
+      });
+  });
 });

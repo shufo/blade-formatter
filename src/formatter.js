@@ -75,10 +75,6 @@ export default class Formatter {
   }
 
   processLine(tokenizeLineResult, originalLine) {
-    if (hasStartAndEndToken(tokenizeLineResult, originalLine)) {
-      return;
-    }
-
     this.processTokenizeResult(tokenizeLineResult, originalLine);
   }
 
@@ -126,6 +122,11 @@ export default class Formatter {
       this.shouldBeIndent = false;
     }
 
+    if (hasStartAndEndToken(tokenizeLineResult, originalLine)) {
+      this.insertFormattedLineToResult(originalLine);
+      return;
+    }
+
     for (let j = 0; j < tokenizeLineResult.tokens.length; j += 1) {
       const tokenStruct = tokenizeLineResult.tokens[j];
 
@@ -144,9 +145,14 @@ export default class Formatter {
       );
     }
 
+    this.insertFormattedLineToResult(originalLine);
+  }
+
+  insertFormattedLineToResult(originalLine) {
     const indentWhiteSpace = this.indentCharacter.repeat(
       this.currentIndentLevel * this.indentSize,
     );
+
     const formattedLine = indentWhiteSpace + originalLine;
     this.result.push(formattedLine);
 

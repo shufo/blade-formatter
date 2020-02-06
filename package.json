@@ -5,14 +5,15 @@
     "formatter",
     "laravel"
   ],
-  "version": "1.1.1",
+  "version": "1.1.4",
   "description": "An opinionated blade template formatter for Laravel",
   "main": "src/main.js",
   "scripts": {
     "test": "jest",
     "lint": "eslint src -c .eslintrc.json --ext js",
     "format": "prettier {src,__{tests,mocks}__}/**/*.js --write",
-    "check_formatted": "prettier **/*.js -c"
+    "check_formatted": "prettier **/*.js -c",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0"
   },
   "bin": {
     "blade-formatter": "bin/blade-formatter"

@@ -133,4 +133,36 @@ describe('The blade formatter CLI', () => {
     expect(response).toMatch('--<section id="content">');
     expect(response).toMatch('++    <section id="content">');
   });
+
+  test('should indent correctly if indent option passed', async () => {
+    const shortHandResponse = await cmd.execute(
+      path.resolve(__basedir, 'bin', 'blade-formatter'),
+      [
+        path.resolve(__basedir, '__tests__', 'fixtures', 'index.blade.php'),
+        '-i',
+        '2',
+      ],
+    );
+
+    const longNameResponse = await cmd.execute(
+      path.resolve(__basedir, 'bin', 'blade-formatter'),
+      [
+        path.resolve(__basedir, '__tests__', 'fixtures', 'index.blade.php'),
+        '--indent-size',
+        '2',
+      ],
+    );
+
+    const targetFile = path.resolve(
+      __basedir,
+      '__tests__',
+      'fixtures',
+      'formatted_with_indent_size_2.index.blade.php',
+    );
+
+    fs.readFile(targetFile, (err, data) => {
+      expect(shortHandResponse).toEqual(data.toString('utf-8'));
+      expect(longNameResponse).toEqual(data.toString('utf-8'));
+    });
+  });
 });

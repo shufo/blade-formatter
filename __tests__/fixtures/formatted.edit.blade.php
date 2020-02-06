@@ -1,6 +1,7 @@
 @extends('frontend.layouts.app')
 @section('head')
 @endsection
+@section('title') bar @endsection
 @section('content')
     <section id="content">
         <div class="container mod-user-pd-h">
