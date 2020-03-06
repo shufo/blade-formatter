@@ -34,7 +34,7 @@
   "devDependencies": {
     "@babel/core": "^7.6.4",
     "@babel/preset-env": "^7.6.3",
-    "app-root-path": "^2.2.1",
+    "app-root-path": "^3.0.0",
     "babel-jest": "^24.9.0",
     "concat-stream": "^2.0.0",
     "eslint": "^6.5.1",
