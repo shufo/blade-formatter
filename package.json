@@ -22,7 +22,7 @@
   "license": "MIT",
   "dependencies": {
     "@prettier/plugin-php": "^0.13.0",
-    "chalk": "^2.4.2",
+    "chalk": "^3.0.0",
     "esm": "^3.2.25",
     "glob": "^7.1.4",
     "js-beautify": "^1.10.2",
