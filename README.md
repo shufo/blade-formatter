@@ -150,7 +150,6 @@ $ blade-formatter -c -d resources/**/*.blade.php
 |`--help,`, `-h`|Show help||
 |`--version,`, `-v`|Show version||
 
-
 ## Contributing
 
 1.  Fork it
@@ -183,3 +182,4 @@ $ npm -g config set user root
 ## TODO
 
 - [ ] Editable custom directives
+- [ ] `@for` directive support
