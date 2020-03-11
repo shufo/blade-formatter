@@ -18,17 +18,8 @@ jobs:
   automerge:
     runs-on: ubuntu-latest
     steps:
-      - name: 'Wait for status checks'
-        id: waitforstatuschecks
-        uses: "WyriHaximus/github-action-wait-for-status@f8bbe3bb321919ec6a009bc98121f39874dc8ee0"
-        with:
-          ignoreActions: automerge
-          checkInterval: 13
-        env:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
       - name: 'Merge'
         uses: "pascalgn/automerge-action@v0.4.0"
-        if: steps.waitforstatuschecks.outputs.status == 'success'
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           LABELS: automerge
