@@ -14,3 +14,7 @@ jobs:
         configuration-path: .github/pr-labeler.yml
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    # conditional labeler
+    - uses: srvaroa/labeler@master
+      env:
+        GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"

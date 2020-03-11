@@ -6,3 +6,5 @@ application:
   - src/**/*
 github:
   - .github/**/*
+WIP:
+  mergeable: false
