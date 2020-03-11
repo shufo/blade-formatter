@@ -1,4 +1,5 @@
 [![npm version](https://badge.fury.io/js/blade-formatter.svg)](https://badge.fury.io/js/blade-formatter) [![Actions Status](https://github.com/shufo/blade-formatter/workflows/Node%20CI/badge.svg)](https://github.com/shufo/blade-formatter/actions)
+[![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=shufo/blade-formatter)](https://dependabot.com)
 
 
 # blade-formatter
