@@ -4,3 +4,5 @@ bin:
   - bin/**/*
 application:
   - src/**/*
+github:
+  - .github/**/*
