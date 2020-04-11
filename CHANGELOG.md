@@ -1,3 +1,13 @@
+## [1.1.5](https://github.com/shufo/blade-formatter/compare/v1.1.3...v1.1.5) (2020-04-11)
+
+
+### Bug Fixes
+
+* **formatter:** do not insert padding in blankline ([ab369bd](https://github.com/shufo/blade-formatter/commit/ab369bd2300a7398e0aa68d155bcb74727b715ea)), closes [#48](https://github.com/shufo/blade-formatter/issues/48)
+* **formatter:** fix indentation problem on inline directive and html tags are mixed refs [#3](https://github.com/shufo/blade-formatter/issues/3) ([00b85a3](https://github.com/shufo/blade-formatter/commit/00b85a3dffee3e90690477130f34f9c8f31a18ed))
+
+
+
 ## [1.1.4](https://github.com/shufo/blade-formatter/compare/v1.1.3...v1.1.4) (2019-11-10)
 
 
