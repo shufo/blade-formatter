@@ -154,7 +154,16 @@ export default class Formatter {
     );
 
     const formattedLine = indentWhiteSpace + originalLine;
-    this.result.push(formattedLine);
+
+    // blankline
+    if (originalLine.length === 0) {
+      this.result.push(originalLine);
+    }
+
+    // formatted line
+    if (originalLine.length !== 0 && formattedLine.length > 0) {
+      this.result.push(formattedLine);
+    }
 
     if (formattedLine !== originalLine) {
       this.diffs.push({

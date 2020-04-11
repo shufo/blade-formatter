@@ -319,4 +319,33 @@ describe('formatter', () => {
         assert.equal(result, expected);
       });
   });
+
+  // refs: https://github.com/shufo/blade-formatter/issues/48
+  test('it should not pad original blankline', async () => {
+    const content = [
+      `@section('content')`,
+      `<div class="content-header">`,
+      `<div>@php echo 'FOO'; @endphp</div>`,
+      ``, // blankline
+      `</div>`,
+      `@endsection`,
+      '',
+    ].join('\n');
+
+    const expected = [
+      `@section('content')`,
+      `    <div class="content-header">`,
+      `        <div>@php echo 'FOO'; @endphp</div>`,
+      ``, // should be keep original line
+      `    </div>`,
+      `@endsection`,
+      '',
+    ].join('\n');
+
+    return formatter()
+      .formatContent(content)
+      .then(result => {
+        assert.equal(result, expected);
+      });
+  });
 });
