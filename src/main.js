@@ -127,6 +127,11 @@ export class BladeFormatter {
       return;
     }
 
+    // preserve original content
+    if (content.length === 0 || _.isNull(content) || _.isEmpty(content)) {
+      return;
+    }
+
     fs.writeFile(path, content, err => {
       if (err) {
         console.log(chalk.red(err.message));
