@@ -349,7 +349,7 @@ describe('formatter', () => {
       });
   });
 
-  test('preserve multiline php tag #57', async() => {
+  test('preserve multiline php tag #57', async () => {
     const content = [
       `<?php`,
       `/**`,
@@ -383,9 +383,9 @@ describe('formatter', () => {
       .then((result) => {
         assert.equal(result, expected);
       });
-    });
+  });
 
-  test('preserve inline php tag #57', async() => {
+  test('preserve inline php tag #57', async () => {
     const content = [
       `<body data-app="<?php echo json_encode($array); ?>"`,
       '',
@@ -403,7 +403,7 @@ describe('formatter', () => {
       });
   });
 
-  test('preserve inline php tag in script', async() => {
+  test('preserve inline php tag in script', async () => {
     const content = [
       `<script>`,
       `    var app = <?php echo json_encode($array); ?>;`,
@@ -425,8 +425,7 @@ describe('formatter', () => {
       });
   });
 
-
-  test('should be ignore short tag #56', async() => {
+  test('should be ignore short tag #56', async () => {
     const content = [
       `<table>`,
       `<th><?= $userName ?></th>`,

@@ -8,7 +8,6 @@ import {
 } from './indent';
 import * as util from './util';
 import * as vsctm from './vsctm';
-import { resolve } from 'app-root-path';
 
 const os = require('os');
 const beautify = require('js-beautify').html;
@@ -43,11 +42,10 @@ export default class Formatter {
       end_with_newline: util.optional(this.options).endWithNewline || true,
     };
 
-    const promise =
-      new Promise((resolve, reject) => resolve(data))
-      .then(data => util.preserveOriginalPhpTagInHtml(data))
-      .then(preserved => beautify(preserved, options))
-      .then(beautified => util.revertOriginalPhpTagInHtml(beautified));
+    const promise = new Promise((resolve) => resolve(data))
+      .then((content) => util.preserveOriginalPhpTagInHtml(content))
+      .then((preserved) => beautify(preserved, options))
+      .then((beautified) => util.revertOriginalPhpTagInHtml(beautified));
 
     return Promise.resolve(promise);
   }
