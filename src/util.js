@@ -3,7 +3,7 @@ const fs = require('fs');
 const chalk = require('chalk');
 const prettier = require('prettier');
 
-export const optional = obj => {
+export const optional = (obj) => {
   const chain = {
     get() {
       return null;
@@ -41,7 +41,7 @@ export function normalizeIndentLevel(length) {
 
 export function printDiffs(diffs) {
   return Promise.all(
-    _.map(diffs, async diff => {
+    _.map(diffs, async (diff) => {
       console.log(`path: ${chalk.bold(diff.path)}:${diff.line}`);
       console.log(chalk.red(`--${diff.original}`));
       console.log(chalk.green(`++${diff.formatted}`));
@@ -72,20 +72,27 @@ export function generateDiff(path, originalLines, formattedLines) {
 
 export function prettifyPhpContentWithUnescapedTags(content) {
   let prettified = _.replace(content, /\{\{--/g, '<?php //');
+  prettified = _.replace(prettified, /<\?=/g, '<?php/*short*/');
+  prettified = _.replace(prettified, /\?>/g, '/*close*/?>');
+  // prettified = _.replace(prettified, /\?>/g, '/*close*/ ?>');
+  // prettified = _.replace(prettified, /\?>/g, '/*close*/ ?>');
   prettified = _.replace(prettified, /--\}\}/g, '// ?>');
   prettified = _.replace(prettified, /\{\{/g, '<?php ');
   prettified = _.replace(prettified, /\}\}/g, ' ?>');
 
   prettified = prettier.format(prettified, {
     parser: 'php',
+    phpVersion: '7.4',
     printWidth: 1000,
     singleQuote: true,
   });
-
+  console.log(prettified);
   prettified = _.replace(prettified, /<\?php\s\/\//g, '{{--');
   prettified = _.replace(prettified, /\/\/\s\?>/g, '--}}');
   prettified = _.replace(prettified, /<\?php\s/g, '{{ ');
   prettified = _.replace(prettified, /\s\?>/g, ' }}');
+  // prettified = _.replace(prettified, /<\?php\/\*short\*\//g, '<?=');
+  // prettified = _.replace(prettified, /\/\*close\*\/\?>/g, '?>');
 
   return prettified;
 }
@@ -96,6 +103,7 @@ export function prettifyPhpContentWithEscapedTags(content) {
 
   prettified = prettier.format(prettified, {
     parser: 'php',
+    phpVersion: '7.4',
     printWidth: 1000,
     singleQuote: true,
   });

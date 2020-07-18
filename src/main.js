@@ -25,13 +25,15 @@ export class BladeFormatter {
   }
 
   async processPaths() {
-    await Promise.all(_.map(this.paths, async path => this.processPath(path)));
+    await Promise.all(
+      _.map(this.paths, async (path) => this.processPath(path)),
+    );
   }
 
   async processPath(path) {
     await BladeFormatter.globFiles(path)
       .then(this.fulFillFiles)
-      .then(paths => this.formatFiles(paths));
+      .then((paths) => this.formatFiles(paths));
   }
 
   static globFiles(path) {
@@ -49,19 +51,19 @@ export class BladeFormatter {
   }
 
   async formatFiles(paths) {
-    await Promise.all(_.map(paths, async path => this.formatFile(path)));
+    await Promise.all(_.map(paths, async (path) => this.formatFile(path)));
   }
 
   async formatFile(path) {
     await util
       .readFile(path)
-      .then(data => {
+      .then((data) => {
         return Promise.resolve(data.toString('utf-8'));
       })
-      .then(content => new Formatter(this.options).formatContent(content))
-      .then(formatted => this.checkFormatted(path, formatted))
-      .then(formatted => this.writeToFile(path, formatted))
-      .catch(err => this.handleError(path, err));
+      .then((content) => new Formatter(this.options).formatContent(content))
+      .then((formatted) => this.checkFormatted(path, formatted))
+      .then((formatted) => this.writeToFile(path, formatted))
+      .catch((err) => this.handleError(path, err));
   }
 
   async checkFormatted(path, formatted) {
@@ -132,7 +134,7 @@ export class BladeFormatter {
       return;
     }
 
-    fs.writeFile(path, content, err => {
+    fs.writeFile(path, content, (err) => {
       if (err) {
         console.log(chalk.red(err.message));
         process.exit(1);
@@ -197,7 +199,7 @@ export class BladeFormatter {
     }
 
     process.stdout.write(chalk.bold('\nFormatted Files: \n'));
-    _.each(this.formattedFiles, path =>
+    _.each(this.formattedFiles, (path) =>
       process.stdout.write(`${chalk.bold(path)}\n`),
     );
   }
@@ -209,13 +211,13 @@ export class BladeFormatter {
 
     process.stdout.write(chalk.bold('\nDifferences: \n\n'));
 
-    if (_.filter(this.diffs, diff => diff.length > 0).length === 0) {
+    if (_.filter(this.diffs, (diff) => diff.length > 0).length === 0) {
       process.stdout.write(chalk('No changes found. \n\n'));
 
       return;
     }
 
-    _.each(this.diffs, diff => util.printDiffs(diff));
+    _.each(this.diffs, (diff) => util.printDiffs(diff));
   }
 
   printErrors() {
@@ -225,7 +227,7 @@ export class BladeFormatter {
 
     process.stdout.write(chalk.red.bold('\nErrors: \n\n'));
 
-    _.each(this.errors, error => console.log(error));
+    _.each(this.errors, (error) => console.log(error));
   }
 }
 

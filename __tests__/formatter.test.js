@@ -7,29 +7,29 @@ const formatter = () => {
 };
 
 describe('formatter', () => {
-  test('can format plain text', function() {
+  test('can format plain text', function () {
     const content = 'aaa\n';
     const expected = 'aaa\n';
 
     return formatter()
       .formatContent(content)
-      .then(function(result) {
+      .then(function (result) {
         assert.equal(result, expected);
       });
   });
 
-  test('outputs end with new line', function() {
+  test('outputs end with new line', function () {
     const content = 'aaa';
     const expected = 'aaa\n';
 
     return formatter()
       .formatContent(content)
-      .then(function(result) {
+      .then(function (result) {
         assert.equal(result, expected);
       });
   });
 
-  test('can format simple html tag', function() {
+  test('can format simple html tag', function () {
     const content = `<html><body></body></html>`;
     const expected = [`<html>`, ``, `<body></body>`, ``, `</html>`, ``].join(
       '\n',
@@ -37,12 +37,12 @@ describe('formatter', () => {
 
     return formatter()
       .formatContent(content)
-      .then(function(result) {
+      .then(function (result) {
         assert.equal(result, expected);
       });
   });
 
-  test('basic blade directive indent', function() {
+  test('basic blade directive indent', function () {
     const content = [
       `<section>`,
       `<div>`,
@@ -67,12 +67,12 @@ describe('formatter', () => {
 
     return formatter()
       .formatContent(content)
-      .then(function(result) {
+      .then(function (result) {
         assert.equal(result, expected);
       });
   });
 
-  test('nested directive indent', function() {
+  test('nested directive indent', function () {
     const content = [
       `<section>`,
       `@foreach($users as $user)`,
@@ -97,12 +97,12 @@ describe('formatter', () => {
 
     return formatter()
       .formatContent(content)
-      .then(function(result) {
+      .then(function (result) {
         assert.equal(result, expected);
       });
   });
 
-  test('hasSection', function() {
+  test('hasSection', function () {
     const content = [
       `<section>`,
       `@hasSection('navigation')`,
@@ -127,7 +127,7 @@ describe('formatter', () => {
 
     return formatter()
       .formatContent(content)
-      .then(function(result) {
+      .then(function (result) {
         assert.equal(result, expected);
       });
   });
@@ -151,7 +151,7 @@ describe('formatter', () => {
     'while',
   ];
 
-  directives.forEach(directive => {
+  directives.forEach((directive) => {
     test('builtin directive test', () => {
       const content = [
         `<section>`,
@@ -177,7 +177,7 @@ describe('formatter', () => {
 
       return formatter()
         .formatContent(content)
-        .then(function(result) {
+        .then(function (result) {
           assert.equal(result, expected);
         });
     });
@@ -210,12 +210,12 @@ describe('formatter', () => {
 
     return formatter()
       .formatContent(content)
-      .then(function(result) {
+      .then(function (result) {
         assert.equal(result, expected);
       });
   });
 
-  test('multiple section directive test', function() {
+  test('multiple section directive test', function () {
     const content = [
       `<div>`,
       `@section('foo')`,
@@ -244,7 +244,7 @@ describe('formatter', () => {
 
     return formatter()
       .formatContent(content)
-      .then(function(result) {
+      .then(function (result) {
         assert.equal(result, expected);
       });
   });
@@ -263,7 +263,7 @@ describe('formatter', () => {
 
     return formatter()
       .formatContent(content)
-      .then(function(result) {
+      .then(function (result) {
         assert.equal(result, expected);
       });
   });
@@ -285,7 +285,7 @@ describe('formatter', () => {
 
     return formatter()
       .formatContent(content)
-      .then(function(result) {
+      .then(function (result) {
         assert.equal(result, expected);
       });
   });
@@ -315,7 +315,7 @@ describe('formatter', () => {
 
     return formatter()
       .formatContent(content)
-      .then(function(result) {
+      .then(function (result) {
         assert.equal(result, expected);
       });
   });
@@ -344,7 +344,7 @@ describe('formatter', () => {
 
     return formatter()
       .formatContent(content)
-      .then(result => {
+      .then((result) => {
         assert.equal(result, expected);
       });
   });
