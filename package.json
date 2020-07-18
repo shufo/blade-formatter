@@ -1,5 +1,8 @@
 {
   "name": "blade-formatter",
+  "engines": {
+    "node": ">=0.10"
+  },
   "keywords": [
     "php",
     "formatter",
