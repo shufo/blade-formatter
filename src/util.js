@@ -122,16 +122,16 @@ export function formatAsPhp(content) {
 }
 
 export function preserveOriginalPhpTagInHtml(content) {
-  let prettified = _.replace(content, /<\?php/g, '/* <?php */');
-  prettified = _.replace(prettified, /\?>/g, '/* ?> */');
+  let prettified = _.replace(content, /<\?php/g, '/* <?phptag_start */');
+  prettified = _.replace(prettified, /\?>/g, '/* end_phptag?> */');
 
   return prettified;
 }
 
 export function revertOriginalPhpTagInHtml(content) {
-  let prettified = _.replace(content, /\/\* <\?php \*\//g, '<?php');
-  prettified = _.replace(prettified, /\/\* \?> \*\/\s;\n/g, '?>;');
-  prettified = _.replace(prettified, /\/\* \?> \*\//g, '?>');
+  let prettified = _.replace(content, /\/\* <\?phptag_start \*\//g, '<?php');
+  prettified = _.replace(prettified, /\/\* end_phptag\?> \*\/\s;\n/g, '?>;');
+  prettified = _.replace(prettified, /\/\* end_phptag\?> \*\//g, '?>');
 
   return prettified;
 }
