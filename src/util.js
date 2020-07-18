@@ -71,10 +71,10 @@ export function generateDiff(path, originalLines, formattedLines) {
 }
 
 export function prettifyPhpContentWithUnescapedTags(content) {
-  let prettified = _.replace(content, /\{\{--/g, '<?php //');
-  prettified = _.replace(prettified, /--\}\}/g, '// ?>');
-  prettified = _.replace(prettified, /\{\{/g, '<?php ');
-  prettified = _.replace(prettified, /\}\}/g, ' ?>');
+  let prettified = _.replace(content, /\{\{--/g, '<?php /*comment*/');
+  prettified = _.replace(prettified, /--\}\}/g, '/*comment*/ ?>');
+  prettified = _.replace(prettified, /\{\{/g, '<?php /*blade*/');
+  prettified = _.replace(prettified, /\}\}/g, '/*blade*/ ?>');
 
   prettified = prettier.format(prettified, {
     parser: 'php',
@@ -82,17 +82,17 @@ export function prettifyPhpContentWithUnescapedTags(content) {
     singleQuote: true,
   });
 
-  prettified = _.replace(prettified, /<\?php\s\/\//g, '{{--');
-  prettified = _.replace(prettified, /\/\/\s\?>/g, '--}}');
-  prettified = _.replace(prettified, /<\?php\s/g, '{{ ');
-  prettified = _.replace(prettified, /\s\?>/g, ' }}');
+  prettified = _.replace(prettified, /<\?php\s\/\*comment\*\//g, '{{--');
+  prettified = _.replace(prettified, /\/\*comment\*\/\s\?>/g, '--}}');
+  prettified = _.replace(prettified, /<\?php\s\/\*blade\*\/\s/g, '{{ ');
+  prettified = _.replace(prettified, /\/\*blade\*\/\s\?>/g, ' }}');
 
   return prettified;
 }
 
 export function prettifyPhpContentWithEscapedTags(content) {
-  let prettified = _.replace(content, /{!!/g, '<?php ');
-  prettified = _.replace(prettified, /!!}/g, ' ?>');
+  let prettified = _.replace(content, /{!!/g, '<?php /*escaped*/');
+  prettified = _.replace(prettified, /!!}/g, '/*escaped*/ ?>');
 
   prettified = prettier.format(prettified, {
     parser: 'php',
@@ -100,14 +100,15 @@ export function prettifyPhpContentWithEscapedTags(content) {
     singleQuote: true,
   });
 
-  prettified = _.replace(prettified, /<\?php\s/g, '{!! ');
-  prettified = _.replace(prettified, /\s\?>/g, ' !!}');
+  prettified = _.replace(prettified, /<\?php\s\/\*escaped\*\//g, '{!! ');
+  prettified = _.replace(prettified, /\/\*escaped\*\/\s\?>/g, ' !!}');
+
   return prettified;
 }
 
 export function removeSemicolon(content) {
-  let prettified = _.replace(content, /;\s\}\}/g, ' }}');
-  prettified = _.replace(prettified, /;\s!!\}/g, ' !!}');
+  let prettified = _.replace(content, /;\n.*!!\}/g, ' !!}');
+  prettified = _.replace(prettified, /;\n.*}}/g, ' }}');
 
   return prettified;
 }
@@ -118,6 +119,21 @@ export function formatAsPhp(content) {
   prettified = removeSemicolon(prettified);
 
   return Promise.resolve(prettified);
+}
+
+export function preserveOriginalPhpTagInHtml(content) {
+  let prettified = _.replace(content, /<\?php/g, '/* <?php */');
+  prettified = _.replace(prettified, /\?>/g, '/* ?> */');
+
+  return prettified;
+}
+
+export function revertOriginalPhpTagInHtml(content) {
+  let prettified = _.replace(content, /\/\* <\?php \*\//g, '<?php');
+  prettified = _.replace(prettified, /\/\* \?> \*\/\s;\n/g, '?>;');
+  prettified = _.replace(prettified, /\/\* \?> \*\//g, '?>');
+
+  return prettified;
 }
 
 export function printDescription() {
