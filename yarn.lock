@@ -3351,15 +3351,15 @@ jest@^25.3.0:
     jest-cli "^25.3.0"
 
 js-beautify@^1.10.2:
-  version "1.10.3"
-  resolved "https://registry.yarnpkg.com/js-beautify/-/js-beautify-1.10.3.tgz#c73fa10cf69d3dfa52d8ed624f23c64c0a6a94c1"
-  integrity sha512-wfk/IAWobz1TfApSdivH5PJ0miIHgDoYb1ugSqHcODPmaYu46rYe5FVuIEkhjg8IQiv6rDNPyhsqbsohI/C2vQ==
+  version "1.11.0"
+  resolved "https://registry.yarnpkg.com/js-beautify/-/js-beautify-1.11.0.tgz#afb873dc47d58986360093dcb69951e8bcd5ded2"
+  integrity sha512-a26B+Cx7USQGSWnz9YxgJNMmML/QG2nqIaL7VVYPCXbqiKz8PN0waSNvroMtvAK6tY7g/wPdNWGEP+JTNIBr6A==
   dependencies:
     config-chain "^1.1.12"
     editorconfig "^0.15.3"
     glob "^7.1.3"
-    mkdirp "~0.5.1"
-    nopt "~4.0.1"
+    mkdirp "~1.0.3"
+    nopt "^4.0.3"
 
 "js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
   version "4.0.0"
@@ -3701,12 +3701,17 @@ mixin-deep@^1.2.0:
     for-in "^1.0.2"
     is-extendable "^1.0.1"
 
-mkdirp@^0.5.1, mkdirp@~0.5.1:
+mkdirp@^0.5.1:
   version "0.5.1"
   resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-0.5.1.tgz#30057438eac6cf7f8c4767f38648d6697d75c903"
   integrity sha1-MAV0OOrGz3+MR2fzhkjWaX11yQM=
   dependencies:
     minimist "0.0.8"
+
+mkdirp@~1.0.3:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-1.0.4.tgz#3eb5ed62622756d79a5f0e2a221dfebad75c2f7e"
+  integrity sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw==
 
 ms@2.0.0:
   version "2.0.0"
@@ -3781,10 +3786,10 @@ node-releases@^1.1.58:
   resolved "https://registry.yarnpkg.com/node-releases/-/node-releases-1.1.58.tgz#8ee20eef30fa60e52755fcc0942def5a734fe935"
   integrity sha512-NxBudgVKiRh/2aPWMgPR7bPTX0VPmGx5QBwCtdHitnqFE5/O8DeBXuIMH1nwNnw/aMo6AjOrpsHzfY3UbUJ7yg==
 
-nopt@~4.0.1:
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/nopt/-/nopt-4.0.1.tgz#d0d4685afd5415193c8c7505602d0d17cd64474d"
-  integrity sha1-0NRoWv1UFRk8jHUFYC0NF81kR00=
+nopt@^4.0.3:
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/nopt/-/nopt-4.0.3.tgz#a375cad9d02fd921278d954c2254d5aa57e15e48"
+  integrity sha512-CvaGwVMztSMJLOeXPrez7fyfObdZqNUK1cPAEzLHrTybIua9pMdmmPR5YwtfNftIOMv3DPUhFaxsZMNTQO20Kg==
   dependencies:
     abbrev "1"
     osenv "^0.1.4"
