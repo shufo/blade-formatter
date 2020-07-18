@@ -348,4 +348,102 @@ describe('formatter', () => {
         assert.equal(result, expected);
       });
   });
+
+  test('preserve multiline php tag #57', async () => {
+    const content = [
+      `<?php`,
+      `/**`,
+      ` * @var \Modules\Common\PageDataBuilderV2\RenderableItems\Card $card`,
+      ` */`,
+      `?>`,
+      `@extends('layouts.mainLayout')`,
+      ``,
+      `@section('someBlock')`,
+      ``,
+      `@endsection`,
+      '',
+    ].join('\n');
+
+    const expected = [
+      `<?php`,
+      `/**`,
+      ` * @var \Modules\Common\PageDataBuilderV2\RenderableItems\Card $card`,
+      ` */`,
+      `?>`,
+      `@extends('layouts.mainLayout')`,
+      ``,
+      `@section('someBlock')`,
+      ``,
+      `@endsection`,
+      '',
+    ].join('\n');
+
+    return formatter()
+      .formatContent(content)
+      .then((result) => {
+        assert.equal(result, expected);
+      });
+  });
+
+  test('preserve inline php tag #57', async () => {
+    const content = [
+      `<body data-app="<?php echo json_encode($array); ?>"`,
+      '',
+    ].join('\n');
+
+    const expected = [
+      `<body data-app="<?php echo json_encode($array); ?>"`,
+      '',
+    ].join('\n');
+
+    return formatter()
+      .formatContent(content)
+      .then((result) => {
+        assert.equal(result, expected);
+      });
+  });
+
+  test('preserve inline php tag in script', async () => {
+    const content = [
+      `<script>`,
+      `    var app = <?php echo json_encode($array); ?>;`,
+      `</script>`,
+      '',
+    ].join('\n');
+
+    const expected = [
+      `<script>`,
+      `    var app = <?php echo json_encode($array); ?>;`,
+      `</script>`,
+      '',
+    ].join('\n');
+
+    return formatter()
+      .formatContent(content)
+      .then((result) => {
+        assert.equal(result, expected);
+      });
+  });
+
+  test('should be ignore short tag #56', async () => {
+    const content = [
+      `<table>`,
+      `<th><?= $userName ?></th>`,
+      `</table>`,
+      '',
+    ].join('\n');
+
+    const expected = [
+      `<table>`,
+      `    <th><?= $userName ?></th>`,
+      `</table>`,
+      '',
+    ].join('\n');
+
+    return formatter()
+      .formatContent(content)
+      .then((result) => {
+        assert.equal(result, expected);
+      });
+  });
 });

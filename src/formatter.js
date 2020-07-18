@@ -42,9 +42,12 @@ export default class Formatter {
       end_with_newline: util.optional(this.options).endWithNewline || true,
     };
 
-    const formatted = beautify(data, options);
+    const promise = new Promise((resolve) => resolve(data))
+      .then((content) => util.preserveOriginalPhpTagInHtml(content))
+      .then((preserved) => beautify(preserved, options))
+      .then((beautified) => util.revertOriginalPhpTagInHtml(beautified));
 
-    return Promise.resolve(formatted);
+    return Promise.resolve(promise);
   }
 
   formatAsBlade(content) {
