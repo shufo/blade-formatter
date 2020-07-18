@@ -3,7 +3,7 @@ const fs = require('fs');
 const chalk = require('chalk');
 const prettier = require('prettier');
 
-export const optional = obj => {
+export const optional = (obj) => {
   const chain = {
     get() {
       return null;
@@ -41,7 +41,7 @@ export function normalizeIndentLevel(length) {
 
 export function printDiffs(diffs) {
   return Promise.all(
-    _.map(diffs, async diff => {
+    _.map(diffs, async (diff) => {
       console.log(`path: ${chalk.bold(diff.path)}:${diff.line}`);
       console.log(chalk.red(`--${diff.original}`));
       console.log(chalk.green(`++${diff.formatted}`));

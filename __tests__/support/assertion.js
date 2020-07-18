@@ -17,7 +17,7 @@ function assertFormatted(file) {
 }
 
 function assertNotFormatted(file) {
-  fs.exists(file, exists => {
+  fs.exists(file, (exists) => {
     if (!exists) {
       process.stdout.write('Format target file not found\n');
       process.exit(1);

@@ -8,7 +8,7 @@ const cmd = require('./support/cmd');
 const util = require('./support/util');
 
 describe('The blade formatter CLI', () => {
-  test('should print the help', async function() {
+  test('should print the help', async function () {
     const response = await cmd.execute(
       path.resolve(__basedir, 'bin', 'blade-formatter'),
       ['-h'],
@@ -59,7 +59,7 @@ describe('The blade formatter CLI', () => {
       ),
     ];
 
-    formattedFiles.forEach(formattedFile => {
+    formattedFiles.forEach((formattedFile) => {
       fs.readFile(formattedFile, (err, data) => {
         expect(response).toMatch(data.toString('utf-8'));
       });

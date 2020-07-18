@@ -59,7 +59,7 @@ export const indentStartOrElseTokens = ['@empty'];
 
 export function hasStartAndEndToken(tokenizeLineResult, originalLine) {
   return (
-    _.filter(tokenizeLineResult.tokens, tokenStruct => {
+    _.filter(tokenizeLineResult.tokens, (tokenStruct) => {
       const token = originalLine
         .substring(tokenStruct.startIndex, tokenStruct.endIndex)
         .trim();

@@ -28,9 +28,9 @@ export default class Formatter {
   formatContent(content) {
     return util
       .formatAsPhp(content)
-      .then(formattedAsPhp => this.formatAsHtml(formattedAsPhp))
-      .then(formattedAsHtml => this.formatAsBlade(formattedAsHtml))
-      .then(formattedAsBlade => {
+      .then((formattedAsPhp) => this.formatAsHtml(formattedAsPhp))
+      .then((formattedAsHtml) => this.formatAsBlade(formattedAsHtml))
+      .then((formattedAsBlade) => {
         return formattedAsBlade;
       });
   }
@@ -53,11 +53,11 @@ export default class Formatter {
 
     const formatted = registry
       .loadGrammar('text.html.php.blade')
-      .then(grammar => vsctm.tokenizeLines(splitedLines, grammar))
-      .then(tokenizedLines =>
+      .then((grammar) => vsctm.tokenizeLines(splitedLines, grammar))
+      .then((tokenizedLines) =>
         this.formatTokenizedLines(splitedLines, tokenizedLines),
       )
-      .catch(err => {
+      .catch((err) => {
         throw err;
       });
 
