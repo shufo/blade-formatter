@@ -31,7 +31,7 @@
     "js-beautify": "^1.10.2",
     "lodash": "^4.17.15",
     "prettier": "^2.0.5",
-    "vscode-textmate": "^4.2.2",
+    "vscode-textmate": "^5.2.0",
     "yargs": "^15.3.0"
   },
   "devDependencies": {
