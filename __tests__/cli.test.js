@@ -165,4 +165,24 @@ describe('The blade formatter CLI', () => {
       expect(longNameResponse).toEqual(data.toString('utf-8'));
     });
   });
+
+  test('should ignore commented lines #8', async () => {
+    const formatted = await cmd.execute(
+      path.resolve(__basedir, 'bin', 'blade-formatter'),
+      [
+        path.resolve(__basedir, '__tests__', 'fixtures', 'commented.blade.php'),
+      ],
+    );
+
+    const expectedTarget = path.resolve(
+      __basedir,
+      '__tests__',
+      'fixtures',
+      'formatted.commented.blade.php',
+    );
+
+    fs.readFile(expectedTarget, (err, expected) => {
+      expect(formatted).toEqual(expected.toString('utf-8'));
+    });
+  });
 });

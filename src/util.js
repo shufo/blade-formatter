@@ -71,10 +71,9 @@ export function generateDiff(path, originalLines, formattedLines) {
 }
 
 export function prettifyPhpContentWithUnescapedTags(content) {
-  let prettified = _.replace(content, /\{\{--/g, '<?php /*comment*/');
-  prettified = _.replace(prettified, /--\}\}/g, '/*comment*/ ?>');
-  prettified = _.replace(prettified, /\{\{/g, '<?php /*blade*/');
-  prettified = _.replace(prettified, /\}\}/g, '/*blade*/ ?>');
+  let prettified = _.replace(content, /\{\{([^-].*?)\}\}/sg, (match, p1) => {
+    return  '<?php /*blade*/ ' + p1 + ' /*blade*/ ?>'
+  });
 
   prettified = prettier.format(prettified, {
     parser: 'php',
@@ -82,10 +81,9 @@ export function prettifyPhpContentWithUnescapedTags(content) {
     singleQuote: true,
   });
 
-  prettified = _.replace(prettified, /<\?php\s\/\*comment\*\//g, '{{--');
-  prettified = _.replace(prettified, /\/\*comment\*\/\s\?>/g, '--}}');
-  prettified = _.replace(prettified, /<\?php\s\/\*blade\*\/\s/g, '{{ ');
-  prettified = _.replace(prettified, /\/\*blade\*\/\s\?>/g, ' }}');
+  prettified = _.replace(prettified, /<\?php.*?\/\*blade\*\/\s(.*?)\s\/\*blade\*\/.*?\?>/sg, (match, p1) => {
+    return '{{ ' + p1 + ' }}';
+  });
 
   return prettified;
 }
@@ -109,6 +107,8 @@ export function prettifyPhpContentWithEscapedTags(content) {
 export function removeSemicolon(content) {
   let prettified = _.replace(content, /;\n.*!!\}/g, ' !!}');
   prettified = _.replace(prettified, /;\n.*}}/g, ' }}');
+  prettified = _.replace(prettified, /; }}/g, ' }}');
+  prettified = _.replace(prettified, /; --}}/g, ' --}}');
 
   return prettified;
 }
@@ -124,6 +124,9 @@ export function formatAsPhp(content) {
 export function preserveOriginalPhpTagInHtml(content) {
   let prettified = _.replace(content, /<\?php/g, '/* <?phptag_start */');
   prettified = _.replace(prettified, /\?>/g, '/* end_phptag?> */');
+  prettified = _.replace(prettified, /\{\{--(.*?)--\}\}/sg, (match, p1) => {
+    return  '<?php /*comment*/ ?>' + p1 + '<?php /*comment*/ ?>'
+  });
 
   return prettified;
 }
@@ -132,6 +135,9 @@ export function revertOriginalPhpTagInHtml(content) {
   let prettified = _.replace(content, /\/\* <\?phptag_start \*\//g, '<?php');
   prettified = _.replace(prettified, /\/\* end_phptag\?> \*\/\s;\n/g, '?>;');
   prettified = _.replace(prettified, /\/\* end_phptag\?> \*\//g, '?>');
+  prettified = _.replace(prettified, /<\?php.*?\/\*comment\*\/\s\?>(.*?)<\?php\s\/\*comment\*\/.*?\?>/sg, (match, p1) => {
+    return '{{--' + p1 + '--}}';
+  });
 
   return prettified;
 }

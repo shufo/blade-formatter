@@ -140,20 +140,18 @@ export default class Formatter {
       this.processToken(tokenStruct, token);
     }
 
-    if (this.currentIndentLevel < 0) {
-      throw Error(
-        'Parse error: cannot parse file for some reason.' +
-          '(e.g. inline blade comment block,' +
-          ' unrecognized token, inline php call)',
-      );
-    }
-
     this.insertFormattedLineToResult(originalLine);
   }
 
   insertFormattedLineToResult(originalLine) {
+    let calculatedIndentLevel = this.currentIndentLevel;
+
+    if (calculatedIndentLevel < 0) {
+      calculatedIndentLevel = 0;
+    }
+
     const indentWhiteSpace = this.indentCharacter.repeat(
-      this.currentIndentLevel * this.indentSize,
+      calculatedIndentLevel * this.indentSize,
     );
 
     const formattedLine = indentWhiteSpace + originalLine;
