@@ -425,6 +425,28 @@ describe('formatter', () => {
       });
   });
 
+  test('it should be ignore script tag #4', async () => {
+    const content = [
+      `<script nonce="{{ Bepsvpt\SecureHeaders\SecureHeaders::nonce() }}">`,
+      `    var app = <?php echo json_encode($array); ?>;`,
+      `</script>`,
+      '',
+    ].join('\n');
+
+    const expected = [
+      `<script nonce="{{ Bepsvpt\SecureHeaders\SecureHeaders::nonce() }}">`,
+      `    var app = <?php echo json_encode($array); ?>;`,
+      `</script>`,
+      '',
+    ].join('\n');
+
+    return formatter()
+      .formatContent(content)
+      .then((result) => {
+        assert.equal(result, expected);
+      });
+  });
+
   test('should be ignore short tag #56', async () => {
     const content = [
       `<table>`,
