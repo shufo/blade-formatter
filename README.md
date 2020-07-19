@@ -151,6 +151,31 @@ $ blade-formatter -c -d resources/**/*.blade.php
 |`--help,`, `-h`|Show help||
 |`--version,`, `-v`|Show version||
 
+## API
+
+You can use blade formatter by API as well.
+
+```js
+require = require('esm')(module);
+const { BladeFormatter } = require('blade-formatter');
+
+const input = `
+<html>
+  <body>
+    <p>foo</p>
+  </body>
+</html>
+`;
+
+const options = {
+  indentSize: 2,
+};
+
+new BladeFormatter(options).format(input).then((formatted) => {
+  console.log(formatted);
+});
+```
+
 ## Contributing
 
 1.  Fork it
