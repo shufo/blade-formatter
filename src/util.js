@@ -71,8 +71,8 @@ export function generateDiff(path, originalLines, formattedLines) {
 }
 
 export function prettifyPhpContentWithUnescapedTags(content) {
-  let prettified = _.replace(content, /\{\{([^-].*?)\}\}/sg, (match, p1) => {
-    return  '<?php /*blade*/ ' + p1 + ' /*blade*/ ?>'
+  let prettified = _.replace(content, /\{\{([^-].*?)\}\}/gs, (match, p1) => {
+    return `<?php /*blade*/ ${p1} /*blade*/ ?>`;
   });
 
   prettified = prettier.format(prettified, {
@@ -81,9 +81,13 @@ export function prettifyPhpContentWithUnescapedTags(content) {
     singleQuote: true,
   });
 
-  prettified = _.replace(prettified, /<\?php.*?\/\*blade\*\/\s(.*?)\s\/\*blade\*\/.*?\?>/sg, (match, p1) => {
-    return '{{ ' + p1 + ' }}';
-  });
+  prettified = _.replace(
+    prettified,
+    /<\?php.*?\/\*blade\*\/\s(.*?)\s\/\*blade\*\/.*?\?>/gs,
+    (match, p1) => {
+      return `{{ ${p1} }}`;
+    },
+  );
 
   return prettified;
 }
@@ -124,8 +128,8 @@ export function formatAsPhp(content) {
 export function preserveOriginalPhpTagInHtml(content) {
   let prettified = _.replace(content, /<\?php/g, '/* <?phptag_start */');
   prettified = _.replace(prettified, /\?>/g, '/* end_phptag?> */');
-  prettified = _.replace(prettified, /\{\{--(.*?)--\}\}/sg, (match, p1) => {
-    return  '<?php /*comment*/ ?>' + p1 + '<?php /*comment*/ ?>'
+  prettified = _.replace(prettified, /\{\{--(.*?)--\}\}/gs, (match, p1) => {
+    return `<?php /*comment*/ ?>${p1}<?php /*comment*/ ?>`;
   });
 
   return prettified;
@@ -135,9 +139,13 @@ export function revertOriginalPhpTagInHtml(content) {
   let prettified = _.replace(content, /\/\* <\?phptag_start \*\//g, '<?php');
   prettified = _.replace(prettified, /\/\* end_phptag\?> \*\/\s;\n/g, '?>;');
   prettified = _.replace(prettified, /\/\* end_phptag\?> \*\//g, '?>');
-  prettified = _.replace(prettified, /<\?php.*?\/\*comment\*\/\s\?>(.*?)<\?php\s\/\*comment\*\/.*?\?>/sg, (match, p1) => {
-    return '{{--' + p1 + '--}}';
-  });
+  prettified = _.replace(
+    prettified,
+    /<\?php.*?\/\*comment\*\/\s\?>(.*?)<\?php\s\/\*comment\*\/.*?\?>/gs,
+    (match, p1) => {
+      return `{{--${p1}--}}`;
+    },
+  );
 
   return prettified;
 }

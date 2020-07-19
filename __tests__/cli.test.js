@@ -169,9 +169,7 @@ describe('The blade formatter CLI', () => {
   test('should ignore commented lines #8', async () => {
     const formatted = await cmd.execute(
       path.resolve(__basedir, 'bin', 'blade-formatter'),
-      [
-        path.resolve(__basedir, '__tests__', 'fixtures', 'commented.blade.php'),
-      ],
+      [path.resolve(__basedir, '__tests__', 'fixtures', 'commented.blade.php')],
     );
 
     const expectedTarget = path.resolve(
