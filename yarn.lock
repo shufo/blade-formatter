@@ -1136,7 +1136,7 @@
   dependencies:
     linguist-languages "^7.5.1"
     mem "^6.0.1"
-    php-parser "github:glayzzle/php-parser#5a0e2e1bf12517bd1c544c0f4e68482d0362a7b5"
+    php-parser glayzzle/php-parser#5a0e2e1bf12517bd1c544c0f4e68482d0362a7b5
 
 "@sinonjs/commons@^1.7.0":
   version "1.7.2"
@@ -3807,9 +3807,9 @@ mute-stream@0.0.8:
   integrity sha512-nnbWWOkoWyUsTjKrhgD0dcz22mdkSnpYqbEjIm2nhwhuxlSkpywJmBo8h0ZqJdkp73mb90SssHkN4rsRaBAfAA==
 
 nan@^2.14.0:
-  version "2.14.0"
-  resolved "https://registry.yarnpkg.com/nan/-/nan-2.14.0.tgz#7818f722027b2459a86f0295d434d1fc2336c52c"
-  integrity sha512-INOFj37C7k3AfaNTtX8RhsTw7qRy7eLET14cROi9+5HAVbbHuIWUHEauBv5qT4Av2tWasiTY1Jw6puUNqRJXQg==
+  version "2.14.1"
+  resolved "https://registry.yarnpkg.com/nan/-/nan-2.14.1.tgz#d7be34dfa3105b91494c3147089315eff8874b01"
+  integrity sha512-isWHgVjnFjh2x2yuJ/tj3JbwoHu3UC2dX5G/88Cm24yB6YopVgxvBObDY7n5xW6ExmFhJpSEQqFPvq9zaXc8Jw==
 
 nanomatch@^1.2.9:
   version "1.2.13"
@@ -4002,9 +4002,9 @@ onetime@^5.1.0:
     mimic-fn "^2.1.0"
 
 oniguruma@^7.2.0:
-  version "7.2.0"
-  resolved "https://registry.yarnpkg.com/oniguruma/-/oniguruma-7.2.0.tgz#c9a59c1ea7b9fe67e237a02e02139b638856f3af"
-  integrity sha512-bh+ZLdykY1sdIx8jBp2zpLbVFDBc3XmKH4Ceo2lijNaN1WhEqtnpqFlmtCbRuDB17nJ58RAUStVwfW8e8uEbnA==
+  version "7.2.1"
+  resolved "https://registry.yarnpkg.com/oniguruma/-/oniguruma-7.2.1.tgz#51775834f7819b6e31aa878706aa7f65ad16b07f"
+  integrity sha512-WPS/e1uzhswPtJSe+Zls/kAj27+lEqZjCmRSjnYk/Z4L2Mu+lJC2JWtkZhPJe4kZeTQfz7ClcLyXlI4J68MG2w==
   dependencies:
     nan "^2.14.0"
 
@@ -4167,9 +4167,8 @@ performance-now@^2.1.0:
   resolved "https://registry.yarnpkg.com/performance-now/-/performance-now-2.1.0.tgz#6309f4e0e5fa913ec1c69307ae364b4b377c9e7b"
   integrity sha1-Ywn04OX6kT7BxpMHrjZLSzd8nns=
 
-php-parser@^3.0.0-prerelease.9, "php-parser@github:glayzzle/php-parser#5a0e2e1bf12517bd1c544c0f4e68482d0362a7b5":
+php-parser@^3.0.0-prerelease.9, php-parser@glayzzle/php-parser#5a0e2e1bf12517bd1c544c0f4e68482d0362a7b5:
   version "3.0.1"
-  uid "5a0e2e1bf12517bd1c544c0f4e68482d0362a7b5"
   resolved "https://codeload.github.com/glayzzle/php-parser/tar.gz/5a0e2e1bf12517bd1c544c0f4e68482d0362a7b5"
 
 picomatch@^2.0.4, picomatch@^2.0.5:
@@ -5236,6 +5235,11 @@ verror@1.10.0:
     assert-plus "^1.0.0"
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
+
+vscode-oniguruma@^1.3.1:
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/vscode-oniguruma/-/vscode-oniguruma-1.3.1.tgz#e2383879c3485b19f533ec34efea9d7a2b14be8f"
+  integrity sha512-gz6ZBofA7UXafVA+m2Yt2zHKgXC2qedArprIsHAPKByTkwq9l5y/izAGckqxYml7mSbYxTRTfdRwsFq3cwF4LQ==
 
 vscode-textmate@^4.2.2:
   version "4.4.0"
