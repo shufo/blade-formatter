@@ -1,19 +1,18 @@
 import { readFile } from './util';
 
-const path = require('path');
 const fs = require('fs');
 const _ = require('lodash');
-const appRootPath = require('app-root-path');
+const vsctmModule = require('vscode-oniguruma');
+
 export class VscodeTextmate {
   constructor(vsctm, oniguruma) {
     this.vsctm = vsctm;
-    this.oniguruma = oniguruma || require('vscode-oniguruma');
+    this.oniguruma = oniguruma || vsctmModule;
     this.loadWasm();
   }
 
   loadWasm() {
-    const REPO_ROOT = appRootPath.toString();
-    const wasm = fs.readFileSync(path.join(REPO_ROOT, './wasm/onig.wasm')).buffer;
+    const wasm = fs.readFileSync(`${__dirname}/../wasm/onig.wasm`).buffer;
 
     if (!this.oniguruma.initCalled) {
       this.oniguruma.loadWASM(wasm);
@@ -21,7 +20,7 @@ export class VscodeTextmate {
     }
   }
 
-  createRegistry(content) {
+  createRegistry() {
     this.registry = new this.vsctm.Registry({
       loadGrammar: (scopeName) => {
         if (scopeName === 'text.html.php.blade') {
@@ -57,4 +56,4 @@ export class VscodeTextmate {
 
 export default {
   VscodeTextmate,
-}
+};
