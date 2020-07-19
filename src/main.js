@@ -8,7 +8,7 @@ const glob = require('glob');
 const _ = require('lodash');
 
 export class BladeFormatter {
-  constructor(paths, options) {
+  constructor(options = {}, paths = []) {
     this.paths = paths;
     this.options = options;
     this.targetFiles = [];
@@ -18,7 +18,12 @@ export class BladeFormatter {
     this.formattedFiles = [];
   }
 
-  async format() {
+  format(content, opts = {}) {
+    const options = this.options || opts;
+    return new Formatter(options).formatContent(content);
+  }
+
+  async formatFromCLI() {
     this.printPreamble();
     await this.processPaths();
     this.printResults();

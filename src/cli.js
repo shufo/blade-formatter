@@ -58,6 +58,6 @@ export default async function cli() {
     yargs.showHelp();
   }
 
-  const formatter = new BladeFormatter(argv._, argv);
-  await formatter.format();
+  const formatter = new BladeFormatter(argv, argv._);
+  await formatter.formatFromCLI();
 }

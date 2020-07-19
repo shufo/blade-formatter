@@ -1,4 +1,5 @@
 import Formatter from '../src/formatter';
+import { BladeFormatter } from '../src/main';
 
 const assert = require('assert');
 
@@ -464,6 +465,48 @@ describe('formatter', () => {
 
     return formatter()
       .formatContent(content)
+      .then((result) => {
+        assert.equal(result, expected);
+      });
+  });
+
+  test('format API', async () => {
+    const content = [
+      `<table>`,
+      `<th><?= $userName ?></th>`,
+      `</table>`,
+      '',
+    ].join('\n');
+
+    const expected = [
+      `<table>`,
+      `    <th><?= $userName ?></th>`,
+      `</table>`,
+      '',
+    ].join('\n');
+
+    return new BladeFormatter().format(content).then((result) => {
+      assert.equal(result, expected);
+    });
+  });
+
+  test('format API with option', async () => {
+    const content = [
+      `<table>`,
+      `<th><?= $userName ?></th>`,
+      `</table>`,
+      '',
+    ].join('\n');
+
+    const expected = [
+      `<table>`,
+      `  <th><?= $userName ?></th>`,
+      `</table>`,
+      '',
+    ].join('\n');
+
+    return new BladeFormatter({ indentSize: 2 })
+      .format(content)
       .then((result) => {
         assert.equal(result, expected);
       });
