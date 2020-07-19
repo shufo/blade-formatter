@@ -12,10 +12,13 @@ import * as vsctm from './vsctm';
 const os = require('os');
 const beautify = require('js-beautify').html;
 const _ = require('lodash');
+const vscodeTmModule = require('vscode-textmate');
 
 export default class Formatter {
   constructor(options) {
     this.options = options;
+    this.vsctm = util.optional(this.options).vsctm || vscodeTmModule;
+    this.oniguruma = util.optional(this.options).oniguruma;
     this.indentCharacter = util.optional(this.options).useTabs ? '\t' : ' ';
     this.indentSize = util.optional(this.options).indentSize || 4;
     this.currentIndentLevel = 0;
@@ -49,11 +52,12 @@ export default class Formatter {
 
   formatAsBlade(content) {
     const splitedLines = util.splitByLines(content);
-    const registry = vsctm.createRegistry(content);
+    const vsctmModule = new vsctm.VscodeTextmate(this.vsctm, this.oniguruma);
+    const registry = vsctmModule.createRegistry(content);
 
     const formatted = registry
       .loadGrammar('text.html.php.blade')
-      .then((grammar) => vsctm.tokenizeLines(splitedLines, grammar))
+      .then((grammar) => vsctmModule.tokenizeLines(splitedLines, grammar))
       .then((tokenizedLines) =>
         this.formatTokenizedLines(splitedLines, tokenizedLines),
       )
