@@ -511,4 +511,36 @@ describe('formatter', () => {
         assert.equal(result, expected);
       });
   });
+
+  test('should remove semicolon in end of line', async () => {
+    const content = [
+      `{!! strip_tags($header) !!}`,
+      ``,
+      `{!! strip_tags($slot) !!}`,
+      `@isset($subcopy)`,
+      `{!! strip_tags($subcopy) !!}`,
+      `@endisset`,
+      ``,
+      `{!! strip_tags($footer); !!}`,
+      ``,
+    ].join('\n');
+
+    const expected = [
+      `{!! strip_tags($header) !!}`,
+      ``,
+      `{!! strip_tags($slot) !!}`,
+      `@isset($subcopy)`,
+      `    {!! strip_tags($subcopy) !!}`,
+      `@endisset`,
+      ``,
+      `{!! strip_tags($footer) !!}`,
+      ``,
+    ].join('\n');
+
+    return new BladeFormatter()
+      .format(content)
+      .then((result) => {
+        assert.equal(result, expected);
+      });
+  });
 });
