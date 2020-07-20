@@ -537,10 +537,8 @@ describe('formatter', () => {
       ``,
     ].join('\n');
 
-    return new BladeFormatter()
-      .format(content)
-      .then((result) => {
-        assert.equal(result, expected);
-      });
+    return new BladeFormatter().format(content).then((result) => {
+      assert.equal(result, expected);
+    });
   });
 });

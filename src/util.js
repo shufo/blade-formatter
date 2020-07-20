@@ -110,7 +110,7 @@ export function prettifyPhpContentWithEscapedTags(content) {
 
 export function removeSemicolon(content) {
   let prettified = _.replace(content, /;\n.*!!\}/g, ' !!}');
-  prettified = _.replace(prettified, /\;.*?!!}/g, ' !!}');
+  prettified = _.replace(prettified, /;.*?!!}/g, ' !!}');
   prettified = _.replace(prettified, /;\n.*}}/g, ' }}');
   prettified = _.replace(prettified, /; }}/g, ' }}');
   prettified = _.replace(prettified, /; --}}/g, ' --}}');
