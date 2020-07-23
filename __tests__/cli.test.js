@@ -60,9 +60,8 @@ describe('The blade formatter CLI', () => {
     ];
 
     formattedFiles.forEach((formattedFile) => {
-      fs.readFile(formattedFile, (err, data) => {
-        expect(response).toMatch(data.toString('utf-8'));
-      });
+      const data = fs.readFileSync(formattedFile);
+      expect(response).toMatch(data.toString('utf-8'));
     });
   });
 
