@@ -208,4 +208,4 @@ $ npm -g config set user root
 ## TODO
 
 - [ ] Editable custom directives
-- [ ] `@for` directive support
+- [x] `@for` directive support
