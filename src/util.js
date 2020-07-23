@@ -197,7 +197,8 @@ export function preserveDirectives(content) {
     content,
     /(@foreach[\s]*|@for[\s]*)\((.*?)\)(.*?)(@endforeach|@endfor)/gs,
     (match, p1, p2, p3, p4) => {
-      return `<beautify start="${p1}" end="${p4}" exp="^^${p2}^^">${p3}</beautify>`;
+      return `<beautify start="${p1}" end="${p4}" exp="^^${p2}^^">\
+      ${p3}</beautify>`;
     },
   );
 }
@@ -205,6 +206,7 @@ export function preserveDirectives(content) {
 export function revertDirectives(content, options) {
   return _.replace(
     content,
+    // eslint-disable-next-line max-len
     /<beautify start="(.*?)" end="(.*?)" exp="\^\^(.*?)\^\^">(.*?)<\/beautify>/gs,
     (match, p1, p2, p3, p4) => {
       return `${p1}(${p3})${unindent(p1, p4, 1, options)}${p2}`;
