@@ -1,4 +1,4 @@
-{{--@foreach ($downloadOptions as $d => $dO)
+{{--@foreach($downloadOptions as $d => $dO)
 <tr>
     <td>{{ $dO['description'] }}</td>
     <td>{{ $dO['cost'] }}</td>

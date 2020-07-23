@@ -47,7 +47,9 @@ export default class Formatter {
 
     const promise = new Promise((resolve) => resolve(data))
       .then((content) => util.preserveOriginalPhpTagInHtml(content))
+      .then((content) => util.preserveDirectives(content))
       .then((preserved) => beautify(preserved, options))
+      .then((content) => util.revertDirectives(content, this.options))
       .then((beautified) => util.revertOriginalPhpTagInHtml(beautified));
 
     return Promise.resolve(promise);

@@ -2,6 +2,8 @@ const _ = require('lodash');
 const fs = require('fs');
 const chalk = require('chalk');
 const prettier = require('prettier');
+const detectIndent = require('detect-indent');
+const { indentStartTokens } = require('./indent');
 
 export const optional = (obj) => {
   const chain = {
@@ -73,6 +75,25 @@ export function generateDiff(path, originalLines, formattedLines) {
 export function prettifyPhpContentWithUnescapedTags(content) {
   let prettified = _.replace(content, /\{\{([^-].*?)\}\}/gs, (match, p1) => {
     return `<?php /*blade*/ ${p1} /*blade*/ ?>`;
+  });
+
+  const directives = _.without(indentStartTokens, '@switch').join('|');
+
+  const directiveRegexes = new RegExp(
+    `(?!\\/\\*.*?\\*\\/)(${directives})\\s*?\\((.*?)\\)`,
+    'gs',
+  );
+
+  prettified = _.replace(prettified, directiveRegexes, (match, p1, p2) => {
+    return prettier
+      .format(`<?php ${p1.substr('1')}(${p2}) ?>`, {
+        parser: 'php',
+        singleQuote: true,
+        phpVersion: '7.4',
+      })
+      .replace(/<\?php\s(.*?)\((.*?)\);*\s\?>\n/gs, (match2, j1, j2) => {
+        return `@${j1.trim()}(${j2.trim()})`;
+      });
   });
 
   prettified = prettier.format(prettified, {
@@ -149,6 +170,48 @@ export function revertOriginalPhpTagInHtml(content) {
   );
 
   return prettified;
+}
+
+export function unindent(directive, content, level, options) {
+  const lines = content.split('\n');
+  return _.map(lines, (line) => {
+    if (!line.match(/\w/)) {
+      return line;
+    }
+
+    const originalLineWhitespaces = detectIndent(line).amount;
+    const indentChar = optional(options).useTabs ? '\t' : ' ';
+    const indentSize = optional(options).indentSize || 4;
+    const whitespaces = originalLineWhitespaces - indentSize * level;
+
+    if (whitespaces < 0) {
+      return line;
+    }
+
+    return indentChar.repeat(whitespaces) + line.trimLeft();
+  }).join('\n');
+}
+
+export function preserveDirectives(content) {
+  return _.replace(
+    content,
+    /(@foreach[\s]*|@for[\s]*)\((.*?)\)(.*?)(@endforeach|@endfor)/gs,
+    (match, p1, p2, p3, p4) => {
+      return `<beautify start="${p1}" end="${p4}" exp="^^${p2}^^">\
+      ${p3}</beautify>`;
+    },
+  );
+}
+
+export function revertDirectives(content, options) {
+  return _.replace(
+    content,
+    // eslint-disable-next-line max-len
+    /<beautify start="(.*?)" end="(.*?)" exp="\^\^(.*?)\^\^">(.*?)<\/beautify>/gs,
+    (match, p1, p2, p3, p4) => {
+      return `${p1}(${p3})${unindent(p1, p4, 1, options)}${p2}`;
+    },
+  );
 }
 
 export function printDescription() {
