@@ -100,6 +100,7 @@ export function prettifyPhpContentWithUnescapedTags(content) {
     parser: 'php',
     printWidth: 1000,
     singleQuote: true,
+    phpVersion: '7.4',
   });
 
   prettified = _.replace(
@@ -121,6 +122,7 @@ export function prettifyPhpContentWithEscapedTags(content) {
     parser: 'php',
     printWidth: 1000,
     singleQuote: true,
+    phpVersion: '7.4',
   });
 
   prettified = _.replace(prettified, /<\?php\s\/\*escaped\*\//g, '{!! ');
