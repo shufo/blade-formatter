@@ -80,8 +80,8 @@ export function prettifyPhpContentWithUnescapedTags(content) {
   const directives = _.without(indentStartTokens, '@switch').join('|');
 
   const directiveRegexes = new RegExp(
-    `(?!\\/\\*.*?\\*\\/)(${directives})\\s*?\\((.*?)\\)`,
-    'gs',
+    `(?!\\/\\*.*?\\*\\/)(${directives})\\s*?\\((.*)\\)`,
+    'gm',
   );
 
   prettified = _.replace(prettified, directiveRegexes, (match, p1, p2) => {

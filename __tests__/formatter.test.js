@@ -605,6 +605,28 @@ describe('formatter', () => {
     });
   });
 
+  test('@foreach directive should work with children methods', async () => {
+    const content = [
+      `@foreach($user->blogs() as $blog)`,
+      `<div class="foo">`,
+      `</div>`,
+      `@endforeach`,
+      ``,
+    ].join('\n');
+
+    const expected = [
+      `@foreach($user->blogs() as $blog)`,
+      `    <div class="foo">`,
+      `    </div>`,
+      `@endforeach`,
+      ``,
+    ].join('\n');
+
+    return new BladeFormatter().format(content).then((result) => {
+      assert.equal(result, expected);
+    });
+  });
+
   test('@switch directive should work', async () => {
     const content = [
       `@switch($i)`,
