@@ -137,8 +137,6 @@ describe('formatter', () => {
     'auth',
     'component',
     'empty',
-    'for',
-    'foreach',
     'forelse',
     'guest',
     'if',
@@ -146,7 +144,6 @@ describe('formatter', () => {
     'push',
     'section',
     'slot',
-    'switch',
     'unless',
     'verbatim',
     'while',
@@ -534,6 +531,110 @@ describe('formatter', () => {
       `@endisset`,
       ``,
       `{!! strip_tags($footer) !!}`,
+      ``,
+    ].join('\n');
+
+    return new BladeFormatter().format(content).then((result) => {
+      assert.equal(result, expected);
+    });
+  });
+
+  test('@for directive should work', async () => {
+    const content = [
+      `@for ($i=0;$i<=5;$i++)`,
+      `<div class="foo">`,
+      `</div>`,
+      `@endfor`,
+      ``,
+    ].join('\n');
+
+    const expected = [
+      `@for($i = 0; $i <= 5; $i++)`,
+      `    <div class="foo">`,
+      `    </div>`,
+      `@endfor`,
+      ``,
+    ].join('\n');
+
+    return new BladeFormatter().format(content).then((result) => {
+      assert.equal(result, expected);
+    });
+  });
+
+  test('@foreach directive should work', async () => {
+    const content = [
+      `@foreach($users as $user)`,
+      `<div class="foo">`,
+      `</div>`,
+      `@endforeach`,
+      ``,
+    ].join('\n');
+
+    const expected = [
+      `@foreach($users as $user)`,
+      `    <div class="foo">`,
+      `    </div>`,
+      `@endforeach`,
+      ``,
+    ].join('\n');
+
+    return new BladeFormatter().format(content).then((result) => {
+      assert.equal(result, expected);
+    });
+  });
+
+  test('@foreach directive should work with variable key', async () => {
+    const content = [
+      `@foreach($users["foo"] as $user)`,
+      `<div class="foo">`,
+      `</div>`,
+      `@endforeach`,
+      ``,
+    ].join('\n');
+
+    const expected = [
+      `@foreach($users['foo'] as $user)`,
+      `    <div class="foo">`,
+      `    </div>`,
+      `@endforeach`,
+      ``,
+    ].join('\n');
+
+    return new BladeFormatter().format(content).then((result) => {
+      assert.equal(result, expected);
+    });
+  });
+
+  test('@switch directive should work', async () => {
+    const content = [
+      `@switch($i)`,
+      `@case(1)`,
+      `    First case...`,
+      `    @break`,
+      ``,
+      `@case(2)`,
+      `    Second case...`,
+      `    @break`,
+      ``,
+      `@default`,
+      `    Default case...`,
+      `@endswitch`,
+      ``,
+    ].join('\n');
+
+    const expected = [
+      `@switch($i)`,
+      `    @case(1)`,
+      `    First case...`,
+      `    @break`,
+      ``,
+      `    @case(2)`,
+      `    Second case...`,
+      `    @break`,
+      ``,
+      `    @default`,
+      `    Default case...`,
+      `@endswitch`,
       ``,
     ].join('\n');
 
