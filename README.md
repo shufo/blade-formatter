@@ -4,7 +4,7 @@
 
 # blade-formatter
 
-An opinionated blade template formatter for Laravel
+An opinionated blade template formatter for Laravel that respects readability.
 
 ## Example
 
