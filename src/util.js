@@ -33,6 +33,15 @@ export function splitByLines(content) {
   return content.split(/\r\n|\n|\r/);
 }
 
+export function formatStringAsPhp(content) {
+  return prettier.format(content, {
+    parser: 'php',
+    printWidth: 1000,
+    singleQuote: true,
+    phpVersion: '7.4',
+  });
+}
+
 export function normalizeIndentLevel(length) {
   if (length < 0) {
     return 0;
@@ -72,11 +81,7 @@ export function generateDiff(path, originalLines, formattedLines) {
   return _.without(diff, null);
 }
 
-export function prettifyPhpContentWithUnescapedTags(content) {
-  let prettified = _.replace(content, /\{\{([^-].*?)\}\}/gs, (match, p1) => {
-    return `<?php /*blade*/ ${p1} /*blade*/ ?>`;
-  });
-
+export async function prettifyPhpContentWithUnescapedTags(content) {
   const directives = _.without(indentStartTokens, '@switch').join('|');
 
   const directiveRegexes = new RegExp(
@@ -84,94 +89,85 @@ export function prettifyPhpContentWithUnescapedTags(content) {
     'gm',
   );
 
-  prettified = _.replace(prettified, directiveRegexes, (match, p1, p2) => {
-    return prettier
-      .format(`<?php ${p1.substr('1')}(${p2}) ?>`, {
-        parser: 'php',
-        singleQuote: true,
-        phpVersion: '7.4',
-      })
-      .replace(/<\?php\s(.*?)\((.*?)\);*\s\?>\n/gs, (match2, j1, j2) => {
-        return `@${j1.trim()}(${j2.trim()})`;
-      });
-  });
-
-  prettified = prettier.format(prettified, {
-    parser: 'php',
-    printWidth: 1000,
-    singleQuote: true,
-    phpVersion: '7.4',
-  });
-
-  prettified = _.replace(
-    prettified,
-    /<\?php.*?\/\*blade\*\/\s(.*?)\s\/\*blade\*\/.*?\?>/gs,
-    (match, p1) => {
-      return `{{ ${p1} }}`;
-    },
-  );
-
-  return prettified;
+  return new Promise((resolve) => resolve(content))
+    .then((res) =>
+      _.replace(res, /\{\{([^-].*?)\}\}/gs, (match, p1) => {
+        return `<?php /*blade*/ ${p1} /*blade*/ ?>`;
+      }),
+    )
+    .then((res) =>
+      _.replace(res, directiveRegexes, (match, p1, p2) => {
+        return formatStringAsPhp(`<?php ${p1.substr('1')}(${p2}) ?>`).replace(
+          /<\?php\s(.*?)\((.*?)\);*\s\?>\n/gs,
+          (match2, j1, j2) => {
+            return `@${j1.trim()}(${j2.trim()})`;
+          },
+        );
+      }),
+    )
+    .then((res) => formatStringAsPhp(res))
+    .then((res) =>
+      _.replace(
+        res,
+        /<\?php.*?\/\*blade\*\/\s(.*?)\s\/\*blade\*\/.*?\?>/gs,
+        (match, p1) => {
+          return `{{ ${p1} }}`;
+        },
+      ),
+    );
 }
 
-export function prettifyPhpContentWithEscapedTags(content) {
-  let prettified = _.replace(content, /{!!/g, '<?php /*escaped*/');
-  prettified = _.replace(prettified, /!!}/g, '/*escaped*/ ?>');
-
-  prettified = prettier.format(prettified, {
-    parser: 'php',
-    printWidth: 1000,
-    singleQuote: true,
-    phpVersion: '7.4',
-  });
-
-  prettified = _.replace(prettified, /<\?php\s\/\*escaped\*\//g, '{!! ');
-  prettified = _.replace(prettified, /\/\*escaped\*\/\s\?>/g, ' !!}');
-
-  return prettified;
+export async function prettifyPhpContentWithEscapedTags(content) {
+  return new Promise((resolve) => resolve(content))
+    .then((res) => _.replace(res, /{!!/g, '<?php /*escaped*/'))
+    .then((res) => _.replace(res, /!!}/g, '/*escaped*/ ?>'))
+    .then((res) => formatStringAsPhp(res))
+    .then((res) => _.replace(res, /<\?php\s\/\*escaped\*\//g, '{!! '))
+    .then((res) => _.replace(res, /\/\*escaped\*\/\s\?>/g, ' !!}'));
 }
 
-export function removeSemicolon(content) {
-  let prettified = _.replace(content, /;\n.*!!\}/g, ' !!}');
-  prettified = _.replace(prettified, /;.*?!!}/g, ' !!}');
-  prettified = _.replace(prettified, /;\n.*}}/g, ' }}');
-  prettified = _.replace(prettified, /; }}/g, ' }}');
-  prettified = _.replace(prettified, /; --}}/g, ' --}}');
-
-  return prettified;
+export async function removeSemicolon(content) {
+  return new Promise((resolve) => {
+    resolve(content);
+  })
+    .then((res) => _.replace(res, /;\n.*!!\}/g, ' !!}'))
+    .then((res) => _.replace(res, /;.*?!!}/g, ' !!}'))
+    .then((res) => _.replace(res, /;\n.*}}/g, ' }}'))
+    .then((res) => _.replace(res, /; }}/g, ' }}'))
+    .then((res) => _.replace(res, /; --}}/g, ' --}}'));
 }
 
-export function formatAsPhp(content) {
-  let prettified = prettifyPhpContentWithUnescapedTags(content);
-  prettified = prettifyPhpContentWithEscapedTags(prettified);
-  prettified = removeSemicolon(prettified);
-
-  return Promise.resolve(prettified);
+export async function formatAsPhp(content) {
+  return prettifyPhpContentWithEscapedTags(content)
+    .then(prettifyPhpContentWithUnescapedTags)
+    .then(removeSemicolon);
 }
 
-export function preserveOriginalPhpTagInHtml(content) {
-  let prettified = _.replace(content, /<\?php/g, '/* <?phptag_start */');
-  prettified = _.replace(prettified, /\?>/g, '/* end_phptag?> */');
-  prettified = _.replace(prettified, /\{\{--(.*?)--\}\}/gs, (match, p1) => {
-    return `<?php /*comment*/ ?>${p1}<?php /*comment*/ ?>`;
-  });
-
-  return prettified;
+export async function preserveOriginalPhpTagInHtml(content) {
+  return new Promise((resolve) => resolve(content))
+    .then((res) => _.replace(res, /<\?php/g, '/* <?phptag_start */'))
+    .then((res) => _.replace(res, /\?>/g, '/* end_phptag?> */'))
+    .then((res) =>
+      _.replace(res, /\{\{--(.*?)--\}\}/gs, (match, p1) => {
+        return `<?php /*comment*/ ?>${p1}<?php /*comment*/ ?>`;
+      }),
+    );
 }
 
 export function revertOriginalPhpTagInHtml(content) {
-  let prettified = _.replace(content, /\/\* <\?phptag_start \*\//g, '<?php');
-  prettified = _.replace(prettified, /\/\* end_phptag\?> \*\/\s;\n/g, '?>;');
-  prettified = _.replace(prettified, /\/\* end_phptag\?> \*\//g, '?>');
-  prettified = _.replace(
-    prettified,
-    /<\?php.*?\/\*comment\*\/\s\?>(.*?)<\?php\s\/\*comment\*\/.*?\?>/gs,
-    (match, p1) => {
-      return `{{--${p1}--}}`;
-    },
-  );
-
-  return prettified;
+  return new Promise((resolve) => resolve(content))
+    .then((res) => _.replace(res, /\/\* <\?phptag_start \*\//g, '<?php'))
+    .then((res) => _.replace(res, /\/\* end_phptag\?> \*\/\s;\n/g, '?>;'))
+    .then((res) => _.replace(res, /\/\* end_phptag\?> \*\//g, '?>'))
+    .then((res) =>
+      _.replace(
+        res,
+        /<\?php.*?\/\*comment\*\/\s\?>(.*?)<\?php\s\/\*comment\*\/.*?\?>/gs,
+        (match, p1) => {
+          return `{{--${p1}--}}`;
+        },
+      ),
+    );
 }
 
 export function unindent(directive, content, level, options) {
