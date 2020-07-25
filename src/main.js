@@ -5,6 +5,7 @@ const fs = require('fs');
 const process = require('process');
 const chalk = require('chalk');
 const glob = require('glob');
+const nodeutil = require('util');
 const _ = require('lodash');
 
 export class BladeFormatter {
@@ -141,7 +142,7 @@ export class BladeFormatter {
 
     fs.writeFile(path, content, (err) => {
       if (err) {
-        console.log(chalk.red(err.message));
+        process.stdout.write(`${chalk.red(err.message)}\n`);
         process.exit(1);
       }
     });
@@ -232,7 +233,9 @@ export class BladeFormatter {
 
     process.stdout.write(chalk.red.bold('\nErrors: \n\n'));
 
-    _.each(this.errors, (error) => console.log(error));
+    _.each(this.errors, (error) =>
+      process.stdout.write(`${nodeutil.format(error)}\n`),
+    );
   }
 }
 

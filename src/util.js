@@ -53,9 +53,9 @@ export function normalizeIndentLevel(length) {
 export function printDiffs(diffs) {
   return Promise.all(
     _.map(diffs, async (diff) => {
-      console.log(`path: ${chalk.bold(diff.path)}:${diff.line}`);
-      console.log(chalk.red(`--${diff.original}`));
-      console.log(chalk.green(`++${diff.formatted}`));
+      process.stdout.write(`path: ${chalk.bold(diff.path)}:${diff.line}\n`);
+      process.stdout.write(chalk.red(`--${diff.original}\n`));
+      process.stdout.write(chalk.green(`++${diff.formatted}\n`));
     }),
   );
 }
