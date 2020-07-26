@@ -1,2 +1,3 @@
 *.js linguist-detectable
 *.ts linguist-detectable
+__tests__/fixtures -linguist-detectable
