@@ -106,14 +106,16 @@ export async function prettifyPhpContentWithUnescapedTags(content) {
       }),
     )
     .then((res) => formatStringAsPhp(res))
-    .then((res) =>
-      _.replace(
-        res,
-        /<\?php.*?\/\*blade\*\/\s(.*?)\s\/\*blade\*\/.*?\?>/gs,
-        (match, p1) => {
-          return `{{ ${p1} }}`;
-        },
-      ),
+    .then(
+      (res) =>
+        _.replace(
+          res,
+          /<\?php.*?\/\*blade\*\/\s(.*?)\s\/\*blade\*\/.*?\?>/gs,
+          (match, p1) => {
+            return `{{ ${p1} }}`.replace(/([\n\s]*)->([\n\s]*)/gs, '->');
+          },
+        ),
+      // .replace(/([\n\s]*)->([\n\s]*)/gs, '->'),
     );
 }
 
