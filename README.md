@@ -209,3 +209,4 @@ $ npm -g config set user root
 
 - [ ] Editable custom directives
 - [x] `@for` directive support
+- [ ] ignore formatting in blade comment
