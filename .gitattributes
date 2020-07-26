@@ -1,3 +1,3 @@
-*.js linguist-detectable
-*.ts linguist-detectable
-__tests__/fixtures -linguist-detectable
+*.blade.php -linguist-detectable linguist-documentation
+*.js linguist-detectable=true
+*.ts linguist-detectable=true
