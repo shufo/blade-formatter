@@ -23,6 +23,7 @@ export default class Formatter {
     this.indentSize = util.optional(this.options).indentSize || 4;
     this.currentIndentLevel = 0;
     this.shouldBeIndent = false;
+    this.isInsideCommentBlock = false;
     this.stack = [];
     this.result = [];
     this.diffs = [];
@@ -43,6 +44,7 @@ export default class Formatter {
       indent_size: util.optional(this.options).indentSize || 4,
       wrap_line_length: util.optional(this.options).wrapLineLength || 120,
       end_with_newline: util.optional(this.options).endWithNewline || true,
+      unformatted_content_delimiter: "'^^^'",
     };
 
     const promise = new Promise((resolve) => resolve(data))
@@ -118,7 +120,33 @@ export default class Formatter {
   }
 
   processToken(tokenStruct, token) {
+    if (
+      _.includes(
+        tokenStruct.scopes,
+        'punctuation.definition.comment.begin.blade',
+      )
+    ) {
+      this.isInsideCommentBlock = true;
+    }
+
+    if (
+      _.includes(tokenStruct.scopes, 'punctuation.definition.comment.end.blade')
+    ) {
+      this.isInsideCommentBlock = false;
+    }
+    if (token === '{{--' || token.includes('{{--')) {
+      this.isInsideCommentBlock = true;
+    }
+
+    if (token === '--}}' || token.includes('--}}')) {
+      this.isInsideCommentBlock = false;
+    }
+
     if (!_.includes(tokenStruct.scopes, 'keyword.blade')) {
+      return;
+    }
+
+    if (this.isInsideCommentBlock) {
       return;
     }
 

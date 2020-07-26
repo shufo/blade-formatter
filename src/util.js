@@ -149,7 +149,8 @@ export async function preserveOriginalPhpTagInHtml(content) {
     .then((res) => _.replace(res, /\?>/g, '** /* end_phptag?> */ **'))
     .then((res) =>
       _.replace(res, /\{\{--(.*?)--\}\}/gs, (match, p1) => {
-        return `<?php /*comment*/ ?>${p1}<?php /*comment*/ ?>`;
+        // eslint-disable-next-line max-len
+        return `<?php /* prettier-ignore-start */^^^${p1}^^^/* prettier-ignore-end */ ?>`;
       }),
     );
 }
@@ -180,7 +181,8 @@ export function revertOriginalPhpTagInHtml(content) {
     .then((res) =>
       _.replace(
         res,
-        /<\?php.*?\/\*comment\*\/\s\?>(.*?)<\?php\s\/\*comment\*\/.*?\?>/gs,
+        // eslint-disable-next-line max-len
+        /<\?php.*?\/\* prettier-ignore-start \*\/\^\^\^(.*?)\^\^\^\/\* prettier-ignore-end \*\/.*?\?>/gs,
         (match, p1) => {
           return `{{--${p1}--}}`;
         },
@@ -213,8 +215,8 @@ export function preserveDirectives(content) {
     content,
     /(@foreach[\s]*|@for[\s]*)\((.*?)\)(.*?)(@endforeach|@endfor)/gs,
     (match, p1, p2, p3, p4) => {
-      return `<beautify start="${p1}" end="${p4}" exp="^^${p2}^^">\
-      ${p3}</beautify>`;
+      // eslint-disable-next-line max-len
+      return `<beautify start="${p1}" end="${p4}" exp="^^${p2}^^">${p3}</beautify>`;
     },
   );
 }
@@ -223,7 +225,7 @@ export function revertDirectives(content, options) {
   return _.replace(
     content,
     // eslint-disable-next-line max-len
-    /<beautify start="(.*?)" end="(.*?)" exp="\^\^(.*?)\^\^">(.*?)<\/beautify>/gs,
+    /<beautify.*?start="(.*?)".*?end="(.*?)".*?exp="\^\^(.*?)\^\^">(.*?)<\/beautify>/gs,
     (match, p1, p2, p3, p4) => {
       return `${p1}(${p3})${unindent(p1, p4, 1, options)}${p2}`;
     },
