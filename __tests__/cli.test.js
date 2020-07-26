@@ -182,4 +182,22 @@ describe('The blade formatter CLI', () => {
       expect(formatted).toEqual(expected.toString('utf-8'));
     });
   });
+
+  test('it can format php tag mixed file', async () => {
+    const cmdResult = await cmd.execute(
+      path.resolve(__basedir, 'bin', 'blade-formatter'),
+      [path.resolve(__basedir, '__tests__', 'fixtures', 'shorttag.blade.php')],
+    );
+
+    const formatted = fs.readFileSync(
+      path.resolve(
+        __basedir,
+        '__tests__',
+        'fixtures',
+        'formatted_shorttag.blade.php',
+      ),
+    );
+
+    expect(cmdResult).toEqual(formatted.toString('utf-8'));
+  });
 });

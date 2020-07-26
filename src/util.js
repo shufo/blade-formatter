@@ -145,8 +145,8 @@ export async function formatAsPhp(content) {
 
 export async function preserveOriginalPhpTagInHtml(content) {
   return new Promise((resolve) => resolve(content))
-    .then((res) => _.replace(res, /<\?php/g, '/* <?phptag_start */'))
-    .then((res) => _.replace(res, /\?>/g, '/* end_phptag?> */'))
+    .then((res) => _.replace(res, /<\?php/g, '** /* <?phptag_start */ **'))
+    .then((res) => _.replace(res, /\?>/g, '** /* end_phptag?> */ **'))
     .then((res) =>
       _.replace(res, /\{\{--(.*?)--\}\}/gs, (match, p1) => {
         return `<?php /*comment*/ ?>${p1}<?php /*comment*/ ?>`;
@@ -156,9 +156,27 @@ export async function preserveOriginalPhpTagInHtml(content) {
 
 export function revertOriginalPhpTagInHtml(content) {
   return new Promise((resolve) => resolve(content))
-    .then((res) => _.replace(res, /\/\* <\?phptag_start \*\//g, '<?php'))
-    .then((res) => _.replace(res, /\/\* end_phptag\?> \*\/\s;\n/g, '?>;'))
-    .then((res) => _.replace(res, /\/\* end_phptag\?> \*\//g, '?>'))
+    .then((res) =>
+      _.replace(
+        res,
+        /\*\*[\s\n]*?\/\*[\s\n]*?<\?phptag_start[\s\n]*?\*\/[\s\n]*?\*\*/gs,
+        '<?php',
+      ),
+    )
+    .then((res) =>
+      _.replace(
+        res,
+        /\*\*[\s\n]*?\/\*[\s\n]*?end_phptag\?>[\s\n]*?\*\/[\s\n]*?\*\*[\s];\n/g,
+        '?>;',
+      ),
+    )
+    .then((res) =>
+      _.replace(
+        res,
+        /\*\*[\s\n]*?\/\*[\s\n]*?end_phptag\?>[\s\n]*?\*\/[\s\n]*?\*\*/g,
+        '?>',
+      ),
+    )
     .then((res) =>
       _.replace(
         res,
