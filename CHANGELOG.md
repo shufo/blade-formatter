@@ -1,3 +1,61 @@
+# [1.5.0](https://github.com/shufo/blade-formatter/compare/v1.4.0...v1.5.0) (2020-07-26)
+
+
+### Bug Fixes
+
+* 🐛 comment line corrupted when it is too long ([5f4fa22](https://github.com/shufo/blade-formatter/commit/5f4fa2259051cd9df2b8962fd6bdd28db0c9c0d3))
+* 🐛 html close tag near php close tag occurs error ([30fc7c4](https://github.com/shufo/blade-formatter/commit/30fc7c482e263eb78da2e8482725f91152293168))
+* 🐛 method call should be inline ([49e2d00](https://github.com/shufo/blade-formatter/commit/49e2d00647c9f75cdb32a37f797c8bf70430c71a)), closes [#2](https://github.com/shufo/blade-formatter/issues/2)
+* 🐛 reindex directory for language stats ([cf57e4b](https://github.com/shufo/blade-formatter/commit/cf57e4b350d424e970b3980a52e22aaaba50c47a))
+* 🐛 use .gitattributes instead ([e82214d](https://github.com/shufo/blade-formatter/commit/e82214d2355f1f97d5ef4fd5464fc4704fc22529))
+
+
+
+# [1.4.0](https://github.com/shufo/blade-formatter/compare/v1.3.1...v1.4.0) (2020-07-23)
+
+
+### Bug Fixes
+
+* 🐛 consider child methods in foreach directive ([0bbbfdc](https://github.com/shufo/blade-formatter/commit/0bbbfdc7f2aa93496d6d6d8cc08bb29a33505703))
+
+
+### Features
+
+* 🎸 support [@for](https://github.com/for) directive ([5c6152b](https://github.com/shufo/blade-formatter/commit/5c6152b6606ba63cdaebc3fa798f6c3b8e8db219)), closes [#11](https://github.com/shufo/blade-formatter/issues/11)
+
+
+
+## [1.3.1](https://github.com/shufo/blade-formatter/compare/v1.3.0...v1.3.1) (2020-07-20)
+
+
+### Bug Fixes
+
+* 🐛 should remove semicolon in last line of file ([49f4177](https://github.com/shufo/blade-formatter/commit/49f41775754cb0c506ccf80d8297eff180ee0adb))
+
+
+
+# [1.3.0](https://github.com/shufo/blade-formatter/compare/v1.2.2...v1.3.0) (2020-07-19)
+
+
+### chore
+
+* 🤖 Release 1.3.0 ([227b0cc](https://github.com/shufo/blade-formatter/commit/227b0cc1d59b2435690698c24acfbd5b5633f30e))
+
+
+### Features
+
+* 🎸 add vscode-textmate ([d935afe](https://github.com/shufo/blade-formatter/commit/d935afe1f3dc6b021203381b0bdea5426cd25fbf))
+* 🎸 implement format API ([4e7e4e4](https://github.com/shufo/blade-formatter/commit/4e7e4e4d0533fd4ed61471b53e1fd2f9899bd9a4))
+* 🎸 register vscode-textmate instance by passed params ([1564b0b](https://github.com/shufo/blade-formatter/commit/1564b0b4732d9cc6bd1a485720b53ba19e6f65fd))
+
+
+### BREAKING CHANGES
+
+* 🧨 Changes BladeFormatter constructor argument order. Please format files
+via BladeFormatter.format()
+
+
+
 ## [1.2.2](https://github.com/shufo/blade-formatter/compare/v1.2.1...v1.2.2) (2020-07-19)
 
 
