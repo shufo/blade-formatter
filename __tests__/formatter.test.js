@@ -718,4 +718,40 @@ describe('formatter', () => {
       assert.equal(result, expected);
     });
   });
+
+  test('should remain tags even if php tag exists vscode-blade-formattere#2', async () => {
+    const content = [
+      `<?php`,
+      `/* Some comments on this template`,
+      ` */`,
+      `?>`,
+      `<div class="font-ext-links">`,
+      `    <a class="btn btn-cta" href="{{ url('download/' . $font->slug) }}" title="Download {{ $font->title }}">`,
+      `        <i class="fa fa-fw fa-download"></i>`,
+      `        Download`,
+      `    </a>`,
+      ``,
+      `</div>`,
+      ``,
+    ].join('\n');
+
+    const expected = [
+      `<?php`,
+      `/* Some comments on this template`,
+      ` */`,
+      `?>`,
+      `<div class="font-ext-links">`,
+      `    <a class="btn btn-cta" href="{{ url('download/' . $font->slug) }}" title="Download {{ $font->title }}">`,
+      `        <i class="fa fa-fw fa-download"></i>`,
+      `        Download`,
+      `    </a>`,
+      ``,
+      `</div>`,
+      ``,
+    ].join('\n');
+
+    return new BladeFormatter().format(content).then((result) => {
+      assert.equal(result, expected);
+    });
+  });
 });
