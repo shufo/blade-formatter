@@ -1,3 +1,12 @@
+## [1.5.1](https://github.com/shufo/blade-formatter/compare/v1.5.0...v1.5.1) (2020-07-27)
+
+
+### Bug Fixes
+
+* 🐛 do not remove original php tag ([0719a13](https://github.com/shufo/blade-formatter/commit/0719a13a4d25d2268b3c58a116cf5fb561a0d1d1))
+
+
+
 # [1.5.0](https://github.com/shufo/blade-formatter/compare/v1.4.0...v1.5.0) (2020-07-26)
 
 
