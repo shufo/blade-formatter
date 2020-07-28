@@ -147,9 +147,9 @@ $ blade-formatter -c -d resources/**/*.blade.php
 |`--diff`, `-d`|Show differences|false|
 |`--indent-size`, `-i`|Indentation size|4|
 |`--wrap-line-length`, `--wrap`|The length of line wrap size|120|
-|`--end-with-newline,`, `-e`|End output with newline|true|
-|`--help,`, `-h`|Show help||
-|`--version,`, `-v`|Show version||
+|`--end-with-newline`, `-e`|End output with newline|true|
+|`--help`, `-h`|Show help||
+|`--version`, `-v`|Show version||
 
 ## API
 
