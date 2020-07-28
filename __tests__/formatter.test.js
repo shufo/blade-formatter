@@ -772,4 +772,54 @@ describe('formatter', () => {
       assert.equal(result, expected);
     });
   });
+
+  test('should not occurs error with if directive', async () => {
+    const content = [`@if($user)`, `    foo`, `@endif`, ``].join('\n');
+
+    const expected = [`@if($user)`, `    foo`, `@endif`, ``].join('\n');
+
+    return new BladeFormatter().format(content).then((result) => {
+      assert.equal(result, expected);
+    });
+  });
+
+  test('should not occurs error on directive inside html tag ', async () => {
+    const content = [
+      `<body class="hold-transition login-page"`,
+      `    @if(config('admin.login_background_image'))style="background: url({{ config('admin.login_background_image') }}) no-repeat;background-size: cover;"`,
+      `    @endif>`,
+      ``,
+    ].join('\n');
+
+    const expected = [
+      `<body class="hold-transition login-page"`,
+      `    @if(config('admin.login_background_image'))style="background: url({{ config('admin.login_background_image') }}) no-repeat;background-size: cover;"`,
+      `    @endif>`,
+      ``,
+    ].join('\n');
+
+    return new BladeFormatter().format(content).then((result) => {
+      assert.equal(result, expected);
+    });
+  });
+
+  test('should not occurs error even if 3 level nested in directive', async () => {
+    const content = [
+      `@if(config('app.foo', env('APP_FOO_BAR')))`,
+      `    foo`,
+      `@endif>`,
+      ``,
+    ].join('\n');
+
+    const expected = [
+      `@if(config('app.foo', env('APP_FOO_BAR')))`,
+      `    foo`,
+      `@endif>`,
+      ``,
+    ].join('\n');
+
+    return new BladeFormatter().format(content).then((result) => {
+      assert.equal(result, expected);
+    });
+  });
 });
