@@ -82,7 +82,9 @@ export function generateDiff(path, originalLines, formattedLines) {
 }
 
 export async function prettifyPhpContentWithUnescapedTags(content) {
-  const directives = _.without(indentStartTokens, '@switch').join('|');
+  const directives = _.without(indentStartTokens, '@switch', '@forelse').join(
+    '|',
+  );
 
   const directiveRegexes = new RegExp(
     // eslint-disable-next-line max-len

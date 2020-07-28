@@ -822,4 +822,28 @@ describe('formatter', () => {
       assert.equal(result, expected);
     });
   });
+
+  test('forelse directive should work', async () => {
+    const content = [
+      `@forelse($students as $student)`,
+      `<div>foo</div>`,
+      `@empty`,
+      `empty`,
+      `@endforelse`,
+      ``,
+    ].join('\n');
+
+    const expected = [
+      `@forelse($students as $student)`,
+      `    <div>foo</div>`,
+      `@empty`,
+      `    empty`,
+      `@endforelse`,
+      ``,
+    ].join('\n');
+
+    return new BladeFormatter().format(content).then((result) => {
+      assert.equal(result, expected);
+    });
+  });
 });
