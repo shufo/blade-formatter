@@ -802,4 +802,24 @@ describe('formatter', () => {
       assert.equal(result, expected);
     });
   });
+
+  test('should not occurs error even if 3 level nested in directive', async () => {
+    const content = [
+      `@if(config('app.foo', env('APP_FOO_BAR')))`,
+      `    foo`,
+      `@endif>`,
+      ``,
+    ].join('\n');
+
+    const expected = [
+      `@if(config('app.foo', env('APP_FOO_BAR')))`,
+      `    foo`,
+      `@endif>`,
+      ``,
+    ].join('\n');
+
+    return new BladeFormatter().format(content).then((result) => {
+      assert.equal(result, expected);
+    });
+  });
 });
