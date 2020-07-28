@@ -86,7 +86,7 @@ export async function prettifyPhpContentWithUnescapedTags(content) {
 
   const directiveRegexes = new RegExp(
     // eslint-disable-next-line max-len
-    `(?!\\/\\*.*?\\*\\/)(${directives})\\s*?(\\((?:[^)(]+|\\((?:[^)(]+|\\([^)(]*\\))*\\))*\\))`,
+    `(?!\\/\\*.*?\\*\\/)(${directives})\\s*?\\(((?:[^)(]+|\\((?:[^)(]+|\\([^)(]*\\))*\\))*)\\)`,
     'gm',
   );
 
