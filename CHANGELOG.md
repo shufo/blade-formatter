@@ -1,3 +1,13 @@
+## [1.5.3](https://github.com/shufo/blade-formatter/compare/v1.5.2...v1.5.3) (2020-07-28)
+
+
+### Bug Fixes
+
+* 🐛 escape position ([cd393c3](https://github.com/shufo/blade-formatter/commit/cd393c3d0be2b0f0c662cbdd1be8cb71e261399e)), closes [#113](https://github.com/shufo/blade-formatter/issues/113)
+* 🐛 regex to match balanced parentheses ([679a7ba](https://github.com/shufo/blade-formatter/commit/679a7ba9101fe12722edd755f2ce90b840d0a06f)), closes [#113](https://github.com/shufo/blade-formatter/issues/113)
+
+
+
 ## [1.5.2](https://github.com/shufo/blade-formatter/compare/v1.5.1...v1.5.2) (2020-07-28)
 
 
