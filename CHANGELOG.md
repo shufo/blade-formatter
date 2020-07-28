@@ -1,3 +1,12 @@
+## [1.5.2](https://github.com/shufo/blade-formatter/compare/v1.5.1...v1.5.2) (2020-07-28)
+
+
+### Bug Fixes
+
+* 🐛 unexpectedly remove tags after blade close expression ([7fb3a17](https://github.com/shufo/blade-formatter/commit/7fb3a17b4c0a2bfe2d0c11bb7f461bc0ead647ba))
+
+
+
 ## [1.5.1](https://github.com/shufo/blade-formatter/compare/v1.5.0...v1.5.1) (2020-07-27)
 
 
