@@ -774,19 +774,9 @@ describe('formatter', () => {
   });
 
   test('should not occurs error with if directive', async () => {
-    const content = [
-      `@if($user)`,
-      `    foo`,
-      `@endif`,
-      ``,
-    ].join('\n');
+    const content = [`@if($user)`, `    foo`, `@endif`, ``].join('\n');
 
-    const expected = [
-      `@if($user)`,
-      `    foo`,
-      `@endif`,
-      ``,
-    ].join('\n');
+    const expected = [`@if($user)`, `    foo`, `@endif`, ``].join('\n');
 
     return new BladeFormatter().format(content).then((result) => {
       assert.equal(result, expected);
