@@ -754,4 +754,22 @@ describe('formatter', () => {
       assert.equal(result, expected);
     });
   });
+
+  test('should not format nbsp', async () => {
+    const content = [
+      `{{ trans('email.website_title') }}&nbsp;`,
+      `<a href="mailto:{{ trans('email.website_url') }}">{{ trans('email.website_url') }}</a>`,
+      ``,
+    ].join('\n');
+
+    const expected = [
+      `{{ trans('email.website_title') }}&nbsp;`,
+      `<a href="mailto:{{ trans('email.website_url') }}">{{ trans('email.website_url') }}</a>`,
+      ``,
+    ].join('\n');
+
+    return new BladeFormatter().format(content).then((result) => {
+      assert.equal(result, expected);
+    });
+  });
 });
