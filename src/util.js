@@ -132,9 +132,9 @@ export async function removeSemicolon(content) {
   return new Promise((resolve) => {
     resolve(content);
   })
-    .then((res) => _.replace(res, /;\n.*!!\}/g, ' !!}'))
-    .then((res) => _.replace(res, /;.*?!!}/g, ' !!}'))
-    .then((res) => _.replace(res, /;\n.*}}/g, ' }}'))
+    .then((res) => _.replace(res, /;[\n\s]*!!\}/g, ' !!}'))
+    .then((res) => _.replace(res, /;[\s\n]*!!}/g, ' !!}'))
+    .then((res) => _.replace(res, /;[\n\s]*}}/g, ' }}'))
     .then((res) => _.replace(res, /; }}/g, ' }}'))
     .then((res) => _.replace(res, /; --}}/g, ' --}}'));
 }
