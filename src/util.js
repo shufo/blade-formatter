@@ -220,7 +220,8 @@ export function unindent(directive, content, level, options) {
 export function preserveDirectives(content) {
   return _.replace(
     content,
-    /(@foreach[\s]*|@for[\s]*)\((.*?)\)(.*?)(@endforeach|@endfor)/gs,
+    // eslint-disable-next-line max-len
+    /(@foreach[\s]*|@for[\s]*|@if[\s]*)\((.*?)\)(.*?)(@endforeach|@endfor|@endif)/gs,
     (match, p1, p2, p3, p4) => {
       // eslint-disable-next-line max-len
       return `<beautify start="${p1}" end="${p4}" exp="^^${p2}^^">${p3}</beautify>`;
