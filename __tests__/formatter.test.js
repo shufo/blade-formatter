@@ -848,19 +848,11 @@ describe('formatter', () => {
   });
 
   test('should preserve spaces between directive and parentheses', async () => {
-    const content = [
-      `@if($user === 'foo')`,
-      `foo`,
-      `@endif`,
-      ``,
-    ].join('\n');
+    const content = [`@if($user === 'foo')`, `foo`, `@endif`, ``].join('\n');
 
-    const expected = [
-      `@if($user === 'foo')`,
-      `    foo`,
-      `@endif`,
-      ``,
-    ].join('\n');
+    const expected = [`@if($user === 'foo')`, `    foo`, `@endif`, ``].join(
+      '\n',
+    );
 
     return new BladeFormatter().format(content).then((result) => {
       assert.equal(result, expected);
@@ -868,12 +860,9 @@ describe('formatter', () => {
   });
 
   test('should preserve spaces between directive and parentheses (space exists)', async () => {
-    const content = [
-      `@foreach ($users as $user)`,
-      `foo`,
-      `@endif`,
-      ``,
-    ].join('\n');
+    const content = [`@foreach ($users as $user)`, `foo`, `@endif`, ``].join(
+      '\n',
+    );
 
     const expected = [
       `@foreach ($users as $user)`,
