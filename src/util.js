@@ -88,7 +88,7 @@ export async function prettifyPhpContentWithUnescapedTags(content) {
 
   const directiveRegexes = new RegExp(
     // eslint-disable-next-line max-len
-    `(?!\\/\\*.*?\\*\\/)(${directives}\\s*?)\\(((?:[^)(]+|\\((?:[^)(]+|\\([^)(]*\\))*\\))*)\\)`,
+    `(?!\\/\\*.*?\\*\\/)(${directives})(\\s*?)\\(((?:[^)(]+|\\((?:[^)(]+|\\([^)(]*\\))*\\))*)\\)`,
     'gm',
   );
 
@@ -99,11 +99,11 @@ export async function prettifyPhpContentWithUnescapedTags(content) {
       }),
     )
     .then((res) =>
-      _.replace(res, directiveRegexes, (match, p1, p2) => {
-        return formatStringAsPhp(`<?php ${p1.substr('1')}(${p2}) ?>`).replace(
-          /<\?php\s(.*?)\((.*?)\);*\s\?>\n/gs,
-          (match2, j1, j2) => {
-            return `@${j1.trim()}(${j2.trim()})`;
+      _.replace(res, directiveRegexes, (match, p1, p2, p3) => {
+        return formatStringAsPhp(`<?php ${p1.substr('1')}${p2}(${p3}) ?>`).replace(
+          /<\?php\s(.*?)(\s*?)\((.*?)\);*\s\?>\n/gs,
+          (match2, j1, j2, j3) => {
+            return `@${j1.trim()}${j2}(${j3.trim()})`;
           },
         );
       }),
