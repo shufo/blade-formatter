@@ -51,7 +51,7 @@
                                         </tr>
                                     @endforeach
                                     {{--
-                                            @foreach ($downloadOptions as $d => $dO)
+                                        @foreach ($downloadOptions as $d => $dO)
                                         <td> {{ $dO['description'] }}</td>
                                         --}}
 
