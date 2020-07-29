@@ -179,10 +179,7 @@ describe('formatter', () => {
     });
   });
 
-  const phpDirectives = [
-    'if',
-    'while',
-  ];
+  const phpDirectives = ['if', 'while'];
 
   phpDirectives.forEach((directive) => {
     test('php builtin directive test', () => {
