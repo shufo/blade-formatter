@@ -549,7 +549,7 @@ describe('formatter', () => {
     ].join('\n');
 
     const expected = [
-      `@for($i = 0; $i <= 5; $i++)`,
+      `@for ($i = 0; $i <= 5; $i++)`,
       `    <div class="foo">`,
       `    </div>`,
       `@endfor`,
@@ -839,6 +839,46 @@ describe('formatter', () => {
       `@empty`,
       `    empty`,
       `@endforelse`,
+      ``,
+    ].join('\n');
+
+    return new BladeFormatter().format(content).then((result) => {
+      assert.equal(result, expected);
+    });
+  });
+
+  test('should preserve spaces between directive and parentheses', async () => {
+    const content = [
+      `@if($user === 'foo')`,
+      `foo`,
+      `@endif`,
+      ``,
+    ].join('\n');
+
+    const expected = [
+      `@if($user === 'foo')`,
+      `    foo`,
+      `@endif`,
+      ``,
+    ].join('\n');
+
+    return new BladeFormatter().format(content).then((result) => {
+      assert.equal(result, expected);
+    });
+  });
+
+  test('should preserve spaces between directive and parentheses (space exists)', async () => {
+    const content = [
+      `@foreach ($users as $user)`,
+      `foo`,
+      `@endif`,
+      ``,
+    ].join('\n');
+
+    const expected = [
+      `@foreach ($users as $user)`,
+      `    foo`,
+      `@endif`,
       ``,
     ].join('\n');
 
