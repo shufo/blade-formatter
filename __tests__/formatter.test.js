@@ -603,7 +603,7 @@ describe('formatter', () => {
     ].join('\n');
 
     const expected = [
-      `@foreach($users as $user)`,
+      `@foreach ($users as $user)`,
       `    <div class="foo">`,
       `    </div>`,
       `@endforeach`,
@@ -625,7 +625,7 @@ describe('formatter', () => {
     ].join('\n');
 
     const expected = [
-      `@foreach($users['foo'] as $user)`,
+      `@foreach ($users['foo'] as $user)`,
       `    <div class="foo">`,
       `    </div>`,
       `@endforeach`,
@@ -647,7 +647,7 @@ describe('formatter', () => {
     ].join('\n');
 
     const expected = [
-      `@foreach($user->blogs() as $blog)`,
+      `@foreach ($user->blogs() as $blog)`,
       `    <div class="foo">`,
       `    </div>`,
       `@endforeach`,
