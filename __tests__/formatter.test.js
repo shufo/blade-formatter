@@ -817,15 +817,13 @@ describe('formatter', () => {
 
   test('should not occurs error on directive inside html tag ', async () => {
     const content = [
-      `<body class="hold-transition login-page"`,
-      `    @if(config('admin.login_background_image'))style="background: url({{ config('admin.login_background_image') }}) no-repeat;background-size: cover;"`,
+      `<body class="hold-transition login-page" @if(config('admin.login_background_image'))style="background: url({{ config('admin.login_background_image') }}) no-repeat;background-size: cover;"`,
       `    @endif>`,
       ``,
     ].join('\n');
 
     const expected = [
-      `<body class="hold-transition login-page"`,
-      `    @if (config('admin.login_background_image'))style="background:`,
+      `<body class="hold-transition login-page" @if (config('admin.login_background_image'))style="background:`,
       `    url({{ config('admin.login_background_image') }}) no-repeat;background-size: cover;"`,
       `    @endif>`,
       ``,
