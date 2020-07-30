@@ -36,7 +36,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($uploadOptions as $u => $uu)
+                                    @foreach ($uploadOptions as $u => $uu)
                                         <tr>
                                             <td>{{ $uu['description'] }}</td>
                                             <td>{{ $uu['cost'] }}</td>
@@ -51,11 +51,11 @@
                                         </tr>
                                     @endforeach
                                     {{--
-                                        @foreach($downloadOptions as $d => $dO)
+                                        @foreach ($downloadOptions as $d => $dO)
                                         <td> {{ $dO['description'] }}</td>
                                         --}}
 
-                                @foreach($downloadOptions as $d => $dO)
+                                @foreach ($downloadOptions as $d => $dO)
                                     <tr>
                                         <td>{{ $dO['description'] }}</td>
                                         <td>{{ $dO['cost'] }}</td>
@@ -69,12 +69,12 @@
                                     </tr>
                                     @endforeach
 
-                                    @foreach($personalFreeleech as $p => $pf)
+                                    @foreach ($personalFreeleech as $p => $pf)
                                         <tr>
                                             <td>{{ $pf['description'] }}</td>
                                             <td>{{ $pf['cost'] }}</td>
                                             <td>
-                                                @if($activefl)
+                                                @if ($activefl)
                                                     <form method="POST"
                                                         action="{{ route('bonus_exchange', ['id' => $pf['id']]) }}">
                                                         @csrf
@@ -94,7 +94,7 @@
                                         </tr>
                                     @endforeach
 
-                                    @foreach($invite as $i => $in)
+                                    @foreach ($invite as $i => $in)
                                         <tr>
                                             <td>{{ $in['description'] }}</td>
                                             <td>{{ $in['cost'] }}</td>

@@ -58,7 +58,7 @@ describe('formatter', () => {
     const expected = [
       `<section>`,
       `    <div>`,
-      `        @if($user)`,
+      `        @if ($user)`,
       `            {{ $user->name }}`,
       `        @endif`,
       `    </div>`,
@@ -87,8 +87,8 @@ describe('formatter', () => {
 
     const expected = [
       `<section>`,
-      `    @foreach($users as $user)`,
-      `        @if($user)`,
+      `    @foreach ($users as $user)`,
+      `        @if ($user)`,
       `            {{ $user->name }}`,
       `        @endif`,
       `    @endforeach`,
@@ -107,7 +107,7 @@ describe('formatter', () => {
     const content = [
       `<section>`,
       `@hasSection('navigation')`,
-      `@if($user)`,
+      `@if ($user)`,
       `{{ $user->name }}`,
       `@endif`,
       `@endif`,
@@ -118,7 +118,7 @@ describe('formatter', () => {
     const expected = [
       `<section>`,
       `    @hasSection('navigation')`,
-      `        @if($user)`,
+      `        @if ($user)`,
       `            {{ $user->name }}`,
       `        @endif`,
       `    @endif`,
@@ -133,28 +133,26 @@ describe('formatter', () => {
       });
   });
 
-  const directives = [
+  const builtInDirectives = [
     'auth',
     'component',
     'empty',
     'forelse',
     'guest',
-    'if',
     'isset',
     'push',
     'section',
     'slot',
     'unless',
     'verbatim',
-    'while',
   ];
 
-  directives.forEach((directive) => {
+  builtInDirectives.forEach((directive) => {
     test('builtin directive test', () => {
       const content = [
         `<section>`,
         `@${directive}($foo)`,
-        `@if($user)`,
+        `@if ($user)`,
         `{{ $user->name }}`,
         `@endif`,
         `@end${directive}`,
@@ -165,7 +163,41 @@ describe('formatter', () => {
       const expected = [
         `<section>`,
         `    @${directive}($foo)`,
-        `        @if($user)`,
+        `        @if ($user)`,
+        `            {{ $user->name }}`,
+        `        @endif`,
+        `    @end${directive}`,
+        `</section>`,
+        ``,
+      ].join('\n');
+
+      return formatter()
+        .formatContent(content)
+        .then(function (result) {
+          assert.equal(result, expected);
+        });
+    });
+  });
+
+  const phpDirectives = ['if', 'while'];
+
+  phpDirectives.forEach((directive) => {
+    test('php builtin directive test', () => {
+      const content = [
+        `<section>`,
+        `@${directive}($foo)`,
+        `@if ($user)`,
+        `{{ $user->name }}`,
+        `@endif`,
+        `@end${directive}`,
+        `</section>`,
+        ``,
+      ].join('\n');
+
+      const expected = [
+        `<section>`,
+        `    @${directive} ($foo)`,
+        `        @if ($user)`,
         `            {{ $user->name }}`,
         `        @endif`,
         `    @end${directive}`,
@@ -198,7 +230,7 @@ describe('formatter', () => {
       `<div>`,
       `    @section('foo')`,
       `    @section('bar')`,
-      `        @if($user)`,
+      `        @if ($user)`,
       `            {{ $user->name }}`,
       `        @endif`,
       `    @endsection`,
@@ -232,7 +264,7 @@ describe('formatter', () => {
       `    @section('foo')`,
       `    @section('bar')`,
       `    @section('baz')`,
-      `        @if($user)`,
+      `        @if ($user)`,
       `            {{ $user->name }}`,
       `        @endif`,
       `    @endsection`,
@@ -549,7 +581,7 @@ describe('formatter', () => {
     ].join('\n');
 
     const expected = [
-      `@for($i = 0; $i <= 5; $i++)`,
+      `@for ($i = 0; $i <= 5; $i++)`,
       `    <div class="foo">`,
       `    </div>`,
       `@endfor`,
@@ -571,7 +603,7 @@ describe('formatter', () => {
     ].join('\n');
 
     const expected = [
-      `@foreach($users as $user)`,
+      `@foreach ($users as $user)`,
       `    <div class="foo">`,
       `    </div>`,
       `@endforeach`,
@@ -593,7 +625,7 @@ describe('formatter', () => {
     ].join('\n');
 
     const expected = [
-      `@foreach($users['foo'] as $user)`,
+      `@foreach ($users['foo'] as $user)`,
       `    <div class="foo">`,
       `    </div>`,
       `@endforeach`,
@@ -615,7 +647,7 @@ describe('formatter', () => {
     ].join('\n');
 
     const expected = [
-      `@foreach($user->blogs() as $blog)`,
+      `@foreach ($user->blogs() as $blog)`,
       `    <div class="foo">`,
       `    </div>`,
       `@endforeach`,
@@ -707,7 +739,7 @@ describe('formatter', () => {
     ].join('\n');
 
     const expected = [
-      `@if(auth()->user()->name === 'foo')`,
+      `@if (auth()->user()->name === 'foo')`,
       `    <p>bar</p>`,
       `@endif`,
       ``,
@@ -776,7 +808,7 @@ describe('formatter', () => {
   test('should not occurs error with if directive', async () => {
     const content = [`@if($user)`, `    foo`, `@endif`, ``].join('\n');
 
-    const expected = [`@if($user)`, `    foo`, `@endif`, ``].join('\n');
+    const expected = [`@if ($user)`, `    foo`, `@endif`, ``].join('\n');
 
     return new BladeFormatter().format(content).then((result) => {
       assert.equal(result, expected);
@@ -785,15 +817,14 @@ describe('formatter', () => {
 
   test('should not occurs error on directive inside html tag ', async () => {
     const content = [
-      `<body class="hold-transition login-page"`,
-      `    @if(config('admin.login_background_image'))style="background: url({{ config('admin.login_background_image') }}) no-repeat;background-size: cover;"`,
+      `<body class="hold-transition login-page" @if(config('admin.login_background_image'))style="background: url({{ config('admin.login_background_image') }}) no-repeat;background-size: cover;"`,
       `    @endif>`,
       ``,
     ].join('\n');
 
     const expected = [
-      `<body class="hold-transition login-page"`,
-      `    @if(config('admin.login_background_image'))style="background: url({{ config('admin.login_background_image') }}) no-repeat;background-size: cover;"`,
+      `<body class="hold-transition login-page" @if (config('admin.login_background_image'))style="background:`,
+      `    url({{ config('admin.login_background_image') }}) no-repeat;background-size: cover;"`,
       `    @endif>`,
       ``,
     ].join('\n');
@@ -812,7 +843,7 @@ describe('formatter', () => {
     ].join('\n');
 
     const expected = [
-      `@if(config('app.foo', env('APP_FOO_BAR')))`,
+      `@if (config('app.foo', env('APP_FOO_BAR')))`,
       `    foo`,
       `@endif>`,
       ``,
@@ -839,6 +870,35 @@ describe('formatter', () => {
       `@empty`,
       `    empty`,
       `@endforelse`,
+      ``,
+    ].join('\n');
+
+    return new BladeFormatter().format(content).then((result) => {
+      assert.equal(result, expected);
+    });
+  });
+
+  test('should preserve spaces between directive and parentheses', async () => {
+    const content = [`@if($user === 'foo')`, `foo`, `@endif`, ``].join('\n');
+
+    const expected = [`@if ($user === 'foo')`, `    foo`, `@endif`, ``].join(
+      '\n',
+    );
+
+    return new BladeFormatter().format(content).then((result) => {
+      assert.equal(result, expected);
+    });
+  });
+
+  test('should preserve spaces between directive and parentheses (space exists)', async () => {
+    const content = [`@foreach ($users as $user)`, `foo`, `@endif`, ``].join(
+      '\n',
+    );
+
+    const expected = [
+      `@foreach ($users as $user)`,
+      `    foo`,
+      `@endif`,
       ``,
     ].join('\n');
 

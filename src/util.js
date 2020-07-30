@@ -88,7 +88,7 @@ export async function prettifyPhpContentWithUnescapedTags(content) {
 
   const directiveRegexes = new RegExp(
     // eslint-disable-next-line max-len
-    `(?!\\/\\*.*?\\*\\/)(${directives})\\s*?\\(((?:[^)(]+|\\((?:[^)(]+|\\([^)(]*\\))*\\))*)\\)`,
+    `(?!\\/\\*.*?\\*\\/)(${directives})(\\s*?)\\(((?:[^)(]+|\\((?:[^)(]+|\\([^)(]*\\))*\\))*)\\)`,
     'gm',
   );
 
@@ -99,11 +99,13 @@ export async function prettifyPhpContentWithUnescapedTags(content) {
       }),
     )
     .then((res) =>
-      _.replace(res, directiveRegexes, (match, p1, p2) => {
-        return formatStringAsPhp(`<?php ${p1.substr('1')}(${p2}) ?>`).replace(
-          /<\?php\s(.*?)\((.*?)\);*\s\?>\n/gs,
-          (match2, j1, j2) => {
-            return `@${j1.trim()}(${j2.trim()})`;
+      _.replace(res, directiveRegexes, (match, p1, p2, p3) => {
+        return formatStringAsPhp(
+          `<?php ${p1.substr('1')}${p2}(${p3}) ?>`,
+        ).replace(
+          /<\?php\s(.*?)(\s*?)\((.*?)\);*\s\?>\n/gs,
+          (match2, j1, j2, j3) => {
+            return `@${j1.trim()}${j2}(${j3.trim()})`;
           },
         );
       }),
@@ -218,10 +220,11 @@ export function unindent(directive, content, level, options) {
 export function preserveDirectives(content) {
   return _.replace(
     content,
-    /(@foreach[\s]*|@for[\s]*)\((.*?)\)(.*?)(@endforeach|@endfor)/gs,
-    (match, p1, p2, p3, p4) => {
+    // eslint-disable-next-line max-len
+    /@(foreach|for|if)([\s]*?)\((.*?)\)(.*?)(@end\1)/gs,
+    (match, p1, p2, p3, p4, p5) => {
       // eslint-disable-next-line max-len
-      return `<beautify start="${p1}" end="${p4}" exp="^^${p2}^^">${p3}</beautify>`;
+      return `<beautify start="@${p1}${p2}" end="${p5}" exp="^^^${p3}^^^">${p4}</beautify>`;
     },
   );
 }
@@ -230,7 +233,7 @@ export function revertDirectives(content, options) {
   return _.replace(
     content,
     // eslint-disable-next-line max-len
-    /<beautify.*?start="(.*?)".*?end="(.*?)".*?exp="\^\^(.*?)\^\^">(.*?)<\/beautify>/gs,
+    /<beautify.*?start="(.*?)".*?end="(.*?)".*?exp="\^\^\^(.*?)\^\^\^">(.*?)<\/beautify>/gs,
     (match, p1, p2, p3, p4) => {
       return `${p1}(${p3})${unindent(p1, p4, 1, options)}${p2}`;
     },
