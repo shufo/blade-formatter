@@ -58,7 +58,7 @@ An opinionated blade template formatter for Laravel that respects readability
             </div>
             <div class="pf-users-branch">
                 <ul class="pf-users-branch__list">
-                    @foreach($users as $user)
+                    @foreach ($users as $user)
                         <li>
                             <img src="{{ asset('img/frontend/icon/branch-arrow.svg') }}" alt="branch_arrow">
                             {{ link_to_route('frontend.users.user.show', $users['name'], $users['_id']) }}
