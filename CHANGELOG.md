@@ -1,3 +1,12 @@
+# [1.6.0](https://github.com/shufo/blade-formatter/compare/v1.5.4...v1.6.0) (2020-07-30)
+
+
+### Features
+
+* preserve spaces between php directive and parentheses [#116](https://github.com/shufo/blade-formatter/issues/116) ([e947455](https://github.com/shufo/blade-formatter/commit/e9474558eb2df82e778b2b774ebad52390bbbc25))
+
+
+
 ## [1.5.4](https://github.com/shufo/blade-formatter/compare/v1.5.3...v1.5.4) (2020-07-28)
 
 
