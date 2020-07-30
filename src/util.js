@@ -221,10 +221,10 @@ export function preserveDirectives(content) {
   return _.replace(
     content,
     // eslint-disable-next-line max-len
-    /(@foreach[\s]*|@for[\s]*|@if[\s]*)\((.*?)\)(.*?)(@endforeach|@endfor|@endif)/gs,
-    (match, p1, p2, p3, p4) => {
+    /@(foreach|for|if)([\s]*?)\((.*?)\)(.*?)(@end\1)/gs,
+    (match, p1, p2, p3, p4, p5) => {
       // eslint-disable-next-line max-len
-      return `<beautify start="${p1}" end="${p4}" exp="^^^${p2}^^^">${p3}</beautify>`;
+      return `<beautify start="@${p1}${p2}" end="${p5}" exp="^^^${p3}^^^">${p4}</beautify>`;
     },
   );
 }
