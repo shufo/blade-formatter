@@ -225,4 +225,22 @@ describe('The blade formatter CLI', () => {
 
     expect(cmdResult).toEqual(formatted.toString('utf-8'));
   });
+
+  test('should properly formatted even if directive nested', async () => {
+    const cmdResult = await cmd.execute(
+      path.resolve(__basedir, 'bin', 'blade-formatter'),
+      [path.resolve(__basedir, '__tests__', 'fixtures', 'if_nest.blade.php')],
+    );
+
+    const formatted = fs.readFileSync(
+      path.resolve(
+        __basedir,
+        '__tests__',
+        'fixtures',
+        'formatted.if_nest.blade.php',
+      ),
+    );
+
+    expect(cmdResult).toEqual(formatted.toString('utf-8'));
+  });
 });

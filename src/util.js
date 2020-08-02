@@ -111,16 +111,14 @@ export async function prettifyPhpContentWithUnescapedTags(content) {
       }),
     )
     .then((res) => formatStringAsPhp(res))
-    .then(
-      (res) =>
-        _.replace(
-          res,
-          /<\?php[\s\n]*?\/\*blade\*\/\s(.*?)\s\/\*blade\*\/[\s\n]*?\?>/gs,
-          (match, p1) => {
-            return `{{ ${p1} }}`.replace(/([\n\s]*)->([\n\s]*)/gs, '->');
-          },
-        ),
-      // .replace(/([\n\s]*)->([\n\s]*)/gs, '->'),
+    .then((res) =>
+      _.replace(
+        res,
+        /<\?php[\s\n]*?\/\*blade\*\/\s(.*?)\s\/\*blade\*\/[\s\n]*?\?>/gs,
+        (match, p1) => {
+          return `{{ ${p1} }}`.replace(/([\n\s]*)->([\n\s]*)/gs, '->');
+        },
+      ),
     );
 }
 
@@ -152,12 +150,12 @@ export async function formatAsPhp(content) {
 
 export async function preserveOriginalPhpTagInHtml(content) {
   return new Promise((resolve) => resolve(content))
-    .then((res) => _.replace(res, /<\?php/g, '** /* <?phptag_start */ **'))
-    .then((res) => _.replace(res, /\?>/g, '** /* end_phptag?> */ **'))
+    .then((res) => _.replace(res, /<\?php/g, '/** phptag_start **/'))
+    .then((res) => _.replace(res, /\?>/g, '/** end_phptag **/'))
     .then((res) =>
       _.replace(res, /\{\{--(.*?)--\}\}/gs, (match, p1) => {
         // eslint-disable-next-line max-len
-        return `<?php /* prettier-ignore-start */^^^${p1}^^^/* prettier-ignore-end */ ?>`;
+        return `<?php /* blade_comment_start */ ?>${p1}<?php /* blade_comment_end */ ?>`;
       }),
     );
 }
@@ -165,31 +163,19 @@ export async function preserveOriginalPhpTagInHtml(content) {
 export function revertOriginalPhpTagInHtml(content) {
   return new Promise((resolve) => resolve(content))
     .then((res) =>
-      _.replace(
-        res,
-        /\*\*[\s\n]*?\/\*[\s\n]*?<\?phptag_start[\s\n]*?\*\/[\s\n]*?\*\*/gs,
-        '<?php',
-      ),
+      _.replace(res, /\/\*\*[\s\n]*?phptag_start[\s\n]*?\*\*\//gs, '<?php'),
     )
     .then((res) =>
-      _.replace(
-        res,
-        /\*\*[\s\n]*?\/\*[\s\n]*?end_phptag\?>[\s\n]*?\*\/[\s\n]*?\*\*[\s];\n/g,
-        '?>;',
-      ),
+      _.replace(res, /\/\*\*[\s\n]*?end_phptag[\s\n]*?\*\*\/[\s];\n/g, '?>;'),
     )
     .then((res) =>
-      _.replace(
-        res,
-        /\*\*[\s\n]*?\/\*[\s\n]*?end_phptag\?>[\s\n]*?\*\/[\s\n]*?\*\*/g,
-        '?>',
-      ),
+      _.replace(res, /\/\*\*[\s\n]*?end_phptag[\s\n]*?\*\*\//g, '?>'),
     )
     .then((res) =>
       _.replace(
         res,
         // eslint-disable-next-line max-len
-        /<\?php.*?\/\* prettier-ignore-start \*\/\^\^\^(.*?)\^\^\^\/\* prettier-ignore-end \*\/.*?\?>/gs,
+        /<\?php.*?\/\* blade_comment_start \*\/ \?>(.*?)<\?php \/\* blade_comment_end \*\/.*?\?>/gs,
         (match, p1) => {
           return `{{--${p1}--}}`;
         },
@@ -218,26 +204,47 @@ export function unindent(directive, content, level, options) {
 }
 
 export function preserveDirectives(content) {
-  return _.replace(
-    content,
-    // eslint-disable-next-line max-len
-    /@(foreach|for|if)([\s]*?)\((.*?)\)(.*?)(@end\1)/gs,
-    (match, p1, p2, p3, p4, p5) => {
-      // eslint-disable-next-line max-len
-      return `<beautify start="@${p1}${p2}" end="${p5}" exp="^^^${p3}^^^">${p4}</beautify>`;
-    },
-  );
+  return new Promise((resolve) => resolve(content))
+    .then((res) => {
+      return _.replace(
+        res,
+        // eslint-disable-next-line max-len
+        /@(foreach|for|if)([\s]*?)\(((?:[^)(]+|\((?:[^)(]+|\([^)(]*\))*\))*)\)/gs,
+        (match, p1, p2, p3) => {
+          // eslint-disable-next-line max-len
+          return `<beautify start="@${p1}${p2}" exp="^^^${p3}^^^">`;
+        },
+      );
+    })
+    .then((res) => {
+      return _.replace(
+        res,
+        // eslint-disable-next-line max-len
+        /@end(foreach|for|if)/gs,
+        (match, p1) => {
+          // eslint-disable-next-line max-len
+          return `</beautify end="@end${p1}">`;
+        },
+      );
+    });
 }
 
-export function revertDirectives(content, options) {
-  return _.replace(
-    content,
-    // eslint-disable-next-line max-len
-    /<beautify.*?start="(.*?)".*?end="(.*?)".*?exp="\^\^\^(.*?)\^\^\^">(.*?)<\/beautify>/gs,
-    (match, p1, p2, p3, p4) => {
-      return `${p1}(${p3})${unindent(p1, p4, 1, options)}${p2}`;
-    },
-  );
+export function revertDirectives(content) {
+  return new Promise((resolve) => resolve(content))
+    .then((res) => {
+      return _.replace(
+        res,
+        /<beautify.*?start="(.*?)".*?exp="\^\^\^(.*?)\^\^\^">/gs,
+        (match, p1, p2) => {
+          return `${p1}(${p2})`;
+        },
+      );
+    })
+    .then((res) => {
+      return _.replace(res, /<\/beautify end="(.*?)">/gs, (match, p1) => {
+        return `${p1}`;
+      });
+    });
 }
 
 export function printDescription() {
