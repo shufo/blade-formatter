@@ -95,7 +95,7 @@ export async function prettifyPhpContentWithUnescapedTags(content) {
   return new Promise((resolve) => resolve(content))
     .then((res) =>
       _.replace(res, /\{\{([^-].*?)\}\}/gs, (match, p1) => {
-        return `<?php /*blade*/ ${p1} /*blade*/ ?>`;
+        return `<?php __BLADE__; ${p1}; __BLADE__; ?>`;
       }),
     )
     .then((res) =>
@@ -114,9 +114,9 @@ export async function prettifyPhpContentWithUnescapedTags(content) {
     .then((res) =>
       _.replace(
         res,
-        /<\?php[\s\n]*?\/\*blade\*\/\s(.*?)\s\/\*blade\*\/[\s\n]*?\?>/gs,
+        /<\?php[\s\n]*?__BLADE__;[\n\s]*?(.*?);[\n\s]*?__BLADE__;[\s\n]*?\?>/gs,
         (match, p1) => {
-          return `{{ ${p1} }}`.replace(/([\n\s]*)->([\n\s]*)/gs, '->');
+          return `{{ ${p1.trim()} }}`.replace(/([\n\s]*)->([\n\s]*)/gs, '->');
         },
       ),
     );

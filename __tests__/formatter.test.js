@@ -906,4 +906,26 @@ describe('formatter', () => {
       assert.equal(result, expected);
     });
   });
+
+  test('should keep format even if @include directive exists', async () => {
+    const content = [
+      `{{ Form::open(['route' => 'withdraw.withdraw', 'method' => 'post', 'id'=>'form01']) }}`,
+      `{{ Form::close() }}`,
+      ``,
+      `@include('common.footer_js')`,
+      ``,
+    ].join('\n');
+
+    const expected = [
+      `{{ Form::open(['route' => 'withdraw.withdraw', 'method' => 'post', 'id' => 'form01']) }}`,
+      `{{ Form::close() }}`,
+      ``,
+      `@include('common.footer_js')`,
+      ``,
+    ].join('\n');
+
+    return new BladeFormatter().format(content).then((result) => {
+      assert.equal(result, expected);
+    });
+  });
 });
