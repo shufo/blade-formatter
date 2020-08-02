@@ -1,3 +1,16 @@
+## [1.6.2](https://github.com/shufo/blade-formatter/compare/v1.6.1...v1.6.2) (2020-08-02)
+
+
+### Bug Fixes
+
+* 🐛 comment in blade directive causes unexpected result ([19c4f6f](https://github.com/shufo/blade-formatter/commit/19c4f6facc9d422e0ede7c8411f46241375d3daf))
+
+
+
+## [1.6.1](https://github.com/shufo/blade-formatter/compare/v1.6.0...v1.6.1) (2020-08-02)
+
+
+
 # [1.6.0](https://github.com/shufo/blade-formatter/compare/v1.5.4...v1.6.0) (2020-07-30)
 
 
