@@ -174,6 +174,7 @@ export function revertOriginalPhpTagInHtml(content) {
     .then((res) =>
       _.replace(
         res,
+        // eslint-disable-next-line max-len
         /<\?php.*?\/\* blade_comment_start \*\/ \?>(.*?)<\?php \/\* blade_comment_end \*\/.*?\?>/gs,
         (match, p1) => {
           return `{{--${p1}--}}`;
@@ -204,9 +205,9 @@ export function unindent(directive, content, level, options) {
 
 export function preserveDirectives(content) {
   return new Promise((resolve) => resolve(content))
-    .then((content) => {
+    .then((res) => {
       return _.replace(
-        content,
+        res,
         // eslint-disable-next-line max-len
         /@(foreach|for|if)([\s]*?)\(((?:[^)(]+|\((?:[^)(]+|\([^)(]*\))*\))*)\)/gs,
         (match, p1, p2, p3) => {
@@ -215,12 +216,12 @@ export function preserveDirectives(content) {
         },
       );
     })
-    .then((content) => {
+    .then((res) => {
       return _.replace(
-        content,
+        res,
         // eslint-disable-next-line max-len
         /@end(foreach|for|if)/gs,
-        (match, p1, p2, p3) => {
+        (match, p1) => {
           // eslint-disable-next-line max-len
           return `</beautify end="@end${p1}">`;
         },
@@ -228,19 +229,19 @@ export function preserveDirectives(content) {
     });
 }
 
-export function revertDirectives(content, options) {
+export function revertDirectives(content) {
   return new Promise((resolve) => resolve(content))
-    .then((content) => {
+    .then((res) => {
       return _.replace(
-        content,
+        res,
         /<beautify.*?start="(.*?)".*?exp="\^\^\^(.*?)\^\^\^">/gs,
         (match, p1, p2) => {
           return `${p1}(${p2})`;
         },
       );
     })
-    .then((content) => {
-      return _.replace(content, /<\/beautify end="(.*?)">/gs, (match, p1) => {
+    .then((res) => {
+      return _.replace(res, /<\/beautify end="(.*?)">/gs, (match, p1) => {
         return `${p1}`;
       });
     });
