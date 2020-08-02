@@ -1,3 +1,14 @@
+## [1.6.3](https://github.com/shufo/blade-formatter/compare/v1.6.2...v1.6.3) (2020-08-02)
+
+
+### Bug Fixes
+
+* 🐛 add while ~ endwhile for formatting target ([8ef5b33](https://github.com/shufo/blade-formatter/commit/8ef5b333a5157ddb32e761c10221ffcad2d7af37))
+* 🐛 add while ~ endwhile to replace pattern ([5cfa7b3](https://github.com/shufo/blade-formatter/commit/5cfa7b3c554ec53077e845b83bd6f9856b5925d5))
+* 🐛 pad no whitespaces if calculated whitespaces less than 0 ([552af4a](https://github.com/shufo/blade-formatter/commit/552af4a9526fe4a08537217da53cda9c8ba503c4))
+
+
+
 ## [1.6.2](https://github.com/shufo/blade-formatter/compare/v1.6.1...v1.6.2) (2020-08-02)
 
 
