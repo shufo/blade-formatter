@@ -57,6 +57,14 @@ export const tokenForIndentStartOrElseTokens = ['@forelse'];
 
 export const indentStartOrElseTokens = ['@empty'];
 
+export const phpKeywordStartTokens = ['@if', '@for', '@foreach', '@while'];
+export const phpKeywordEndTokens = [
+  '@endif',
+  '@endfor',
+  '@endforeach',
+  '@endwhile',
+];
+
 export function hasStartAndEndToken(tokenizeLineResult, originalLine) {
   return (
     _.filter(tokenizeLineResult.tokens, (tokenStruct) => {

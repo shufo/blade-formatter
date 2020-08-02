@@ -5,6 +5,8 @@ import {
   indentStartOrElseTokens,
   tokenForIndentStartOrElseTokens,
   hasStartAndEndToken,
+  phpKeywordStartTokens,
+  phpKeywordEndTokens,
 } from './indent';
 import * as util from './util';
 import * as vsctm from './vsctm';
@@ -90,12 +92,12 @@ export default class Formatter {
   }
 
   processKeyword(token) {
-    if (_.includes(['@if', '@foreach', '@for'], token)) {
+    if (_.includes(phpKeywordStartTokens, token)) {
       this.stack.push(token);
       return;
     }
 
-    if (_.includes(['@endif', '@endforeach', '@endfor'], token)) {
+    if (_.includes(phpKeywordEndTokens, token)) {
       if (_.last(this.stack) !== '@hasSection') {
         this.stack.pop();
         return;
