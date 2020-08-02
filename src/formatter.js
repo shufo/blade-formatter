@@ -13,6 +13,7 @@ const os = require('os');
 const beautify = require('js-beautify').html;
 const _ = require('lodash');
 const vscodeTmModule = require('vscode-textmate');
+const detectIndent = require('detect-indent');
 
 export default class Formatter {
   constructor(options) {
@@ -44,7 +45,6 @@ export default class Formatter {
       indent_size: util.optional(this.options).indentSize || 4,
       wrap_line_length: util.optional(this.options).wrapLineLength || 120,
       end_with_newline: util.optional(this.options).endWithNewline || true,
-      unformatted_content_delimiter: "'^^^'",
     };
 
     const promise = new Promise((resolve) => resolve(data))
@@ -90,6 +90,18 @@ export default class Formatter {
   }
 
   processKeyword(token) {
+    if (_.includes(['@if', '@foreach', '@for'], token)) {
+      this.stack.push(token);
+      return;
+    }
+
+    if (_.includes(['@endif', '@endforeach', '@endfor'], token)) {
+      if (_.last(this.stack) !== '@hasSection') {
+        this.stack.pop();
+        return;
+      }
+    }
+
     if (_.includes(indentStartOrElseTokens, token)) {
       if (_.includes(tokenForIndentStartOrElseTokens, _.last(this.stack))) {
         this.currentIndentLevel -= 1;
@@ -178,17 +190,14 @@ export default class Formatter {
   }
 
   insertFormattedLineToResult(originalLine) {
-    let calculatedIndentLevel = this.currentIndentLevel;
+    const originalLineWhitespaces = detectIndent(originalLine).amount;
+    const indentChar = this.indentCharacter;
+    const indentSize = this.indentSize;
+    const whitespaces =
+      originalLineWhitespaces + indentSize * this.currentIndentLevel;
 
-    if (calculatedIndentLevel < 0) {
-      calculatedIndentLevel = 0;
-    }
-
-    const indentWhiteSpace = this.indentCharacter.repeat(
-      calculatedIndentLevel * this.indentSize,
-    );
-
-    const formattedLine = indentWhiteSpace + originalLine;
+    const formattedLine =
+      indentChar.repeat(whitespaces) + originalLine.trimLeft();
 
     // blankline
     if (originalLine.length === 0) {

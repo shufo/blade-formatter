@@ -397,8 +397,8 @@ describe('formatter', () => {
     const expected = [
       `<?php`,
       `/**`,
-      ` * @var \Modules\Common\PageDataBuilderV2\RenderableItems\Card $card`,
-      ` */`,
+      `* @var \Modules\Common\PageDataBuilderV2\RenderableItems\Card $card`,
+      `*/`,
       `?>`,
       `@extends('layouts.mainLayout')`,
       ``,
@@ -770,7 +770,7 @@ describe('formatter', () => {
     const expected = [
       `<?php`,
       `/* Some comments on this template`,
-      ` */`,
+      `*/`,
       `?>`,
       `<div class="font-ext-links">`,
       `    <a class="btn btn-cta" href="{{ url('download/' . $font->slug) }}" title="Download {{ $font->title }}">`,
@@ -823,8 +823,8 @@ describe('formatter', () => {
     ].join('\n');
 
     const expected = [
-      `<body class="hold-transition login-page" @if (config('admin.login_background_image'))style="background:`,
-      `    url({{ config('admin.login_background_image') }}) no-repeat;background-size: cover;"`,
+      `<body class="hold-transition login-page" @if (config('admin.login_background_image'))`,
+      `    style="background: url({{ config('admin.login_background_image') }}) no-repeat;background-size: cover;"`,
       `    @endif>`,
       ``,
     ].join('\n');
