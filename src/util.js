@@ -3,7 +3,11 @@ const fs = require('fs');
 const chalk = require('chalk');
 const prettier = require('prettier');
 const detectIndent = require('detect-indent');
-const { indentStartTokens } = require('./indent');
+const {
+  indentStartTokens,
+  phpKeywordStartTokens,
+  phpKeywordEndTokens,
+} = require('./indent');
 
 export const optional = (obj) => {
   const chain = {
@@ -206,26 +210,21 @@ export function unindent(directive, content, level, options) {
 export function preserveDirectives(content) {
   return new Promise((resolve) => resolve(content))
     .then((res) => {
-      return _.replace(
-        res,
-        // eslint-disable-next-line max-len
-        /@(foreach|for|if)([\s]*?)\(((?:[^)(]+|\((?:[^)(]+|\([^)(]*\))*\))*)\)/gs,
-        (match, p1, p2, p3) => {
-          // eslint-disable-next-line max-len
-          return `<beautify start="@${p1}${p2}" exp="^^^${p3}^^^">`;
-        },
+      const regex = new RegExp(
+        `(${phpKeywordStartTokens.join(
+          '|',
+        )})([\\s]*?)\\(((?:[^)(]+|\\((?:[^)(]+|\\([^)(]*\\))*\\))*)\\)`,
+        'gs',
       );
+      return _.replace(res, regex, (match, p1, p2, p3) => {
+        return `<beautify start="${p1}${p2}" exp="^^^${p3}^^^">`;
+      });
     })
     .then((res) => {
-      return _.replace(
-        res,
-        // eslint-disable-next-line max-len
-        /@end(foreach|for|if)/gs,
-        (match, p1) => {
-          // eslint-disable-next-line max-len
-          return `</beautify end="@end${p1}">`;
-        },
-      );
+      const regex = new RegExp(`(${phpKeywordEndTokens.join('|')})`, 'gs');
+      return _.replace(res, regex, (match, p1) => {
+        return `</beautify end="${p1}">`;
+      });
     });
 }
 
