@@ -176,6 +176,9 @@ new BladeFormatter(options).format(input).then((formatted) => {
 });
 ```
 
+## Extension
+- [vscode-blade-formatter](https://github.com/shufo/vscode-blade-formatter) - [VSCode](https://code.visualstudio.com/) Extension
+
 ## Contributing
 
 1.  Fork it
