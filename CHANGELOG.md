@@ -1,3 +1,12 @@
+## [1.6.4](https://github.com/shufo/blade-formatter/compare/v1.6.3...v1.6.4) (2020-08-04)
+
+
+### Bug Fixes
+
+* 🐛 support case insensitive directive ([fbb3a6d](https://github.com/shufo/blade-formatter/commit/fbb3a6d30e006f83f0da483f8cd4e6087f7cea9f))
+
+
+
 ## [1.6.3](https://github.com/shufo/blade-formatter/compare/v1.6.2...v1.6.3) (2020-08-02)
 
 
