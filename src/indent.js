@@ -11,7 +11,7 @@ export const indentStartTokens = [
   '@foreach',
   '@forelse',
   '@guest',
-  '@hasSection',
+  '@hassection',
   '@if',
   '@isset',
   '@permission',

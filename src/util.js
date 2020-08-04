@@ -214,14 +214,14 @@ export function preserveDirectives(content) {
         `(${phpKeywordStartTokens.join(
           '|',
         )})([\\s]*?)\\(((?:[^)(]+|\\((?:[^)(]+|\\([^)(]*\\))*\\))*)\\)`,
-        'gs',
+        'gis',
       );
       return _.replace(res, regex, (match, p1, p2, p3) => {
         return `<beautify start="${p1}${p2}" exp="^^^${p3}^^^">`;
       });
     })
     .then((res) => {
-      const regex = new RegExp(`(${phpKeywordEndTokens.join('|')})`, 'gs');
+      const regex = new RegExp(`(${phpKeywordEndTokens.join('|')})`, 'gis');
       return _.replace(res, regex, (match, p1) => {
         return `</beautify end="${p1}">`;
       });

@@ -245,6 +245,44 @@ describe('formatter', () => {
       });
   });
 
+  test('directive token should case insensitive', () => {
+    const content = [
+      `<div>`,
+      `@Section('foo')`,
+      `@section('bar')`,
+      `@if($user)`,
+      `{{ $user->name }}`,
+      `@foreach($users as $user)`,
+      `{{ $user->id }}`,
+      `@endForeach`,
+      `@endIf`,
+      `@endSection`,
+      `</div>`,
+      ``,
+    ].join('\n');
+
+    const expected = [
+      `<div>`,
+      `    @Section('foo')`,
+      `    @section('bar')`,
+      `        @if ($user)`,
+      `            {{ $user->name }}`,
+      `            @foreach ($users as $user)`,
+      `                {{ $user->id }}`,
+      `            @endForeach`,
+      `        @endIf`,
+      `    @endSection`,
+      `</div>`,
+      ``,
+    ].join('\n');
+
+    return formatter()
+      .formatContent(content)
+      .then(function (result) {
+        assert.equal(result, expected);
+      });
+  });
+
   test('multiple section directive test', function () {
     const content = [
       `<div>`,

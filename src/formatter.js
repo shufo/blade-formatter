@@ -98,7 +98,7 @@ export default class Formatter {
     }
 
     if (_.includes(phpKeywordEndTokens, token)) {
-      if (_.last(this.stack) !== '@hasSection') {
+      if (_.last(this.stack) !== '@hassection') {
         this.stack.pop();
         return;
       }
@@ -164,7 +164,7 @@ export default class Formatter {
       return;
     }
 
-    this.processKeyword(token);
+    this.processKeyword(token.toLowerCase());
   }
 
   processTokenizeResult(tokenizeLineResult, originalLine) {
