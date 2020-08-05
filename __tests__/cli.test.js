@@ -6,6 +6,7 @@ const path = require('path');
 const os = require('os');
 const cmd = require('./support/cmd');
 const util = require('./support/util');
+const { spawnSync } = require('child_process');
 
 describe('The blade formatter CLI', () => {
   test('should print the help', async function () {
@@ -238,6 +239,30 @@ describe('The blade formatter CLI', () => {
         '__tests__',
         'fixtures',
         'formatted.if_nest.blade.php',
+      ),
+    );
+
+    expect(cmdResult).toEqual(formatted.toString('utf-8'));
+  });
+
+  test('stdin option', async () => {
+    const cmdResult = await spawnSync(
+      '/bin/cat',
+      [
+        '__tests__/fixtures/index.blade.php',
+        '|',
+        './bin/blade-formatter',
+        '--stdin',
+      ],
+      { stdio: 'pipe', shell: true },
+    ).stdout.toString();
+
+    const formatted = fs.readFileSync(
+      path.resolve(
+        __basedir,
+        '__tests__',
+        'fixtures',
+        'formatted.index.blade.php',
       ),
     );
 
