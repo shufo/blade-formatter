@@ -26,6 +26,7 @@
   "dependencies": {
     "@prettier/plugin-php": "^0.14.0",
     "chalk": "^4.1.0",
+    "concat-stream": "^2.0.0",
     "detect-indent": "^6.0.0",
     "esm": "^3.2.25",
     "glob": "^7.1.4",
@@ -42,7 +43,6 @@
     "@babel/preset-env": "^7.6.3",
     "app-root-path": "^3.0.0",
     "babel-jest": "^26.1.0",
-    "concat-stream": "^2.0.0",
     "eslint": "^6.5.1",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-config-prettier": "^6.4.0",

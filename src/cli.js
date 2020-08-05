@@ -1,4 +1,5 @@
 import yargs from 'yargs';
+import concat from 'concat-stream';
 import { BladeFormatter } from './main';
 
 export default async function cli() {
@@ -50,9 +51,25 @@ export default async function cli() {
       description: 'Print progress',
       default: false,
     })
+    .option('stdin', {
+      type: 'boolean',
+      description: 'format code provided on <STDIN>',
+      default: false,
+    })
     .help('h')
     .alias('h', 'help')
     .epilog('Copyright Shuhei Hayashibara 2019').argv;
+
+  if (argv.stdin) {
+    await process.stdin.pipe(
+      concat({ encoding: 'string' }, (text) => {
+        return new BladeFormatter(argv)
+          .format(text)
+          .then((result) => process.stdout.write(result));
+      }),
+    );
+    return;
+  }
 
   if (argv._.length === 0) {
     yargs.showHelp();

@@ -148,6 +148,7 @@ $ blade-formatter -c -d resources/**/*.blade.php
 |`--indent-size`, `-i`|Indentation size|4|
 |`--wrap-line-length`, `--wrap`|The length of line wrap size|120|
 |`--end-with-newline`, `-e`|End output with newline|true|
+|`--stdin`|format code provided on `<STDIN>` |false|
 |`--help`, `-h`|Show help||
 |`--version`, `-v`|Show version||
 
