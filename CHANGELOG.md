@@ -1,3 +1,17 @@
+# [1.7.0](https://github.com/shufo/blade-formatter/compare/v1.6.4...v1.7.0) (2020-08-08)
+
+
+### Bug Fixes
+
+* 🐛 typo command example ([e5498ec](https://github.com/shufo/blade-formatter/commit/e5498ec59ea7f023b1990fe833115a95ed6f0361))
+
+
+### Features
+
+* 🎸 support stdin input ([#124](https://github.com/shufo/blade-formatter/issues/124)) ([b180522](https://github.com/shufo/blade-formatter/commit/b180522f3f1801e9def2773f11851feaea0f9628)), closes [#123](https://github.com/shufo/blade-formatter/issues/123) [#110](https://github.com/shufo/blade-formatter/issues/110) [#123](https://github.com/shufo/blade-formatter/issues/123)
+
+
+
 ## [1.6.4](https://github.com/shufo/blade-formatter/compare/v1.6.3...v1.6.4) (2020-08-04)
 
 
