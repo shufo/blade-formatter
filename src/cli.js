@@ -6,7 +6,7 @@ export default async function cli() {
   const argv = await yargs
     .usage('Usage: $0 [options] [file glob | ...]')
     .example(
-      '$0 resources/views/**/*.blade.php --overwrite',
+      '$0 "resources/views/**/*.blade.php" --write',
       'Format all files in views directory',
     )
     .option('check-formatted', {
