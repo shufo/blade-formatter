@@ -49,7 +49,7 @@ export default async function cli() {
       alias: 'wrap-atts',
       type: 'string',
       description: 'The way to wrap attributes',
-      default: "auto",
+      default: 'auto',
     })
     .option('progress', {
       alias: 'p',
