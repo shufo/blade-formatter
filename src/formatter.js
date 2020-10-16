@@ -25,7 +25,7 @@ export default class Formatter {
     this.indentCharacter = util.optional(this.options).useTabs ? '\t' : ' ';
     this.indentSize = util.optional(this.options).indentSize || 4;
     this.wrapLineLength = util.optional(this.options).wrapLineLength || 120;
-    this.wrapAttributes = util.optional(this.options).wrapAttributes || "auto";
+    this.wrapAttributes = util.optional(this.options).wrapAttributes || 'auto';
     this.currentIndentLevel = 0;
     this.shouldBeIndent = false;
     this.isInsideCommentBlock = false;
@@ -48,7 +48,7 @@ export default class Formatter {
     const options = {
       indent_size: util.optional(this.options).indentSize || 4,
       wrap_line_length: util.optional(this.options).wrapLineLength || 120,
-      wrap_attributes: util.optional(this.options).wrapAttributes || "auto",
+      wrap_attributes: util.optional(this.options).wrapAttributes || 'auto',
       end_with_newline: util.optional(this.options).endWithNewline || true,
     };
 
