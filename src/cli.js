@@ -45,6 +45,12 @@ export default async function cli() {
       description: 'The length of line wrap size',
       default: 120,
     })
+    .option('wrap-attributes', {
+      alias: 'wrap-atts',
+      type: 'string',
+      description: 'The way to wrap attributes',
+      default: 'auto',
+    })
     .option('progress', {
       alias: 'p',
       type: 'boolean',
