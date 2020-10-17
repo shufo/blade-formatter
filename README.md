@@ -150,7 +150,7 @@ $ blade-formatter -c -d resources/**/*.blade.php
 |`--diff`, `-d`|Show differences|false|
 |`--indent-size`, `-i`|Indentation size|4|
 |`--wrap-line-length`, `--wrap`|The length of line wrap size|120|
-|`--wrap-attributes,`, `--wrap-atts`|The way to wrap attributes. [auto|force|force-aligned|force-expand-multiline|aligned-multiple|preserve|preserve-aligned] |`auto`|
+|`--wrap-attributes,`, `--wrap-atts`|The way to wrap attributes. `[auto|force|force-aligned|force-expand-multiline|aligned-multiple|preserve|preserve-aligned]` |`auto`|
 |`--end-with-newline`, `-e`|End output with newline|true|
 |`--stdin`|format code provided on `<STDIN>` |false|
 |`--help`, `-h`|Show help||
