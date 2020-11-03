@@ -145,6 +145,8 @@ describe('formatter', () => {
     'slot',
     'unless',
     'verbatim',
+    'prepend',
+    'error',
   ];
 
   builtInDirectives.forEach((directive) => {
@@ -202,6 +204,40 @@ describe('formatter', () => {
         `        @endif`,
         `    @end${directive}`,
         `</section>`,
+        ``,
+      ].join('\n');
+
+      return formatter()
+        .formatContent(content)
+        .then(function (result) {
+          assert.equal(result, expected);
+        });
+    });
+  });
+
+  const tokenWithoutParams = ['auth', 'guest', 'production', 'once'];
+
+  tokenWithoutParams.forEach((directive) => {
+    test('token without param directive test', () => {
+      const content = [
+        `<div>`,
+        `@${directive}`,
+        `@if ($user)`,
+        `{{ $user->name }}`,
+        `@endif`,
+        `@end${directive}`,
+        `</div>`,
+        ``,
+      ].join('\n');
+
+      const expected = [
+        `<div>`,
+        `    @${directive}`,
+        `        @if ($user)`,
+        `            {{ $user->name }}`,
+        `        @endif`,
+        `    @end${directive}`,
+        `</div>`,
         ``,
       ].join('\n');
 

@@ -24,6 +24,10 @@ export const indentStartTokens = [
   '@unless',
   '@verbatim',
   '@while',
+  '@production',
+  '@prepend',
+  '@once',
+  '@error',
 ];
 
 export const indentEndTokens = [
@@ -49,6 +53,10 @@ export const indentEndTokens = [
   '@endwhile',
   '@show',
   '@stop',
+  '@endproduction',
+  '@endprepend',
+  '@endonce',
+  '@enderror',
 ];
 
 export const indentElseTokens = ['@else', '@elseenv', '@elseif'];
@@ -57,7 +65,14 @@ export const tokenForIndentStartOrElseTokens = ['@forelse'];
 
 export const indentStartOrElseTokens = ['@empty'];
 
-export const phpKeywordStartTokens = ['@if', '@for', '@foreach', '@while'];
+export const phpKeywordStartTokens = [
+  '@if',
+  '@for',
+  '@foreach',
+  '@while',
+  '@sectionmissing',
+];
+
 export const phpKeywordEndTokens = [
   '@endif',
   '@endfor',
