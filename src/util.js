@@ -217,13 +217,13 @@ export function preserveDirectives(content) {
         'gis',
       );
       return _.replace(res, regex, (match, p1, p2, p3) => {
-        return `<beautify start="${p1}${p2}" exp="^^^${p3}^^^">`;
+        return `<beautifyTag start="${p1}${p2}" exp="^^^${p3}^^^">`;
       });
     })
     .then((res) => {
       const regex = new RegExp(`(${phpKeywordEndTokens.join('|')})`, 'gis');
       return _.replace(res, regex, (match, p1) => {
-        return `</beautify end="${p1}">`;
+        return `</beautifyTag end="${p1}">`;
       });
     });
 }
@@ -233,14 +233,14 @@ export function revertDirectives(content) {
     .then((res) => {
       return _.replace(
         res,
-        /<beautify.*?start="(.*?)".*?exp="\^\^\^(.*?)\^\^\^">/gs,
+        /<beautifyTag.*?start="(.*?)".*?exp="\^\^\^(.*?)\^\^\^">/gs,
         (match, p1, p2) => {
           return `${p1}(${p2})`;
         },
       );
     })
     .then((res) => {
-      return _.replace(res, /<\/beautify end="(.*?)">/gs, (match, p1) => {
+      return _.replace(res, /<\/beautifyTag end="(.*?)">/gs, (match, p1) => {
         return `${p1}`;
       });
     });
@@ -252,4 +252,28 @@ export function printDescription() {
   process.stdout.write(chalk.bold.green('Fixed: F\n'));
   process.stdout.write(chalk.bold.red('Errors: E\n'));
   process.stdout.write(chalk.bold('Not Changed: ') + chalk.bold.green('.\n'));
+}
+
+const escapeTags = [
+  '/\\*\\* phptag_start \\*\\*/',
+  '/\\*\\* end_phptag \\*\\*/',
+  '/\\*escaped\\*/',
+  '__BLADE__;',
+  '/\\* blade_comment_start \\*/',
+  '/\\* blade_comment_end \\*/',
+  'beautifyTag',
+];
+
+export function checkResult(formatted) {
+  if (new RegExp(escapeTags.join('|')).test(formatted)) {
+    throw new Error(
+      [
+        `Can't format blade: something goes wrong.`,
+        // eslint-disable-next-line max-len
+        `Please check if template is too complicated or not. Or simplify template might solves issue.`,
+      ].join('\n'),
+    );
+  }
+
+  return formatted;
 }

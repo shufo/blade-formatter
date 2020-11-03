@@ -268,4 +268,44 @@ describe('The blade formatter CLI', () => {
 
     expect(cmdResult).toEqual(formatted.toString('utf-8'));
   });
+
+  test('show error message if unexpected syntax', async () => {
+    const cmdResult = await spawnSync(
+      '/bin/cat',
+      [
+        '__tests__/fixtures/escaped_bug.blade.php',
+        '|',
+        './bin/blade-formatter',
+        '--stdin',
+      ],
+      { stdio: 'pipe', shell: true },
+    ).stdout.toString();
+
+    expect(cmdResult).toEqual(expect.stringContaining("Can't format blade"));
+  });
+
+  test('Do nothing if something goes wrong #128', async () => {
+    const originalContent = fs.readFileSync(
+      path.resolve(__basedir, '__tests__', 'fixtures', 'escaped_bug.blade.php'),
+    );
+
+    await cmd.execute(
+      path.resolve(__basedir, 'bin', 'blade-formatter'),
+      [
+        path.resolve(
+          __basedir,
+          '__tests__',
+          'fixtures',
+          'escaped_bug.blade.php',
+        ),
+      ],
+      '-w',
+    );
+
+    const result = fs.readFileSync(
+      path.resolve(__basedir, '__tests__', 'fixtures', 'escaped_bug.blade.php'),
+    );
+
+    expect(originalContent).toEqual(result);
+  });
 });

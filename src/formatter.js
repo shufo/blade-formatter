@@ -39,9 +39,7 @@ export default class Formatter {
       .formatAsPhp(content)
       .then((formattedAsPhp) => this.formatAsHtml(formattedAsPhp))
       .then((formattedAsHtml) => this.formatAsBlade(formattedAsHtml))
-      .then((formattedAsBlade) => {
-        return formattedAsBlade;
-      });
+      .then((formattedResult) => util.checkResult(formattedResult));
   }
 
   formatAsHtml(data) {

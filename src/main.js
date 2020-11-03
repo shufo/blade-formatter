@@ -21,7 +21,9 @@ export class BladeFormatter {
 
   format(content, opts = {}) {
     const options = this.options || opts;
-    return new Formatter(options).formatContent(content);
+    return new Formatter(options)
+      .formatContent(content)
+      .catch((err) => console.log(err));
   }
 
   async formatFromCLI() {
