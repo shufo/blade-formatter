@@ -1,3 +1,12 @@
+# [1.9.0](https://github.com/shufo/blade-formatter/compare/v1.8.1...v1.9.0) (2020-11-03)
+
+
+### Features
+
+* 🎸 add supported directives ([2f25d44](https://github.com/shufo/blade-formatter/commit/2f25d44481d3552a76b7c8f4c52c07405fa33e68))
+
+
+
 ## [1.8.1](https://github.com/shufo/blade-formatter/compare/v1.8.0...v1.8.1) (2020-11-03)
 
 
