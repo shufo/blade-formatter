@@ -1,3 +1,12 @@
+## [1.8.1](https://github.com/shufo/blade-formatter/compare/v1.8.0...v1.8.1) (2020-11-03)
+
+
+### Bug Fixes
+
+* 🐛 do nothing if something goes wrong while formatting ([d46c7e6](https://github.com/shufo/blade-formatter/commit/d46c7e6a28d32d655518158e53f4d96a103255d2)), closes [#128](https://github.com/shufo/blade-formatter/issues/128)
+
+
+
 # [1.8.0](https://github.com/shufo/blade-formatter/compare/v1.7.0...v1.8.0) (2020-10-17)
 
 
