@@ -1,3 +1,12 @@
+## [1.9.1](https://github.com/shufo/blade-formatter/compare/v1.9.0...v1.9.1) (2020-11-05)
+
+
+### Bug Fixes
+
+* 🐛 add newline escape character for escaped tag ([62c3449](https://github.com/shufo/blade-formatter/commit/62c3449c1e90b61d1ef834d74d243fc0f40bba43)), closes [#166](https://github.com/shufo/blade-formatter/issues/166)
+
+
+
 # [1.9.0](https://github.com/shufo/blade-formatter/compare/v1.8.1...v1.9.0) (2020-11-03)
 
 
