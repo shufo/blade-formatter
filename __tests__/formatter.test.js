@@ -1098,4 +1098,23 @@ describe('formatter', () => {
       assert.equal(result, expected);
     });
   });
+
+  test('escaped brace without line return issue shufo/vscode-blade-formatter#12', async () => {
+    const content = [
+      `{!! Form::open(['method' => 'DELETE', 'route' => ['roles.destroy', $role->id], 'style' => 'display:inline']) !!}`,
+      `{!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}`,
+      `{!! Form::close() !!}`,
+    ].join('\n');
+
+    const expected = [
+      `{!! Form::open(['method' => 'DELETE', 'route' => ['roles.destroy', $role->id], 'style' => 'display:inline']) !!}`,
+      `{!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}`,
+      `{!! Form::close() !!}`,
+      ``,
+    ].join('\n');
+
+    return new BladeFormatter().format(content).then((result) => {
+      assert.equal(result, expected);
+    });
+  });
 });

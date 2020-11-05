@@ -129,10 +129,10 @@ export async function prettifyPhpContentWithUnescapedTags(content) {
 export async function prettifyPhpContentWithEscapedTags(content) {
   return new Promise((resolve) => resolve(content))
     .then((res) => _.replace(res, /{!!/g, '<?php /*escaped*/'))
-    .then((res) => _.replace(res, /!!}/g, '/*escaped*/ ?>'))
+    .then((res) => _.replace(res, /!!}/g, '/*escaped*/ ?>\n'))
     .then((res) => formatStringAsPhp(res))
     .then((res) => _.replace(res, /<\?php\s\/\*escaped\*\//g, '{!! '))
-    .then((res) => _.replace(res, /\/\*escaped\*\/\s\?>/g, ' !!}'));
+    .then((res) => _.replace(res, /\/\*escaped\*\/\s\?>\n/g, ' !!}'));
 }
 
 export async function removeSemicolon(content) {
