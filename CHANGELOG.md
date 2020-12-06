@@ -1,3 +1,12 @@
+## [1.9.2](https://github.com/shufo/blade-formatter/compare/v1.9.1...v1.9.2) (2020-12-06)
+
+
+### Bug Fixes
+
+* 🐛 catch exception for loading wasm ([3d647c7](https://github.com/shufo/blade-formatter/commit/3d647c7f4b7b766908ddaec973acb12f52f5535d))
+
+
+
 ## [1.9.1](https://github.com/shufo/blade-formatter/compare/v1.9.0...v1.9.1) (2020-11-05)
 
 
@@ -204,11 +213,11 @@ via BladeFormatter.format()
 
 ### Bug Fixes
 
-* **formatter:** do not insert padding in blankline ([ab369bd](https://github.com/shufo/blade-formatter/commit/ab369bd2300a7398e0aa68d155bcb74727b715ea)), closes [#48](https://github.com/shufo/blade-formatter/issues/48)
-* **formatter:** fix indentation problem on inline directive and html tags are mixed refs [#3](https://github.com/shufo/blade-formatter/issues/3) ([00b85a3](https://github.com/shufo/blade-formatter/commit/00b85a3dffee3e90690477130f34f9c8f31a18ed))
 * 🐛 allow Release string to put anyware ([98b2992](https://github.com/shufo/blade-formatter/commit/98b2992203ffeaecb90c7254b96565dfa35f4b51))
 * 🐛 fix minimum support version to 10.x ([e5974d9](https://github.com/shufo/blade-formatter/commit/e5974d98876f5d9cda5bc34b1a1931205f20dd22))
 * 🐛 preserve original if attempting overwrite with nothing ([268b604](https://github.com/shufo/blade-formatter/commit/268b6041b5a2bf98b8b29580c9c433184928a934))
+* **formatter:** do not insert padding in blankline ([ab369bd](https://github.com/shufo/blade-formatter/commit/ab369bd2300a7398e0aa68d155bcb74727b715ea)), closes [#48](https://github.com/shufo/blade-formatter/issues/48)
+* **formatter:** fix indentation problem on inline directive and html tags are mixed refs [#3](https://github.com/shufo/blade-formatter/issues/3) ([00b85a3](https://github.com/shufo/blade-formatter/commit/00b85a3dffee3e90690477130f34f9c8f31a18ed))
 
 
 ### Features
