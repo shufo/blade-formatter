@@ -15,7 +15,12 @@ export class VscodeTextmate {
     const wasm = fs.readFileSync(`${__dirname}/../wasm/onig.wasm`).buffer;
 
     if (!this.oniguruma.initCalled) {
-      this.oniguruma.loadWASM(wasm);
+      try {
+        this.oniguruma.loadWASM(wasm);
+      } catch (error) {
+        this.oniguruma.initCalled = true;
+      }
+
       this.oniguruma.initCalled = true;
     }
   }
