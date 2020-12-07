@@ -38,7 +38,7 @@ export function splitByLines(content) {
 }
 
 export function formatStringAsPhp(content) {
-  return prettier.format(content, {
+  return prettier.format(content.replace(/\n$/, ''), {
     parser: 'php',
     printWidth: 1000,
     singleQuote: true,
