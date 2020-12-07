@@ -1,3 +1,12 @@
+## [1.9.4](https://github.com/shufo/blade-formatter/compare/v1.9.3...v1.9.4) (2020-12-07)
+
+
+### Bug Fixes
+
+* 🐛 resolve path by require.resolve ([7ef21ed](https://github.com/shufo/blade-formatter/commit/7ef21ed8a098e186a10c9ca00d17ad63690e9c39))
+
+
+
 ## [1.9.3](https://github.com/shufo/blade-formatter/compare/v1.9.2...v1.9.3) (2020-12-07)
 
 
