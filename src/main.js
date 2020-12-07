@@ -17,6 +17,7 @@ export class BladeFormatter {
     this.diffs = [];
     this.outputs = [];
     this.formattedFiles = [];
+    this.formatter = null;
   }
 
   format(content, opts = {}) {
@@ -59,19 +60,25 @@ export class BladeFormatter {
   }
 
   async formatFiles(paths) {
+    if (!this.formatter) {
+      this.formatter = new Formatter(this.options);
+      await this.formatter.vsctmModule.loadWasm();
+    }
+
     await Promise.all(_.map(paths, async (path) => this.formatFile(path)));
   }
 
   async formatFile(path) {
-    await util
-      .readFile(path)
-      .then((data) => {
-        return Promise.resolve(data.toString('utf-8'));
-      })
-      .then((content) => new Formatter(this.options).formatContent(content))
-      .then((formatted) => this.checkFormatted(path, formatted))
-      .then((formatted) => this.writeToFile(path, formatted))
-      .catch((err) => this.handleError(path, err));
+    try {
+      const content = await util.readFile(path);
+      const formatted = await this.formatter.formatContent(
+        content.toString('utf-8'),
+      );
+      this.checkFormatted(path, formatted);
+      this.writeToFile(path, formatted);
+    } catch (err) {
+      this.handleError(path, err);
+    }
   }
 
   async checkFormatted(path, formatted) {

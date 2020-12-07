@@ -32,6 +32,7 @@ export default class Formatter {
     this.stack = [];
     this.result = [];
     this.diffs = [];
+    this.vsctmModule = new vsctm.VscodeTextmate(this.vsctm, this.oniguruma);
   }
 
   formatContent(content) {
@@ -60,22 +61,19 @@ export default class Formatter {
     return Promise.resolve(promise);
   }
 
-  formatAsBlade(content) {
+  async formatAsBlade(content) {
     const splitedLines = util.splitByLines(content);
-    const vsctmModule = new vsctm.VscodeTextmate(this.vsctm, this.oniguruma);
-    const registry = vsctmModule.createRegistry(content);
 
-    const formatted = registry
-      .loadGrammar('text.html.php.blade')
-      .then((grammar) => vsctmModule.tokenizeLines(splitedLines, grammar))
-      .then((tokenizedLines) =>
-        this.formatTokenizedLines(splitedLines, tokenizedLines),
-      )
-      .catch((err) => {
-        throw err;
-      });
+    await this.vsctmModule.loadWasm();
+    const registry = await this.vsctmModule.createRegistry();
 
-    return formatted;
+    const grammar = await registry.loadGrammar('text.html.php.blade');
+    const tokenizedLines = this.vsctmModule.tokenizeLines(
+      splitedLines,
+      grammar,
+    );
+
+    return this.formatTokenizedLines(splitedLines, tokenizedLines);
   }
 
   formatTokenizedLines(splitedLines, tokenizedLines) {

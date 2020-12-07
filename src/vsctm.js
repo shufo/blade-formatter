@@ -1,6 +1,6 @@
 import { readFile } from './util';
 
-const fs = require('fs').promises;
+const fs = require('fs');
 const path = require('path');
 const _ = require('lodash');
 const vsctmModule = require('vscode-oniguruma');
@@ -11,25 +11,26 @@ export class VscodeTextmate {
   constructor(vsctm, oniguruma) {
     this.vsctm = vsctm;
     this.oniguruma = oniguruma || vsctmModule;
-    this.loadWasm();
   }
 
   async loadWasm() {
-    const wasm = await fs.readFile(`${dirname}/../wasm/onig.wasm`);
+    if (!this.wasm) {
+      this.wasm = fs.readFileSync(`${dirname}/../wasm/onig.wasm`).buffer;
+    }
 
-    if (!this.oniguruma.initCalled) {
-      try {
-        this.oniguruma.loadWASM(wasm.buffer);
-      } catch (error) {
-        this.oniguruma.initCalled = true;
-      }
-
+    try {
+      await this.oniguruma.loadWASM(this.wasm);
+    } catch (error) {
       this.oniguruma.initCalled = true;
     }
+
+    this.oniguruma.initCalled = true;
+
+    return true;
   }
 
-  createRegistry() {
-    this.registry = new this.vsctm.Registry({
+  async createRegistry() {
+    return new this.vsctm.Registry({
       loadGrammar: (scopeName) => {
         if (scopeName === 'text.html.php.blade') {
           // https://github.com/onecentlin/
@@ -51,8 +52,6 @@ export class VscodeTextmate {
         createOnigString: (str) => new this.oniguruma.OnigString(str),
       }),
     });
-
-    return this.registry;
   }
 
   tokenizeLines(splitedLines, grammar) {
