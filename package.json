@@ -35,7 +35,7 @@
     "php-parser": "^3.0.0-prerelease.9",
     "prettier": "^2.2.0",
     "vscode-oniguruma": "^1.4.0",
-    "vscode-textmate": "^4.2.2",
+    "vscode-textmate": "^5.2.0",
     "yargs": "^15.3.0"
   },
   "devDependencies": {
