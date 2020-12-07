@@ -1,3 +1,18 @@
+## [1.9.3](https://github.com/shufo/blade-formatter/compare/v1.9.2...v1.9.3) (2020-12-07)
+
+
+### Bug Fixes
+
+* 🐛 delete unnecessary return code if exists ([f570b40](https://github.com/shufo/blade-formatter/commit/f570b40f9d40ecbac76519412fa2d5f1cf87b613))
+
+
+### Features
+
+* 🎸 bump @prettier/plugin-php to ^0.16.0 ([a8f8c26](https://github.com/shufo/blade-formatter/commit/a8f8c2653e96e1efc2dd24667a2f0b3cb09336ac))
+* 🎸 bump prettier to 2.2.0 ([671d315](https://github.com/shufo/blade-formatter/commit/671d315c660e81c982e70db304e40ca638d799bc))
+
+
+
 ## [1.9.2](https://github.com/shufo/blade-formatter/compare/v1.9.1...v1.9.2) (2020-12-06)
 
 
