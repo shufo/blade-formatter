@@ -1,8 +1,11 @@
 import { readFile } from './util';
 
-const fs = require('fs');
+const fs = require('fs').promises;
+const path = require('path');
 const _ = require('lodash');
 const vsctmModule = require('vscode-oniguruma');
+
+const dirname = path.dirname(require.resolve(module.id));
 
 export class VscodeTextmate {
   constructor(vsctm, oniguruma) {
@@ -11,12 +14,12 @@ export class VscodeTextmate {
     this.loadWasm();
   }
 
-  loadWasm() {
-    const wasm = fs.readFileSync(`${__dirname}/../wasm/onig.wasm`).buffer;
+  async loadWasm() {
+    const wasm = await fs.readFile(`${dirname}/../wasm/onig.wasm`);
 
     if (!this.oniguruma.initCalled) {
       try {
-        this.oniguruma.loadWASM(wasm);
+        this.oniguruma.loadWASM(wasm.buffer);
       } catch (error) {
         this.oniguruma.initCalled = true;
       }
@@ -33,7 +36,7 @@ export class VscodeTextmate {
           // laravel-blade-snippets-vscode/
           // blob/master/syntaxes/blade.tmLanguage.json
           return readFile(
-            `${__dirname}/../syntaxes/blade.tmLanguage.json`,
+            `${dirname}/../syntaxes/blade.tmLanguage.json`,
           ).then((content) =>
             this.vsctm.parseRawGrammar(
               content.toString(),
