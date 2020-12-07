@@ -1,3 +1,12 @@
+## [1.9.5](https://github.com/shufo/blade-formatter/compare/v1.9.4...v1.9.5) (2020-12-07)
+
+
+### Features
+
+* 🎸 bump vscode-oniguruma to 1.4.0 ([9e21997](https://github.com/shufo/blade-formatter/commit/9e21997636b0ce75a6f94e979652499c95153f32))
+
+
+
 ## [1.9.4](https://github.com/shufo/blade-formatter/compare/v1.9.3...v1.9.4) (2020-12-07)
 
 
