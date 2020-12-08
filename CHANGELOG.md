@@ -1,3 +1,13 @@
+## [1.9.6](https://github.com/shufo/blade-formatter/compare/v1.9.5...v1.9.6) (2020-12-08)
+
+
+### Bug Fixes
+
+* 🐛 revert oniguruma wasm ([3ed9ab5](https://github.com/shufo/blade-formatter/commit/3ed9ab5be81dc9a991ae5d526560e5440e9a3d9c))
+* 🐛 revert vscode-oniguruma to 1.3.1 ([9490a67](https://github.com/shufo/blade-formatter/commit/9490a6707efd09e3d7c9cb33ab7386842ac7a222))
+
+
+
 ## [1.9.5](https://github.com/shufo/blade-formatter/compare/v1.9.4...v1.9.5) (2020-12-07)
 
 
