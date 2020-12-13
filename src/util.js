@@ -1,8 +1,10 @@
 const _ = require('lodash');
 const fs = require('fs');
 const chalk = require('chalk');
-const prettier = require('prettier');
+const prettier = require('prettier/standalone');
 const detectIndent = require('detect-indent');
+const pluginPhp = require('@prettier/plugin-php');
+
 const {
   indentStartTokens,
   phpKeywordStartTokens,
@@ -43,6 +45,7 @@ export function formatStringAsPhp(content) {
     printWidth: 1000,
     singleQuote: true,
     phpVersion: '7.4',
+    plugins: [pluginPhp],
   });
 }
 
