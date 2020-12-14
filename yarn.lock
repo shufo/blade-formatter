@@ -5385,10 +5385,10 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-vscode-oniguruma@1.3.1:
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/vscode-oniguruma/-/vscode-oniguruma-1.3.1.tgz#e2383879c3485b19f533ec34efea9d7a2b14be8f"
-  integrity sha512-gz6ZBofA7UXafVA+m2Yt2zHKgXC2qedArprIsHAPKByTkwq9l5y/izAGckqxYml7mSbYxTRTfdRwsFq3cwF4LQ==
+vscode-oniguruma@1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/vscode-oniguruma/-/vscode-oniguruma-1.4.0.tgz#3795fd1ef9633a4a33f208bce92c008e64a6fc8f"
+  integrity sha512-VvTl/jIAADEqWWpEYRsOI1sXiYOTDA8KYNgK60+Mb3T+an9zPz3Cqc6RVJeYgOx/P5G+4M4jygB3X5xLLfYD0g==
 
 vscode-textmate@^4.2.2:
   version "4.4.0"
