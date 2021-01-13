@@ -1117,4 +1117,27 @@ describe('formatter', () => {
       assert.equal(result, expected);
     });
   });
+
+  test('braces without content should not occurs error', async () => {
+    const content = [
+      `<x-app-layout title="Add new client">`,
+      `    <section class="section">`,
+      `        {{ }}`,
+      `    </section>`,
+      `</x-app-layout>`,
+    ].join('\n');
+
+    const expected = [
+      `<x-app-layout title="Add new client">`,
+      `    <section class="section">`,
+      `        {{ }}`,
+      `    </section>`,
+      `</x-app-layout>`,
+      ``,
+    ].join('\n');
+
+    return new BladeFormatter().format(content).then((result) => {
+      assert.equal(result, expected);
+    });
+  });
 });
