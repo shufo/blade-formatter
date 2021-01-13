@@ -1,3 +1,13 @@
+## [1.9.7](https://github.com/shufo/blade-formatter/compare/v1.9.6...v1.9.7) (2021-01-13)
+
+
+### Bug Fixes
+
+* 🐛 allow empty curly braces ([7289348](https://github.com/shufo/blade-formatter/commit/72893480c82e7ce6f708b4d7fe3aaea037775694)), closes [#14](https://github.com/shufo/blade-formatter/issues/14)
+* 🐛 delete unnecessary escape ([28133be](https://github.com/shufo/blade-formatter/commit/28133be92b4a6228c5eb05e665a6d9111333ce08))
+
+
+
 ## [1.9.6](https://github.com/shufo/blade-formatter/compare/v1.9.5...v1.9.6) (2020-12-08)
 
 
