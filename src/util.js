@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 const _ = require('lodash');
 const fs = require('fs');
 const chalk = require('chalk');
