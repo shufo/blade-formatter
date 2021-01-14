@@ -45,16 +45,18 @@ export default class Formatter {
   formatAsHtml(data) {
     const options = {
       indent_size: util.optional(this.options).indentSize || 4,
-      wrap_line_length: util.optional(this.options).wrapLineLength || 120,
-      wrap_attributes: util.optional(this.options).wrapAttributes || 'auto',
+      wrap_line_length: util.optional(this.options).wrapLineLength || 240,
+      wrap_attributes: util.optional(this.options).wrapAttributes || 'preserve',
       end_with_newline: util.optional(this.options).endWithNewline || true,
     };
 
     const promise = new Promise((resolve) => resolve(data))
       .then((content) => util.preserveOriginalPhpTagInHtml(content))
+      .then((content) => util.preserveDirectivesInTag(content))
       .then((content) => util.preserveDirectives(content))
       .then((preserved) => beautify(preserved, options))
       .then((content) => util.revertDirectives(content, this.options))
+      .then((content) => util.revertDirectivesInTag(content, this.options))
       .then((beautified) => util.revertOriginalPhpTagInHtml(beautified));
 
     return Promise.resolve(promise);
