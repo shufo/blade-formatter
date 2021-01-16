@@ -2,6 +2,9 @@ import Formatter from '../src/formatter';
 import { BladeFormatter } from '../src/main';
 
 const assert = require('assert');
+const path = require('path');
+const fs = require('fs');
+const cmd = require('./support/cmd');
 
 const formatter = () => {
   return new Formatter({ indentSize: 4 });
@@ -1164,5 +1167,30 @@ describe('formatter', () => {
     return new BladeFormatter().format(content).then((result) => {
       assert.equal(result, expected);
     });
+  });
+
+  test('should consider directive in html tag', async () => {
+    const cmdResult = await cmd.execute(
+      path.resolve(__basedir, 'bin', 'blade-formatter'),
+      [
+        path.resolve(
+          __basedir,
+          '__tests__',
+          'fixtures',
+          'inline_php_tag.blade.php',
+        ),
+      ],
+    );
+
+    const formatted = fs.readFileSync(
+      path.resolve(
+        __basedir,
+        '__tests__',
+        'fixtures',
+        'formatted_inline_php_tag.blade.php',
+      ),
+    );
+
+    expect(cmdResult).toEqual(formatted.toString('utf-8'));
   });
 });
