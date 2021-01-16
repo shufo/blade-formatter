@@ -1,3 +1,12 @@
+## [1.9.8](https://github.com/shufo/blade-formatter/compare/v1.9.7...v1.9.8) (2021-01-16)
+
+
+### Bug Fixes
+
+* 🐛 reserve php directive in html tag ([afc1f80](https://github.com/shufo/blade-formatter/commit/afc1f8037732062d606d139a0e341f58744dd742)), closes [#129](https://github.com/shufo/blade-formatter/issues/129)
+
+
+
 ## [1.9.7](https://github.com/shufo/blade-formatter/compare/v1.9.6...v1.9.7) (2021-01-13)
 
 
