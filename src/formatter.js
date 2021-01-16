@@ -45,8 +45,8 @@ export default class Formatter {
   formatAsHtml(data) {
     const options = {
       indent_size: util.optional(this.options).indentSize || 4,
-      wrap_line_length: util.optional(this.options).wrapLineLength || 240,
-      wrap_attributes: util.optional(this.options).wrapAttributes || 'preserve',
+      wrap_line_length: util.optional(this.options).wrapLineLength || 120,
+      wrap_attributes: util.optional(this.options).wrapAttributes || 'auto',
       end_with_newline: util.optional(this.options).endWithNewline || true,
     };
 
