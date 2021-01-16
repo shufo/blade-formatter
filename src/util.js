@@ -222,11 +222,32 @@ export function preserveDirectives(content) {
       });
     })
     .then((res) => {
-      const regex = new RegExp(`(${phpKeywordEndTokens.join('|')})`, 'gis');
+      const regex = new RegExp(
+        `(?!end=".*)(${phpKeywordEndTokens.join('|')})(?!.*")`,
+        'gi',
+      );
       return _.replace(res, regex, (match, p1) => {
         return `</beautifyTag end="${p1}">`;
       });
     });
+}
+
+export function preserveDirectivesInTag(content) {
+  return new Promise((resolve) => resolve(content)).then((res) => {
+    const regex = new RegExp(
+      `(<[^>]*?)(${phpKeywordStartTokens.join(
+        '|',
+      )})([\\s]*?)\\(((?:[^)(]+|\\((?:[^)(]+|\\([^)(]*\\))*\\))*)\\)(.*?)(${phpKeywordEndTokens.join(
+        '|',
+      )})([^>]*?>)`,
+      'gis',
+    );
+    return _.replace(res, regex, (match, p1, p2, p3, p4, p5, p6, p7) => {
+      return `${p1}|-- start="${p2}${p3}" exp="^^^${p4}^^^" body="^^^${_.escape(
+        _.trim(p5),
+      )}^^^" end="${p6}" --|${p7}`;
+    });
+  });
 }
 
 export function revertDirectives(content) {
@@ -234,7 +255,7 @@ export function revertDirectives(content) {
     .then((res) => {
       return _.replace(
         res,
-        /<beautifyTag.*?start="(.*?)".*?exp="\^\^\^(.*?)\^\^\^">/gs,
+        /<beautifyTag.*?start="(.*?)".*?exp=".*?\^\^\^(.*?)\^\^\^.*?">/gs,
         (match, p1, p2) => {
           return `${p1}(${p2})`;
         },
@@ -247,6 +268,23 @@ export function revertDirectives(content) {
     });
 }
 
+export function revertDirectivesInTag(content) {
+  return new Promise((resolve) => resolve(content))
+    .then((res) => {
+      return _.replace(
+        res,
+        /\|--.*?start="(.*?)".*?exp=".*?\^\^\^(.*?)\^\^\^.*?"(.*?)body=".*?\^\^\^(.*?)\^\^\^.*?".*?end="(.*?)".*?--\|/gs,
+        (match, p1, p2, p3, p4, p5) => {
+          return `${_.trimStart(p1)}(${p2}) ${_.unescape(p4)} ${p5}`;
+        },
+      );
+    })
+    .then((res) => {
+      return _.replace(res, /\/-- end="(.*?)"--\//gs, (match, p1) => {
+        return `${p1}`;
+      });
+    });
+}
 export function printDescription() {
   const returnLine = '\n\n';
   process.stdout.write(returnLine);

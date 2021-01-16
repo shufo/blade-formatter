@@ -2,6 +2,9 @@ import Formatter from '../src/formatter';
 import { BladeFormatter } from '../src/main';
 
 const assert = require('assert');
+const path = require('path');
+const fs = require('fs');
+const cmd = require('./support/cmd');
 
 const formatter = () => {
   return new Formatter({ indentSize: 4 });
@@ -897,9 +900,7 @@ describe('formatter', () => {
     ].join('\n');
 
     const expected = [
-      `<body class="hold-transition login-page" @if (config('admin.login_background_image'))`,
-      `    style="background: url({{ config('admin.login_background_image') }}) no-repeat;background-size: cover;"`,
-      `    @endif>`,
+      `<body class="hold-transition login-page" @if (config('admin.login_background_image')) style="background: url({{ config('admin.login_background_image') }}) no-repeat;background-size: cover;" @endif>`,
       ``,
     ].join('\n');
 
@@ -1139,5 +1140,57 @@ describe('formatter', () => {
     return new BladeFormatter().format(content).then((result) => {
       assert.equal(result, expected);
     });
+  });
+
+  test('directive in html attribute should not occurs error', async () => {
+    const content = [
+      `@if (count($topics))`,
+      `    <ul class="list-group border-0">`,
+      `        @foreach ($topics as $topic)`,
+      `            <li class="list-group-item border-right-0 border-left-0 @if ($loop->first) border-top-0 @endif"></li>`,
+      `        @endforeach`,
+      `    </ul>`,
+      `@endif`,
+    ].join('\n');
+
+    const expected = [
+      `@if (count($topics))`,
+      `    <ul class="list-group border-0">`,
+      `        @foreach ($topics as $topic)`,
+      `            <li class="list-group-item border-right-0 border-left-0 @if ($loop->first) border-top-0 @endif"></li>`,
+      `        @endforeach`,
+      `    </ul>`,
+      `@endif`,
+      ``,
+    ].join('\n');
+
+    return new BladeFormatter().format(content).then((result) => {
+      assert.equal(result, expected);
+    });
+  });
+
+  test('should consider directive in html tag', async () => {
+    const cmdResult = await cmd.execute(
+      path.resolve(__basedir, 'bin', 'blade-formatter'),
+      [
+        path.resolve(
+          __basedir,
+          '__tests__',
+          'fixtures',
+          'inline_php_tag.blade.php',
+        ),
+      ],
+    );
+
+    const formatted = fs.readFileSync(
+      path.resolve(
+        __basedir,
+        '__tests__',
+        'fixtures',
+        'formatted_inline_php_tag.blade.php',
+      ),
+    );
+
+    expect(cmdResult).toEqual(formatted.toString('utf-8'));
   });
 });
