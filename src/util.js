@@ -262,7 +262,7 @@ export function revertDirectives(content) {
       );
     })
     .then((res) => {
-      return _.replace(res, /<\/beautifyTag end="(.*?)">/gs, (match, p1) => {
+      return _.replace(res, /<\/beautifyTag.*?end="(.*?)">/gs, (match, p1) => {
         return `${p1}`;
       });
     });

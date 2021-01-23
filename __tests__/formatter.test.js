@@ -1193,4 +1193,23 @@ describe('formatter', () => {
 
     expect(cmdResult).toEqual(formatted.toString('utf-8'));
   });
+
+  test('should not occurs error on inline if to end directive on long line', async () => {
+    const content = [
+      `<div>`,
+      `@if (count($users) && $users->has('friends')) {{ $user->name }} @endif`,
+      `</div>`,
+    ].join('\n');
+
+    const expected = [
+      `<div>`,
+      `    @if (count($users) && $users->has('friends')) {{ $user->name }} @endif`,
+      `</div>`,
+      ``,
+    ].join('\n');
+
+    return new BladeFormatter().format(content).then((result) => {
+      assert.equal(result, expected);
+    });
+  });
 });
