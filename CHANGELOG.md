@@ -1,3 +1,12 @@
+## [1.9.9](https://github.com/shufo/blade-formatter/compare/v1.9.8...v1.9.9) (2021-01-23)
+
+
+### Bug Fixes
+
+* 🐛 long line with inline directive occurs error ([5c275f0](https://github.com/shufo/blade-formatter/commit/5c275f00f6b415aa4857dd344c6992133f4e566e))
+
+
+
 ## [1.9.8](https://github.com/shufo/blade-formatter/compare/v1.9.7...v1.9.8) (2021-01-16)
 
 
