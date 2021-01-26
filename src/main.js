@@ -1,6 +1,8 @@
+import ignore from 'ignore';
 import * as util from './util';
 import Formatter from './formatter';
 
+const nodepath = require('path');
 const fs = require('fs');
 const process = require('process');
 const chalk = require('chalk');
@@ -17,6 +19,7 @@ export class BladeFormatter {
     this.diffs = [];
     this.outputs = [];
     this.formattedFiles = [];
+    this.ignoreFile = '';
   }
 
   format(content, opts = {}) {
@@ -27,9 +30,22 @@ export class BladeFormatter {
   }
 
   async formatFromCLI() {
+    await this.readIgnoreFile();
     this.printPreamble();
     await this.processPaths();
     this.printResults();
+  }
+
+  async readIgnoreFile() {
+    const ignoreFile = '.bladeignore';
+
+    try {
+      if (fs.existsSync(ignoreFile)) {
+        this.ignoreFile = fs.readFileSync(ignoreFile).toString();
+      }
+    } catch (err) {
+      // do nothing
+    }
   }
 
   async processPaths() {
@@ -40,6 +56,8 @@ export class BladeFormatter {
 
   async processPath(path) {
     await BladeFormatter.globFiles(path)
+      .then((paths) => _.map(paths, (target) => nodepath.relative('.', target)))
+      .then((paths) => this.filterFiles(paths))
       .then(this.fulFillFiles)
       .then((paths) => this.formatFiles(paths));
   }
@@ -50,6 +68,25 @@ export class BladeFormatter {
         error ? reject(error) : resolve(matches),
       );
     });
+  }
+
+  async filterFiles(paths) {
+    if (this.ignoreFile === '') {
+      return paths;
+    }
+
+    const REGEX_FILES_NOT_IN_CURRENT_DIR = new RegExp(/^\.\.*/);
+    const filesOutsideTargetDir = _.filter(paths, (path) =>
+      REGEX_FILES_NOT_IN_CURRENT_DIR.test(nodepath.relative('.', path)),
+    );
+
+    const filesUnderTargetDir = _.xor(paths, filesOutsideTargetDir);
+
+    const filteredFiles = ignore()
+      .add(this.ignoreFile)
+      .filter(filesUnderTargetDir);
+
+    return _.concat(filesOutsideTargetDir, filteredFiles);
   }
 
   static fulFillFiles(paths) {

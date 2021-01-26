@@ -308,4 +308,19 @@ describe('The blade formatter CLI', () => {
 
     expect(originalContent).toEqual(result);
   });
+
+  test('Do nothing if path is included in ignore file', async () => {
+    expect(fs.existsSync('.bladeignore')).toBe(true);
+    expect(fs.readFileSync('.bladeignore').toString()).toContain(
+      '__tests__/**/ignore_target_file.blade.php',
+    );
+    const response = cmd.executeSync(
+      path.resolve(__basedir, 'bin', 'blade-formatter'),
+      [`${__dirname}/fixtures/ignore_target_file.blade.php`, '-c'],
+    );
+    const output = response.output.join('\n');
+
+    expect(output).not.toContain('ignore_target_file.blade.php');
+    expect(output).toContain('All matched files are formatted');
+  });
 });
