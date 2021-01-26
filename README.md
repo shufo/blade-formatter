@@ -159,6 +159,18 @@ $ blade-formatter -c -d resources/**/*.blade.php
 |`--help`, `-h`|Show help||
 |`--version`, `-v`|Show version||
 
+## Ignore Files
+
+To ignore specific file, put `.bladeignore` to your repository root will blade-formatter treat it as ignored files.
+
+e.g.
+
+```gitignore
+resources/views/users/index.blade.php
+resources/views/products/*
+resources/views/books/**/*
+```
+
 ## API
 
 You can use blade formatter by API as well.
