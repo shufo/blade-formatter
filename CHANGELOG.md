@@ -1,3 +1,13 @@
+# [1.10.0](https://github.com/shufo/blade-formatter/compare/v1.9.9...v1.10.0) (2021-01-26)
+
+
+### Features
+
+* 🎸 add ignore to packages ([ffc85cc](https://github.com/shufo/blade-formatter/commit/ffc85cc41409b26ed607a0c171b69b393a9b796e))
+* 🎸 ignore files specified in .bladeignore ([57e76b7](https://github.com/shufo/blade-formatter/commit/57e76b77840986d1f0881c8348eab9f2f6b6e9ad)), closes [#198](https://github.com/shufo/blade-formatter/issues/198) [#9](https://github.com/shufo/blade-formatter/issues/9)
+
+
+
 ## [1.9.9](https://github.com/shufo/blade-formatter/compare/v1.9.8...v1.9.9) (2021-01-23)
 
 
