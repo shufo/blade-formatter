@@ -385,7 +385,10 @@ describe('formatter', () => {
 
     const expected = [
       `<div>`,
-      `    @php $bg = rand(1, 13); $bgchange = $bg.".jpg"; @endphp`,
+      `    @php`,
+      `        $bg = rand(1, 13);`,
+      `        $bgchange = $bg . '.jpg';`,
+      `    @endphp`,
       `</div>`,
       ``,
     ].join('\n');
@@ -1205,6 +1208,29 @@ describe('formatter', () => {
       `<div>`,
       `    @if (count($users) && $users->has('friends')) {{ $user->name }} @endif`,
       `</div>`,
+      ``,
+    ].join('\n');
+
+    return new BladeFormatter().format(content).then((result) => {
+      assert.equal(result, expected);
+    });
+  });
+
+  test('should format within @php directive', async () => {
+    const content = [
+      `    @php`,
+      `    if ($user) {`,
+      `    $user->name = 'foo';`,
+      `    }`,
+      `    @endphp`,
+    ].join('\n');
+
+    const expected = [
+      `    @php`,
+      `        if ($user) {`,
+      `            $user->name = 'foo';`,
+      `        }`,
+      `    @endphp`,
       ``,
     ].join('\n');
 

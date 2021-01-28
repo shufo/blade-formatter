@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 import {
   indentStartTokens,
   indentEndTokens,
@@ -30,6 +31,7 @@ export default class Formatter {
     this.shouldBeIndent = false;
     this.isInsideCommentBlock = false;
     this.stack = [];
+    this.rawBlocks = [];
     this.result = [];
     this.diffs = [];
   }
@@ -51,15 +53,110 @@ export default class Formatter {
     };
 
     const promise = new Promise((resolve) => resolve(data))
+      .then((content) => this.preservePhpBlock(content))
       .then((content) => util.preserveOriginalPhpTagInHtml(content))
       .then((content) => util.preserveDirectivesInTag(content))
       .then((content) => util.preserveDirectives(content))
       .then((preserved) => beautify(preserved, options))
       .then((content) => util.revertDirectives(content, this.options))
       .then((content) => util.revertDirectivesInTag(content, this.options))
-      .then((beautified) => util.revertOriginalPhpTagInHtml(beautified));
+      .then((beautified) => util.revertOriginalPhpTagInHtml(beautified))
+      .then((content) => this.restorePhpBlock(content));
 
     return Promise.resolve(promise);
+  }
+
+  async preservePhpBlock(content) {
+    return _.replace(content, /(?<!@)@php(.*?)@endphp/gs, (match, p1) => {
+      return this.storeRawBlock(p1);
+    });
+  }
+
+  storeRawBlock(value) {
+    return this.getRawPlaceholder(this.rawBlocks.push(value) - 1);
+  }
+
+  getRawPlaceholder(replace) {
+    return _.replace('@__raw_block_#__@', '#', replace);
+  }
+
+  restorePhpBlock(content) {
+    return new Promise((resolve) => resolve(content)).then((res) => {
+      return _.replace(
+        res,
+        new RegExp(`^(.*?)${this.getRawPlaceholder('(\\d+)')}`, 'gm'),
+        (match, p1, p2) => {
+          let rawBlock = this.rawBlocks[p2];
+
+          if (this.isInline(rawBlock) && this.isMultilineStatement(rawBlock)) {
+            rawBlock = util.formatStringAsPhp(`<?php\n${rawBlock}\n?>`).trim();
+          } else if (rawBlock.split('\n').length > 1) {
+            rawBlock = util
+              .formatStringAsPhp(`<?php${rawBlock}?>`)
+              .trimRight('\n');
+          } else {
+            rawBlock = `<?php${rawBlock}?>`;
+          }
+
+          return _.replace(
+            rawBlock,
+            /^(\s*)?<\?php(.*?)\?>/gms,
+            (_matched, _q1, q2) => {
+              if (this.isInline(rawBlock)) {
+                return `${p1}@php${q2}@endphp`;
+              }
+
+              return `${_.isEmpty(p1) ? '' : p1}@php${this.indentRawBlock(
+                p1,
+                q2,
+              )}@endphp`;
+            },
+          );
+        },
+      );
+    });
+  }
+
+  isInline(content) {
+    return _.split(content, '\n').length === 1;
+  }
+
+  isMultilineStatement(rawBlock) {
+    return (
+      util.formatStringAsPhp(`<?php${rawBlock}?>`).trimRight('\n').split('\n')
+        .length > 1
+    );
+  }
+
+  indentRawBlock(spaces, content) {
+    if (_.isEmpty(spaces)) {
+      return content;
+    }
+
+    const leftIndentAmount = detectIndent(spaces).amount;
+    const indentLevel = leftIndentAmount / this.indentSize;
+    const prefix = this.indentCharacter.repeat(
+      indentLevel < 0 ? 0 : (indentLevel + 1) * this.indentSize,
+    );
+    const prefixForEnd = this.indentCharacter.repeat(
+      indentLevel < 0 ? 0 : indentLevel * this.indentSize,
+    );
+
+    const lines = content.split('\n');
+
+    return _.chain(lines)
+      .map((line, index) => {
+        if (index === 0) {
+          return line.trim();
+        }
+
+        if (index === lines.length - 1) {
+          return prefixForEnd + line;
+        }
+
+        return prefix + line;
+      })
+      .join('\n');
   }
 
   formatAsBlade(content) {
