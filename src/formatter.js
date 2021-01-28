@@ -84,7 +84,7 @@ export default class Formatter {
     return new Promise((resolve) => resolve(content)).then((res) => {
       return _.replace(
         res,
-        new RegExp('^(.*?)' + this.getRawPlaceholder('(\\d+)'), 'gm'),
+        new RegExp(`^(.*?)${this.getRawPlaceholder('(\\d+)')}`, 'gm'),
         (match, p1, p2) => {
           let rawBlock = this.rawBlocks[p2];
 
