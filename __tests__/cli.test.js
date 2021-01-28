@@ -245,6 +245,31 @@ describe('The blade formatter CLI', () => {
     expect(cmdResult).toEqual(formatted.toString('utf-8'));
   });
 
+  test('should properly formatted with raw php block', async () => {
+    const cmdResult = await cmd.execute(
+      path.resolve(__basedir, 'bin', 'blade-formatter'),
+      [
+        path.resolve(
+          __basedir,
+          '__tests__',
+          'fixtures',
+          'raw_php_block.blade.php',
+        ),
+      ],
+    );
+
+    const formatted = fs.readFileSync(
+      path.resolve(
+        __basedir,
+        '__tests__',
+        'fixtures',
+        'formatted.raw_php_block.blade.php',
+      ),
+    );
+
+    expect(cmdResult).toEqual(formatted.toString('utf-8'));
+  });
+
   test('stdin option', async () => {
     const cmdResult = await spawnSync(
       '/bin/cat',
