@@ -33,6 +33,7 @@ export default class Formatter {
     this.stack = [];
     this.rawBlocks = [];
     this.bladeComments = [];
+    this.bladeBraces = [];
     this.result = [];
     this.diffs = [];
   }
@@ -41,8 +42,10 @@ export default class Formatter {
     return util
       .formatAsPhp(content)
       .then((formattedAsPhp) => this.preserveBladeComment(formattedAsPhp))
+      .then((formattedAsPhp) => this.preserveBladeBrace(formattedAsPhp))
       .then((formattedAsPhp) => this.formatAsHtml(formattedAsPhp))
       .then((formattedAsHtml) => this.formatAsBlade(formattedAsHtml))
+      .then((formattedAsBlade) => this.restoreBladeBrace(formattedAsBlade))
       .then((formattedAsBlade) => this.restoreBladeComment(formattedAsBlade))
       .then((formattedResult) => util.checkResult(formattedResult));
   }
@@ -81,6 +84,12 @@ export default class Formatter {
     });
   }
 
+  async preserveBladeBrace(content) {
+    return _.replace(content, /\{\{(.*?)\}\}/gs, (_match, p1) => {
+      return this.storeBladeBrace(p1, p1.length);
+    });
+  }
+
   storeRawBlock(value) {
     return this.getRawPlaceholder(this.rawBlocks.push(value) - 1);
   }
@@ -89,12 +98,32 @@ export default class Formatter {
     return this.getBladeCommentPlaceholder(this.bladeComments.push(value) - 1);
   }
 
+  storeBladeBrace(value, length) {
+    const index = this.bladeBraces.push(value) - 1;
+    const brace = '{{  }}';
+    return this.getBladeBracePlaceholder(index, length + brace.length);
+  }
+
   getRawPlaceholder(replace) {
     return _.replace('@__raw_block_#__@', '#', replace);
   }
 
   getBladeCommentPlaceholder(replace) {
     return _.replace('___blade_comment_#___', '#', replace);
+  }
+
+  getBladeBracePlaceholder(replace, length = 0) {
+    if (length > 0) {
+      const template = '___blade_brace_#___';
+      const gap = length - template.length;
+      return _.replace(
+        `___blade_brace_${_.repeat('_', gap > 0 ? gap : 0)}#___`,
+        '#',
+        replace,
+      );
+    }
+
+    return _.replace('___blade_brace_+?#___', '#', replace);
   }
 
   restorePhpBlock(content) {
@@ -183,6 +212,28 @@ export default class Formatter {
         new RegExp(`${this.getBladeCommentPlaceholder('(\\d+)')}`, 'gms'),
         (_match, p1) => {
           return `{{-- ${this.bladeComments[p1].trim()} --}}`;
+        },
+      );
+    });
+  }
+
+  restoreBladeBrace(content) {
+    return new Promise((resolve) => resolve(content)).then((res) => {
+      return _.replace(
+        res,
+        new RegExp(`${this.getBladeBracePlaceholder('(\\d+)')}`, 'gms'),
+        (_match, p1) => {
+          const bladeBrace = this.bladeBraces[p1];
+
+          if (bladeBrace.trim() === '') {
+            return `{{${bladeBrace}}}`;
+          }
+
+          return `{{ ${util
+            .formatRawStringAsPhp(bladeBrace)
+            .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
+            .trim()
+            .trimRight('\n')} }}`;
         },
       );
     });

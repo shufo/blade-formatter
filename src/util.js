@@ -47,6 +47,19 @@ export function formatStringAsPhp(content) {
   });
 }
 
+export function formatRawStringAsPhp(content) {
+  return prettier
+    .format(`<?php ${content} ?>`, {
+      parser: 'php',
+      printWidth: 1000,
+      singleQuote: true,
+      phpVersion: '7.4',
+    })
+    .replace(/<\?php(.*)?\?>/gs, (match, p1) => {
+      return p1.trim().replace(/;\s*$/, '');
+    });
+}
+
 export function normalizeIndentLevel(length) {
   if (length < 0) {
     return 0;
@@ -99,11 +112,6 @@ export async function prettifyPhpContentWithUnescapedTags(content) {
 
   return new Promise((resolve) => resolve(content))
     .then((res) =>
-      _.replace(res, /\{\{([^-].*?)\}\}/gs, (match, p1) => {
-        return `<?php __BLADE__; ${p1}; __BLADE__; ?>`;
-      }),
-    )
-    .then((res) =>
       _.replace(res, directiveRegexes, (match, p1, p2, p3) => {
         return formatStringAsPhp(
           `<?php ${p1.substr('1')}${p2}(${p3}) ?>`,
@@ -115,16 +123,7 @@ export async function prettifyPhpContentWithUnescapedTags(content) {
         );
       }),
     )
-    .then((res) => formatStringAsPhp(res))
-    .then((res) =>
-      _.replace(
-        res,
-        /<\?php[\s\n]*?__BLADE__;[\n\s]*?(.*?);*[\n\s]*?__BLADE__;[\s\n]*?\?>/gs,
-        (match, p1) => {
-          return `{{ ${p1.trim()} }}`.replace(/([\n\s]*)->([\n\s]*)/gs, '->');
-        },
-      ),
-    );
+    .then((res) => formatStringAsPhp(res));
 }
 
 export async function prettifyPhpContentWithEscapedTags(content) {
