@@ -156,13 +156,7 @@ export async function formatAsPhp(content) {
 export async function preserveOriginalPhpTagInHtml(content) {
   return new Promise((resolve) => resolve(content))
     .then((res) => _.replace(res, /<\?php/g, '/** phptag_start **/'))
-    .then((res) => _.replace(res, /\?>/g, '/** end_phptag **/'))
-    .then((res) =>
-      _.replace(res, /\{\{--(.*?)--\}\}/gs, (match, p1) => {
-        // eslint-disable-next-line max-len
-        return `<?php /* blade_comment_start */ ?>${p1}<?php /* blade_comment_end */ ?>`;
-      }),
-    );
+    .then((res) => _.replace(res, /\?>/g, '/** end_phptag **/'));
 }
 
 export function revertOriginalPhpTagInHtml(content) {
@@ -175,16 +169,6 @@ export function revertOriginalPhpTagInHtml(content) {
     )
     .then((res) =>
       _.replace(res, /\/\*\*[\s\n]*?end_phptag[\s\n]*?\*\*\//g, '?>'),
-    )
-    .then((res) =>
-      _.replace(
-        res,
-        // eslint-disable-next-line max-len
-        /<\?php.*?\/\* blade_comment_start \*\/ \?>(.*?)<\?php \/\* blade_comment_end \*\/.*?\?>/gs,
-        (match, p1) => {
-          return `{{--${p1}--}}`;
-        },
-      ),
     );
 }
 

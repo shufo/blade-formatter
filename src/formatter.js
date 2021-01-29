@@ -32,6 +32,7 @@ export default class Formatter {
     this.isInsideCommentBlock = false;
     this.stack = [];
     this.rawBlocks = [];
+    this.bladeComments = [];
     this.result = [];
     this.diffs = [];
   }
@@ -39,8 +40,10 @@ export default class Formatter {
   formatContent(content) {
     return util
       .formatAsPhp(content)
+      .then((formattedAsPhp) => this.preserveBladeComment(formattedAsPhp))
       .then((formattedAsPhp) => this.formatAsHtml(formattedAsPhp))
       .then((formattedAsHtml) => this.formatAsBlade(formattedAsHtml))
+      .then((formattedAsBlade) => this.restoreBladeComment(formattedAsBlade))
       .then((formattedResult) => util.checkResult(formattedResult));
   }
 
@@ -72,12 +75,26 @@ export default class Formatter {
     });
   }
 
+  async preserveBladeComment(content) {
+    return _.replace(content, /\{\{--(.*?)--\}\}/gs, (_match, p1) => {
+      return this.storeBladeComment(p1);
+    });
+  }
+
   storeRawBlock(value) {
     return this.getRawPlaceholder(this.rawBlocks.push(value) - 1);
   }
 
+  storeBladeComment(value) {
+    return this.getBladeCommentPlaceholder(this.bladeComments.push(value) - 1);
+  }
+
   getRawPlaceholder(replace) {
     return _.replace('@__raw_block_#__@', '#', replace);
+  }
+
+  getBladeCommentPlaceholder(replace) {
+    return _.replace('___blade_comment_#___', '#', replace);
   }
 
   restorePhpBlock(content) {
@@ -157,6 +174,18 @@ export default class Formatter {
         return prefix + line;
       })
       .join('\n');
+  }
+
+  restoreBladeComment(content) {
+    return new Promise((resolve) => resolve(content)).then((res) => {
+      return _.replace(
+        res,
+        new RegExp(`${this.getBladeCommentPlaceholder('(\\d+)')}`, 'gms'),
+        (_match, p1) => {
+          return `{{-- ${this.bladeComments[p1].trim()} --}}`;
+        },
+      );
+    });
   }
 
   formatAsBlade(content) {
