@@ -348,4 +348,29 @@ describe('The blade formatter CLI', () => {
     expect(output).not.toContain('ignore_target_file.blade.php');
     expect(output).toContain('All matched files are formatted');
   });
+
+  test('multiline blade comment', async () => {
+    const cmdResult = await cmd.execute(
+      path.resolve(__basedir, 'bin', 'blade-formatter'),
+      [
+        path.resolve(
+          __basedir,
+          '__tests__',
+          'fixtures',
+          'multiline_blade_comment.blade.php',
+        ),
+      ],
+    );
+
+    const formatted = fs.readFileSync(
+      path.resolve(
+        __basedir,
+        '__tests__',
+        'fixtures',
+        'formatted.multiline_blade_comment.blade.php',
+      ),
+    );
+
+    expect(cmdResult).toEqual(formatted.toString('utf-8'));
+  });
 });
