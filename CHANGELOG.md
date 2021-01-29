@@ -1,3 +1,14 @@
+## [1.10.1](https://github.com/shufo/blade-formatter/compare/v1.10.0...v1.10.1) (2021-01-29)
+
+
+### Bug Fixes
+
+* 🐛 blade brace without space occurs error ([#203](https://github.com/shufo/blade-formatter/issues/203)) ([25c177c](https://github.com/shufo/blade-formatter/commit/25c177c3ad50139152113dddf713f99047292091))
+* 🐛 format raw php block within [@php](https://github.com/php) directive ([#201](https://github.com/shufo/blade-formatter/issues/201)) ([d3764b0](https://github.com/shufo/blade-formatter/commit/d3764b0b91f6a19dd945fb9052916dba41ec9bc0))
+* 🐛 store blade comment to keep comment body ([#202](https://github.com/shufo/blade-formatter/issues/202)) ([ed19d87](https://github.com/shufo/blade-formatter/commit/ed19d8755bcd1e9e2f0aaca6a5f41d33309bba89))
+
+
+
 # [1.10.0](https://github.com/shufo/blade-formatter/compare/v1.9.9...v1.10.0) (2021-01-26)
 
 
