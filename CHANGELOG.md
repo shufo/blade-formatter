@@ -1,3 +1,12 @@
+## [1.10.2](https://github.com/shufo/blade-formatter/compare/v1.10.1...v1.10.2) (2021-02-23)
+
+
+### Bug Fixes
+
+* 🐛 do not add line return in unescaped blade brace ([#217](https://github.com/shufo/blade-formatter/issues/217)) ([7dd0160](https://github.com/shufo/blade-formatter/commit/7dd0160d8f0c497b2d74e9c029233258c5c7ffd4))
+
+
+
 ## [1.10.1](https://github.com/shufo/blade-formatter/compare/v1.10.0...v1.10.1) (2021-01-29)
 
 

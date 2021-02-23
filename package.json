@@ -8,7 +8,7 @@
     "formatter",
     "laravel"
   ],
-  "version": "1.10.1",
+  "version": "1.10.2",
   "description": "An opinionated blade template formatter for Laravel",
   "main": "src/main.js",
   "scripts": {
