@@ -294,7 +294,7 @@ describe('The blade formatter CLI', () => {
     expect(cmdResult).toEqual(formatted.toString('utf-8'));
   });
 
-  test('show error message if unexpected syntax', async () => {
+  test('show not error even if line return exists after unescaped blade brace', async () => {
     const cmdResult = await spawnSync(
       '/bin/cat',
       [
@@ -306,7 +306,16 @@ describe('The blade formatter CLI', () => {
       { stdio: 'pipe', shell: true },
     ).stdout.toString();
 
-    expect(cmdResult).toEqual(expect.stringContaining("Can't format blade"));
+    const formatted = fs.readFileSync(
+      path.resolve(
+        __basedir,
+        '__tests__',
+        'fixtures',
+        'formatted.escaped_bug.blade.php',
+      ),
+    );
+
+    expect(cmdResult).toEqual(formatted.toString('utf-8'));
   });
 
   test('Do nothing if something goes wrong #128', async () => {
