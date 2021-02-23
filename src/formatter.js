@@ -113,7 +113,7 @@ export default class Formatter {
     return this.getBladeBracePlaceholder(index, length + brace.length);
   }
 
-  storeRawBladeBrace(value, length) {
+  storeRawBladeBrace(value) {
     const index = this.rawBladeBraces.push(value) - 1;
     return this.getRawBladeBracePlaceholder(index);
   }
