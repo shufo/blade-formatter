@@ -34,6 +34,7 @@ export default class Formatter {
     this.rawBlocks = [];
     this.bladeComments = [];
     this.bladeBraces = [];
+    this.rawBladeBraces = [];
     this.result = [];
     this.diffs = [];
   }
@@ -43,8 +44,10 @@ export default class Formatter {
       .formatAsPhp(content)
       .then((formattedAsPhp) => this.preserveBladeComment(formattedAsPhp))
       .then((formattedAsPhp) => this.preserveBladeBrace(formattedAsPhp))
+      .then((formattedAsPhp) => this.preserveRawBladeBrace(formattedAsPhp))
       .then((formattedAsPhp) => this.formatAsHtml(formattedAsPhp))
       .then((formattedAsHtml) => this.formatAsBlade(formattedAsHtml))
+      .then((formattedAsBlade) => this.restoreRawBladeBrace(formattedAsBlade))
       .then((formattedAsBlade) => this.restoreBladeBrace(formattedAsBlade))
       .then((formattedAsBlade) => this.restoreBladeComment(formattedAsBlade))
       .then((formattedResult) => util.checkResult(formattedResult));
@@ -90,6 +93,12 @@ export default class Formatter {
     });
   }
 
+  async preserveRawBladeBrace(content) {
+    return _.replace(content, /\{!!(.*?)!!\}/gs, (_match, p1) => {
+      return this.storeRawBladeBrace(p1);
+    });
+  }
+
   storeRawBlock(value) {
     return this.getRawPlaceholder(this.rawBlocks.push(value) - 1);
   }
@@ -102,6 +111,11 @@ export default class Formatter {
     const index = this.bladeBraces.push(value) - 1;
     const brace = '{{  }}';
     return this.getBladeBracePlaceholder(index, length + brace.length);
+  }
+
+  storeRawBladeBrace(value) {
+    const index = this.rawBladeBraces.push(value) - 1;
+    return this.getRawBladeBracePlaceholder(index);
   }
 
   getRawPlaceholder(replace) {
@@ -124,6 +138,10 @@ export default class Formatter {
     }
 
     return _.replace('___blade_brace_+?#___', '#', replace);
+  }
+
+  getRawBladeBracePlaceholder(replace) {
+    return _.replace('___raw_blade_brace_#___', '#', replace);
   }
 
   restorePhpBlock(content) {
@@ -234,6 +252,28 @@ export default class Formatter {
             .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
             .trim()
             .trimRight('\n')} }}`;
+        },
+      );
+    });
+  }
+
+  restoreRawBladeBrace(content) {
+    return new Promise((resolve) => resolve(content)).then((res) => {
+      return _.replace(
+        res,
+        new RegExp(`${this.getRawBladeBracePlaceholder('(\\d+)')}`, 'gms'),
+        (_match, p1) => {
+          const bladeBrace = this.rawBladeBraces[p1];
+
+          if (bladeBrace.trim() === '') {
+            return `{!!${bladeBrace}!!}`;
+          }
+
+          return `{!! ${util
+            .formatRawStringAsPhp(bladeBrace)
+            .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
+            .trim()
+            .trimRight('\n')} !!}`;
         },
       );
     });
