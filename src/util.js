@@ -147,9 +147,7 @@ export async function removeSemicolon(content) {
 }
 
 export async function formatAsPhp(content) {
-  return prettifyPhpContentWithEscapedTags(content)
-    .then(prettifyPhpContentWithUnescapedTags)
-    .then(removeSemicolon);
+  return prettifyPhpContentWithUnescapedTags(content);
 }
 
 export async function preserveOriginalPhpTagInHtml(content) {
