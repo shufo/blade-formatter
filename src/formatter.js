@@ -32,6 +32,7 @@ export default class Formatter {
     this.isInsideCommentBlock = false;
     this.stack = [];
     this.rawBlocks = [];
+    this.rawPropsBlocks = [];
     this.bladeComments = [];
     this.bladeBraces = [];
     this.rawBladeBraces = [];
@@ -76,6 +77,22 @@ export default class Formatter {
   }
 
   async preservePhpBlock(content) {
+    return this.preserveRawPhpBlock(content).then((target) => {
+      return this.preservePropsBlock(target);
+    });
+  }
+
+  async preservePropsBlock(content) {
+    return _.replace(
+      content,
+      /@props\(((?:[^\\(\\)]|\([^\\(\\)]*\))*)\)/gs,
+      (match, p1) => {
+        return this.storeRawPropsBlock(p1);
+      },
+    );
+  }
+
+  async preserveRawPhpBlock(content) {
     return _.replace(content, /(?<!@)@php(.*?)@endphp/gs, (match, p1) => {
       return this.storeRawBlock(p1);
     });
@@ -103,6 +120,10 @@ export default class Formatter {
     return this.getRawPlaceholder(this.rawBlocks.push(value) - 1);
   }
 
+  storeRawPropsBlock(value) {
+    return this.getRawPropsPlaceholder(this.rawPropsBlocks.push(value) - 1);
+  }
+
   storeBladeComment(value) {
     return this.getBladeCommentPlaceholder(this.bladeComments.push(value) - 1);
   }
@@ -120,6 +141,10 @@ export default class Formatter {
 
   getRawPlaceholder(replace) {
     return _.replace('@__raw_block_#__@', '#', replace);
+  }
+
+  getRawPropsPlaceholder(replace) {
+    return _.replace('@__raw_props_block_#__@', '#', replace);
   }
 
   getBladeCommentPlaceholder(replace) {
@@ -145,39 +170,52 @@ export default class Formatter {
   }
 
   restorePhpBlock(content) {
-    return new Promise((resolve) => resolve(content)).then((res) => {
-      return _.replace(
-        res,
-        new RegExp(`^(.*?)${this.getRawPlaceholder('(\\d+)')}`, 'gm'),
-        (match, p1, p2) => {
-          let rawBlock = this.rawBlocks[p2];
+    return this.restoreRawPhpBlock(content).then((target) => {
+      return this.restoreRawPropsBlock(target);
+    });
+  }
 
-          if (this.isInline(rawBlock) && this.isMultilineStatement(rawBlock)) {
-            rawBlock = util.formatStringAsPhp(`<?php\n${rawBlock}\n?>`).trim();
-          } else if (rawBlock.split('\n').length > 1) {
-            rawBlock = util
-              .formatStringAsPhp(`<?php${rawBlock}?>`)
-              .trimRight('\n');
-          } else {
-            rawBlock = `<?php${rawBlock}?>`;
-          }
+  async restoreRawPhpBlock(content) {
+    return _.replace(
+      content,
+      new RegExp(`^(.*?)${this.getRawPlaceholder('(\\d+)')}`, 'gm'),
+      (match, p1, p2) => {
+        let rawBlock = this.rawBlocks[p2];
 
-          return _.replace(
-            rawBlock,
-            /^(\s*)?<\?php(.*?)\?>/gms,
-            (_matched, _q1, q2) => {
-              if (this.isInline(rawBlock)) {
-                return `${p1}@php${q2}@endphp`;
-              }
+        if (this.isInline(rawBlock) && this.isMultilineStatement(rawBlock)) {
+          rawBlock = util.formatStringAsPhp(`<?php\n${rawBlock}\n?>`).trim();
+        } else if (rawBlock.split('\n').length > 1) {
+          rawBlock = util
+            .formatStringAsPhp(`<?php${rawBlock}?>`)
+            .trimRight('\n');
+        } else {
+          rawBlock = `<?php${rawBlock}?>`;
+        }
 
-              return `${_.isEmpty(p1) ? '' : p1}@php${this.indentRawBlock(
-                p1,
-                q2,
-              )}@endphp`;
-            },
-          );
-        },
-      );
+        return _.replace(
+          rawBlock,
+          /^(\s*)?<\?php(.*?)\?>/gms,
+          (_matched, _q1, q2) => {
+            if (this.isInline(rawBlock)) {
+              return `${p1}@php${q2}@endphp`;
+            }
+
+            return `${_.isEmpty(p1) ? '' : p1}@php${this.indentRawBlock(
+              p1,
+              q2,
+            )}@endphp`;
+          },
+        );
+      },
+    );
+  }
+
+  async restoreRawPropsBlock(content) {
+    const regex = this.getRawPropsPlaceholder('(\\d+)');
+    return _.replace(content, new RegExp(regex, 'gms'), (_match, p1) => {
+      return `@props(${util
+        .formatRawStringAsPhp(this.rawPropsBlocks[p1])
+        .trimRight('\n')})`;
     });
   }
 
