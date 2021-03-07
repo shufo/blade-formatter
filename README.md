@@ -16,7 +16,7 @@ An opinionated blade template formatter for Laravel that respects readability
 
 ### Input
 
-```html
+```blade
 @extends('frontend.layouts.app')
 @section('title') foo
 @endsection
@@ -51,7 +51,7 @@ An opinionated blade template formatter for Laravel that respects readability
 
 ### Output
 
-```html
+```blade
 @extends('frontend.layouts.app')
 @section('title') foo
 @endsection
