@@ -1,3 +1,7 @@
+## [1.10.3](https://github.com/shufo/blade-formatter/compare/v1.10.2...v1.10.3) (2021-03-07)
+
+
+
 ## [1.10.2](https://github.com/shufo/blade-formatter/compare/v1.10.1...v1.10.2) (2021-02-23)
 
 
