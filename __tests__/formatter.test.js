@@ -1238,4 +1238,23 @@ describe('formatter', () => {
       assert.equal(result, expected);
     });
   });
+
+  const predefinnedConstants = [
+    'PHP_VERSION',
+    'PHP_RELEASE_VERSION',
+    'PHP_VERSION_ID',
+    'PHP_OS_FAMILY',
+    'PHP_FLOAT_DIG',
+  ];
+
+  predefinnedConstants.forEach((constant) => {
+    test('should format php predefined constants', async () => {
+      const content = [`{{ ${constant} }}`].join('\n');
+      const expected = [`{{ ${constant} }}`, ''].join('\n');
+
+      return new BladeFormatter().format(content).then((result) => {
+        assert.equal(result, expected);
+      });
+    });
+  });
 });
