@@ -1,3 +1,12 @@
+## [1.10.4](https://github.com/shufo/blade-formatter/compare/v1.10.3...v1.10.4) (2021-03-14)
+
+
+### Bug Fixes
+
+* 🐛 echo php expressionn ([ce20576](https://github.com/shufo/blade-formatter/commit/ce205762b0de9488a638e551f209f8771c9c583b))
+
+
+
 ## [1.10.3](https://github.com/shufo/blade-formatter/compare/v1.10.2...v1.10.3) (2021-03-07)
 
 
