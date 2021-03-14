@@ -49,13 +49,13 @@ export function formatStringAsPhp(content) {
 
 export function formatRawStringAsPhp(content) {
   return prettier
-    .format(`<?php ${content} ?>`, {
+    .format(`<?php echo ${content} ?>`, {
       parser: 'php',
       printWidth: 1000,
       singleQuote: true,
       phpVersion: '7.4',
     })
-    .replace(/<\?php(.*)?\?>/gs, (match, p1) => {
+    .replace(/<\?php echo (.*)?\?>/gs, (match, p1) => {
       return p1.trim().replace(/;\s*$/, '');
     });
 }
