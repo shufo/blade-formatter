@@ -1,3 +1,12 @@
+## [1.10.5](https://github.com/shufo/blade-formatter/compare/v1.10.4...v1.10.5) (2021-03-17)
+
+
+### Features
+
+* 🎸 bump plugin-php to php 8 supported version (wip) ([2085220](https://github.com/shufo/blade-formatter/commit/2085220dbdb7fb89380a6a8ff929e54a7c4b0973))
+
+
+
 ## [1.10.4](https://github.com/shufo/blade-formatter/compare/v1.10.3...v1.10.4) (2021-03-14)
 
 
