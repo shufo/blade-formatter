@@ -1165,7 +1165,7 @@
     "@types/yargs" "^15.0.0"
     chalk "^4.0.0"
 
-"@prettier/plugin-php@^0.16.0":
+"@prettier/plugin-php@^0.16.1":
   version "0.16.1"
   resolved "https://registry.yarnpkg.com/@prettier/plugin-php/-/plugin-php-0.16.1.tgz#0255749fe1a36c00c7ddc049ec8dc2928a8ac512"
   integrity sha512-U0G5MnWEw3H4o53ZKmIDNBAN9w/7jkiFAhWPG6DJ+FyB9RmdhDouW05wLq8UraxjigzmXNZzT+ZQor697iW9Hg==
@@ -1173,6 +1173,14 @@
     linguist-languages "^7.5.1"
     mem "^8.0.0"
     php-parser "3.0.2"
+
+"@prettier/plugin-php@prettier/plugin-php#ed00e2a07851cfacba0f8648dc7b209be6b9e6b9":
+  version "0.16.1"
+  resolved "https://codeload.github.com/prettier/plugin-php/tar.gz/ed00e2a07851cfacba0f8648dc7b209be6b9e6b9"
+  dependencies:
+    linguist-languages "^7.5.1"
+    mem "^8.0.0"
+    php-parser czosel/php-parser#b55446b48a4a588e8b62c7f9085ce0e7cb3b70fa
 
 "@sinonjs/commons@^1.7.0":
   version "1.7.2"
@@ -4307,6 +4315,10 @@ php-parser@3.0.2, php-parser@^3.0.0-prerelease.9:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/php-parser/-/php-parser-3.0.2.tgz#a86dbbc110e57378cba71ab4cd9b0d18f3872ac3"
   integrity sha512-a7y1+odEGsceLDLpu7oNyspZ0pK8FMWJOoim4/yd82AtnEZNLdCLZ67arnOQZ9K0lHJiSp4/7lVUpGELVxE14w==
+
+php-parser@czosel/php-parser#b55446b48a4a588e8b62c7f9085ce0e7cb3b70fa:
+  version "3.0.2"
+  resolved "https://codeload.github.com/czosel/php-parser/tar.gz/b55446b48a4a588e8b62c7f9085ce0e7cb3b70fa"
 
 picomatch@^2.0.4, picomatch@^2.0.5:
   version "2.2.1"
