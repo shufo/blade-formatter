@@ -1257,4 +1257,31 @@ describe('formatter', () => {
       });
     });
   });
+
+  test('should format null safe operator', async () => {
+    const content = [`{{ $entity->executors->first()?->name() }}`].join('\n');
+
+    const expected = [`{{ $entity->executors->first()?->name() }}`, ``].join(
+      '\n',
+    );
+
+    return new BladeFormatter().format(content).then((result) => {
+      assert.equal(result, expected);
+    });
+  });
+
+  test('should format named arguments', async () => {
+    const content = [
+      `{{ htmlspecialchars($string,  double_encode:  false) }}`,
+    ].join('\n');
+
+    const expected = [
+      `{{ htmlspecialchars($string, double_encode: false) }}`,
+      ``,
+    ].join('\n');
+
+    return new BladeFormatter().format(content).then((result) => {
+      assert.equal(result, expected);
+    });
+  });
 });
