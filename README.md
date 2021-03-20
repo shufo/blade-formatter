@@ -13,9 +13,10 @@ An opinionated blade template formatter for Laravel that respects readability
 [Online Demo](https://online-blade-formatter.vercel.app/)
 
 ## Features
-- PHP 8 support (null safe operator, named arguments)
-- PSR-2 support (format in directives)
-- Indents markup inside directives
+- PHP 8 support (null safe operator, named arguments) 🐘
+- PSR-2 support (format inside directives)
+- Automatically Indents markup inside directives
+- Automatically add spacing to blade templating markers
 
 ## Example
 
