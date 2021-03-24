@@ -3,7 +3,6 @@
 [![npm](https://img.shields.io/npm/dt/blade-formatter)](https://www.npmjs.com/package/blade-formatter)
 [![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=shufo/blade-formatter)](https://dependabot.com)
 
-
 # blade-formatter
 
 An opinionated blade template formatter for Laravel that respects readability
@@ -13,6 +12,7 @@ An opinionated blade template formatter for Laravel that respects readability
 [Online Demo](https://online-blade-formatter.vercel.app/)
 
 ## Features
+
 - PHP 8 support (null safe operator, named arguments) 🐘
 - PSR-2 support (format inside directives)
 - Automatically Indents markup inside directives
@@ -152,18 +152,18 @@ $ blade-formatter -c -d resources/**/*.blade.php
 
 ## Options
 
-|option|description|default|
-|--:|--:|--:|
-|`--check-formatted`, `-c`|Only check files are formatted or not. Exit with exit code 1 if files are not formatted|false|
-|`--write`, `--w`|Write to file|false|
-|`--diff`, `-d`|Show differences|false|
-|`--indent-size`, `-i`|Indentation size|4|
-|`--wrap-line-length`, `--wrap`|The length of line wrap size|120|
-|`--wrap-attributes`, `--wrap-atts`|The way to wrap attributes. `[auto\|force\|force-aligned\|force-expand-multiline\|aligned-multiple\|preserve\|preserve-aligned]`  |`auto`|
-|`--end-with-newline`, `-e`|End output with newline|true|
-|`--stdin`|format code provided on `<STDIN>` |false|
-|`--help`, `-h`|Show help||
-|`--version`, `-v`|Show version||
+|                             option |                                                                                                                      description | default |
+| ---------------------------------: | -------------------------------------------------------------------------------------------------------------------------------: | ------: |
+|          `--check-formatted`, `-c` |                                          Only check files are formatted or not. Exit with exit code 1 if files are not formatted |   false |
+|                   `--write`, `--w` |                                                                                                                    Write to file |   false |
+|                     `--diff`, `-d` |                                                                                                                 Show differences |   false |
+|              `--indent-size`, `-i` |                                                                                                                 Indentation size |       4 |
+|     `--wrap-line-length`, `--wrap` |                                                                                                     The length of line wrap size |     120 |
+| `--wrap-attributes`, `--wrap-atts` | The way to wrap attributes. `[auto\|force\|force-aligned\|force-expand-multiline\|aligned-multiple\|preserve\|preserve-aligned]` |  `auto` |
+|         `--end-with-newline`, `-e` |                                                                                                          End output with newline |    true |
+|                          `--stdin` |                                                                                                format code provided on `<STDIN>` |   false |
+|                     `--help`, `-h` |                                                                                                                        Show help |         |
+|                  `--version`, `-v` |                                                                                                                     Show version |         |
 
 ## Ignore Files
 
