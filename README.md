@@ -202,8 +202,10 @@ new BladeFormatter(options).format(input).then((formatted) => {
 });
 ```
 
-## Extension
+## Extensions
+
 - [vscode-blade-formatter](https://github.com/shufo/vscode-blade-formatter) - [VSCode](https://code.visualstudio.com/) Extension
+- [coc-blade-formatter](https://github.com/yaegassy/coc-blade-formatter) - [coc.nvim](https://github.com/neoclide/coc.nvim) Extension by [@yaegassy](https://github.com/yaegassy)
 
 ## Contributing
 
