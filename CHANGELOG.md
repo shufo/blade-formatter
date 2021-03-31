@@ -1,3 +1,18 @@
+## [1.10.6](https://github.com/shufo/blade-formatter/compare/v1.10.5...v1.10.6) (2021-03-31)
+
+
+### Bug Fixes
+
+* 🐛 use back-up commit ([c758f6a](https://github.com/shufo/blade-formatter/commit/c758f6af8558cd0f58e7af8718a47eba102ef203))
+
+
+### Features
+
+* 🎸 add change log builder action ([65746fd](https://github.com/shufo/blade-formatter/commit/65746fddf7c4739139e629557100339e0306be90))
+* 🎸 add coc-blade-formatter to extensions list ([ff6c759](https://github.com/shufo/blade-formatter/commit/ff6c75995e52886497e676ec8261d412ba7335e0))
+
+
+
 ## [1.10.5](https://github.com/shufo/blade-formatter/compare/v1.10.4...v1.10.5) (2021-03-17)
 
 
