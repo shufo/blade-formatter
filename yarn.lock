@@ -1165,13 +1165,13 @@
     "@types/yargs" "^15.0.0"
     chalk "^4.0.0"
 
-"@prettier/plugin-php@prettier/plugin-php#ed00e2a07851cfacba0f8648dc7b209be6b9e6b9":
+"@prettier/plugin-php@shufo/plugin-php#12343a1f4b5a59cf7e4382d4314c1c86ade90603":
   version "0.16.1"
-  resolved "https://codeload.github.com/prettier/plugin-php/tar.gz/ed00e2a07851cfacba0f8648dc7b209be6b9e6b9"
+  resolved "https://codeload.github.com/shufo/plugin-php/tar.gz/12343a1f4b5a59cf7e4382d4314c1c86ade90603"
   dependencies:
     linguist-languages "^7.5.1"
     mem "^8.0.0"
-    php-parser czosel/php-parser#b55446b48a4a588e8b62c7f9085ce0e7cb3b70fa
+    php-parser glayzzle/php-parser#da4f3f5c9aa2ae6bfa6b001fa185488c20ad1702
 
 "@sinonjs/commons@^1.7.0":
   version "1.7.2"
@@ -4302,9 +4302,9 @@ performance-now@^2.1.0:
   resolved "https://registry.yarnpkg.com/performance-now/-/performance-now-2.1.0.tgz#6309f4e0e5fa913ec1c69307ae364b4b377c9e7b"
   integrity sha1-Ywn04OX6kT7BxpMHrjZLSzd8nns=
 
-php-parser@^3.0.0-prerelease.9, php-parser@czosel/php-parser#b55446b48a4a588e8b62c7f9085ce0e7cb3b70fa:
+php-parser@glayzzle/php-parser#da4f3f5c9aa2ae6bfa6b001fa185488c20ad1702:
   version "3.0.2"
-  resolved "https://codeload.github.com/czosel/php-parser/tar.gz/b55446b48a4a588e8b62c7f9085ce0e7cb3b70fa"
+  resolved "https://codeload.github.com/glayzzle/php-parser/tar.gz/da4f3f5c9aa2ae6bfa6b001fa185488c20ad1702"
 
 picomatch@^2.0.4, picomatch@^2.0.5:
   version "2.2.1"
