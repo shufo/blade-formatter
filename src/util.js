@@ -169,6 +169,32 @@ export function revertOriginalPhpTagInHtml(content) {
     );
 }
 
+export function indent(content, level, options) {
+  const lines = content.split('\n');
+  return _.map(lines, (line, index) => {
+    if (!line.match(/\w/)) {
+      return line;
+    }
+
+    const ignoreFirstLine = optional(options).ignoreFirstLine || false;
+
+    if (ignoreFirstLine && index === 0) {
+      return line;
+    }
+
+    const originalLineWhitespaces = detectIndent(line).amount;
+    const indentChar = optional(options).useTabs ? '\t' : ' ';
+    const indentSize = optional(options).indentSize || 4;
+    const whitespaces = originalLineWhitespaces + indentSize * level;
+
+    if (whitespaces < 0) {
+      return line;
+    }
+
+    return indentChar.repeat(whitespaces) + line.trimLeft();
+  }).join('\n');
+}
+
 export function unindent(directive, content, level, options) {
   const lines = content.split('\n');
   return _.map(lines, (line) => {
