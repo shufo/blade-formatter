@@ -13,10 +13,10 @@ An opinionated blade template formatter for Laravel that respects readability
 
 ## Features
 
-- PHP 8 support (null safe operator, named arguments) 🐘
-- PSR-2 support (format inside directives)
 - Automatically Indents markup inside directives
 - Automatically add spacing to blade templating markers
+- PHP 8 support (null safe operator, named arguments) 🐘
+- PSR-2 support (format inside directives)
 
 ## Example
 
