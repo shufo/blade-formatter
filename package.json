@@ -25,7 +25,7 @@
   "license": "MIT",
   "dependencies": {
     "@prettier/plugin-php": "shufo/plugin-php#12343a1f4b5a59cf7e4382d4314c1c86ade90603",
-    "php-parser": "glayzzle/php-parser#da4f3f5c9aa2ae6bfa6b001fa185488c20ad1702",
+    "aigle": "^1.14.1",
     "chalk": "^4.1.0",
     "concat-stream": "^2.0.0",
     "detect-indent": "^6.0.0",
@@ -34,14 +34,16 @@
     "ignore": "^5.1.8",
     "js-beautify": "^1.10.2",
     "lodash": "^4.17.19",
+    "php-parser": "glayzzle/php-parser#da4f3f5c9aa2ae6bfa6b001fa185488c20ad1702",
     "prettier": "^2.2.0",
     "vscode-oniguruma": "1.3.1",
     "vscode-textmate": "^4.2.2",
+    "xregexp": "^5.0.1",
     "yargs": "^15.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.6.4",
-    "@babel/preset-env": "^7.6.3",
+    "@babel/preset-env": "^7.13.12",
     "app-root-path": "^3.0.0",
     "babel-jest": "^26.1.0",
     "eslint": "^6.5.1",

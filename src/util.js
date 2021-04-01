@@ -107,7 +107,7 @@ export async function prettifyPhpContentWithUnescapedTags(content) {
   const directiveRegexes = new RegExp(
     // eslint-disable-next-line max-len
     `(?!\\/\\*.*?\\*\\/)(${directives})(\\s*?)\\(((?:[^)(]+|\\((?:[^)(]+|\\([^)(]*\\))*\\))*)\\)`,
-    'gm',
+    'gmi',
   );
 
   return new Promise((resolve) => resolve(content))
@@ -167,6 +167,32 @@ export function revertOriginalPhpTagInHtml(content) {
     .then((res) =>
       _.replace(res, /\/\*\*[\s\n]*?end_phptag[\s\n]*?\*\*\//g, '?>'),
     );
+}
+
+export function indent(content, level, options) {
+  const lines = content.split('\n');
+  return _.map(lines, (line, index) => {
+    if (!line.match(/\w/)) {
+      return line;
+    }
+
+    const ignoreFirstLine = optional(options).ignoreFirstLine || false;
+
+    if (ignoreFirstLine && index === 0) {
+      return line;
+    }
+
+    const originalLineWhitespaces = detectIndent(line).amount;
+    const indentChar = optional(options).useTabs ? '\t' : ' ';
+    const indentSize = optional(options).indentSize || 4;
+    const whitespaces = originalLineWhitespaces + indentSize * level;
+
+    if (whitespaces < 0) {
+      return line;
+    }
+
+    return indentChar.repeat(whitespaces) + line.trimLeft();
+  }).join('\n');
 }
 
 export function unindent(directive, content, level, options) {
@@ -296,4 +322,12 @@ export function checkResult(formatted) {
   }
 
   return formatted;
+}
+
+export function debugLog(content) {
+  console.log('content start');
+  console.log(content);
+  console.log('content end');
+
+  return content;
 }
