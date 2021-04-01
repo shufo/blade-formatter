@@ -1347,4 +1347,22 @@ describe('formatter', () => {
       assert.equal(result, expected);
     });
   });
+
+  test('should format inline directive in scripts #231', async () => {
+    const content = [
+      `<script> @Isset($data['eval_gestionnaire']->project_perception) @endisset </script>`,
+    ].join('\n');
+
+    const expected = [
+      `<script>`,
+      `    @isset($data['eval_gestionnaire']->project_perception) @endisset`,
+      ``,
+      `</script>`,
+      ``,
+    ].join('\n');
+
+    return new BladeFormatter().format(content).then((result) => {
+      assert.equal(result, expected);
+    });
+  });
 });
