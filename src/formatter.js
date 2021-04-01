@@ -119,7 +119,7 @@ export default class Formatter {
       content,
       /<script(.*?)>(.*?)<\/script>/gis,
       (_match, p1, p2) => {
-        if (new RegExp(indentStartTokens.join('|')).test(p2) === false) {
+        if (new RegExp(indentStartTokens.join('|'), 'gmi').test(p2) === false) {
           return `<script${p1}>${p2}</script>`;
         }
         const directives = _.chain(indentStartTokens)
@@ -133,7 +133,7 @@ export default class Formatter {
               p2,
               `\\@${directive}`,
               `\\@end${directive}`,
-              'gms',
+              'gmi',
               {
                 valueNames: [null, 'left', 'match', 'right'],
               },
