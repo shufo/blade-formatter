@@ -1284,4 +1284,67 @@ describe('formatter', () => {
       assert.equal(result, expected);
     });
   });
+
+  test('should format blade directive in scripts', async () => {
+    const content = [
+      `    <script>`,
+      `        @isset($data['eval_gestionnaire']->project_perception) @endisset`,
+      `    </script>`,
+    ].join('\n');
+
+    const expected = [
+      `    <script>`,
+      `        @isset($data['eval_gestionnaire']->project_perception) @endisset`,
+      ``,
+      `    </script>`,
+      ``,
+    ].join('\n');
+
+    return new BladeFormatter().format(content).then((result) => {
+      assert.equal(result, expected);
+    });
+  });
+
+  test('should format multiple blade directive in script tag', async () => {
+    const content = [
+      '<script>',
+      '   @if ($user)',
+      '         let a = 1;',
+      ' @else',
+      '     let b = 0;',
+      '             @endif',
+      '',
+      '   const a = 0;',
+      '',
+      '',
+      '       @foreach ($users as $user)',
+      '           let b = 1;',
+      '   @endforeach',
+      '',
+      '</script>',
+    ].join('\n');
+
+    const expected = [
+      '<script>',
+      '    @if ($user)',
+      '        let a = 1;',
+      '    @else',
+      '        let b = 0;',
+      '    @endif',
+      '',
+      '    const a = 0;',
+      '',
+      '',
+      '    @foreach ($users as $user)',
+      '        let b = 1;',
+      '    @endforeach',
+      '',
+      '</script>',
+      ``,
+    ].join('\n');
+
+    return new BladeFormatter().format(content).then((result) => {
+      assert.equal(result, expected);
+    });
+  });
 });
