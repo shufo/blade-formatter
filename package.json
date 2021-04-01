@@ -25,6 +25,7 @@
   "license": "MIT",
   "dependencies": {
     "@prettier/plugin-php": "prettier/plugin-php#ed00e2a07851cfacba0f8648dc7b209be6b9e6b9",
+    "aigle": "^1.14.1",
     "chalk": "^4.1.0",
     "concat-stream": "^2.0.0",
     "detect-indent": "^6.0.0",
@@ -37,6 +38,7 @@
     "prettier": "^2.2.0",
     "vscode-oniguruma": "1.3.1",
     "vscode-textmate": "^4.2.2",
+    "xregexp": "^5.0.1",
     "yargs": "^15.3.0"
   },
   "devDependencies": {
