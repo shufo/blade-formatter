@@ -17,6 +17,8 @@ const beautify = require('js-beautify').html;
 const _ = require('lodash');
 const vscodeTmModule = require('vscode-textmate');
 const detectIndent = require('detect-indent');
+const Aigle = require('aigle');
+const { matchRecursive } = require('xregexp');
 
 export default class Formatter {
   constructor(options) {
@@ -28,11 +30,13 @@ export default class Formatter {
     this.wrapLineLength = util.optional(this.options).wrapLineLength || 120;
     this.wrapAttributes = util.optional(this.options).wrapAttributes || 'auto';
     this.currentIndentLevel = 0;
+    this.currentScriptIndentLevel = 0;
     this.shouldBeIndent = false;
     this.isInsideCommentBlock = false;
     this.stack = [];
     this.rawBlocks = [];
     this.rawPropsBlocks = [];
+    this.bladeDirectives = [];
     this.bladeComments = [];
     this.bladeBraces = [];
     this.rawBladeBraces = [];
@@ -46,8 +50,20 @@ export default class Formatter {
       .then((formattedAsPhp) => this.preserveBladeComment(formattedAsPhp))
       .then((formattedAsPhp) => this.preserveBladeBrace(formattedAsPhp))
       .then((formattedAsPhp) => this.preserveRawBladeBrace(formattedAsPhp))
+      .then((formattedAsPhp) =>
+        this.preserveBladeDirectivesInScripts(formattedAsPhp),
+      )
+      .then(async (formattedAsPhp) => {
+        this.bladeDirectives = await this.formatPreservedBladeDirectives(
+          this.bladeDirectives,
+        );
+        return formattedAsPhp;
+      })
       .then((formattedAsPhp) => this.formatAsHtml(formattedAsPhp))
-      .then((formattedAsHtml) => this.formatAsBlade(formattedAsHtml))
+      .then((formattedAsPhp) => this.formatAsBlade(formattedAsPhp))
+      .then((formattedAsPhp) =>
+        this.restoreBladeDirectivesInScripts(formattedAsPhp),
+      )
       .then((formattedAsBlade) => this.restoreRawBladeBrace(formattedAsBlade))
       .then((formattedAsBlade) => this.restoreBladeBrace(formattedAsBlade))
       .then((formattedAsBlade) => this.restoreBladeComment(formattedAsBlade))
@@ -98,6 +114,56 @@ export default class Formatter {
     });
   }
 
+  preserveBladeDirectivesInScripts(content) {
+    return _.replace(
+      content,
+      /<script(.*?)>(.*?)<\/script>/gis,
+      (_match, p1, p2) => {
+        if (new RegExp(indentStartTokens.join('|')).test(p2) === false) {
+          return `<script${p1}>${p2}</script>`;
+        }
+        const directives = _.chain(indentStartTokens)
+          .without('@switch', '@forelse')
+          .map((x) => _.replace(x, /@/, ''))
+          .value();
+
+        _.forEach(directives, (directive) => {
+          try {
+            const recursivelyMatched = matchRecursive(
+              p2,
+              `\\@${directive}`,
+              `\\@end${directive}`,
+              'gms',
+              {
+                valueNames: [null, 'left', 'match', 'right'],
+              },
+            );
+            let output = '';
+
+            if (_.isEmpty(recursivelyMatched)) {
+              return;
+            }
+
+            _.forEach(recursivelyMatched, (r) => {
+              output += r.value;
+              if (r.name === 'right') {
+                if (p2.includes(output)) {
+                  // eslint-disable-next-line no-param-reassign
+                  p2 = _.replace(p2, output, this.storeBladeDirective(output));
+                }
+                output = '';
+              }
+            });
+          } catch (error) {
+            throw new Error('directive in scripts parsing error');
+          }
+        });
+
+        return `<script${p1}>${p2}</script>`;
+      },
+    );
+  }
+
   async preserveBladeComment(content) {
     return _.replace(content, /\{\{--(.*?)--\}\}/gs, (_match, p1) => {
       return this.storeBladeComment(p1);
@@ -124,6 +190,12 @@ export default class Formatter {
     return this.getRawPropsPlaceholder(this.rawPropsBlocks.push(value) - 1);
   }
 
+  storeBladeDirective(value) {
+    return this.getBladeDirectivePlaceholder(
+      this.bladeDirectives.push(value) - 1,
+    );
+  }
+
   storeBladeComment(value) {
     return this.getBladeCommentPlaceholder(this.bladeComments.push(value) - 1);
   }
@@ -145,6 +217,10 @@ export default class Formatter {
 
   getRawPropsPlaceholder(replace) {
     return _.replace('@__raw_props_block_#__@', '#', replace);
+  }
+
+  getBladeDirectivePlaceholder(replace) {
+    return _.replace('___blade_directive_#___', '#', replace);
   }
 
   getBladeCommentPlaceholder(replace) {
@@ -261,6 +337,37 @@ export default class Formatter {
       .join('\n');
   }
 
+  restoreBladeDirectivesInScripts(content) {
+    const regex = new RegExp(
+      `${this.getBladeDirectivePlaceholder('(\\d+)')}`,
+      'gm',
+    );
+
+    let result = _.replace(content, regex, (_match, p1) => {
+      return util.indent(
+        this.bladeDirectives[p1],
+        this.currentScriptIndentLevel,
+        { ignoreFirstLine: true },
+      );
+    });
+
+    if (regex.test(content)) {
+      this.currentScriptIndentLevel += 1;
+      result = this.restoreBladeDirectivesInScripts(result);
+    }
+
+    return result;
+  }
+
+  async formatPreservedBladeDirectives(directives) {
+    return Aigle.map(directives, async (content) => {
+      const formattedAsHtml = await this.formatAsHtml(content);
+      const formatted = await this.formatAsBlade(formattedAsHtml);
+      const trimmed = formatted.trimRight('\n');
+      return util.indent(trimmed, 1, { ignoreFirstLine: true });
+    });
+  }
+
   restoreBladeComment(content) {
     return new Promise((resolve) => resolve(content)).then((res) => {
       return _.replace(
@@ -336,6 +443,8 @@ export default class Formatter {
   }
 
   formatTokenizedLines(splitedLines, tokenizedLines) {
+    this.result = [];
+    this.stack = [];
     for (let i = 0; i < splitedLines.length; i += 1) {
       const originalLine = splitedLines[i];
       const tokenizeLineResult = tokenizedLines[i];
