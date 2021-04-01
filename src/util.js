@@ -323,3 +323,11 @@ export function checkResult(formatted) {
 
   return formatted;
 }
+
+export function debugLog(content) {
+  console.log('content start');
+  console.log(content);
+  console.log('content end');
+
+  return content;
+}
