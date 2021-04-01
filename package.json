@@ -24,7 +24,7 @@
   "author": "Shuhei Hayashibara",
   "license": "MIT",
   "dependencies": {
-    "@prettier/plugin-php": "shufo/plugin-php#e42d20f4b6afea60d64cbce1c9f366a4aa34d543",
+    "@prettier/plugin-php": "shufo/plugin-php#a18627e03748ee5dd0218b7685a6564672f6c3e7",
     "aigle": "^1.14.1",
     "chalk": "^4.1.0",
     "concat-stream": "^2.0.0",
