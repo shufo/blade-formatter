@@ -1,7 +1,7 @@
 [![npm version](https://badge.fury.io/js/blade-formatter.svg)](https://badge.fury.io/js/blade-formatter)
 [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/shufo/blade-formatter/Node%20CI)](https://github.com/shufo/blade-formatter/actions?query=workflow%3A%22Node+CI%22)
 [![npm](https://img.shields.io/npm/dt/blade-formatter)](https://www.npmjs.com/package/blade-formatter)
-[![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=shufo/blade-formatter)](https://dependabot.com)
+![NPM](https://img.shields.io/npm/l/blade-formatter)
 
 # blade-formatter
 
