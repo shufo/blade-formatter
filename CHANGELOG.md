@@ -1,3 +1,32 @@
+## [1.10.7](https://github.com/shufo/blade-formatter/compare/v1.10.6...v1.10.7) (2021-04-02)
+
+
+### Bug Fixes
+
+* 🐛 blade directives inside script tag causes error ([0696d3c](https://github.com/shufo/blade-formatter/commit/0696d3c6727e9fcde7f7690bf795e44bc333597c))
+* 🐛 change list order to match foreach directive first ([f7b388e](https://github.com/shufo/blade-formatter/commit/f7b388e2791047541105b84e9079a2d7f72f7327))
+* 🐛 explicitly specify dependency version ([00ea4ce](https://github.com/shufo/blade-formatter/commit/00ea4ce2a3289992527df3856521720863059c5c))
+* 🐛 match case insensitive for directives ([ecf4097](https://github.com/shufo/blade-formatter/commit/ecf40978211beef042213e15c47b4c618290e05c))
+* 🐛 use forked commit hash to fix version ([7c623f2](https://github.com/shufo/blade-formatter/commit/7c623f2792b1a302c9937b9b749429f48f76751e))
+
+
+### Features
+
+* 🎸 add aigle and xregexp to dependencies ([d0eee99](https://github.com/shufo/blade-formatter/commit/d0eee99574ac82486eabf4e52db30a44b70d008d))
+* 🎸 add indent utility ([78be41c](https://github.com/shufo/blade-formatter/commit/78be41c1bc7f53922ca9111dca301bb51b6651bd))
+
+
+### Performance Improvements
+
+* ⚡️ run cli test concurrently ([abf84a7](https://github.com/shufo/blade-formatter/commit/abf84a7368a8f2374717cd796dc091fb364d1efd))
+
+
+### Reverts
+
+* Revert "chore: 🤖 Release 1.10.7" ([23e00fd](https://github.com/shufo/blade-formatter/commit/23e00fd17435ec3b0e37f7490e34aba3ef08f79b))
+
+
+
 ## [1.10.6](https://github.com/shufo/blade-formatter/compare/v1.10.5...v1.10.6) (2021-03-31)
 
 
