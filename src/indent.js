@@ -3,6 +3,8 @@ const _ = require('lodash');
 export const indentStartTokens = [
   '@alert',
   '@auth',
+  '@canany',
+  '@cannot',
   '@can',
   '@component',
   '@empty',
@@ -33,6 +35,8 @@ export const indentStartTokens = [
 export const indentEndTokens = [
   '@endalert',
   '@endauth',
+  '@endcanany',
+  '@endcannot',
   '@endcan',
   '@endcomponent',
   '@endempty',
@@ -59,7 +63,14 @@ export const indentEndTokens = [
   '@enderror',
 ];
 
-export const indentElseTokens = ['@else', '@elseenv', '@elseif'];
+export const indentElseTokens = [
+  '@elseenv',
+  '@elseif',
+  '@elsecanany',
+  '@elsecannot',
+  '@elsecan',
+  '@else',
+];
 
 export const tokenForIndentStartOrElseTokens = ['@forelse'];
 
