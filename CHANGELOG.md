@@ -27,6 +27,13 @@
 
 
 
+## [1.11.0](https://www.github.com/shufo/blade-formatter/compare/v1.10.7...v1.11.0) (2021-04-03)
+
+
+### Features
+
+* 🎸 add support for [@canany](https://www.github.com/canany), [@cannot](https://www.github.com/cannot) directive ([fa50534](https://www.github.com/shufo/blade-formatter/commit/fa505346da4abfbb9c39ed9cd13aeafed2e34f77))
+
 ## [1.10.6](https://github.com/shufo/blade-formatter/compare/v1.10.5...v1.10.6) (2021-03-31)
 
 
@@ -419,6 +426,3 @@ via BladeFormatter.format()
 
 
 ## 1.0.1 (2019-10-26)
-
-
-
