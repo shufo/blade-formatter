@@ -140,6 +140,9 @@ describe('formatter', () => {
     'auth',
     'component',
     'empty',
+    'can',
+    'canany',
+    'cannot',
     'forelse',
     'guest',
     'isset',
@@ -1271,14 +1274,9 @@ describe('formatter', () => {
   });
 
   test('should format named arguments', async () => {
-    const content = [
-      `{{ htmlspecialchars($string,  double_encode:  false) }}`,
-    ].join('\n');
+    const content = [`{{ foo(double_encode:  true) }}`].join('\n');
 
-    const expected = [
-      `{{ htmlspecialchars($string, double_encode: false) }}`,
-      ``,
-    ].join('\n');
+    const expected = [`{{ foo(double_encode: true) }}`, ``].join('\n');
 
     return new BladeFormatter().format(content).then((result) => {
       assert.equal(result, expected);
@@ -1363,6 +1361,48 @@ describe('formatter', () => {
 
     return new BladeFormatter().format(content).then((result) => {
       assert.equal(result, expected);
+    });
+  });
+
+  const elseEnabledDirectives = ['can', 'canany', 'cannot'];
+
+  elseEnabledDirectives.forEach((directive) => {
+    test(`else directives test - ${directive}`, async () => {
+      const content = [
+        `<section>`,
+        `@${directive}(["update",'read'],$user)`,
+        `@if ($user)`,
+        `{{ $user->name }}`,
+        `@endif`,
+        `@else${directive}(['delete'], $user)`,
+        `foo`,
+        `@else`,
+        `bar`,
+        `@end${directive}`,
+        `</section>`,
+        ``,
+      ].join('\n');
+
+      const expected = [
+        `<section>`,
+        `    @${directive}(['update', 'read'], $user)`,
+        `        @if ($user)`,
+        `            {{ $user->name }}`,
+        `        @endif`,
+        `    @else${directive}(['delete'], $user)`,
+        `        foo`,
+        `    @else`,
+        `        bar`,
+        `    @end${directive}`,
+        `</section>`,
+        ``,
+      ].join('\n');
+
+      return formatter()
+        .formatContent(content)
+        .then(function (result) {
+          assert.equal(result, expected);
+        });
     });
   });
 });
