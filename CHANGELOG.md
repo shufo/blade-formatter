@@ -1,4 +1,18 @@
-## [1.10.7](https://github.com/shufo/blade-formatter/compare/v1.10.6...v1.10.7) (2021-04-02)
+### [1.11.1](https://www.github.com/shufo/blade-formatter/compare/v1.11.0...v1.11.1) (2021-04-04)
+
+
+### Bug Fixes
+
+* 🐛 adjust indent level for directive in scripts ([a94cee2](https://www.github.com/shufo/blade-formatter/commit/a94cee290a9bed0c8eb1098ddec4b5f190cd2eb6))
+
+## [1.11.0](https://www.github.com/shufo/blade-formatter/compare/v1.10.7...v1.11.0) (2021-04-03)
+
+
+### Features
+
+* 🎸 add support for [@canany](https://www.github.com/canany), [@cannot](https://www.github.com/cannot) directive ([fa50534](https://www.github.com/shufo/blade-formatter/commit/fa505346da4abfbb9c39ed9cd13aeafed2e34f77))
+
+### [1.10.7](https://github.com/shufo/blade-formatter/compare/v1.10.6...v1.10.7) (2021-04-02)
 
 
 ### Bug Fixes
@@ -27,14 +41,8 @@
 
 
 
-## [1.11.0](https://www.github.com/shufo/blade-formatter/compare/v1.10.7...v1.11.0) (2021-04-03)
 
-
-### Features
-
-* 🎸 add support for [@canany](https://www.github.com/canany), [@cannot](https://www.github.com/cannot) directive ([fa50534](https://www.github.com/shufo/blade-formatter/commit/fa505346da4abfbb9c39ed9cd13aeafed2e34f77))
-
-## [1.10.6](https://github.com/shufo/blade-formatter/compare/v1.10.5...v1.10.6) (2021-03-31)
+### [1.10.6](https://github.com/shufo/blade-formatter/compare/v1.10.5...v1.10.6) (2021-03-31)
 
 
 ### Bug Fixes
@@ -49,7 +57,7 @@
 
 
 
-## [1.10.5](https://github.com/shufo/blade-formatter/compare/v1.10.4...v1.10.5) (2021-03-17)
+### [1.10.5](https://github.com/shufo/blade-formatter/compare/v1.10.4...v1.10.5) (2021-03-17)
 
 
 ### Features
@@ -58,7 +66,7 @@
 
 
 
-## [1.10.4](https://github.com/shufo/blade-formatter/compare/v1.10.3...v1.10.4) (2021-03-14)
+### [1.10.4](https://github.com/shufo/blade-formatter/compare/v1.10.3...v1.10.4) (2021-03-14)
 
 
 ### Bug Fixes
@@ -67,11 +75,11 @@
 
 
 
-## [1.10.3](https://github.com/shufo/blade-formatter/compare/v1.10.2...v1.10.3) (2021-03-07)
+### [1.10.3](https://github.com/shufo/blade-formatter/compare/v1.10.2...v1.10.3) (2021-03-07)
 
 
 
-## [1.10.2](https://github.com/shufo/blade-formatter/compare/v1.10.1...v1.10.2) (2021-02-23)
+### [1.10.2](https://github.com/shufo/blade-formatter/compare/v1.10.1...v1.10.2) (2021-02-23)
 
 
 ### Bug Fixes
@@ -80,7 +88,7 @@
 
 
 
-## [1.10.1](https://github.com/shufo/blade-formatter/compare/v1.10.0...v1.10.1) (2021-01-29)
+### [1.10.1](https://github.com/shufo/blade-formatter/compare/v1.10.0...v1.10.1) (2021-01-29)
 
 
 ### Bug Fixes
@@ -91,7 +99,7 @@
 
 
 
-# [1.10.0](https://github.com/shufo/blade-formatter/compare/v1.9.9...v1.10.0) (2021-01-26)
+## [1.10.0](https://github.com/shufo/blade-formatter/compare/v1.9.9...v1.10.0) (2021-01-26)
 
 
 ### Features
@@ -101,7 +109,7 @@
 
 
 
-## [1.9.9](https://github.com/shufo/blade-formatter/compare/v1.9.8...v1.9.9) (2021-01-23)
+### [1.9.9](https://github.com/shufo/blade-formatter/compare/v1.9.8...v1.9.9) (2021-01-23)
 
 
 ### Bug Fixes
@@ -110,7 +118,7 @@
 
 
 
-## [1.9.8](https://github.com/shufo/blade-formatter/compare/v1.9.7...v1.9.8) (2021-01-16)
+### [1.9.8](https://github.com/shufo/blade-formatter/compare/v1.9.7...v1.9.8) (2021-01-16)
 
 
 ### Bug Fixes
@@ -119,7 +127,7 @@
 
 
 
-## [1.9.7](https://github.com/shufo/blade-formatter/compare/v1.9.6...v1.9.7) (2021-01-13)
+### [1.9.7](https://github.com/shufo/blade-formatter/compare/v1.9.6...v1.9.7) (2021-01-13)
 
 
 ### Bug Fixes
@@ -129,7 +137,7 @@
 
 
 
-## [1.9.6](https://github.com/shufo/blade-formatter/compare/v1.9.5...v1.9.6) (2020-12-08)
+### [1.9.6](https://github.com/shufo/blade-formatter/compare/v1.9.5...v1.9.6) (2020-12-08)
 
 
 ### Bug Fixes
@@ -139,7 +147,7 @@
 
 
 
-## [1.9.5](https://github.com/shufo/blade-formatter/compare/v1.9.4...v1.9.5) (2020-12-07)
+### [1.9.5](https://github.com/shufo/blade-formatter/compare/v1.9.4...v1.9.5) (2020-12-07)
 
 
 ### Features
@@ -148,7 +156,7 @@
 
 
 
-## [1.9.4](https://github.com/shufo/blade-formatter/compare/v1.9.3...v1.9.4) (2020-12-07)
+### [1.9.4](https://github.com/shufo/blade-formatter/compare/v1.9.3...v1.9.4) (2020-12-07)
 
 
 ### Bug Fixes
@@ -157,7 +165,7 @@
 
 
 
-## [1.9.3](https://github.com/shufo/blade-formatter/compare/v1.9.2...v1.9.3) (2020-12-07)
+### [1.9.3](https://github.com/shufo/blade-formatter/compare/v1.9.2...v1.9.3) (2020-12-07)
 
 
 ### Bug Fixes
@@ -172,7 +180,7 @@
 
 
 
-## [1.9.2](https://github.com/shufo/blade-formatter/compare/v1.9.1...v1.9.2) (2020-12-06)
+### [1.9.2](https://github.com/shufo/blade-formatter/compare/v1.9.1...v1.9.2) (2020-12-06)
 
 
 ### Bug Fixes
@@ -181,7 +189,7 @@
 
 
 
-## [1.9.1](https://github.com/shufo/blade-formatter/compare/v1.9.0...v1.9.1) (2020-11-05)
+### [1.9.1](https://github.com/shufo/blade-formatter/compare/v1.9.0...v1.9.1) (2020-11-05)
 
 
 ### Bug Fixes
@@ -190,7 +198,7 @@
 
 
 
-# [1.9.0](https://github.com/shufo/blade-formatter/compare/v1.8.1...v1.9.0) (2020-11-03)
+## [1.9.0](https://github.com/shufo/blade-formatter/compare/v1.8.1...v1.9.0) (2020-11-03)
 
 
 ### Features
@@ -199,7 +207,7 @@
 
 
 
-## [1.8.1](https://github.com/shufo/blade-formatter/compare/v1.8.0...v1.8.1) (2020-11-03)
+### [1.8.1](https://github.com/shufo/blade-formatter/compare/v1.8.0...v1.8.1) (2020-11-03)
 
 
 ### Bug Fixes
@@ -208,11 +216,11 @@
 
 
 
-# [1.8.0](https://github.com/shufo/blade-formatter/compare/v1.7.0...v1.8.0) (2020-10-17)
+## [1.8.0](https://github.com/shufo/blade-formatter/compare/v1.7.0...v1.8.0) (2020-10-17)
 
 
 
-# [1.7.0](https://github.com/shufo/blade-formatter/compare/v1.6.4...v1.7.0) (2020-08-08)
+## [1.7.0](https://github.com/shufo/blade-formatter/compare/v1.6.4...v1.7.0) (2020-08-08)
 
 
 ### Bug Fixes
@@ -226,7 +234,7 @@
 
 
 
-## [1.6.4](https://github.com/shufo/blade-formatter/compare/v1.6.3...v1.6.4) (2020-08-04)
+### [1.6.4](https://github.com/shufo/blade-formatter/compare/v1.6.3...v1.6.4) (2020-08-04)
 
 
 ### Bug Fixes
@@ -235,7 +243,7 @@
 
 
 
-## [1.6.3](https://github.com/shufo/blade-formatter/compare/v1.6.2...v1.6.3) (2020-08-02)
+### [1.6.3](https://github.com/shufo/blade-formatter/compare/v1.6.2...v1.6.3) (2020-08-02)
 
 
 ### Bug Fixes
@@ -246,7 +254,7 @@
 
 
 
-## [1.6.2](https://github.com/shufo/blade-formatter/compare/v1.6.1...v1.6.2) (2020-08-02)
+### [1.6.2](https://github.com/shufo/blade-formatter/compare/v1.6.1...v1.6.2) (2020-08-02)
 
 
 ### Bug Fixes
@@ -255,11 +263,11 @@
 
 
 
-## [1.6.1](https://github.com/shufo/blade-formatter/compare/v1.6.0...v1.6.1) (2020-08-02)
+### [1.6.1](https://github.com/shufo/blade-formatter/compare/v1.6.0...v1.6.1) (2020-08-02)
 
 
 
-# [1.6.0](https://github.com/shufo/blade-formatter/compare/v1.5.4...v1.6.0) (2020-07-30)
+## [1.6.0](https://github.com/shufo/blade-formatter/compare/v1.5.4...v1.6.0) (2020-07-30)
 
 
 ### Features
@@ -268,7 +276,7 @@
 
 
 
-## [1.5.4](https://github.com/shufo/blade-formatter/compare/v1.5.3...v1.5.4) (2020-07-28)
+### [1.5.4](https://github.com/shufo/blade-formatter/compare/v1.5.3...v1.5.4) (2020-07-28)
 
 
 ### Bug Fixes
@@ -277,7 +285,7 @@
 
 
 
-## [1.5.3](https://github.com/shufo/blade-formatter/compare/v1.5.2...v1.5.3) (2020-07-28)
+### [1.5.3](https://github.com/shufo/blade-formatter/compare/v1.5.2...v1.5.3) (2020-07-28)
 
 
 ### Bug Fixes
@@ -286,7 +294,7 @@
 
 
 
-## [1.5.2](https://github.com/shufo/blade-formatter/compare/v1.5.1...v1.5.2) (2020-07-28)
+### [1.5.2](https://github.com/shufo/blade-formatter/compare/v1.5.1...v1.5.2) (2020-07-28)
 
 
 ### Bug Fixes
@@ -295,7 +303,7 @@
 
 
 
-## [1.5.1](https://github.com/shufo/blade-formatter/compare/v1.5.0...v1.5.1) (2020-07-27)
+### [1.5.1](https://github.com/shufo/blade-formatter/compare/v1.5.0...v1.5.1) (2020-07-27)
 
 
 ### Bug Fixes
@@ -304,7 +312,7 @@
 
 
 
-# [1.5.0](https://github.com/shufo/blade-formatter/compare/v1.4.0...v1.5.0) (2020-07-26)
+## [1.5.0](https://github.com/shufo/blade-formatter/compare/v1.4.0...v1.5.0) (2020-07-26)
 
 
 ### Bug Fixes
@@ -317,7 +325,7 @@
 
 
 
-# [1.4.0](https://github.com/shufo/blade-formatter/compare/v1.3.1...v1.4.0) (2020-07-23)
+## [1.4.0](https://github.com/shufo/blade-formatter/compare/v1.3.1...v1.4.0) (2020-07-23)
 
 
 ### Bug Fixes
@@ -331,7 +339,7 @@
 
 
 
-## [1.3.1](https://github.com/shufo/blade-formatter/compare/v1.3.0...v1.3.1) (2020-07-20)
+### [1.3.1](https://github.com/shufo/blade-formatter/compare/v1.3.0...v1.3.1) (2020-07-20)
 
 
 ### Bug Fixes
@@ -340,7 +348,7 @@
 
 
 
-# [1.3.0](https://github.com/shufo/blade-formatter/compare/v1.2.2...v1.3.0) (2020-07-19)
+## [1.3.0](https://github.com/shufo/blade-formatter/compare/v1.2.2...v1.3.0) (2020-07-19)
 
 
 ### chore
@@ -362,7 +370,7 @@ via BladeFormatter.format()
 
 
 
-## [1.2.2](https://github.com/shufo/blade-formatter/compare/v1.2.1...v1.2.2) (2020-07-19)
+### [1.2.2](https://github.com/shufo/blade-formatter/compare/v1.2.1...v1.2.2) (2020-07-19)
 
 
 ### Bug Fixes
@@ -371,7 +379,7 @@ via BladeFormatter.format()
 
 
 
-## [1.2.1](https://github.com/shufo/blade-formatter/compare/v1.2.0...v1.2.1) (2020-07-18)
+### [1.2.1](https://github.com/shufo/blade-formatter/compare/v1.2.0...v1.2.1) (2020-07-18)
 
 
 ### Bug Fixes
@@ -382,7 +390,7 @@ via BladeFormatter.format()
 
 
 
-# [1.2.0](https://github.com/shufo/blade-formatter/compare/v1.1.3...v1.2.0) (2020-07-18)
+## [1.2.0](https://github.com/shufo/blade-formatter/compare/v1.1.3...v1.2.0) (2020-07-18)
 
 
 ### Bug Fixes
@@ -400,7 +408,7 @@ via BladeFormatter.format()
 
 
 
-## [1.1.3](https://github.com/shufo/blade-formatter/compare/v1.1.2...v1.1.3) (2019-11-09)
+### [1.1.3](https://github.com/shufo/blade-formatter/compare/v1.1.2...v1.1.3) (2019-11-09)
 
 
 ### Bug Fixes
@@ -409,20 +417,21 @@ via BladeFormatter.format()
 
 
 
-## [1.1.2](https://github.com/shufo/blade-formatter/compare/v1.1.1...v1.1.2) (2019-11-09)
+### [1.1.2](https://github.com/shufo/blade-formatter/compare/v1.1.1...v1.1.2) (2019-11-09)
 
 
 
-## [1.1.1](https://github.com/shufo/blade-formatter/compare/1.1.0...v1.1.1) (2019-10-27)
+### [1.1.1](https://github.com/shufo/blade-formatter/compare/1.1.0...v1.1.1) (2019-10-27)
 
 
 
-# [1.1.0](https://github.com/shufo/blade-formatter/compare/v1.0.2...1.1.0) (2019-10-27)
+## [1.1.0](https://github.com/shufo/blade-formatter/compare/v1.0.2...1.1.0) (2019-10-27)
 
 
 
-## [1.0.2](https://github.com/shufo/blade-formatter/compare/v1.0.1...v1.0.2) (2019-10-26)
+### [1.0.2](https://github.com/shufo/blade-formatter/compare/v1.0.1...v1.0.2) (2019-10-26)
 
 
 
-## 1.0.1 (2019-10-26)
+### 1.0.1 (2019-10-26)
+
