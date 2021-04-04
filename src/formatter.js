@@ -336,7 +336,7 @@ export default class Formatter {
       .join('\n');
   }
 
-  indentBladeDirectiveBlock(spaces, content, scriptIndentLevel) {
+  indentBladeDirectiveBlock(spaces, content) {
     if (_.isEmpty(spaces)) {
       return content;
     }
