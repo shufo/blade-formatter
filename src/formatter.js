@@ -30,7 +30,6 @@ export default class Formatter {
     this.wrapLineLength = util.optional(this.options).wrapLineLength || 120;
     this.wrapAttributes = util.optional(this.options).wrapAttributes || 'auto';
     this.currentIndentLevel = 0;
-    this.currentScriptIndentLevel = 0;
     this.shouldBeIndent = false;
     this.isInsideCommentBlock = false;
     this.stack = [];
@@ -337,22 +336,45 @@ export default class Formatter {
       .join('\n');
   }
 
+  indentBladeDirectiveBlock(spaces, content, scriptIndentLevel) {
+    if (_.isEmpty(spaces)) {
+      return content;
+    }
+
+    const leftIndentAmount = detectIndent(spaces).amount;
+    const indentLevel = leftIndentAmount / this.indentSize;
+    const prefix = this.indentCharacter.repeat(
+      indentLevel < 0 ? 0 : indentLevel * this.indentSize,
+    );
+    const prefixForEnd = this.indentCharacter.repeat(
+      indentLevel < 0 ? 0 : indentLevel * this.indentSize,
+    );
+
+    const lines = content.split('\n');
+
+    return _.chain(lines)
+      .map((line, index) => {
+        if (index === lines.length - 1) {
+          return prefixForEnd + line;
+        }
+
+        return prefix + line;
+      })
+      .value()
+      .join('\n');
+  }
+
   restoreBladeDirectivesInScripts(content) {
     const regex = new RegExp(
-      `${this.getBladeDirectivePlaceholder('(\\d+)')}`,
+      `^(.*?)${this.getBladeDirectivePlaceholder('(\\d+)')}`,
       'gm',
     );
 
-    let result = _.replace(content, regex, (_match, p1) => {
-      return util.indent(
-        this.bladeDirectives[p1],
-        this.currentScriptIndentLevel,
-        { ignoreFirstLine: true },
-      );
+    let result = _.replace(content, regex, (_match, p1, p2) => {
+      return this.indentBladeDirectiveBlock(p1, this.bladeDirectives[p2]);
     });
 
     if (regex.test(content)) {
-      this.currentScriptIndentLevel += 1;
       result = this.restoreBladeDirectivesInScripts(result);
     }
 
@@ -363,8 +385,7 @@ export default class Formatter {
     return Aigle.map(directives, async (content) => {
       const formattedAsHtml = await this.formatAsHtml(content);
       const formatted = await this.formatAsBlade(formattedAsHtml);
-      const trimmed = formatted.trimRight('\n');
-      return util.indent(trimmed, 1, { ignoreFirstLine: true });
+      return formatted.trimRight('\n');
     });
   }
 
