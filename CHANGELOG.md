@@ -27,6 +27,13 @@
 
 
 
+### [1.11.1](https://www.github.com/shufo/blade-formatter/compare/v1.11.0...v1.11.1) (2021-04-04)
+
+
+### Bug Fixes
+
+* 🐛 adjust indent level for directive in scripts ([a94cee2](https://www.github.com/shufo/blade-formatter/commit/a94cee290a9bed0c8eb1098ddec4b5f190cd2eb6))
+
 ## [1.11.0](https://www.github.com/shufo/blade-formatter/compare/v1.10.7...v1.11.0) (2021-04-03)
 
 
