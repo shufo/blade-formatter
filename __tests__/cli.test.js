@@ -493,4 +493,29 @@ describe('The blade formatter CLI', () => {
 
     expect(cmdResult).toEqual(formatted.toString('utf-8'));
   });
+
+  test.concurrent('complicated directive in script tag', async () => {
+    const cmdResult = await cmd.execute(
+      path.resolve(__basedir, 'bin', 'blade-formatter'),
+      [
+        path.resolve(
+          __basedir,
+          '__tests__',
+          'fixtures',
+          'directive_in_scripts_complex.blade.php',
+        ),
+      ],
+    );
+
+    const formatted = fs.readFileSync(
+      path.resolve(
+        __basedir,
+        '__tests__',
+        'fixtures',
+        'formatted.directive_in_scripts_complex.blade.php',
+      ),
+    );
+
+    expect(cmdResult).toEqual(formatted.toString('utf-8'));
+  });
 });
