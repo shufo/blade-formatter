@@ -1405,4 +1405,44 @@ describe('formatter', () => {
         });
     });
   });
+
+  test('should break chained method in directive', async () => {
+    const content = [
+      '@if (auth()',
+      '->user()',
+      "->subscribed('default'))",
+      'aaa',
+      '@endif',
+    ].join('\n');
+
+    const expected = [
+      "@if (auth()->user()->subscribed('default'))",
+      '    aaa',
+      '@endif',
+      ``,
+    ].join('\n');
+
+    return new BladeFormatter().format(content).then((result) => {
+      assert.equal(result, expected);
+    });
+  });
+
+  test('should break chained method in directive 2', async () => {
+    const content = [
+      '@foreach (request()->users() as $user)',
+      'aaa',
+      '@endif',
+    ].join('\n');
+
+    const expected = [
+      '@foreach (request()->users() as $user)',
+      '    aaa',
+      '@endif',
+      ``,
+    ].join('\n');
+
+    return new BladeFormatter().format(content).then((result) => {
+      assert.equal(result, expected);
+    });
+  });
 });
