@@ -113,14 +113,14 @@ export async function prettifyPhpContentWithUnescapedTags(content) {
   return new Promise((resolve) => resolve(content))
     .then((res) =>
       _.replace(res, directiveRegexes, (match, p1, p2, p3) => {
-        return formatStringAsPhp(
-          `<?php ${p1.substr('1')}${p2}(${p3}) ?>`,
-        ).replace(
-          /<\?php\s(.*?)(\s*?)\((.*?)\);*\s\?>\n/gs,
-          (match2, j1, j2, j3) => {
-            return `@${j1.trim()}${j2}(${j3.trim()})`;
-          },
-        );
+        return formatStringAsPhp(`<?php ${p1.substr('1')}${p2}(${p3}) ?>`)
+          .replace(
+            /<\?php\s(.*?)(\s*?)\((.*?)\);*\s\?>\n/gs,
+            (match2, j1, j2, j3) => {
+              return `@${j1.trim()}${j2}(${j3.trim()})`;
+            },
+          )
+          .replace(/([\n\s]*)->([\n\s]*)/gs, '->');
       }),
     )
     .then((res) => formatStringAsPhp(res));
