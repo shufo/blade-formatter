@@ -1,9 +1,4 @@
-### [1.11.1](https://www.github.com/shufo/blade-formatter/compare/v1.11.0...v1.11.1) (2021-04-04)
-
-
-### Bug Fixes
-
-* 🐛 adjust indent level for directive in scripts ([a94cee2](https://www.github.com/shufo/blade-formatter/commit/a94cee290a9bed0c8eb1098ddec4b5f190cd2eb6))
+# Changelog
 
 ### [1.11.2](https://www.github.com/shufo/blade-formatter/compare/v1.11.1...v1.11.2) (2021-04-06)
 
@@ -11,6 +6,15 @@
 ### Bug Fixes
 
 * 🐛 break chained method in directive ([4e4b3bf](https://www.github.com/shufo/blade-formatter/commit/4e4b3bfe6534bcfd59f89c42860798a5e8bff9a8))
+
+
+
+### [1.11.1](https://www.github.com/shufo/blade-formatter/compare/v1.11.0...v1.11.1) (2021-04-04)
+
+
+### Bug Fixes
+
+* 🐛 adjust indent level for directive in scripts ([a94cee2](https://www.github.com/shufo/blade-formatter/commit/a94cee290a9bed0c8eb1098ddec4b5f190cd2eb6))
 
 ## [1.11.0](https://www.github.com/shufo/blade-formatter/compare/v1.10.7...v1.11.0) (2021-04-03)
 
