@@ -518,4 +518,29 @@ describe('The blade formatter CLI', () => {
 
     expect(cmdResult).toEqual(formatted.toString('utf-8'));
   });
+
+  test.concurrent('case directive should be indented', async () => {
+    const cmdResult = await cmd.execute(
+      path.resolve(__basedir, 'bin', 'blade-formatter'),
+      [
+        path.resolve(
+          __basedir,
+          '__tests__',
+          'fixtures',
+          'case_directive.blade.php',
+        ),
+      ],
+    );
+
+    const formatted = fs.readFileSync(
+      path.resolve(
+        __basedir,
+        '__tests__',
+        'fixtures',
+        'formatted.case_directive.blade.php',
+      ),
+    );
+
+    expect(cmdResult).toEqual(formatted.toString('utf-8'));
+  });
 });
