@@ -95,8 +95,6 @@ export const phpKeywordEndTokens = [
   '@break',
 ];
 
-export const inlineFunctionDirectives = ['@json'];
-
 export function hasStartAndEndToken(tokenizeLineResult, originalLine) {
   return (
     _.filter(tokenizeLineResult.tokens, (tokenStruct) => {
