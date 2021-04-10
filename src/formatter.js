@@ -8,7 +8,6 @@ import {
   hasStartAndEndToken,
   phpKeywordStartTokens,
   phpKeywordEndTokens,
-  inlineFunctionDirectives,
   indentStartAndEndTokens,
 } from './indent';
 import * as util from './util';
