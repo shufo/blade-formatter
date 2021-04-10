@@ -762,15 +762,15 @@ describe('formatter', () => {
     const expected = [
       `@switch($i)`,
       `    @case(1)`,
-      `    First case...`,
+      `        First case...`,
       `    @break`,
       ``,
       `    @case(2)`,
-      `    Second case...`,
+      `        Second case...`,
       `    @break`,
       ``,
       `    @default`,
-      `    Default case...`,
+      `        Default case...`,
       `@endswitch`,
       ``,
     ].join('\n');

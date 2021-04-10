@@ -8,6 +8,7 @@ import {
   hasStartAndEndToken,
   phpKeywordStartTokens,
   phpKeywordEndTokens,
+  indentStartAndEndTokens,
 } from './indent';
 import * as util from './util';
 import * as vsctm from './vsctm';
@@ -121,6 +122,7 @@ export default class Formatter {
         if (new RegExp(indentStartTokens.join('|'), 'gmi').test(p2) === false) {
           return `<script${p1}>${p2}</script>`;
         }
+
         const directives = _.chain(indentStartTokens)
           .without('@switch', '@forelse')
           .map((x) => _.replace(x, /@/, ''))
@@ -481,6 +483,10 @@ export default class Formatter {
 
   processKeyword(token) {
     if (_.includes(phpKeywordStartTokens, token)) {
+      if (_.last(this.stack) === '@case' && token === '@case') {
+        this.currentIndentLevel -= 1;
+      }
+
       this.stack.push(token);
       return;
     }
@@ -490,6 +496,11 @@ export default class Formatter {
         this.stack.pop();
         return;
       }
+    }
+
+    if (_.includes(indentStartAndEndTokens, token)) {
+      this.shouldBeIndent = true;
+      this.stack.push(token);
     }
 
     if (_.includes(indentStartOrElseTokens, token)) {
@@ -510,6 +521,10 @@ export default class Formatter {
     }
 
     if (_.includes(indentEndTokens, token)) {
+      if (_.last(this.stack) === '@default') {
+        this.currentIndentLevel -= 1;
+      }
+
       this.currentIndentLevel -= 1;
       this.shouldBeIndent = false;
       this.stack.pop();
