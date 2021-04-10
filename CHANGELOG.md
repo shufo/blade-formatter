@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.11.3](https://www.github.com/shufo/blade-formatter/compare/v1.11.2...v1.11.3) (2021-04-10)
+
+
+### Bug Fixes
+
+* 🐛 indent body inside case directive [#209](https://www.github.com/shufo/blade-formatter/issues/209) ([#247](https://www.github.com/shufo/blade-formatter/issues/247)) ([ff04965](https://www.github.com/shufo/blade-formatter/commit/ff04965cfacff3f9cd597e1d4fb1ede1accdac31))
+
 ### [1.11.2](https://www.github.com/shufo/blade-formatter/compare/v1.11.1...v1.11.2) (2021-04-06)
 
 
