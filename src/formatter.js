@@ -9,6 +9,7 @@ import {
   phpKeywordStartTokens,
   phpKeywordEndTokens,
   indentStartAndEndTokens,
+  inlineFunctionTokens,
 } from './indent';
 import * as util from './util';
 import * as vsctm from './vsctm';
@@ -119,9 +120,22 @@ export default class Formatter {
       content,
       /<script(.*?)>(.*?)<\/script>/gis,
       (_match, p1, p2) => {
-        if (new RegExp(indentStartTokens.join('|'), 'gmi').test(p2) === false) {
+        const targetTokens = [...indentStartTokens, ...inlineFunctionTokens];
+        if (new RegExp(targetTokens.join('|'), 'gmi').test(p2) === false) {
           return `<script${p1}>${p2}</script>`;
         }
+
+        const inlineFunctionDirectives = inlineFunctionTokens.join('|');
+        const inlineFunctionRegex = new RegExp(
+          // eslint-disable-next-line max-len
+          `(?!\\/\\*.*?\\*\\/)(${inlineFunctionDirectives})(\\s*?)\\(((?:[^)(]+|\\((?:[^)(]+|\\([^)(]*\\))*\\))*)\\)`,
+          'gmi',
+        );
+
+        // eslint-disable-next-line no-param-reassign
+        p2 = _.replace(p2, inlineFunctionRegex, (match) => {
+          return this.storeBladeDirective(util.formatRawStringAsPhp(match));
+        });
 
         const directives = _.chain(indentStartTokens)
           .without('@switch', '@forelse')
@@ -312,6 +326,10 @@ export default class Formatter {
       return content;
     }
 
+    if (this.isInline(content)) {
+      return `${spaces}${content}`;
+    }
+
     const leftIndentAmount = detectIndent(spaces).amount;
     const indentLevel = leftIndentAmount / this.indentSize;
     const prefix = this.indentCharacter.repeat(
@@ -338,14 +356,18 @@ export default class Formatter {
       .join('\n');
   }
 
-  indentBladeDirectiveBlock(spaces, content) {
-    if (_.isEmpty(spaces)) {
+  indentBladeDirectiveBlock(prefix, content) {
+    if (_.isEmpty(prefix)) {
       return content;
     }
 
-    const leftIndentAmount = detectIndent(spaces).amount;
+    if (this.isInline(content)) {
+      return `${prefix}${content}`;
+    }
+
+    const leftIndentAmount = detectIndent(prefix).amount;
     const indentLevel = leftIndentAmount / this.indentSize;
-    const prefix = this.indentCharacter.repeat(
+    const prefixSpaces = this.indentCharacter.repeat(
       indentLevel < 0 ? 0 : indentLevel * this.indentSize,
     );
     const prefixForEnd = this.indentCharacter.repeat(
@@ -360,7 +382,7 @@ export default class Formatter {
           return prefixForEnd + line;
         }
 
-        return prefix + line;
+        return prefixSpaces + line;
       })
       .value()
       .join('\n');
