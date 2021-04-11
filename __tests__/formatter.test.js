@@ -1445,4 +1445,26 @@ describe('formatter', () => {
       assert.equal(result, expected);
     });
   });
+
+  test('should format inline function directives in scripts', async () => {
+    const content = [
+      `<script type="text/javascript">`,
+      `    const errors = @json($errors -> all("aaa"));`,
+      `    console.log(errors, errors.length);`,
+      `</script>`,
+    ].join('\n');
+
+    const expected = [
+      `<script type="text/javascript">`,
+      `    const errors = @json($errors->all('aaa'));`,
+      `    console.log(errors, errors.length);`,
+      ``,
+      `</script>`,
+      ``,
+    ].join('\n');
+
+    return new BladeFormatter().format(content).then((result) => {
+      assert.equal(result, expected);
+    });
+  });
 });
