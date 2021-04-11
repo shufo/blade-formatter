@@ -326,6 +326,10 @@ export default class Formatter {
       return content;
     }
 
+    if (this.isInline(content)) {
+      return `${spaces}${content}`;
+    }
+
     const leftIndentAmount = detectIndent(spaces).amount;
     const indentLevel = leftIndentAmount / this.indentSize;
     const prefix = this.indentCharacter.repeat(
