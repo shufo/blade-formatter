@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.11.4](https://www.github.com/shufo/blade-formatter/compare/v1.11.3...v1.11.4) (2021-04-11)
+
+
+### Bug Fixes
+
+* format inline directive in script tag ([86758cb](https://www.github.com/shufo/blade-formatter/commit/86758cbeeb69745cceb0a6a7050aff7bd052f378))
+
 ### [1.11.3](https://www.github.com/shufo/blade-formatter/compare/v1.11.2...v1.11.3) (2021-04-10)
 
 
