@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.11.5](https://www.github.com/shufo/blade-formatter/compare/v1.11.4...v1.11.5) (2021-04-18)
+
+
+### Bug Fixes
+
+* 🐛 `[@forelse](https://www.github.com/forelse)` inside `[@if](https://www.github.com/if)` gets unexpected indentation [#254](https://www.github.com/shufo/blade-formatter/issues/254) ([fbde357](https://www.github.com/shufo/blade-formatter/commit/fbde357d66aa2ec64eaf9511d9199efef634df42))
+
 ### [1.11.4](https://www.github.com/shufo/blade-formatter/compare/v1.11.3...v1.11.4) (2021-04-11)
 
 
