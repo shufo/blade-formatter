@@ -1467,4 +1467,35 @@ describe('formatter', () => {
       assert.equal(result, expected);
     });
   });
+
+  test('forelse inside if directive should work #254', async () => {
+    const content = [
+      '@if (true)',
+      '<table>',
+      '@forelse($elems as $elem)',
+      '<tr></tr>',
+      '@empty',
+      '<tr></tr>',
+      '@endforelse',
+      '</table>',
+      '@endif',
+    ].join('\n');
+
+    const expected = [
+      '@if (true)',
+      '    <table>',
+      '        @forelse($elems as $elem)',
+      '            <tr></tr>',
+      '        @empty',
+      '            <tr></tr>',
+      '        @endforelse',
+      '    </table>',
+      '@endif',
+      ``,
+    ].join('\n');
+
+    return new BladeFormatter().format(content).then((result) => {
+      assert.equal(result, expected);
+    });
+  });
 });

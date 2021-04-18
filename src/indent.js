@@ -79,6 +79,7 @@ export const indentStartOrElseTokens = ['@empty'];
 export const indentStartAndEndTokens = ['@default'];
 
 export const phpKeywordStartTokens = [
+  '@forelse',
   '@if',
   '@for',
   '@foreach',
@@ -88,6 +89,7 @@ export const phpKeywordStartTokens = [
 ];
 
 export const phpKeywordEndTokens = [
+  '@endforelse',
   '@endif',
   '@endfor',
   '@endforeach',
