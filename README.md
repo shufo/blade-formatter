@@ -245,4 +245,35 @@ $ npm -g config set user root
 ## Contributors
 
 <!-- readme: collaborators,contributors -start -->
+<table>
+<tr>
+    <td align="center">
+        <a href="https://github.com/shufo">
+            <img src="https://avatars.githubusercontent.com/u/1641039?v=4" width="100;" alt="shufo"/>
+            <br />
+            <sub><b>Shuhei Hayashibara</b></sub>
+        </a>
+    </td>
+    <td align="center">
+        <a href="https://github.com/slovenianGooner">
+            <img src="https://avatars.githubusercontent.com/u/1257629?v=4" width="100;" alt="slovenianGooner"/>
+            <br />
+            <sub><b>slovenianGooner</b></sub>
+        </a>
+    </td>
+    <td align="center">
+        <a href="https://github.com/yaegassy">
+            <img src="https://avatars.githubusercontent.com/u/188642?v=4" width="100;" alt="yaegassy"/>
+            <br />
+            <sub><b>Yaegassy</b></sub>
+        </a>
+    </td>
+    <td align="center">
+        <a href="https://github.com/jtanaka">
+            <img src="https://avatars.githubusercontent.com/u/1379640?v=4" width="100;" alt="jtanaka"/>
+            <br />
+            <sub><b>Jumpei Tanaka</b></sub>
+        </a>
+    </td></tr>
+</table>
 <!-- readme: collaborators,contributors -end -->
