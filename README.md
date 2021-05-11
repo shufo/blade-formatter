@@ -236,6 +236,11 @@ Try set global user as root
 $ npm -g config set user root
 ```
 
+## Contributors
+
+<!-- readme: contributors -start -->
+<!-- readme: contributors -end -->
+
 ## TODO
 
 - [ ] Editable custom directives
