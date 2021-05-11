@@ -241,3 +241,8 @@ $ npm -g config set user root
 - [ ] Editable custom directives
 - [x] `@for` directive support
 - [ ] ignore formatting in blade comment
+
+## Contributors
+
+<!-- readme: collaborators,contributors -start -->
+<!-- readme: collaborators,contributors -end -->
