@@ -1,5 +1,14 @@
 # Changelog
 
+### [1.11.6](https://www.github.com/shufo/blade-formatter/compare/v1.11.5...v1.11.6) (2021-06-13)
+
+
+### Miscellaneous
+
+* 🤖 bump vscode-oniguruma wasm to 1.5.1 ([6d22ee8](https://www.github.com/shufo/blade-formatter/commit/6d22ee885c7ecac261b651217ed9210924ec308e))
+* 🤖 delete contributors action ([9e1b038](https://www.github.com/shufo/blade-formatter/commit/9e1b0385f8c4b812169776917faf5debc2a8c65e))
+* 🤖 update README.md ([4bb2e59](https://www.github.com/shufo/blade-formatter/commit/4bb2e59da8a49af5c20a3dae95169925904bf91f))
+
 ### [1.11.5](https://www.github.com/shufo/blade-formatter/compare/v1.11.4...v1.11.5) (2021-04-18)
 
 
