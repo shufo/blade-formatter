@@ -1,4 +1,4 @@
-name: CI on MacOS
+name: Platform CI
 
 on: [push]
 
@@ -8,7 +8,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14.x]
+        node-version: [16.x]
         os: [macos-latest, ubuntu-latest, windows-latest]
 
     steps:
