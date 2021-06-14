@@ -10,6 +10,7 @@ jobs:
       matrix:
         node-version: [16.x]
         os: [macos-latest, ubuntu-latest, windows-latest]
+      fail-fast: false
 
     steps:
       - uses: actions/checkout@v1
