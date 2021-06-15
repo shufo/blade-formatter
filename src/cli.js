@@ -1,6 +1,9 @@
 import yargs from 'yargs';
 import concat from 'concat-stream';
+import { loadWASM } from 'vscode-oniguruma';
 import { BladeFormatter } from './main';
+
+const fs = require('fs').promises;
 
 export default async function cli() {
   const argv = await yargs
@@ -66,6 +69,11 @@ export default async function cli() {
     .alias('h', 'help')
     .epilog('Copyright Shuhei Hayashibara 2019').argv;
 
+  const wasm = await fs.readFile(
+    require.resolve('vscode-oniguruma/release/onig.wasm'),
+  );
+  await loadWASM(wasm.buffer);
+
   if (argv.stdin) {
     await process.stdin.pipe(
       concat({ encoding: 'string' }, (text) => {
@@ -79,6 +87,7 @@ export default async function cli() {
 
   if (argv._.length === 0) {
     yargs.showHelp();
+    return;
   }
 
   const formatter = new BladeFormatter(argv, argv._);

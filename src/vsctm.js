@@ -9,13 +9,19 @@ const dirname = path.dirname(require.resolve(module.id));
 
 export class VscodeTextmate {
   constructor(vsctm, oniguruma) {
-    this.vsctm = vsctm;
-    this.oniguruma = oniguruma || vsctmModule;
-    this.loadWasm();
+    return (async () => {
+      this.vsctm = vsctm;
+      this.oniguruma = oniguruma || vsctmModule;
+      await this.loadWasm();
+      return this;
+    })();
   }
 
   async loadWasm() {
-    const wasm = await fs.readFile(`${dirname}/../wasm/onig.wasm`);
+    const wasm = await fs.readFile(
+      require.resolve('vscode-oniguruma/release/onig.wasm'),
+    );
+    await this.oniguruma.loadWASM(wasm.buffer);
 
     if (!this.oniguruma.initCalled) {
       try {

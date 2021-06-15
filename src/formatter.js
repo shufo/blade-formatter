@@ -469,9 +469,12 @@ export default class Formatter {
     });
   }
 
-  formatAsBlade(content) {
+  async formatAsBlade(content) {
     const splitedLines = util.splitByLines(content);
-    const vsctmModule = new vsctm.VscodeTextmate(this.vsctm, this.oniguruma);
+    const vsctmModule = await new vsctm.VscodeTextmate(
+      this.vsctm,
+      this.oniguruma,
+    );
     const registry = vsctmModule.createRegistry(content);
 
     const formatted = registry
