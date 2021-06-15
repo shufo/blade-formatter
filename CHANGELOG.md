@@ -1,5 +1,20 @@
 # Changelog
 
+### [1.11.7](https://www.github.com/shufo/blade-formatter/compare/v1.11.6...v1.11.7) (2021-06-15)
+
+
+### Fixes
+
+* support node v16.x ([#289](https://www.github.com/shufo/blade-formatter/issues/289)) ([b79da20](https://www.github.com/shufo/blade-formatter/commit/b79da208efdf65ece341b85ce315479a45343e7a))
+
+
+### Miscellaneous
+
+* **deps-dev:** bump eslint from 6.8.0 to 7.28.0 ([7b2d59e](https://www.github.com/shufo/blade-formatter/commit/7b2d59ede64fe6359aa02468f13ac35dfa6707a9))
+* **deps:** bump hosted-git-info from 2.8.8 to 2.8.9 ([d15c93d](https://www.github.com/shufo/blade-formatter/commit/d15c93de656806c7061cdb01dd0ef232676334dd))
+* **deps:** bump js-beautify from 1.13.5 to 1.14.0 ([#288](https://www.github.com/shufo/blade-formatter/issues/288)) ([b653f5b](https://www.github.com/shufo/blade-formatter/commit/b653f5bd38ac0c49e1d37747474c7679dc5a1b47))
+* **deps:** bump ws from 7.4.4 to 7.4.6 ([a78e342](https://www.github.com/shufo/blade-formatter/commit/a78e34257d718e98607a99df650ed9dc2b64e5c8))
+
 ### [1.11.6](https://www.github.com/shufo/blade-formatter/compare/v1.11.5...v1.11.6) (2021-06-13)
 
 
