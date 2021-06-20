@@ -54,6 +54,5 @@
                 @endisset
             },
         }
-
     </script>
 @endpush

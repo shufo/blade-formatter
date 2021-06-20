@@ -57,5 +57,4 @@ this images is example --}}
         $('.original-image-input').val('');
         $('#preview_' + id_name).remove('');
     })
-
 </script>
