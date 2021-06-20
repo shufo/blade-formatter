@@ -188,8 +188,7 @@
                         a = t.find(u);
                     a.each(function() {
                         s = e(this);
-                        o = s.is("input[type=checkbox],input[type=radio]") ? s.is(":checked") : s
-                            .val();
+                        o = s.is("input[type=checkbox],input[type=radio]") ? s.is(":checked") : s.val();
                         if (!o === !r) {
                             if (s.is("input[type=radio]") && a.filter(
                                     'input[type=radio]:checked[name="' + s.attr("name") + '"]')
@@ -335,7 +334,6 @@
                 })
             }
         })(jQuery)
-
     </script>
     <style>
         a.status-1 {
@@ -349,8 +347,7 @@
             $.ajaxSetup({
                 beforeSend: function(xhr, settings) {
                     console.log('beforesend');
-                    settings.data +=
-                        "&_token=<?php echo csrf_token(); ?>";
+                    settings.data += "&_token=<?php echo csrf_token(); ?>";
                 }
             });
 
@@ -370,12 +367,12 @@
             $('.group-select').on('change', function() {
                 var group = $(this).val();
                 if (group) {
-                    window.location.href = '<?php echo action('\
-                    Barryvdh\ TranslationManager\ Controller @getView '); ?>/' + $(this)
-                        .val();
+                    window.location.href =
+                        '<?php echo action('\Barryvdh\TranslationManager\Controller@getView'); ?>/' + $(
+                            this).val();
                 } else {
-                    window.location.href = '<?php echo action('\
-                    Barryvdh\ TranslationManager\ Controller @getIndex '); ?>';
+                    window.location.href =
+                        '<?php echo action('\Barryvdh\TranslationManager\Controller@getIndex'); ?>';
                 }
             });
 
@@ -424,7 +421,6 @@
             }
 
         })
-
     </script>
 </head>
 
