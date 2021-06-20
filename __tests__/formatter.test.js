@@ -1293,7 +1293,6 @@ describe('formatter', () => {
     const expected = [
       `    <script>`,
       `        @isset($data['eval_gestionnaire']->project_perception) @endisset`,
-      ``,
       `    </script>`,
       ``,
     ].join('\n');
@@ -1318,7 +1317,6 @@ describe('formatter', () => {
       '       @foreach ($users as $user)',
       '           let b = 1;',
       '   @endforeach',
-      '',
       '</script>',
     ].join('\n');
 
@@ -1336,7 +1334,6 @@ describe('formatter', () => {
       '    @foreach ($users as $user)',
       '        let b = 1;',
       '    @endforeach',
-      '',
       '</script>',
       ``,
     ].join('\n');
@@ -1354,7 +1351,6 @@ describe('formatter', () => {
     const expected = [
       `<script>`,
       `    @isset($data['eval_gestionnaire']->project_perception) @endisset`,
-      ``,
       `</script>`,
       ``,
     ].join('\n');
@@ -1458,7 +1454,6 @@ describe('formatter', () => {
       `<script type="text/javascript">`,
       `    const errors = @json($errors->all('aaa'));`,
       `    console.log(errors, errors.length);`,
-      ``,
       `</script>`,
       ``,
     ].join('\n');

@@ -53,5 +53,4 @@
         output = output + "</table>";
         document.write(output);
     }
-
 </script>
