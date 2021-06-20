@@ -1,5 +1,14 @@
 # Changelog
 
+### [1.11.8](https://www.github.com/shufo/blade-formatter/compare/v1.11.7...v1.11.8) (2021-06-20)
+
+
+### Fixes
+
+* 🐛 always indenting template string in script tag ([fa17043](https://www.github.com/shufo/blade-formatter/commit/fa170438ef62a23aa0409c6a84856f41af4d1ca4))
+* 🐛 unexpected new line inserted before script closing tag ([4097a4f](https://www.github.com/shufo/blade-formatter/commit/4097a4fedb79f2e0f3ad8daa325b2cc3f8213f40))
+* 🐛 wrap line attribute behaviour in script tag ([a1763a7](https://www.github.com/shufo/blade-formatter/commit/a1763a78e36c32b203da34a963db02984be7c827))
+
 ### [1.11.7](https://www.github.com/shufo/blade-formatter/compare/v1.11.6...v1.11.7) (2021-06-15)
 
 
