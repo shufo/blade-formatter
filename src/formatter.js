@@ -41,6 +41,8 @@ export default class Formatter {
     this.bladeComments = [];
     this.bladeBraces = [];
     this.rawBladeBraces = [];
+    this.scripts = [];
+    this.templatingStrings = [];
     this.result = [];
     this.diffs = [];
   }
@@ -60,8 +62,10 @@ export default class Formatter {
         );
         return formattedAsPhp;
       })
+      .then((formattedAsPhp) => this.preserveScripts(formattedAsPhp))
       .then((formattedAsPhp) => this.formatAsHtml(formattedAsPhp))
       .then((formattedAsPhp) => this.formatAsBlade(formattedAsPhp))
+      .then((formattedAsBlade) => this.restoreScripts(formattedAsBlade))
       .then((formattedAsPhp) =>
         this.restoreBladeDirectivesInScripts(formattedAsPhp),
       )
@@ -197,6 +201,12 @@ export default class Formatter {
     });
   }
 
+  async preserveScripts(content) {
+    return _.replace(content, /<script.*?>.*?<\/script>/gis, (match) => {
+      return this.storeScripts(match);
+    });
+  }
+
   storeRawBlock(value) {
     return this.getRawPlaceholder(this.rawBlocks.push(value) - 1);
   }
@@ -224,6 +234,16 @@ export default class Formatter {
   storeRawBladeBrace(value) {
     const index = this.rawBladeBraces.push(value) - 1;
     return this.getRawBladeBracePlaceholder(index);
+  }
+
+  storeScripts(value) {
+    const index = this.scripts.push(value) - 1;
+    return this.getScriptPlaceholder(index);
+  }
+
+  storeTemplatingString(value) {
+    const index = this.templatingStrings.push(value) - 1;
+    return this.getTemplatingStringPlaceholder(index);
   }
 
   getRawPlaceholder(replace) {
@@ -258,6 +278,14 @@ export default class Formatter {
 
   getRawBladeBracePlaceholder(replace) {
     return _.replace('___raw_blade_brace_#___', '#', replace);
+  }
+
+  getScriptPlaceholder(replace) {
+    return _.replace('___scripts_#___', '#', replace);
+  }
+
+  getTemplatingStringPlaceholder(replace) {
+    return _.replace('___templating_str_#___', '#', replace);
   }
 
   restorePhpBlock(content) {
@@ -388,6 +416,48 @@ export default class Formatter {
       .join('\n');
   }
 
+  indentScriptBlock(prefix, content) {
+    if (_.isEmpty(prefix)) {
+      return content;
+    }
+
+    if (this.isInline(content)) {
+      return `${prefix}${content}`;
+    }
+
+    const leftIndentAmount = detectIndent(prefix).amount;
+    const indentLevel = leftIndentAmount / this.indentSize;
+    const prefixSpaces = this.indentCharacter.repeat(
+      indentLevel < 0 ? 0 : indentLevel * this.indentSize,
+    );
+    const prefixForEnd = this.indentCharacter.repeat(
+      indentLevel < 0 ? 0 : indentLevel * this.indentSize,
+    );
+
+    const preserved = _.replace(content, /`.*?`/gs, (match) => {
+      return this.storeTemplatingString(match);
+    });
+
+    const lines = preserved.split('\n');
+
+    const indented = _.chain(lines)
+      .map((line, index) => {
+        if (index === lines.length - 1) {
+          return prefixForEnd + line;
+        }
+
+        if (_.isEmpty(line)) {
+          return line;
+        }
+
+        return prefixSpaces + line;
+      })
+      .value()
+      .join('\n');
+
+    return this.restoreTemplatingString(indented);
+  }
+
   restoreBladeDirectivesInScripts(content) {
     const regex = new RegExp(
       `^(.*?)${this.getBladeDirectivePlaceholder('(\\d+)')}`,
@@ -467,6 +537,38 @@ export default class Formatter {
         },
       );
     });
+  }
+
+  restoreScripts(content) {
+    return new Promise((resolve) => resolve(content)).then((res) => {
+      return _.replace(
+        res,
+        new RegExp(`^(.*?)${this.getScriptPlaceholder('(\\d+)')}`, 'gim'),
+        (_match, p1, p2) => {
+          const script = this.scripts[p2];
+          const options = {
+            indent_size: util.optional(this.options).indentSize || 4,
+            wrap_line_length: util.optional(this.options).wrapLineLength || 120,
+            wrap_attributes:
+              util.optional(this.options).wrapAttributes || 'auto',
+            wrap_attributes_indent_size: p1.length,
+            end_with_newline: false,
+            templating: ['php'],
+          };
+          return this.indentScriptBlock(p1, beautify(script, options));
+        },
+      );
+    });
+  }
+
+  restoreTemplatingString(content) {
+    return _.replace(
+      content,
+      new RegExp(`${this.getTemplatingStringPlaceholder('(\\d+)')}`, 'gms'),
+      (_match, p1) => {
+        return this.templatingStrings[p1];
+      },
+    );
   }
 
   async formatAsBlade(content) {
