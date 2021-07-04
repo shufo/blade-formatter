@@ -125,11 +125,6 @@ export default class Formatter {
   }
 
   async preserveInlinePhpDirective(content) {
-    const regex = new RegExp(
-      // eslint-disable-next-line max-len
-      `(?!\\/\\*.*?\\*\\/)(@php)(\\s*?)\\(((?:[^)(]+|\\((?:[^)(]+|\\((?:[^)(]+|\\([^)(]*\\))*\\))*\\)))*\\)`,
-      'gms',
-    );
     return _.replace(
       content,
       // eslint-disable-next-line max-len
