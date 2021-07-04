@@ -1,5 +1,17 @@
 # Changelog
 
+### [1.11.9](https://www.github.com/shufo/blade-formatter/compare/v1.11.8...v1.11.9) (2021-07-04)
+
+
+### Fixes
+
+* 🐛 inline [@php](https://www.github.com/php) directive gets unexpected indent ([71bd00f](https://www.github.com/shufo/blade-formatter/commit/71bd00fc16a6d3ab4631ecf7e40e50983bb39e84))
+
+
+### Miscellaneous
+
+* **deps:** bump browserslist from 4.16.3 to 4.16.6 ([7d22f07](https://www.github.com/shufo/blade-formatter/commit/7d22f075cf2e5c2f4ce14cc6768efcc0a13268a6))
+
 ### [1.11.8](https://www.github.com/shufo/blade-formatter/compare/v1.11.7...v1.11.8) (2021-06-20)
 
 
