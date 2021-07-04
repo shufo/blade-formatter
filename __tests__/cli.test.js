@@ -584,4 +584,13 @@ describe('The blade formatter CLI', () => {
       expect(cmdResult2).toEqual(formatted.toString('utf-8'));
     },
   );
+
+  test.concurrent(
+    'should not indent after inline php directive #299',
+    async () => {
+      const input = 'inline_php_directive.blade.php';
+      const target = 'formatted.inline_php_directive.blade.php';
+      await util.checkIfTemplateIsFormattedTwice(input, target);
+    },
+  );
 });

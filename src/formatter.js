@@ -36,6 +36,7 @@ export default class Formatter {
     this.isInsideCommentBlock = false;
     this.stack = [];
     this.rawBlocks = [];
+    this.inlinePhpDirectives = [];
     this.rawPropsBlocks = [];
     this.bladeDirectives = [];
     this.bladeComments = [];
@@ -53,6 +54,7 @@ export default class Formatter {
       .then((formattedAsPhp) => this.preserveBladeComment(formattedAsPhp))
       .then((formattedAsPhp) => this.preserveBladeBrace(formattedAsPhp))
       .then((formattedAsPhp) => this.preserveRawBladeBrace(formattedAsPhp))
+      .then((formattedAsPhp) => this.preserveInlinePhpDirective(formattedAsPhp))
       .then((formattedAsPhp) =>
         this.preserveBladeDirectivesInScripts(formattedAsPhp),
       )
@@ -68,6 +70,9 @@ export default class Formatter {
       .then((formattedAsBlade) => this.restoreScripts(formattedAsBlade))
       .then((formattedAsPhp) =>
         this.restoreBladeDirectivesInScripts(formattedAsPhp),
+      )
+      .then((formattedAsBlade) =>
+        this.restoreInlinePhpDirective(formattedAsBlade),
       )
       .then((formattedAsBlade) => this.restoreRawBladeBrace(formattedAsBlade))
       .then((formattedAsBlade) => this.restoreBladeBrace(formattedAsBlade))
@@ -117,6 +122,17 @@ export default class Formatter {
     return _.replace(content, /(?<!@)@php(.*?)@endphp/gs, (match, p1) => {
       return this.storeRawBlock(p1);
     });
+  }
+
+  async preserveInlinePhpDirective(content) {
+    return _.replace(
+      content,
+      // eslint-disable-next-line max-len
+      /(?!\/\*.*?\*\/)(@php)(\s*?)\(((?:[^)(]+|\((?:[^)(]+|\((?:[^)(]+|\([^)(]*\))*\))*\)))*\)/gms,
+      (match) => {
+        return this.storeInlinePhpDirective(match);
+      },
+    );
   }
 
   preserveBladeDirectivesInScripts(content) {
@@ -211,6 +227,12 @@ export default class Formatter {
     return this.getRawPlaceholder(this.rawBlocks.push(value) - 1);
   }
 
+  storeInlinePhpDirective(value) {
+    return this.getInlinePhpPlaceholder(
+      this.inlinePhpDirectives.push(value) - 1,
+    );
+  }
+
   storeRawPropsBlock(value) {
     return this.getRawPropsPlaceholder(this.rawPropsBlocks.push(value) - 1);
   }
@@ -248,6 +270,10 @@ export default class Formatter {
 
   getRawPlaceholder(replace) {
     return _.replace('@__raw_block_#__@', '#', replace);
+  }
+
+  getInlinePhpPlaceholder(replace) {
+    return _.replace('___inline_php_directive_#___', '#', replace);
   }
 
   getRawPropsPlaceholder(replace) {
@@ -534,6 +560,24 @@ export default class Formatter {
             .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
             .trim()
             .trimRight('\n')} !!}`;
+        },
+      );
+    });
+  }
+
+  restoreInlinePhpDirective(content) {
+    return new Promise((resolve) => resolve(content)).then((res) => {
+      return _.replace(
+        res,
+        new RegExp(`${this.getInlinePhpPlaceholder('(\\d+)')}`, 'gms'),
+        (_match, p1) => {
+          const matched = this.inlinePhpDirectives[p1];
+
+          return util
+            .formatRawStringAsPhp(matched)
+            .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
+            .trim()
+            .trimRight('\n');
         },
       );
     });
