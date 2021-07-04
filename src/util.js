@@ -100,9 +100,12 @@ export function generateDiff(path, originalLines, formattedLines) {
 }
 
 export async function prettifyPhpContentWithUnescapedTags(content) {
-  const directives = _.without(indentStartTokens, '@switch', '@forelse').join(
-    '|',
-  );
+  const directives = _.without(
+    indentStartTokens,
+    '@switch',
+    '@forelse',
+    '@php',
+  ).join('|');
 
   const directiveRegexes = new RegExp(
     // eslint-disable-next-line max-len
