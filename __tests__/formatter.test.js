@@ -480,8 +480,8 @@ describe('formatter', () => {
     const expected = [
       `<?php`,
       `/**`,
-      `* @var \Modules\Common\PageDataBuilderV2\RenderableItems\Card $card`,
-      `*/`,
+      ` * @var \Modules\Common\PageDataBuilderV2\RenderableItems\Card $card`,
+      ` */`,
       `?>`,
       `@extends('layouts.mainLayout')`,
       ``,
@@ -853,7 +853,7 @@ describe('formatter', () => {
     const expected = [
       `<?php`,
       `/* Some comments on this template`,
-      `*/`,
+      ` */`,
       `?>`,
       `<div class="font-ext-links">`,
       `    <a class="btn btn-cta" href="{{ url('download/' . $font->slug) }}" title="Download {{ $font->title }}">`,
