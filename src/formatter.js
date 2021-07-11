@@ -219,7 +219,7 @@ export default class Formatter {
   }
 
   async preserveRawPhpTags(content) {
-    return _.replace(content, /<\?php(.*?)\?>/gms, (match, p1) => {
+    return _.replace(content, /<\?php(.*?)\?>/gms, (match) => {
       return this.storeRawPhpTags(match);
     });
   }
