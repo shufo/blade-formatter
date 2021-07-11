@@ -6,4 +6,6 @@ module.exports = {
   },
   testMatch: ['**/__tests__/**/?(*.)+(spec|test).[jt]s?(x)'],
   testTimeout: 10000,
+  verbose: true,
+  cache: false,
 };
