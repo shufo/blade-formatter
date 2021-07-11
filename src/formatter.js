@@ -36,6 +36,7 @@ export default class Formatter {
     this.isInsideCommentBlock = false;
     this.stack = [];
     this.rawBlocks = [];
+    this.rawPhpTags = [];
     this.inlinePhpDirectives = [];
     this.rawPropsBlocks = [];
     this.bladeDirectives = [];
@@ -49,8 +50,9 @@ export default class Formatter {
   }
 
   formatContent(content) {
-    return util
-      .formatAsPhp(content)
+    return new Promise((resolve) => resolve(content))
+      .then((target) => this.preserveRawPhpTags(target))
+      .then((target) => util.formatAsPhp(target))
       .then((formattedAsPhp) => this.preserveBladeComment(formattedAsPhp))
       .then((formattedAsPhp) => this.preserveBladeBrace(formattedAsPhp))
       .then((formattedAsPhp) => this.preserveRawBladeBrace(formattedAsPhp))
@@ -77,6 +79,7 @@ export default class Formatter {
       .then((formattedAsBlade) => this.restoreRawBladeBrace(formattedAsBlade))
       .then((formattedAsBlade) => this.restoreBladeBrace(formattedAsBlade))
       .then((formattedAsBlade) => this.restoreBladeComment(formattedAsBlade))
+      .then((target) => this.restoreRawPhpTags(target))
       .then((formattedResult) => util.checkResult(formattedResult));
   }
 
@@ -90,13 +93,11 @@ export default class Formatter {
 
     const promise = new Promise((resolve) => resolve(data))
       .then((content) => this.preservePhpBlock(content))
-      .then((content) => util.preserveOriginalPhpTagInHtml(content))
       .then((content) => util.preserveDirectivesInTag(content))
       .then((content) => util.preserveDirectives(content))
       .then((preserved) => beautify(preserved, options))
       .then((content) => util.revertDirectives(content, this.options))
       .then((content) => util.revertDirectivesInTag(content, this.options))
-      .then((beautified) => util.revertOriginalPhpTagInHtml(beautified))
       .then((content) => this.restorePhpBlock(content));
 
     return Promise.resolve(promise);
@@ -217,6 +218,12 @@ export default class Formatter {
     });
   }
 
+  async preserveRawPhpTags(content) {
+    return _.replace(content, /<\?php(.*?)\?>/gms, (match, p1) => {
+      return this.storeRawPhpTags(match);
+    });
+  }
+
   async preserveScripts(content) {
     return _.replace(content, /<script.*?>.*?<\/script>/gis, (match) => {
       return this.storeScripts(match);
@@ -256,6 +263,11 @@ export default class Formatter {
   storeRawBladeBrace(value) {
     const index = this.rawBladeBraces.push(value) - 1;
     return this.getRawBladeBracePlaceholder(index);
+  }
+
+  storeRawPhpTags(value) {
+    const index = this.rawPhpTags.push(value) - 1;
+    return this.getRawPhpTagPlaceholder(index);
   }
 
   storeScripts(value) {
@@ -304,6 +316,10 @@ export default class Formatter {
 
   getRawBladeBracePlaceholder(replace) {
     return _.replace('___raw_blade_brace_#___', '#', replace);
+  }
+
+  getRawPhpTagPlaceholder(replace) {
+    return _.replace('___raw_php_tag_#___', '#', replace);
   }
 
   getScriptPlaceholder(replace) {
@@ -484,6 +500,35 @@ export default class Formatter {
     return this.restoreTemplatingString(indented);
   }
 
+  indentRawPhpBlock(prefix, content) {
+    if (_.isEmpty(prefix)) {
+      return content;
+    }
+
+    if (this.isInline(content)) {
+      return `${prefix}${content}`;
+    }
+
+    const leftIndentAmount = detectIndent(prefix).amount;
+    const indentLevel = leftIndentAmount / this.indentSize;
+    const prefixSpaces = this.indentCharacter.repeat(
+      indentLevel < 0 ? 0 : indentLevel * this.indentSize,
+    );
+
+    const lines = content.split('\n');
+
+    return _.chain(lines)
+      .map((line, index) => {
+        if (index === 0) {
+          return line.trim();
+        }
+
+        return prefixSpaces + line;
+      })
+      .value()
+      .join('\n');
+  }
+
   restoreBladeDirectivesInScripts(content) {
     const regex = new RegExp(
       `^(.*?)${this.getBladeDirectivePlaceholder('(\\d+)')}`,
@@ -578,6 +623,43 @@ export default class Formatter {
             .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
             .trim()
             .trimRight('\n');
+        },
+      );
+    });
+  }
+
+  restoreRawPhpTags(content) {
+    return new Promise((resolve) => resolve(content)).then((res) => {
+      return _.replace(
+        res,
+        new RegExp(`${this.getRawPhpTagPlaceholder('(\\d+)')}`, 'gms'),
+        (_match, p1) => {
+          // const result= this.rawPhpTags[p1];
+          try {
+            const result = util
+              .formatStringAsPhp(this.rawPhpTags[p1])
+              .trim()
+              .trimRight('\n');
+
+            if (this.isInline(result)) {
+              return result;
+            }
+
+            const whiteSpaceAhead = res.match(
+              new RegExp(
+                `^(\\s*?)[^\\s]*?${this.getRawPhpTagPlaceholder(p1)}`,
+                'ms',
+              ),
+            );
+
+            if (whiteSpaceAhead) {
+              return this.indentRawPhpBlock(whiteSpaceAhead[1], result);
+            }
+
+            return result;
+          } catch (e) {
+            return `${this.rawPhpTags[p1]}`;
+          }
         },
       );
     });
