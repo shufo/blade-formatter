@@ -43,7 +43,7 @@ export function formatStringAsPhp(content) {
     parser: 'php',
     printWidth: 1000,
     singleQuote: true,
-    phpVersion: '7.4',
+    phpVersion: '8.0',
   });
 }
 
@@ -53,7 +53,7 @@ export function formatRawStringAsPhp(content) {
       parser: 'php',
       printWidth: 1000,
       singleQuote: true,
-      phpVersion: '7.4',
+      phpVersion: '8.0',
     })
     .replace(/<\?php echo (.*)?\?>/gs, (match, p1) => {
       return p1.trim().replace(/;\s*$/, '');
