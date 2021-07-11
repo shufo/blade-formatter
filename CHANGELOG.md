@@ -1,5 +1,20 @@
 # Changelog
 
+### [1.11.10](https://www.github.com/shufo/blade-formatter/compare/v1.11.9...v1.11.10) (2021-07-11)
+
+
+### Fixes
+
+* 🐛 bump php parser version to 8.0 ([c96eb54](https://www.github.com/shufo/blade-formatter/commit/c96eb54eee1d556583c28d0d0de47bdadd987f40))
+* 🐛 preserve original php tag in template [#304](https://www.github.com/shufo/blade-formatter/issues/304) ([19bb7ed](https://www.github.com/shufo/blade-formatter/commit/19bb7ed25c3942a5393fa69d28299182883599d4))
+
+
+### Miscellaneous
+
+* 🤖 add config for jest ([626577d](https://www.github.com/shufo/blade-formatter/commit/626577d3d11c8e4b2774ee973ce436077084ffc8))
+* 🤖 bump @prettier/plugin-php to 0.17.2 ([6b3a0a2](https://www.github.com/shufo/blade-formatter/commit/6b3a0a281af752162727b1e7cc98ab21232d14b7))
+* 🤖 use php-parser 3.0.1 ([2b5c079](https://www.github.com/shufo/blade-formatter/commit/2b5c079153b1443f117830d41eabeed548b5bc65))
+
 ### [1.11.9](https://www.github.com/shufo/blade-formatter/compare/v1.11.8...v1.11.9) (2021-07-04)
 
 
