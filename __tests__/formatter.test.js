@@ -1506,7 +1506,7 @@ describe('formatter', () => {
 
     const expected = [
       '<div',
-      '    id="username"', 
+      '    id="username"',
       '    class="min-h-48 flex flex-col justify-center"',
       '>',
       '    @if (Auth::check())',
@@ -1517,8 +1517,10 @@ describe('formatter', () => {
       ``,
     ].join('\n');
 
-    return new BladeFormatter({wrapAttributes: 'force-expand-multiline'}).format(content).then((result) => {
-      assert.equal(result, expected);
-    });
-  })
+    return new BladeFormatter({ wrapAttributes: 'force-expand-multiline' })
+      .format(content)
+      .then((result) => {
+        assert.equal(result, expected);
+      });
+  });
 });
