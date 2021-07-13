@@ -283,7 +283,7 @@ $ npm -g config set user root
         <a href="https://github.com/schelmo">
             <img src="https://avatars.githubusercontent.com/u/47602?v=4" width="100;" alt="schelmo"/>
             <br />
-            <sub><b>schelmo</b></sub>
+            <sub><b>Schelmo</b></sub>
         </a>
     </td>
     <td align="center">
