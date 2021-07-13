@@ -280,6 +280,13 @@ $ npm -g config set user root
         </a>
     </td>
     <td align="center">
+        <a href="https://github.com/schelmo">
+            <img src="https://avatars.githubusercontent.com/u/47602?v=4" width="100;" alt="schelmo"/>
+            <br />
+            <sub><b>schelmo</b></sub>
+        </a>
+    </td>
+    <td align="center">
         <a href="https://github.com/jtanaka">
             <img src="https://avatars.githubusercontent.com/u/1379640?v=4" width="100;" alt="jtanaka"/>
             <br />
