@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.11.11](https://www.github.com/shufo/blade-formatter/compare/v1.11.10...v1.11.11) (2021-07-13)
+
+
+### Fixes
+
+* disappearing lines with force-expand-multiline ([bdd7a15](https://www.github.com/shufo/blade-formatter/commit/bdd7a1553e7a61f60108738c0f02bf3b1340f49f))
+
 ### [1.11.10](https://www.github.com/shufo/blade-formatter/compare/v1.11.9...v1.11.10) (2021-07-11)
 
 
