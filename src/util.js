@@ -265,14 +265,14 @@ export function revertDirectives(content) {
     .then((res) => {
       return _.replace(
         res,
-        /<beautifyTag.*?start="(.*?)".*?exp=".*?\^\^\^(.*?)\^\^\^.*?">/gs,
+        /<beautifyTag.*?start="(.*?)".*?exp=".*?\^\^\^(.*?)\^\^\^.*?"\s*>/gs,
         (match, p1, p2) => {
           return `${p1}(${p2})`;
         },
       );
     })
     .then((res) => {
-      return _.replace(res, /<\/beautifyTag.*?end="(.*?)">/gs, (match, p1) => {
+      return _.replace(res, /<\/beautifyTag.*?end="(.*?)"\s*>/gs, (match, p1) => {
         return `${p1}`;
       });
     });
