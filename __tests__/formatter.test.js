@@ -1493,4 +1493,32 @@ describe('formatter', () => {
       assert.equal(result, expected);
     });
   });
+
+  test('force expand multilines', async () => {
+    const content = [
+      '<div id="username" class="min-h-48 flex flex-col justify-center">',
+      '@if (Auth::check())',
+      '@php($user = Auth::user())',
+      '{{ $user->name }}',
+      '@endif',
+      '</div>',
+    ].join('\n');
+
+    const expected = [
+      '<div',
+      '    id="username"', 
+      '    class="min-h-48 flex flex-col justify-center"',
+      '>',
+      '    @if (Auth::check())',
+      '        @php($user = Auth::user())',
+      '        {{ $user->name }}',
+      '    @endif',
+      '</div>',
+      ``,
+    ].join('\n');
+
+    return new BladeFormatter({wrapAttributes: 'force-expand-multiline'}).format(content).then((result) => {
+      assert.equal(result, expected);
+    });
+  })
 });
