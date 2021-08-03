@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.11.12](https://www.github.com/shufo/blade-formatter/compare/v1.11.11...v1.11.12) (2021-08-03)
+
+
+### Fixes
+
+* 🐛 add `[@append](https://www.github.com/append)` directive as indent end token ([544bd89](https://www.github.com/shufo/blade-formatter/commit/544bd89d21144bb5a36cb5473eb425b2728d117a))
+
 ### [1.11.11](https://www.github.com/shufo/blade-formatter/compare/v1.11.10...v1.11.11) (2021-07-13)
 
 
