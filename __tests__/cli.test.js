@@ -599,4 +599,10 @@ describe('The blade formatter CLI', () => {
     const target = 'formatted.raw_php_tag.blade.php';
     await util.checkIfTemplateIsFormattedTwice(input, target);
   });
+
+  test.concurrent('raw php tag should keep indent #313', async () => {
+    const input = 'append_tag.blade.php';
+    const target = 'formatted.append_tag.blade.php';
+    await util.checkIfTemplateIsFormattedTwice(input, target);
+  });
 });
