@@ -60,6 +60,20 @@ export function formatRawStringAsPhp(content) {
     });
 }
 
+export function getArgumentsCount(expression) {
+  const code = `<?php tmp_func${expression}; ?>`;
+  // eslint-disable-next-line no-underscore-dangle
+  const { ast } = prettier.__debug.parse(code, {
+    parser: 'php',
+    phpVersion: '8.0',
+  });
+  try {
+    return ast.children[0].expression.arguments.length || 0;
+  } catch (e) {
+    return 0;
+  }
+}
+
 export function normalizeIndentLevel(length) {
   if (length < 0) {
     return 0;

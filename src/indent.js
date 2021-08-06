@@ -73,6 +73,13 @@ export const indentElseTokens = [
   '@else',
 ];
 
+// Directives which do not need an end token if a parameter is present
+export const optionalStartWithoutEndTokens = {
+  '@section': 2,
+  '@push': 2,
+  '@prepend': 2,
+};
+
 export const tokenForIndentStartOrElseTokens = ['@forelse'];
 
 export const indentStartOrElseTokens = ['@empty'];
