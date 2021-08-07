@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.11.13](https://www.github.com/shufo/blade-formatter/compare/v1.11.12...v1.11.13) (2021-08-07)
+
+
+### Fixes
+
+* bug do not indent [@section](https://www.github.com/section), [@push](https://www.github.com/push) and [@prepend](https://www.github.com/prepend) if a second argument is present ([#318](https://www.github.com/shufo/blade-formatter/issues/318)) ([3faaaa5](https://www.github.com/shufo/blade-formatter/commit/3faaaa543659187213350585c3f3f353d193b183))
+
 ### [1.11.12](https://www.github.com/shufo/blade-formatter/compare/v1.11.11...v1.11.12) (2021-08-03)
 
 
