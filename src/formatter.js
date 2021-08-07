@@ -10,6 +10,7 @@ import {
   phpKeywordEndTokens,
   indentStartAndEndTokens,
   inlineFunctionTokens,
+  optionalStartWithoutEndTokens,
 } from './indent';
 import * as util from './util';
 import * as vsctm from './vsctm';
@@ -799,6 +800,28 @@ export default class Formatter {
       this.isInsideCommentBlock = true;
     }
 
+    if (this.argumentCheck) {
+      const { count, inString, stack } = this.argumentCheck;
+      if (!inString && token === ')') {
+        stack.push(token);
+        count[token] += 1;
+        if (count['('] === count[token]) {
+          // finished
+          const expression = stack.join('');
+          const argumentCount = util.getArgumentsCount(expression);
+          if (argumentCount >= this.argumentCheck.unindentOn)
+            this.shouldBeIndent = false;
+          this.argumentCheck = false;
+        }
+        return;
+      }
+      stack.push(token);
+      if (inString === token) this.argumentCheck.inString = false;
+      else if (!inString && (token === '"' || token === "'"))
+        this.argumentCheck.inString = token;
+      if (token === '(' && !inString) count[token] += 1;
+    }
+
     if (
       _.includes(tokenStruct.scopes, 'punctuation.definition.comment.end.blade')
     ) {
@@ -821,6 +844,19 @@ export default class Formatter {
     }
 
     this.processKeyword(token.toLowerCase());
+    if (
+      _.includes(
+        Object.keys(optionalStartWithoutEndTokens),
+        token.toLowerCase(),
+      )
+    ) {
+      this.argumentCheck = {
+        unindentOn: optionalStartWithoutEndTokens[token.toLowerCase()],
+        stack: [],
+        inString: false,
+        count: { '(': 0, ')': 0 },
+      };
+    }
   }
 
   processTokenizeResult(tokenizeLineResult, originalLine) {

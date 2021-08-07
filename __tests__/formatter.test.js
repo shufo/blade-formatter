@@ -1494,6 +1494,23 @@ describe('formatter', () => {
     });
   });
 
+  test('directives with optional endtags', async () => {
+    const content = [
+      `@if (true)`,
+      `    @push('some-stack', $some->getContent())`,
+      `    @section($aSection, $some->content)`,
+      `    @push('some-stack')`,
+      `        more`,
+      `    @endpush`,
+      `    @prepend($stack->name, 'here we go')`,
+      `@endif`,
+      ``,
+    ].join('\n');
+    return new BladeFormatter().format(content).then((result) => {
+      assert.equal(result, content);
+    });
+  });
+
   test('force expand multilines', async () => {
     const content = [
       '<div id="username" class="min-h-48 flex flex-col justify-center">',
