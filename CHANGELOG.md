@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.12.0](https://www.github.com/shufo/blade-formatter/compare/v1.11.13...v1.12.0) (2021-08-15)
+
+
+### Features
+
+* 🎸 support `[@overwrite](https://www.github.com/overwrite)` directive ([b3f1b9e](https://www.github.com/shufo/blade-formatter/commit/b3f1b9e04faeb5d3d9c12a5f94a6858f3dc63da3))
+
+
+### Miscellaneous
+
+* **deps:** bump path-parse from 1.0.6 to 1.0.7 ([15add05](https://www.github.com/shufo/blade-formatter/commit/15add05d7f967862bad3e7121583e48731c8c72b))
+
 ### [1.11.13](https://www.github.com/shufo/blade-formatter/compare/v1.11.12...v1.11.13) (2021-08-07)
 
 
