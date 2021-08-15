@@ -605,4 +605,10 @@ describe('The blade formatter CLI', () => {
     const target = 'formatted.append_tag.blade.php';
     await util.checkIfTemplateIsFormattedTwice(input, target);
   });
+
+  test.concurrent('support overwrite directive #327', async () => {
+    const input = 'overwrite_tag.blade.php';
+    const target = 'formatted.overwrite_tag.blade.php';
+    await util.checkIfTemplateIsFormattedTwice(input, target);
+  });
 });
