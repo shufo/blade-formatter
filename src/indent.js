@@ -62,6 +62,7 @@ export const indentEndTokens = [
   '@endonce',
   '@enderror',
   '@append',
+  '@overwrite',
 ];
 
 export const indentElseTokens = [
