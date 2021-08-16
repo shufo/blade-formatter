@@ -1496,6 +1496,14 @@ describe('formatter', () => {
 
   test('directives with optional endtags', async () => {
     const content = [
+      `@extends('layouts.test')`,
+      `@section('title', 'This is title')`,
+      `@section('content')`,
+      `    <div class="someClass">`,
+      `        This is content.`,
+      `    </div>`,
+      `@endsection`,
+      ``,
       `@if (true)`,
       `    @push('some-stack', $some->getContent())`,
       `    @section($aSection, $some->content)`,
