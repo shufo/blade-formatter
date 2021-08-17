@@ -766,7 +766,7 @@ export default class Formatter {
 
     if (_.includes(indentStartTokens, token)) {
       if (_.last(this.stack) === '@section' && token === '@section') {
-        this.currentIndentLevel -= 1;
+        if (this.currentIndentLevel > 0) this.currentIndentLevel -= 1;
         this.shouldBeIndent = true;
       } else {
         this.shouldBeIndent = true;
