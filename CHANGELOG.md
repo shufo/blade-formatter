@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.12.1](https://www.github.com/shufo/blade-formatter/compare/v1.12.0...v1.12.1) (2021-08-17)
+
+
+### Fixes
+
+* prevent indent level going negative ([f2fdd5c](https://www.github.com/shufo/blade-formatter/commit/f2fdd5c2785e5c81468e08d0b3638ad286d9e477))
+
 ## [1.12.0](https://www.github.com/shufo/blade-formatter/compare/v1.11.13...v1.12.0) (2021-08-15)
 
 
