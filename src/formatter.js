@@ -38,6 +38,7 @@ export default class Formatter {
     this.stack = [];
     this.rawBlocks = [];
     this.rawPhpTags = [];
+    this.inlineDirectives = [];
     this.inlinePhpDirectives = [];
     this.rawPropsBlocks = [];
     this.bladeDirectives = [];
@@ -57,6 +58,7 @@ export default class Formatter {
       .then((formattedAsPhp) => this.preserveBladeComment(formattedAsPhp))
       .then((formattedAsPhp) => this.preserveBladeBrace(formattedAsPhp))
       .then((formattedAsPhp) => this.preserveRawBladeBrace(formattedAsPhp))
+      .then((formattedAsPhp) => this.preserveInlineDirective(formattedAsPhp))
       .then((formattedAsPhp) => this.preserveInlinePhpDirective(formattedAsPhp))
       .then((formattedAsPhp) =>
         this.preserveBladeDirectivesInScripts(formattedAsPhp),
@@ -77,6 +79,7 @@ export default class Formatter {
       .then((formattedAsBlade) =>
         this.restoreInlinePhpDirective(formattedAsBlade),
       )
+      .then((formattedAsBlade) => this.restoreInlineDirective(formattedAsBlade))
       .then((formattedAsBlade) => this.restoreRawBladeBrace(formattedAsBlade))
       .then((formattedAsBlade) => this.restoreBladeBrace(formattedAsBlade))
       .then((formattedAsBlade) => this.restoreBladeComment(formattedAsBlade))
@@ -94,11 +97,9 @@ export default class Formatter {
 
     const promise = new Promise((resolve) => resolve(data))
       .then((content) => this.preservePhpBlock(content))
-      .then((content) => util.preserveDirectivesInTag(content))
       .then((content) => util.preserveDirectives(content))
       .then((preserved) => beautify(preserved, options))
       .then((content) => util.revertDirectives(content, this.options))
-      .then((content) => util.revertDirectivesInTag(content, this.options))
       .then((content) => this.restorePhpBlock(content));
 
     return Promise.resolve(promise);
@@ -123,6 +124,19 @@ export default class Formatter {
   async preserveRawPhpBlock(content) {
     return _.replace(content, /(?<!@)@php(.*?)@endphp/gs, (match, p1) => {
       return this.storeRawBlock(p1);
+    });
+  }
+
+  async preserveInlineDirective(content) {
+    const regex = new RegExp(
+      `(?!\\/\\*.*?\\*\\/)(${phpKeywordStartTokens.join(
+        '|',
+        // eslint-disable-next-line max-len
+      )}).*(${phpKeywordEndTokens.join('|')})`,
+      'gim',
+    );
+    return _.replace(content, regex, (match) => {
+      return this.storeInlineDirective(match);
     });
   }
 
@@ -235,6 +249,10 @@ export default class Formatter {
     return this.getRawPlaceholder(this.rawBlocks.push(value) - 1);
   }
 
+  storeInlineDirective(value) {
+    return this.getInlinePlaceholder(this.inlineDirectives.push(value) - 1);
+  }
+
   storeInlinePhpDirective(value) {
     return this.getInlinePhpPlaceholder(
       this.inlinePhpDirectives.push(value) - 1,
@@ -283,6 +301,10 @@ export default class Formatter {
 
   getRawPlaceholder(replace) {
     return _.replace('@__raw_block_#__@', '#', replace);
+  }
+
+  getInlinePlaceholder(replace) {
+    return _.replace('___inline_directive_#___', '#', replace);
   }
 
   getInlinePhpPlaceholder(replace) {
@@ -606,6 +628,19 @@ export default class Formatter {
             .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
             .trim()
             .trimRight('\n')} !!}`;
+        },
+      );
+    });
+  }
+
+  restoreInlineDirective(content) {
+    return new Promise((resolve) => resolve(content)).then((res) => {
+      return _.replace(
+        res,
+        new RegExp(`${this.getInlinePlaceholder('(\\d+)')}`, 'gms'),
+        (_match, p1) => {
+          const matched = this.inlineDirectives[p1];
+          return matched;
         },
       );
     });
