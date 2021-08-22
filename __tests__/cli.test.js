@@ -611,4 +611,10 @@ describe('The blade formatter CLI', () => {
     const target = 'formatted.overwrite_tag.blade.php';
     await util.checkIfTemplateIsFormattedTwice(input, target);
   });
+
+  test.concurrent('nested for loop #335', async () => {
+    const input = 'nested_for.blade.php';
+    const target = 'formatted.nested_for.blade.php';
+    await util.checkIfTemplateIsFormattedTwice(input, target);
+  });
 });
