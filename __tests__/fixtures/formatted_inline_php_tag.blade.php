@@ -15,7 +15,10 @@
                 </ul>
                 <div class="contentarea">
                     <details-tab previous-page-url="{{ route('frontend.element_list.index') }}"
-                        :is-next-end-date="{{ $isNextEndDate }}" @if ($detail['element_id'] !== null) cancellation-date-registration-url="{{ route('frontend.element_list.detail..cancel', [$detail['id'], $detail['element_id']]) }}" @endif>
+                        :is-next-end-date="{{ $isNextEndDate }}" @if ($detail['element_id'] !== null)
+                        cancellation-date-registration-url="{{ route('frontend.element_list.detail..cancel', [$detail['id'], $detail['element_id']]) }}"
+                        @endif
+                        >
                         <template v-slot:tab1>
                             <div class="app-info-list">
                                 <div class="item">
