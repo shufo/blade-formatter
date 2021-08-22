@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.12.2](https://www.github.com/shufo/blade-formatter/compare/v1.12.1...v1.12.2) (2021-08-22)
+
+
+### Fixes
+
+* 🐛 nested for loop formatting issue [#335](https://www.github.com/shufo/blade-formatter/issues/335) ([388e732](https://www.github.com/shufo/blade-formatter/commit/388e732d2bc45591ecc9f51d74224db2fe230a9f))
+
 ### [1.12.1](https://www.github.com/shufo/blade-formatter/compare/v1.12.0...v1.12.1) (2021-08-17)
 
 
