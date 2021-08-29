@@ -46,6 +46,7 @@ export default class Formatter {
     this.bladeBraces = [];
     this.rawBladeBraces = [];
     this.scripts = [];
+    this.classes = [];
     this.templatingStrings = [];
     this.result = [];
     this.diffs = [];
@@ -70,8 +71,10 @@ export default class Formatter {
         return formattedAsPhp;
       })
       .then((formattedAsPhp) => this.preserveScripts(formattedAsPhp))
+      .then((formattedAsPhp) => this.preserveClass(formattedAsPhp))
       .then((formattedAsPhp) => this.formatAsHtml(formattedAsPhp))
       .then((formattedAsPhp) => this.formatAsBlade(formattedAsPhp))
+      .then((formattedAsPhp) => this.restoreClass(formattedAsPhp))
       .then((formattedAsBlade) => this.restoreScripts(formattedAsBlade))
       .then((formattedAsPhp) =>
         this.restoreBladeDirectivesInScripts(formattedAsPhp),
@@ -245,6 +248,12 @@ export default class Formatter {
     });
   }
 
+  async preserveClass(content) {
+    return _.replace(content, /class=["](.*?)["]/gis, (_match, p1) => {
+      return `class="${this.storeClass(p1)}"`;
+    });
+  }
+
   storeRawBlock(value) {
     return this.getRawPlaceholder(this.rawBlocks.push(value) - 1);
   }
@@ -292,6 +301,11 @@ export default class Formatter {
   storeScripts(value) {
     const index = this.scripts.push(value) - 1;
     return this.getScriptPlaceholder(index);
+  }
+
+  storeClass(value) {
+    const index = this.classes.push(value) - 1;
+    return this.getClassPlaceholder(index, value.length);
   }
 
   storeTemplatingString(value) {
@@ -347,6 +361,20 @@ export default class Formatter {
 
   getScriptPlaceholder(replace) {
     return _.replace('___scripts_#___', '#', replace);
+  }
+
+  getClassPlaceholder(replace, length = 0) {
+    if (length > 0) {
+      const template = '___class_#___';
+      const gap = length - template.length;
+      return _.replace(
+        `___class${_.repeat('_', gap > 0 ? gap : 1)}#___`,
+        '#',
+        replace,
+      );
+    }
+
+    return _.replace('___class_+?#___', '#', replace);
   }
 
   getTemplatingStringPlaceholder(replace) {
@@ -721,6 +749,16 @@ export default class Formatter {
         },
       );
     });
+  }
+
+  restoreClass(content) {
+    return _.replace(
+      content,
+      new RegExp(`${this.getClassPlaceholder('(\\d+)')}`, 'gms'),
+      (_match, p1) => {
+        return this.classes[p1];
+      },
+    );
   }
 
   restoreTemplatingString(content) {
