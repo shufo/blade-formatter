@@ -617,4 +617,10 @@ describe('The blade formatter CLI', () => {
     const target = 'formatted.nested_for.blade.php';
     await util.checkIfTemplateIsFormattedTwice(input, target);
   });
+
+  test.concurrent('class attributes nesting forever #333', async () => {
+    const input = 'multiline_class.blade.php';
+    const target = 'formatted.multiline_class.blade.php';
+    await util.checkIfTemplateIsFormattedTwice(input, target);
+  });
 });
