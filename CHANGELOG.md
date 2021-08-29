@@ -1,5 +1,17 @@
 # Changelog
 
+### [1.12.3](https://www.github.com/shufo/blade-formatter/compare/v1.12.2...v1.12.3) (2021-08-29)
+
+
+### Fixes
+
+* 🐛 prevent unexpected indent for braces in class attribute ([7207014](https://www.github.com/shufo/blade-formatter/commit/7207014687dc7c22b81e90e9d84c5b563fea860a))
+
+
+### Miscellaneous
+
+* 🤖 follow formatting behaviour change ([8bcba65](https://www.github.com/shufo/blade-formatter/commit/8bcba65da85fb54d0a6166129100f8fc76a513dc))
+
 ### [1.12.2](https://www.github.com/shufo/blade-formatter/compare/v1.12.1...v1.12.2) (2021-08-22)
 
 
