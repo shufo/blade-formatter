@@ -287,6 +287,13 @@ $ npm -g config set user root
         </a>
     </td>
     <td align="center">
+        <a href="https://github.com/dianfishekqi">
+            <img src="https://avatars.githubusercontent.com/u/4225509?v=4" width="100;" alt="dianfishekqi"/>
+            <br />
+            <sub><b>Dian Fishekqi</b></sub>
+        </a>
+    </td>
+    <td align="center">
         <a href="https://github.com/jtanaka">
             <img src="https://avatars.githubusercontent.com/u/1379640?v=4" width="100;" alt="jtanaka"/>
             <br />
