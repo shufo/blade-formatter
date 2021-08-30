@@ -5,6 +5,7 @@ const assert = require('assert');
 const path = require('path');
 const fs = require('fs');
 const cmd = require('./support/cmd');
+const util = require('./support/util');
 
 const formatter = () => {
   return new Formatter({ indentSize: 4 });
@@ -1549,5 +1550,17 @@ describe('formatter', () => {
       .then((result) => {
         assert.equal(result, expected);
       });
+  });
+
+  test('component attribute name #346', async () => {
+    let content = [`<x-button btnClass="XXXXXX" />`].join('\n');
+    let expected = [`<x-button btnClass="XXXXXX" />`, ``].join('\n');
+
+    util.doubleFormatCheck(content, expected);
+
+    content = [`<x-button `, `    btnClass="XXXXXX"`, `/>`].join('\n');
+    expected = [`<x-button btnClass="XXXXXX" />`, ``].join('\n');
+
+    util.doubleFormatCheck(content, expected);
   });
 });

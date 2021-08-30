@@ -1,3 +1,5 @@
+import { BladeFormatter } from '../../src/main';
+
 const path = require('path');
 const fs = require('fs-extra');
 const cmd = require('./cmd');
@@ -26,4 +28,20 @@ async function checkIfTemplateIsFormattedTwice(input, target) {
   expect(cmdResult2).toEqual(formatted.toString('utf-8'));
 }
 
-module.exports = { populateFixtures, checkIfTemplateIsFormattedTwice };
+async function doubleFormatCheck(input, target) {
+  const formatter = new BladeFormatter();
+
+  const first = await formatter.format(input);
+
+  expect(first).toEqual(target);
+
+  const second = await formatter.format(input);
+
+  expect(second).toEqual(target);
+}
+
+module.exports = {
+  populateFixtures,
+  checkIfTemplateIsFormattedTwice,
+  doubleFormatCheck,
+};
