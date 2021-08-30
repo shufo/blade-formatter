@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.12.4](https://www.github.com/shufo/blade-formatter/compare/v1.12.3...v1.12.4) (2021-08-30)
+
+
+### Fixes
+
+* 🐛 converting class to lowercase on component attributes ([6bd840a](https://www.github.com/shufo/blade-formatter/commit/6bd840a9865ee59a5cb2c97b8fc3451b19effb49))
+
 ### [1.12.3](https://www.github.com/shufo/blade-formatter/compare/v1.12.2...v1.12.3) (2021-08-29)
 
 
