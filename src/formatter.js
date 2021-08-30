@@ -249,8 +249,8 @@ export default class Formatter {
   }
 
   async preserveClass(content) {
-    return _.replace(content, /class=["](.*?)["]/gis, (_match, p1) => {
-      return `class="${this.storeClass(p1)}"`;
+    return _.replace(content, /\sclass=["](.*?)["]/gis, (_match, p1) => {
+      return ` class="${this.storeClass(p1)}"`;
     });
   }
 
