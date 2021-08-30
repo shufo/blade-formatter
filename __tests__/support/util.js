@@ -35,7 +35,7 @@ async function doubleFormatCheck(input, target) {
 
   expect(first).toEqual(target);
 
-  const second = await formatter.format(input);
+  const second = await formatter.format(first);
 
   expect(second).toEqual(target);
 }
