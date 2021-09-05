@@ -39,7 +39,7 @@
     "vscode-oniguruma": "1.5.1",
     "vscode-textmate": "^5.4.0",
     "xregexp": "^5.0.1",
-    "yargs": "^16.2.0"
+    "yargs": "^17.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.6.4",
