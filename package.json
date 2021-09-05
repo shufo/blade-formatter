@@ -24,8 +24,7 @@
   "author": "Shuhei Hayashibara",
   "license": "MIT",
   "dependencies": {
-    "@prettier/plugin-php": "0.17.2",
-    "php-parser": "3.0.1",
+    "@prettier/plugin-php": "^0.17.4",
     "aigle": "^1.14.1",
     "chalk": "^4.1.0",
     "concat-stream": "^2.0.0",
@@ -35,6 +34,7 @@
     "ignore": "^5.1.8",
     "js-beautify": "^1.10.2",
     "lodash": "^4.17.19",
+    "php-parser": "3.0.1",
     "prettier": "^2.2.0",
     "vscode-oniguruma": "1.5.1",
     "vscode-textmate": "^5.4.0",

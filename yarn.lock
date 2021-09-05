@@ -1089,14 +1089,14 @@
     "@types/yargs" "^15.0.0"
     chalk "^4.0.0"
 
-"@prettier/plugin-php@0.17.2":
-  version "0.17.2"
-  resolved "https://registry.yarnpkg.com/@prettier/plugin-php/-/plugin-php-0.17.2.tgz#33f30a640e0c3798c528a7e52b6153ad731c89f3"
-  integrity sha512-0TB3rrQgCELav68Rkk0EPoanJw4tiT879pSsG4AvuvEHtPBSVHgg+lgYSCCOmdfWfTXAa/lvq5c13r0sdt2vUQ==
+"@prettier/plugin-php@^0.17.4":
+  version "0.17.4"
+  resolved "https://registry.yarnpkg.com/@prettier/plugin-php/-/plugin-php-0.17.4.tgz#00f71c9c19ba1eb0aa960600f18b5550e474e553"
+  integrity sha512-hmVWJrHCnMdQe7zr2F3yo78QZJmSksy0DN8YybTRaSR/+xn2qN+it+pegYHdXsrkmLKYDAotq5in+dG3z85b9Q==
   dependencies:
     linguist-languages "^7.5.1"
     mem "^8.0.0"
-    php-parser "https://github.com/glayzzle/php-parser#cca83041d938b972c7ef74648f29de03777b0ea4"
+    php-parser "https://github.com/glayzzle/php-parser#e61e26102144f267ecf5e09020865a9baa6ca2f1"
 
 "@sinonjs/commons@^1.7.0":
   version "1.8.2"
@@ -4172,10 +4172,9 @@ php-parser@3.0.1:
   resolved "https://registry.yarnpkg.com/php-parser/-/php-parser-3.0.1.tgz#69ae957362717cfefbc58eb208d12e48dab2e809"
   integrity sha512-m6CBPHOoMkzEHoXG0rhEg/VegSNemUNQepHnYtrRgTAh8rsqoO65KqQ32KJ5xe2iplhO0jdwd1UJ9Ea0yHsgYQ==
 
-"php-parser@https://github.com/glayzzle/php-parser#cca83041d938b972c7ef74648f29de03777b0ea4":
+"php-parser@git+https://github.com/glayzzle/php-parser.git#e61e26102144f267ecf5e09020865a9baa6ca2f1":
   version "3.0.2"
-  uid cca83041d938b972c7ef74648f29de03777b0ea4
-  resolved "https://github.com/glayzzle/php-parser#cca83041d938b972c7ef74648f29de03777b0ea4"
+  resolved "git+https://github.com/glayzzle/php-parser.git#e61e26102144f267ecf5e09020865a9baa6ca2f1"
 
 picomatch@^2.0.4, picomatch@^2.0.5:
   version "2.2.2"
