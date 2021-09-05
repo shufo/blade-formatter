@@ -34,7 +34,7 @@
     "ignore": "^5.1.8",
     "js-beautify": "^1.10.2",
     "lodash": "^4.17.19",
-    "php-parser": "3.0.1",
+    "php-parser": "3.0.3",
     "prettier": "^2.2.0",
     "vscode-oniguruma": "1.5.1",
     "vscode-textmate": "^5.4.0",

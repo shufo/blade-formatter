@@ -4167,14 +4167,14 @@ performance-now@^2.1.0:
   resolved "https://registry.yarnpkg.com/performance-now/-/performance-now-2.1.0.tgz#6309f4e0e5fa913ec1c69307ae364b4b377c9e7b"
   integrity sha1-Ywn04OX6kT7BxpMHrjZLSzd8nns=
 
-php-parser@3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/php-parser/-/php-parser-3.0.1.tgz#69ae957362717cfefbc58eb208d12e48dab2e809"
-  integrity sha512-m6CBPHOoMkzEHoXG0rhEg/VegSNemUNQepHnYtrRgTAh8rsqoO65KqQ32KJ5xe2iplhO0jdwd1UJ9Ea0yHsgYQ==
+php-parser@3.0.3:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/php-parser/-/php-parser-3.0.3.tgz#287779ea8a273ec5cf926f28e5f38ffa4ad32d4a"
+  integrity sha512-WjbrtYrwmLY9hpoKoq1+mVqJhT0dEVDZRWSpNIw2MpTw3VM/K4C6e0WR4KlU6G/XROkV7tpH4NesV2dDiPxqaw==
 
-"php-parser@git+https://github.com/glayzzle/php-parser.git#e61e26102144f267ecf5e09020865a9baa6ca2f1":
+"php-parser@https://github.com/glayzzle/php-parser#e61e26102144f267ecf5e09020865a9baa6ca2f1":
   version "3.0.2"
-  resolved "git+https://github.com/glayzzle/php-parser.git#e61e26102144f267ecf5e09020865a9baa6ca2f1"
+  resolved "https://github.com/glayzzle/php-parser#e61e26102144f267ecf5e09020865a9baa6ca2f1"
 
 picomatch@^2.0.4, picomatch@^2.0.5:
   version "2.2.2"
