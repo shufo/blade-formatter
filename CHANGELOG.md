@@ -1,5 +1,18 @@
 # Changelog
 
+### [1.12.5](https://www.github.com/shufo/blade-formatter/compare/v1.12.4...v1.12.5) (2021-09-06)
+
+
+### Miscellaneous
+
+* 🤖 bump php-parser to 3.0.3 ([37e01cb](https://www.github.com/shufo/blade-formatter/commit/37e01cb6023b5111f6362c8b4a54804d7e184d94))
+* 🤖 bump prettier/plugin-php to 0.17.4 ([ce1b901](https://www.github.com/shufo/blade-formatter/commit/ce1b901e8247dbe5c3bf4c17a365dcdd054745cc))
+
+
+### Fixes
+
+* 🐛 empty class attribute cause unexpected replacement ([9acce17](https://www.github.com/shufo/blade-formatter/commit/9acce17d9b5b816f8911a8a88ff6250cbb4465c9))
+
 ### [1.12.4](https://www.github.com/shufo/blade-formatter/compare/v1.12.3...v1.12.4) (2021-08-30)
 
 
