@@ -249,7 +249,7 @@ export default class Formatter {
   }
 
   async preserveClass(content) {
-    return _.replace(content, /(\s)class=["](.*?)["]/gis, (_match, p1, p2) => {
+    return _.replace(content, /(\s)class=["](.+?)["]/gis, (_match, p1, p2) => {
       return `${p1}class="${this.storeClass(p2)}"`;
     });
   }

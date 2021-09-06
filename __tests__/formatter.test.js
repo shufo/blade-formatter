@@ -1563,4 +1563,11 @@ describe('formatter', () => {
 
     util.doubleFormatCheck(content, expected);
   });
+
+  test('empty class atrbitue', async () => {
+    let content = [`<div class=""></div>`].join('\n');
+    let expected = [`<div class=""></div>`, ``].join('\n');
+
+    util.doubleFormatCheck(content, expected);
+  });
 });
