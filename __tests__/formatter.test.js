@@ -1570,4 +1570,53 @@ describe('formatter', () => {
 
     util.doubleFormatCheck(content, expected);
   });
+
+  test('support laravel-permission directives', async () => {
+    const directives = [
+      {
+        start: '@role',
+        end: '@endrole',
+      },
+      {
+        start: '@hasrole',
+        end: '@endhasrole',
+      },
+      {
+        start: '@hasanyrole',
+        end: '@endhasanyrole',
+      },
+      {
+        start: '@hasallroles',
+        end: '@endhasallroles',
+      },
+      {
+        start: '@unlessrole',
+        end: '@endunlessrole',
+      },
+      {
+        start: '@hasexactroles',
+        end: '@endhasexactroles',
+      },
+    ];
+
+    directives.forEach((target) => {
+      const content = [
+        `<div class="">`,
+        `${target.start}('foo')`,
+        `<div>bar</div>`,
+        `${target.end}`,
+        `</div>`,
+      ].join('\n');
+      const expected = [
+        `<div class="">`,
+        `    ${target.start}('foo')`,
+        `        <div>bar</div>`,
+        `    ${target.end}`,
+        `</div>`,
+        ``,
+      ].join('\n');
+
+      util.doubleFormatCheck(content, expected);
+    });
+  });
 });
