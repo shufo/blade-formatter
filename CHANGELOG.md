@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.12.6](https://www.github.com/shufo/blade-formatter/compare/v1.12.5...v1.12.6) (2021-10-09)
+
+
+### Miscellaneous
+
+* **doc:** change coc extension in README ([dd083b8](https://www.github.com/shufo/blade-formatter/commit/dd083b884ff8c3c7553f447055578722291b6f64))
+
 ### [1.12.5](https://www.github.com/shufo/blade-formatter/compare/v1.12.4...v1.12.5) (2021-09-06)
 
 
