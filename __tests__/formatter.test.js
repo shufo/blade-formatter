@@ -1569,6 +1569,17 @@ describe('formatter', () => {
     let expected = [`<div class=""></div>`, ``].join('\n');
 
     util.doubleFormatCheck(content, expected);
+
+    content = [
+      `<input class="" type="file" name="product_images[]" multiple />
+`,
+    ].join('\n');
+    expected = [
+      `<input class="" type="file" name="product_images[]" multiple />`,
+      ``,
+    ].join('\n');
+
+    util.doubleFormatCheck(content, expected);
   });
 
   test('support laravel-permission directives', async () => {
