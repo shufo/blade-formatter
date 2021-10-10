@@ -249,9 +249,13 @@ export default class Formatter {
   }
 
   async preserveClass(content) {
-    return _.replace(content, /(\s*)class="(.*?)"(\s*)/gs, (_match, p1, p2, p3) => {
-      return `${p1}class="${this.storeClass(p2)}"${p3}`;
-    });
+    return _.replace(
+      content,
+      /(\s*)class="(.*?)"(\s*)/gs,
+      (_match, p1, p2, p3) => {
+        return `${p1}class="${this.storeClass(p2)}"${p3}`;
+      },
+    );
   }
 
   storeRawBlock(value) {
