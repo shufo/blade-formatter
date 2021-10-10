@@ -1561,14 +1561,25 @@ describe('formatter', () => {
     content = [`<x-button `, `    btnClass="XXXXXX"`, `/>`].join('\n');
     expected = [`<x-button btnClass="XXXXXX" />`, ``].join('\n');
 
-    util.doubleFormatCheck(content, expected);
+    await util.doubleFormatCheck(content, expected);
   });
 
   test('empty class atrbitue', async () => {
     let content = [`<div class=""></div>`].join('\n');
     let expected = [`<div class=""></div>`, ``].join('\n');
 
-    util.doubleFormatCheck(content, expected);
+    await util.doubleFormatCheck(content, expected);
+
+    content = [
+      `<input class="" type="file" name="product_images[]" multiple />
+`,
+    ].join('\n');
+    expected = [
+      `<input class="" type="file" name="product_images[]" multiple />`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
   });
 
   test('support laravel-permission directives', async () => {
@@ -1599,7 +1610,7 @@ describe('formatter', () => {
       },
     ];
 
-    directives.forEach((target) => {
+    directives.forEach(async (target) => {
       const content = [
         `<div class="">`,
         `${target.start}('foo')`,
@@ -1616,7 +1627,7 @@ describe('formatter', () => {
         ``,
       ].join('\n');
 
-      util.doubleFormatCheck(content, expected);
+      await util.doubleFormatCheck(content, expected);
     });
   });
 });

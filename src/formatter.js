@@ -249,9 +249,13 @@ export default class Formatter {
   }
 
   async preserveClass(content) {
-    return _.replace(content, /(\s)class=["](.+?)["]/gis, (_match, p1, p2) => {
-      return `${p1}class="${this.storeClass(p2)}"`;
-    });
+    return _.replace(
+      content,
+      /(\s*)class="(.*?)"(\s*)/gs,
+      (_match, p1, p2, p3) => {
+        return `${p1}class="${this.storeClass(p2)}"${p3}`;
+      },
+    );
   }
 
   storeRawBlock(value) {
@@ -305,7 +309,12 @@ export default class Formatter {
 
   storeClass(value) {
     const index = this.classes.push(value) - 1;
-    return this.getClassPlaceholder(index, value.length);
+
+    if (value.length > 0) {
+      return this.getClassPlaceholder(index, value.length);
+    }
+
+    return this.getClassPlaceholder(index, null);
   }
 
   storeTemplatingString(value) {
@@ -363,8 +372,8 @@ export default class Formatter {
     return _.replace('___scripts_#___', '#', replace);
   }
 
-  getClassPlaceholder(replace, length = 0) {
-    if (length > 0) {
+  getClassPlaceholder(replace, length) {
+    if (length && length > 0) {
       const template = '___class_#___';
       const gap = length - template.length;
       return _.replace(
@@ -372,6 +381,10 @@ export default class Formatter {
         '#',
         replace,
       );
+    }
+
+    if (_.isNull(length)) {
+      return _.replace('___class_#___', '#', replace);
     }
 
     return _.replace('___class_+?#___', '#', replace);
