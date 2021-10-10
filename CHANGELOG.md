@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.13.0](https://www.github.com/shufo/blade-formatter/compare/v1.12.5...v1.13.0) (2021-10-10)
+
+
+### Features
+
+* 🎸 add support for laravel-permission directives ([672c3f1](https://www.github.com/shufo/blade-formatter/commit/672c3f1e1cd7dd59d4dd8644052f1ae70e0b6a92))
+
+
+### Miscellaneous
+
+* **doc:** change coc extension in README ([dd083b8](https://www.github.com/shufo/blade-formatter/commit/dd083b884ff8c3c7553f447055578722291b6f64))
+
+
+### Fixes
+
+* 🐛 empty class attribute with other attributes ([#372](https://www.github.com/shufo/blade-formatter/issues/372)) ([2f2432e](https://www.github.com/shufo/blade-formatter/commit/2f2432e60dad083e68046c2e8dc81748813e1b7e))
+
 ### [1.12.5](https://www.github.com/shufo/blade-formatter/compare/v1.12.4...v1.12.5) (2021-09-06)
 
 
