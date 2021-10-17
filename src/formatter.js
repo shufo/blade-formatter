@@ -696,11 +696,11 @@ export default class Formatter {
           const matched = this.inlinePhpDirectives[p2];
 
           if (matched.includes('@php')) {
-            return util
+            return `${p1}${util
               .formatRawStringAsPhp(matched)
               .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
               .trim()
-              .trimRight('\n');
+              .trimRight('\n')}`;
           }
 
           if (matched.includes('@class')) {
