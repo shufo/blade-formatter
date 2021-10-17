@@ -694,22 +694,32 @@ export default class Formatter {
         new RegExp(`(\\s*?)${this.getInlinePhpPlaceholder('(\\d+)')}`, 'gms'),
         (_match, p1, p2) => {
           const matched = this.inlinePhpDirectives[p2];
-          const formatted = _.replace(
-            matched,
-            /^@(class)(.*)/gis,
-            (match2, p3, p4) => {
-              const inside = util
-                .formatRawStringAsPhp(`func_inline_for_${p3}${p4}`, 80, false)
-                .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
-                .trim()
-                .trimRight('\n');
 
-              return `${p1}@${inside}`.replace('func_inline_for_', '');
-            },
-          );
+          if (matched.includes('@php')) {
+            return util
+              .formatRawStringAsPhp(matched)
+              .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
+              .trim()
+              .trimRight('\n');
+          }
 
-          return formatted;
-          // return this.indentRawPhpBlock(p1, formatted);
+          if (matched.includes('@class')) {
+            const formatted = _.replace(
+              matched,
+              /^@(class)(.*)/gis,
+              (match2, p3, p4) => {
+                const inside = util
+                  .formatRawStringAsPhp(`func_inline_for_${p3}${p4}`, 80, false)
+                  .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
+                  .trim()
+                  .trimRight('\n');
+
+                return `${p1}@${inside}`.replace('func_inline_for_', '');
+              },
+            );
+
+            return formatted;
+          }
         },
       );
     });
