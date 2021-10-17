@@ -147,7 +147,7 @@ export default class Formatter {
     return _.replace(
       content,
       // eslint-disable-next-line max-len
-      /(?!\/\*.*?\*\/)(@php)(\s*?)\(((?:[^)(]+|\((?:[^)(]+|\((?:[^)(]+|\([^)(]*\))*\))*\)))*\)/gms,
+      /(?!\/\*.*?\*\/)(@php|@class)(\s*?)\(((?:[^)(]+|\((?:[^)(]+|\((?:[^)(]+|\([^)(]*\))*\))*\)))*\)/gms,
       (match) => {
         return this.storeInlinePhpDirective(match);
       },
@@ -691,15 +691,25 @@ export default class Formatter {
     return new Promise((resolve) => resolve(content)).then((res) => {
       return _.replace(
         res,
-        new RegExp(`${this.getInlinePhpPlaceholder('(\\d+)')}`, 'gms'),
-        (_match, p1) => {
-          const matched = this.inlinePhpDirectives[p1];
+        new RegExp(`(\\s*?)${this.getInlinePhpPlaceholder('(\\d+)')}`, 'gms'),
+        (_match, p1, p2) => {
+          const matched = this.inlinePhpDirectives[p2];
+          const formatted = _.replace(
+            matched,
+            /^@(class)(.*)/gis,
+            (match2, p3, p4) => {
+              const inside = util
+                .formatRawStringAsPhp(`func_inline_for_${p3}${p4}`, 80, false)
+                .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
+                .trim()
+                .trimRight('\n');
 
-          return util
-            .formatRawStringAsPhp(matched)
-            .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
-            .trim()
-            .trimRight('\n');
+              return `${p1}@${inside}`.replace('func_inline_for_', '');
+            },
+          );
+
+          return formatted;
+          // return this.indentRawPhpBlock(p1, formatted);
         },
       );
     });
