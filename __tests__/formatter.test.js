@@ -1630,4 +1630,160 @@ describe('formatter', () => {
       await util.doubleFormatCheck(content, expected);
     });
   });
+
+  test('@class directive', async () => {
+    let content = [
+      `<span @class([ 'p-4' , 'font-bold'=>$isActive])></span>`,
+    ].join('\n');
+    let expected = [
+      `<span @class(['p-4', 'font-bold' => $isActive])></span>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+
+    content = [
+      `<span @class([ 'p-4' , 'font-bold'=>$isActive,`,
+      `    ])></span>`,
+    ].join('\n');
+
+    expected = [
+      `<span @class(['p-4', 'font-bold' => $isActive])></span>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+
+    content = [
+      `<span @class([ 'p-4',`,
+      `   'font-bold'=>$isActive,`,
+      `   'text-gray-500' => !$isActive,`,
+      `   'bg-red' => $hasError,`,
+      `])></span>`,
+    ].join('\n');
+
+    expected = [
+      '<span @class([',
+      `    'p-4',`,
+      `    'font-bold' => $isActive,`,
+      `    'text-gray-500' => !$isActive,`,
+      `    'bg-red' => $hasError,`,
+      `])></span>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+
+    content = [
+      '<div>',
+      `<span @class([ 'p-4',`,
+      `   'font-bold'=>$isActive,`,
+      `   'text-gray-500' => !$isActive,`,
+      `   'bg-red' => $hasError,`,
+      '])></span>',
+      `</div>`,
+    ].join('\n');
+
+    expected = [
+      '<div>',
+      `    <span @class([`,
+      `        'p-4',`,
+      `        'font-bold' => $isActive,`,
+      `        'text-gray-500' => !$isActive,`,
+      `        'bg-red' => $hasError,`,
+      `    ])></span>`,
+      `</div>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
+
+  test('@button directive', async () => {
+    let content = [`@button(['class'=>'btn btn-primary p-btn-wide',])`].join(
+      '\n',
+    );
+    let expected = [
+      `@button(['class' => 'btn btn-primary p-btn-wide'])`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+
+    content = [
+      `@button([`,
+      `'class'=>'btn btn-primary p-btn-wide',`,
+      `])`,
+    ].join('\n');
+
+    expected = [
+      `@button([`,
+      `    'class' => 'btn btn-primary p-btn-wide',`,
+      `])`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+
+    content = [
+      `<div>`,
+      `@button(['class' => 'btn btn-primary p-btn-wide',])`,
+      `</div>`,
+    ].join('\n');
+
+    expected = [
+      `<div>`,
+      `    @button(['class' => 'btn btn-primary p-btn-wide'])`,
+      `</div>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+
+    content = [
+      `<div>`,
+      `@button([`,
+      `'class' => 'btn btn-primary p-btn-wide',`,
+      `'text' => 'Save',`,
+      `])`,
+      `</div>`,
+    ].join('\n');
+
+    expected = [
+      `<div>`,
+      `    @button([`,
+      `        'class' => 'btn btn-primary p-btn-wide',`,
+      `        'text' => 'Save',`,
+      `    ])`,
+      `</div>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+
+    content = [
+      `<div>`,
+      `<div>`,
+      `@button([`,
+      `'class' => 'btn btn-primary p-btn-wide',`,
+      `'text' => 'Save',`,
+      `])`,
+      `</div>`,
+      `</div>`,
+    ].join('\n');
+
+    expected = [
+      `<div>`,
+      `    <div>`,
+      `        @button([`,
+      `            'class' => 'btn btn-primary p-btn-wide',`,
+      `            'text' => 'Save',`,
+      `        ])`,
+      `    </div>`,
+      `</div>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
 });
