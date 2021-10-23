@@ -147,7 +147,7 @@ export default class Formatter {
     return _.replace(
       content,
       // eslint-disable-next-line max-len
-      /(?!\/\*.*?\*\/)(@php|@class)(\s*?)\(((?:[^)(]+|\((?:[^)(]+|\((?:[^)(]+|\([^)(]*\))*\))*\)))*\)/gms,
+      /(?!\/\*.*?\*\/)(@php|@class|@button)(\s*?)\(((?:[^)(]+|\((?:[^)(]+|\((?:[^)(]+|\([^)(]*\))*\))*\)))*\)/gms,
       (match) => {
         return this.storeInlinePhpDirective(match);
       },
@@ -691,7 +691,7 @@ export default class Formatter {
     return new Promise((resolve) => resolve(content)).then((res) => {
       return _.replace(
         res,
-        new RegExp(`(\\s*?)${this.getInlinePhpPlaceholder('(\\d+)')}`, 'gms'),
+        new RegExp(`(.*?)${this.getInlinePhpPlaceholder('(\\d+)')}`, 'gm'),
         (_match, p1, p2) => {
           const matched = this.inlinePhpDirectives[p2];
 
@@ -703,23 +703,63 @@ export default class Formatter {
               .trimRight('\n')}`;
           }
 
-          if (matched.includes('@class')) {
+          if (matched.includes('@button')) {
             const formatted = _.replace(
               matched,
-              /^@(class)(.*)/gis,
+              /@(button)(.*)/gis,
               (match2, p3, p4) => {
                 const inside = util
-                  .formatRawStringAsPhp(`func_inline_for_${p3}${p4}`, 80, false)
+                  .formatRawStringAsPhp(`func_inline_for_${p3}${p4}`, 80, true)
                   .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
                   .trim()
                   .trimRight('\n');
 
-                return `${p1}@${inside}`.replace('func_inline_for_', '');
+                if (this.isInline(inside)) {
+                  return `${this.indentRawPhpBlock(
+                    p1,
+                    `@${inside}`.replace('func_inline_for_', ''),
+                  )}`;
+                }
+
+                return `${p1}${this.indentRawPhpBlock(
+                  p1,
+                  `@${inside}`.replace('func_inline_for_', ''),
+                )}`;
               },
             );
 
             return formatted;
           }
+
+          if (matched.includes('@class')) {
+            const formatted = _.replace(
+              matched,
+              /@(class)(.*)/gis,
+              (match2, p4, p5) => {
+                const inside = util
+                  .formatRawStringAsPhp(`func_inline_for_${p4}${p5}`, 80, true)
+                  .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
+                  .trim()
+                  .trimRight('\n');
+
+                if (this.isInline(inside)) {
+                  return `${this.indentRawPhpBlock(
+                    p1,
+                    `@${inside}`.replace('func_inline_for_', ''),
+                  )}`;
+                }
+
+                return `${p1}${this.indentRawPhpBlock(
+                  p1,
+                  `@${inside}`.replace('func_inline_for_', ''),
+                )}`;
+              },
+            );
+
+            return formatted;
+          }
+
+          return `${p1}${matched}`;
         },
       );
     });
