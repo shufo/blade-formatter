@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.14.0](https://www.github.com/shufo/blade-formatter/compare/v1.13.0...v1.14.0) (2021-10-24)
+
+
+### Features
+
+* 🎸 support button/class directive ([#378](https://www.github.com/shufo/blade-formatter/issues/378)) ([82dedee](https://www.github.com/shufo/blade-formatter/commit/82dedee4fc6b95497fee685755557cf63fd5f435))
+
 ## [1.13.0](https://www.github.com/shufo/blade-formatter/compare/v1.12.5...v1.13.0) (2021-10-10)
 
 
