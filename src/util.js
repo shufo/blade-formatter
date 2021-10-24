@@ -47,13 +47,18 @@ export function formatStringAsPhp(content) {
   });
 }
 
-export function formatRawStringAsPhp(content) {
+export function formatRawStringAsPhp(
+  content,
+  printWidth = 1000,
+  trailingCommaPHP = true,
+) {
   return prettier
     .format(`<?php echo ${content} ?>`, {
       parser: 'php',
-      printWidth: 1000,
+      printWidth,
       singleQuote: true,
       phpVersion: '8.0',
+      trailingCommaPHP,
     })
     .replace(/<\?php echo (.*)?\?>/gs, (match, p1) => {
       return p1.trim().replace(/;\s*$/, '');

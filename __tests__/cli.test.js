@@ -623,4 +623,10 @@ describe('The blade formatter CLI', () => {
     const target = 'formatted.multiline_class.blade.php';
     await util.checkIfTemplateIsFormattedTwice(input, target);
   });
+
+  test.concurrent('class/button directive', async () => {
+    const input = 'class_directive.blade.php';
+    const target = 'formatted.class_directive.blade.php';
+    await util.checkIfTemplateIsFormattedTwice(input, target);
+  });
 });
