@@ -1,4 +1,4 @@
-name: Node CI
+name: installation test
 
 on: [push]
 
@@ -11,12 +11,11 @@ jobs:
         node-version: [14.x]
 
     steps:
-      - uses: actions/checkout@v1
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
       - name: install blade-formatter
-        run: cd __tests__ && npm install --save-dev blade-formatter
+        run: npm install --save-dev blade-formatter
       - name: run blade-formatter
-        run: cd __tests__ && ./node_modules/.bin/blade-formatter **/*.blade.php
+        run: ./node_modules/.bin/blade-formatter **/*.blade.php
