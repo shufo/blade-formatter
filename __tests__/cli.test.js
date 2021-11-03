@@ -629,4 +629,10 @@ describe('The blade formatter CLI', () => {
     const target = 'formatted.class_directive.blade.php';
     await util.checkIfTemplateIsFormattedTwice(input, target);
   });
+
+  test.concurrent('multiline blade brace #382', async () => {
+    const input = 'multiline_blade_brace.blade.php';
+    const target = 'formatted.multiline_blade_brace.blade.php';
+    await util.checkIfTemplateIsFormattedTwice(input, target);
+  });
 });
