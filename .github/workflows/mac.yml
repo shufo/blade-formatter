@@ -17,6 +17,6 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: install blade-formatter
-        run: npm install --save-dev blade-formatter
+        run: cd __tests__ && npm install --save-dev blade-formatter
       - name: run blade-formatter
-        run: ./node_modules/.bin/blade-formatter __tests__/**/*.blade.php
+        run: cd __tests__ && ./node_modules/.bin/blade-formatter **/*.blade.php
