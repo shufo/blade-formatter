@@ -634,19 +634,30 @@ export default class Formatter {
     return new Promise((resolve) => resolve(content)).then((res) => {
       return _.replace(
         res,
-        new RegExp(`${this.getBladeBracePlaceholder('(\\d+)')}`, 'gms'),
-        (_match, p1) => {
-          const bladeBrace = this.bladeBraces[p1];
+        new RegExp(`(.*?)${this.getBladeBracePlaceholder('(\\d+)')}`, 'gm'),
+        (_match, p1, p2) => {
+          const bladeBrace = this.bladeBraces[p2];
 
           if (bladeBrace.trim() === '') {
-            return `{{${bladeBrace}}}`;
+            return `${p1}{{${bladeBrace}}}`;
           }
 
-          return `{{ ${util
-            .formatRawStringAsPhp(bladeBrace)
-            .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
-            .trim()
-            .trimRight('\n')} }}`;
+          if (this.isInline(bladeBrace)) {
+            return `${p1}{{ ${util
+              .formatRawStringAsPhp(bladeBrace)
+              .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
+              .trim()
+              .trimRight('\n')} }}`;
+          }
+
+          return `${p1}{{ ${this.indentRawPhpBlock(
+            p1,
+            util
+              .formatRawStringAsPhp(bladeBrace)
+              .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
+              .trim()
+              .trimRight('\n'),
+          )} }}`;
         },
       );
     });
