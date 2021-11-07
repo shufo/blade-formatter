@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.14.2](https://www.github.com/shufo/blade-formatter/compare/v1.14.1...v1.14.2) (2021-11-07)
+
+
+### Fixes
+
+* 🐛 consecutive case directive ([82c76e8](https://www.github.com/shufo/blade-formatter/commit/82c76e868407ebc93bc0b227a54461bcdf1803ef))
+
 ### [1.14.1](https://www.github.com/shufo/blade-formatter/compare/v1.14.0...v1.14.1) (2021-11-03)
 
 
