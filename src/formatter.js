@@ -896,6 +896,7 @@ export default class Formatter {
     if (_.includes(phpKeywordStartTokens, token)) {
       if (_.last(this.stack) === '@case' && token === '@case') {
         this.currentIndentLevel -= 1;
+        return;
       }
 
       this.stack.push(token);
