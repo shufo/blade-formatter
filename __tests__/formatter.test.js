@@ -1796,4 +1796,37 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
+
+  test('@forelse-@empty-@endforelse directive in scripts', async () => {
+    const content = [
+      `<script>`,
+      `    var addNewCoin = [`,
+      `        @forelse($coins as $coin)`,
+      `            {`,
+      `                 "id": {{$coin->id }},`,
+      `            "name": "{{ $coin->name }}"`,
+      `            },`,
+      `               @empty`,
+      `        @endforelse`,
+      `    ];`,
+      `</script>`,
+    ].join('\n');
+
+    const expected = [
+      `<script>`,
+      `    var addNewCoin = [`,
+      `        @forelse($coins as $coin)`,
+      `            {`,
+      `            "id": {{ $coin->id }},`,
+      `            "name": "{{ $coin->name }}"`,
+      `            },`,
+      `        @empty`,
+      `        @endforelse`,
+      `    ];`,
+      `</script>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
 });

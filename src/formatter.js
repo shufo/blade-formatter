@@ -177,7 +177,7 @@ export default class Formatter {
         });
 
         const directives = _.chain(indentStartTokens)
-          .without('@switch', '@forelse')
+          .without('@switch', '@forelse', '@empty')
           .map((x) => _.replace(x, /@/, ''))
           .value();
 
