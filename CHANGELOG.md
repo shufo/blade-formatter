@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.14.3](https://www.github.com/shufo/blade-formatter/compare/v1.14.2...v1.14.3) (2021-11-22)
+
+
+### Fixes
+
+* 🐛 forelse-empty directive in scripts ([7d494d1](https://www.github.com/shufo/blade-formatter/commit/7d494d10bde7938ba106c1f75e4a91d94ac6678a))
+
 ### [1.14.2](https://www.github.com/shufo/blade-formatter/compare/v1.14.1...v1.14.2) (2021-11-07)
 
 
