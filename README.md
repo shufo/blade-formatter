@@ -9,6 +9,8 @@ An opinionated blade template formatter for Laravel that respects readability
 
 ![blade-formatter](https://user-images.githubusercontent.com/1641039/90263225-51f3b280-de8a-11ea-940c-54c3554174d2.png)
 
+This project aims to provide formatter for blade template because there is no official blade template formatter.
+
 [Online Demo](https://online-blade-formatter.vercel.app/)
 
 ## Features
