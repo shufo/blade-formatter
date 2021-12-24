@@ -247,7 +247,7 @@ export function preserveDirectives(content) {
         'gis',
       );
       return _.replace(res, regex, (match, p1, p2, p3) => {
-        return `<beautifyTag start="${p1}${p2}" exp="^^^${p3}^^^">`;
+        return `<beautifyTag start="${p1}${p2}" exp="^^^${_.escape(p3)}^^^">`;
       });
     })
     .then((res) => {
@@ -286,7 +286,7 @@ export function revertDirectives(content) {
         res,
         /<beautifyTag.*?start="(.*?)".*?exp=".*?\^\^\^(.*?)\^\^\^.*?"\s*>/gs,
         (match, p1, p2) => {
-          return `${p1}(${p2})`;
+          return `${p1}(${_.unescape(p2)})`;
         },
       );
     })
