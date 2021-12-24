@@ -32,7 +32,7 @@
     "esm": "^3.2.25",
     "glob": "^7.1.4",
     "ignore": "^5.1.8",
-    "js-beautify": "^1.10.2",
+    "js-beautify": "^1.14.0",
     "lodash": "^4.17.19",
     "php-parser": "3.0.3",
     "prettier": "^2.2.0",
