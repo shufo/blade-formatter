@@ -917,8 +917,8 @@ describe('formatter', () => {
     ].join('\n');
 
     const expected = [
-      `<body class="hold-transition login-page" @if (config('admin.login_background_image'))`,
-      `    style="background: url({{ config('admin.login_background_image') }}) no-repeat;background-size: cover;"`,
+      `<body class=\"hold-transition login-page\" @if (config('admin.login_background_image'))style=\"background:`,
+      `    url({{ config('admin.login_background_image') }}) no-repeat;background-size: cover;\"`,
       `    @endif>`,
       ``,
     ].join('\n');
@@ -1824,6 +1824,31 @@ describe('formatter', () => {
       `        @endforelse`,
       `    ];`,
       `</script>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
+
+  test('quoted expression should not adds space', async () => {
+    const content = [
+      `@foreach ($items as $item)`,
+      `    @switch($item->status)`,
+      `        @case("status")`,
+      `            // Do something`,
+      `        @break`,
+      `    @endswitch`,
+      `@endforeach`,
+    ].join('\n');
+
+    const expected = [
+      `@foreach ($items as $item)`,
+      `    @switch($item->status)`,
+      `        @case("status")`,
+      `            // Do something`,
+      `        @break`,
+      `    @endswitch`,
+      `@endforeach`,
       ``,
     ].join('\n');
 
