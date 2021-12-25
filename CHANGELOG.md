@@ -1,5 +1,18 @@
 # Changelog
 
+### [1.14.4](https://www.github.com/shufo/blade-formatter/compare/v1.14.3...v1.14.4) (2021-12-24)
+
+
+### Miscellaneous
+
+* **dep-deps:** bump js-beautify to 0.14.0 ([b478a05](https://www.github.com/shufo/blade-formatter/commit/b478a05dee9806fd22454ce9b78d8aa1697f6138))
+* **dev-deps:** bump prettier/plugin-php to 0.17.6 ([4caa228](https://www.github.com/shufo/blade-formatter/commit/4caa228e620a5d9f534b4926f0534c1dd93d9277))
+
+
+### Fixes
+
+* 🐛 adds unnecessary space on quoted expression ([72ce6c7](https://www.github.com/shufo/blade-formatter/commit/72ce6c705d2d5ccf6ab75e6514f9422c92b2060e))
+
 ### [1.14.3](https://www.github.com/shufo/blade-formatter/compare/v1.14.2...v1.14.3) (2021-11-22)
 
 
