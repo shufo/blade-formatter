@@ -1,4 +1,4 @@
-const _ = require('lodash');
+import _ from 'lodash';
 
 export const indentStartTokens = [
   '@alert',
@@ -77,14 +77,7 @@ export const indentEndTokens = [
   '@overwrite',
 ];
 
-export const indentElseTokens = [
-  '@elseenv',
-  '@elseif',
-  '@elsecanany',
-  '@elsecannot',
-  '@elsecan',
-  '@else',
-];
+export const indentElseTokens = ['@elseenv', '@elseif', '@elsecanany', '@elsecannot', '@elsecan', '@else'];
 
 // Directives which do not need an end token if a parameter is present
 export const optionalStartWithoutEndTokens = {
@@ -99,38 +92,18 @@ export const indentStartOrElseTokens = ['@empty'];
 
 export const indentStartAndEndTokens = ['@default'];
 
-export const phpKeywordStartTokens = [
-  '@forelse',
-  '@if',
-  '@for',
-  '@foreach',
-  '@while',
-  '@sectionmissing',
-  '@case',
-];
+export const phpKeywordStartTokens = ['@forelse', '@if', '@for', '@foreach', '@while', '@sectionmissing', '@case'];
 
-export const phpKeywordEndTokens = [
-  '@endforelse',
-  '@endif',
-  '@endfor',
-  '@endforeach',
-  '@endwhile',
-  '@break',
-];
+export const phpKeywordEndTokens = ['@endforelse', '@endif', '@endfor', '@endforeach', '@endwhile', '@break'];
 
 export const inlineFunctionTokens = ['@json'];
 
-export function hasStartAndEndToken(tokenizeLineResult, originalLine) {
+export function hasStartAndEndToken(tokenizeLineResult: any, originalLine: any) {
   return (
-    _.filter(tokenizeLineResult.tokens, (tokenStruct) => {
-      const token = originalLine
-        .substring(tokenStruct.startIndex, tokenStruct.endIndex)
-        .trim();
+    _.filter(tokenizeLineResult.tokens, (tokenStruct: any) => {
+      const token = originalLine.substring(tokenStruct.startIndex, tokenStruct.endIndex).trim();
 
-      return (
-        _.includes(indentStartTokens, token) ||
-        _.includes(indentEndTokens, token)
-      );
+      return _.includes(indentStartTokens, token) || _.includes(indentEndTokens, token);
     }).length >= 2
   );
 }

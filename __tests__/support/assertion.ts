@@ -1,12 +1,9 @@
-const fs = require('fs');
-const path = require('path');
-const cmd = require('./cmd');
+import fs from 'fs';
+import path from 'path';
+import * as cmd from './cmd';
 
-function assertFormatted(file) {
-  const response = cmd.executeSync(
-    path.resolve(__basedir, 'bin', 'blade-formatter'),
-    [file, '-c'],
-  );
+export function assertFormatted(file: any) {
+  const response = cmd.executeSync(path.resolve('bin', 'blade-formatter'), [file, '-c']);
 
   const output = response.output.join('\n');
   const exitCode = response.status;
@@ -16,18 +13,15 @@ function assertFormatted(file) {
   expect(output).toMatch('All matched files are formatted');
 }
 
-function assertNotFormatted(file) {
-  fs.exists(file, (exists) => {
+export function assertNotFormatted(file: any) {
+  fs.exists(file, (exists: any) => {
     if (!exists) {
       process.stdout.write('Format target file not found\n');
       process.exit(1);
     }
   });
 
-  const response = cmd.executeSync(
-    path.resolve(__basedir, 'bin', 'blade-formatter'),
-    [file, '-c'],
-  );
+  const response = cmd.executeSync(path.resolve('bin', 'blade-formatter'), [file, '-c']);
 
   const output = response.output.join('\n');
   const exitCode = response.status;
@@ -36,5 +30,3 @@ function assertNotFormatted(file) {
   expect(output).toMatch('Check formatting...');
   expect(output).toMatch('formattable');
 }
-
-module.exports = { assertFormatted, assertNotFormatted };

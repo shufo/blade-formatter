@@ -1,11 +1,9 @@
-import Formatter from '../src/formatter';
-import { BladeFormatter } from '../src/main';
-
-const assert = require('assert');
-const path = require('path');
-const fs = require('fs');
-const cmd = require('./support/cmd');
-const util = require('./support/util');
+import assert from 'assert';
+import path from 'path';
+import fs from 'fs';
+import { BladeFormatter, Formatter } from '../src/main';
+import * as cmd from './support/cmd';
+import * as util from './support/util';
 
 const formatter = () => {
   return new Formatter({ indentSize: 4 });
@@ -18,7 +16,7 @@ describe('formatter', () => {
 
     return formatter()
       .formatContent(content)
-      .then(function (result) {
+      .then(function (result: any) {
         assert.equal(result, expected);
       });
   });
@@ -29,20 +27,18 @@ describe('formatter', () => {
 
     return formatter()
       .formatContent(content)
-      .then(function (result) {
+      .then(function (result: any) {
         assert.equal(result, expected);
       });
   });
 
   test('can format simple html tag', function () {
     const content = `<html><body></body></html>`;
-    const expected = [`<html>`, ``, `<body></body>`, ``, `</html>`, ``].join(
-      '\n',
-    );
+    const expected = [`<html>`, ``, `<body></body>`, ``, `</html>`, ``].join('\n');
 
     return formatter()
       .formatContent(content)
-      .then(function (result) {
+      .then(function (result: any) {
         assert.equal(result, expected);
       });
   });
@@ -72,7 +68,7 @@ describe('formatter', () => {
 
     return formatter()
       .formatContent(content)
-      .then(function (result) {
+      .then(function (result: any) {
         assert.equal(result, expected);
       });
   });
@@ -102,7 +98,7 @@ describe('formatter', () => {
 
     return formatter()
       .formatContent(content)
-      .then(function (result) {
+      .then(function (result: any) {
         assert.equal(result, expected);
       });
   });
@@ -132,7 +128,7 @@ describe('formatter', () => {
 
     return formatter()
       .formatContent(content)
-      .then(function (result) {
+      .then(function (result: any) {
         assert.equal(result, expected);
       });
   });
@@ -182,7 +178,7 @@ describe('formatter', () => {
 
       return formatter()
         .formatContent(content)
-        .then(function (result) {
+        .then(function (result: any) {
           assert.equal(result, expected);
         });
     });
@@ -216,7 +212,7 @@ describe('formatter', () => {
 
       return formatter()
         .formatContent(content)
-        .then(function (result) {
+        .then(function (result: any) {
           assert.equal(result, expected);
         });
     });
@@ -250,7 +246,7 @@ describe('formatter', () => {
 
       return formatter()
         .formatContent(content)
-        .then(function (result) {
+        .then(function (result: any) {
           assert.equal(result, expected);
         });
     });
@@ -283,7 +279,7 @@ describe('formatter', () => {
 
     return formatter()
       .formatContent(content)
-      .then(function (result) {
+      .then(function (result: any) {
         assert.equal(result, expected);
       });
   });
@@ -321,7 +317,7 @@ describe('formatter', () => {
 
     return formatter()
       .formatContent(content)
-      .then(function (result) {
+      .then(function (result: any) {
         assert.equal(result, expected);
       });
   });
@@ -355,37 +351,25 @@ describe('formatter', () => {
 
     return formatter()
       .formatContent(content)
-      .then(function (result) {
+      .then(function (result: any) {
         assert.equal(result, expected);
       });
   });
 
   test('should not clear inline level directive', () => {
-    const content = [`<div>`, `@section foo @endsection`, `</div>`, ``].join(
-      '\n',
-    );
+    const content = [`<div>`, `@section foo @endsection`, `</div>`, ``].join('\n');
 
-    const expected = [
-      `<div>`,
-      `    @section foo @endsection`,
-      `</div>`,
-      ``,
-    ].join('\n');
+    const expected = [`<div>`, `    @section foo @endsection`, `</div>`, ``].join('\n');
 
     return formatter()
       .formatContent(content)
-      .then(function (result) {
+      .then(function (result: any) {
         assert.equal(result, expected);
       });
   });
 
   test('should not clear php code inside inline @php directive #3', () => {
-    const content = [
-      `<div>`,
-      `@php $bg = rand(1, 13); $bgchange = $bg.".jpg"; @endphp`,
-      `</div>`,
-      ``,
-    ].join('\n');
+    const content = [`<div>`, `@php $bg = rand(1, 13); $bgchange = $bg.".jpg"; @endphp`, `</div>`, ``].join('\n');
 
     const expected = [
       `<div>`,
@@ -399,7 +383,7 @@ describe('formatter', () => {
 
     return formatter()
       .formatContent(content)
-      .then(function (result) {
+      .then(function (result: any) {
         assert.equal(result, expected);
       });
   });
@@ -429,7 +413,7 @@ describe('formatter', () => {
 
     return formatter()
       .formatContent(content)
-      .then(function (result) {
+      .then(function (result: any) {
         assert.equal(result, expected);
       });
   });
@@ -458,7 +442,7 @@ describe('formatter', () => {
 
     return formatter()
       .formatContent(content)
-      .then((result) => {
+      .then((result: any) => {
         assert.equal(result, expected);
       });
   });
@@ -494,47 +478,31 @@ describe('formatter', () => {
 
     return formatter()
       .formatContent(content)
-      .then((result) => {
+      .then((result: any) => {
         assert.equal(result, expected);
       });
   });
 
   test('preserve inline php tag #57', async () => {
-    const content = [
-      `<body data-app="<?php echo json_encode($array); ?>"`,
-      '',
-    ].join('\n');
+    const content = [`<body data-app="<?php echo json_encode($array); ?>"`, ''].join('\n');
 
-    const expected = [
-      `<body data-app="<?php echo json_encode($array); ?>"`,
-      '',
-    ].join('\n');
+    const expected = [`<body data-app="<?php echo json_encode($array); ?>"`, ''].join('\n');
 
     return formatter()
       .formatContent(content)
-      .then((result) => {
+      .then((result: any) => {
         assert.equal(result, expected);
       });
   });
 
   test('preserve inline php tag in script', async () => {
-    const content = [
-      `<script>`,
-      `    var app = <?php echo json_encode($array); ?>;`,
-      `</script>`,
-      '',
-    ].join('\n');
+    const content = [`<script>`, `    var app = <?php echo json_encode($array); ?>;`, `</script>`, ''].join('\n');
 
-    const expected = [
-      `<script>`,
-      `    var app = <?php echo json_encode($array); ?>;`,
-      `</script>`,
-      '',
-    ].join('\n');
+    const expected = [`<script>`, `    var app = <?php echo json_encode($array); ?>;`, `</script>`, ''].join('\n');
 
     return formatter()
       .formatContent(content)
-      .then((result) => {
+      .then((result: any) => {
         assert.equal(result, expected);
       });
   });
@@ -556,73 +524,41 @@ describe('formatter', () => {
 
     return formatter()
       .formatContent(content)
-      .then((result) => {
+      .then((result: any) => {
         assert.equal(result, expected);
       });
   });
 
   test('should be ignore short tag #56', async () => {
-    const content = [
-      `<table>`,
-      `<th><?= $userName ?></th>`,
-      `</table>`,
-      '',
-    ].join('\n');
+    const content = [`<table>`, `<th><?= $userName ?></th>`, `</table>`, ''].join('\n');
 
-    const expected = [
-      `<table>`,
-      `    <th><?= $userName ?></th>`,
-      `</table>`,
-      '',
-    ].join('\n');
+    const expected = [`<table>`, `    <th><?= $userName ?></th>`, `</table>`, ''].join('\n');
 
     return formatter()
       .formatContent(content)
-      .then((result) => {
+      .then((result: any) => {
         assert.equal(result, expected);
       });
   });
 
   test('format API', async () => {
-    const content = [
-      `<table>`,
-      `<th><?= $userName ?></th>`,
-      `</table>`,
-      '',
-    ].join('\n');
+    const content = [`<table>`, `<th><?= $userName ?></th>`, `</table>`, ''].join('\n');
 
-    const expected = [
-      `<table>`,
-      `    <th><?= $userName ?></th>`,
-      `</table>`,
-      '',
-    ].join('\n');
+    const expected = [`<table>`, `    <th><?= $userName ?></th>`, `</table>`, ''].join('\n');
 
-    return new BladeFormatter().format(content).then((result) => {
+    return new BladeFormatter().format(content).then((result: any) => {
       assert.equal(result, expected);
     });
   });
 
   test('format API with option', async () => {
-    const content = [
-      `<table>`,
-      `<th><?= $userName ?></th>`,
-      `</table>`,
-      '',
-    ].join('\n');
+    const content = [`<table>`, `<th><?= $userName ?></th>`, `</table>`, ''].join('\n');
 
-    const expected = [
-      `<table>`,
-      `  <th><?= $userName ?></th>`,
-      `</table>`,
-      '',
-    ].join('\n');
+    const expected = [`<table>`, `  <th><?= $userName ?></th>`, `</table>`, ''].join('\n');
 
-    return new BladeFormatter({ indentSize: 2 })
-      .format(content)
-      .then((result) => {
-        assert.equal(result, expected);
-      });
+    return new BladeFormatter({ indentSize: 2 }).format(content).then((result: any) => {
+      assert.equal(result, expected);
+    });
   });
 
   test('should remove semicolon in end of line', async () => {
@@ -650,63 +586,35 @@ describe('formatter', () => {
       ``,
     ].join('\n');
 
-    return new BladeFormatter().format(content).then((result) => {
+    return new BladeFormatter().format(content).then((result: any) => {
       assert.equal(result, expected);
     });
   });
 
   test('@for directive should work', async () => {
-    const content = [
-      `@for ($i=0;$i<=5;$i++)`,
-      `<div class="foo">`,
-      `</div>`,
-      `@endfor`,
-      ``,
-    ].join('\n');
+    const content = [`@for ($i=0;$i<=5;$i++)`, `<div class="foo">`, `</div>`, `@endfor`, ``].join('\n');
 
-    const expected = [
-      `@for ($i = 0; $i <= 5; $i++)`,
-      `    <div class="foo">`,
-      `    </div>`,
-      `@endfor`,
-      ``,
-    ].join('\n');
+    const expected = [`@for ($i = 0; $i <= 5; $i++)`, `    <div class="foo">`, `    </div>`, `@endfor`, ``].join('\n');
 
-    return new BladeFormatter().format(content).then((result) => {
+    return new BladeFormatter().format(content).then((result: any) => {
       assert.equal(result, expected);
     });
   });
 
   test('@foreach directive should work', async () => {
-    const content = [
-      `@foreach($users as $user)`,
-      `<div class="foo">`,
-      `</div>`,
-      `@endforeach`,
-      ``,
-    ].join('\n');
+    const content = [`@foreach($users as $user)`, `<div class="foo">`, `</div>`, `@endforeach`, ``].join('\n');
 
-    const expected = [
-      `@foreach ($users as $user)`,
-      `    <div class="foo">`,
-      `    </div>`,
-      `@endforeach`,
-      ``,
-    ].join('\n');
+    const expected = [`@foreach ($users as $user)`, `    <div class="foo">`, `    </div>`, `@endforeach`, ``].join(
+      '\n',
+    );
 
-    return new BladeFormatter().format(content).then((result) => {
+    return new BladeFormatter().format(content).then((result: any) => {
       assert.equal(result, expected);
     });
   });
 
   test('@foreach directive should work with variable key', async () => {
-    const content = [
-      `@foreach($users["foo"] as $user)`,
-      `<div class="foo">`,
-      `</div>`,
-      `@endforeach`,
-      ``,
-    ].join('\n');
+    const content = [`@foreach($users["foo"] as $user)`, `<div class="foo">`, `</div>`, `@endforeach`, ``].join('\n');
 
     const expected = [
       `@foreach ($users['foo'] as $user)`,
@@ -716,19 +624,13 @@ describe('formatter', () => {
       ``,
     ].join('\n');
 
-    return new BladeFormatter().format(content).then((result) => {
+    return new BladeFormatter().format(content).then((result: any) => {
       assert.equal(result, expected);
     });
   });
 
   test('@foreach directive should work with children methods', async () => {
-    const content = [
-      `@foreach($user->blogs() as $blog)`,
-      `<div class="foo">`,
-      `</div>`,
-      `@endforeach`,
-      ``,
-    ].join('\n');
+    const content = [`@foreach($user->blogs() as $blog)`, `<div class="foo">`, `</div>`, `@endforeach`, ``].join('\n');
 
     const expected = [
       `@foreach ($user->blogs() as $blog)`,
@@ -738,7 +640,7 @@ describe('formatter', () => {
       ``,
     ].join('\n');
 
-    return new BladeFormatter().format(content).then((result) => {
+    return new BladeFormatter().format(content).then((result: any) => {
       assert.equal(result, expected);
     });
   });
@@ -786,7 +688,7 @@ describe('formatter', () => {
       ``,
     ].join('\n');
 
-    return new BladeFormatter().format(content).then((result) => {
+    return new BladeFormatter().format(content).then((result: any) => {
       assert.equal(result, expected);
     });
   });
@@ -800,18 +702,13 @@ describe('formatter', () => {
       /*  */
     ].join('\n');
 
-    return new BladeFormatter().format(content).then((result) => {
+    return new BladeFormatter().format(content).then((result: any) => {
       assert.equal(result, expected);
     });
   });
 
   test('indented call should be inline in blade brackets #2', async () => {
-    const content = [
-      `{{ auth()`,
-      `    ->user()`,
-      `    ->getSeeding() }}`,
-      ``,
-    ].join('\n');
+    const content = [`{{ auth()`, `    ->user()`, `    ->getSeeding() }}`, ``].join('\n');
 
     const expected = [
       `{{ auth()->user()->getSeeding() }}`,
@@ -819,18 +716,13 @@ describe('formatter', () => {
       /*  */
     ].join('\n');
 
-    return new BladeFormatter().format(content).then((result) => {
+    return new BladeFormatter().format(content).then((result: any) => {
       assert.equal(result, expected);
     });
   });
 
   test('method call in directive should not be multiline #2', async () => {
-    const content = [
-      `@if(auth()->user()->name === 'foo')`,
-      `    <p>bar</p>`,
-      `@endif`,
-      ``,
-    ].join('\n');
+    const content = [`@if(auth()->user()->name === 'foo')`, `    <p>bar</p>`, `@endif`, ``].join('\n');
 
     const expected = [
       `@if (auth()->user()->name === 'foo')`,
@@ -840,7 +732,7 @@ describe('formatter', () => {
       /*  */
     ].join('\n');
 
-    return new BladeFormatter().format(content).then((result) => {
+    return new BladeFormatter().format(content).then((result: any) => {
       assert.equal(result, expected);
     });
   });
@@ -876,7 +768,7 @@ describe('formatter', () => {
       ``,
     ].join('\n');
 
-    return new BladeFormatter().format(content).then((result) => {
+    return new BladeFormatter().format(content).then((result: any) => {
       assert.equal(result, expected);
     });
   });
@@ -894,7 +786,7 @@ describe('formatter', () => {
       ``,
     ].join('\n');
 
-    return new BladeFormatter().format(content).then((result) => {
+    return new BladeFormatter().format(content).then((result: any) => {
       assert.equal(result, expected);
     });
   });
@@ -904,7 +796,7 @@ describe('formatter', () => {
 
     const expected = [`@if ($user)`, `    foo`, `@endif`, ``].join('\n');
 
-    return new BladeFormatter().format(content).then((result) => {
+    return new BladeFormatter().format(content).then((result: any) => {
       assert.equal(result, expected);
     });
   });
@@ -923,40 +815,25 @@ describe('formatter', () => {
       ``,
     ].join('\n');
 
-    return new BladeFormatter().format(content).then((result) => {
+    return new BladeFormatter().format(content).then((result: any) => {
       assert.equal(result, expected);
     });
   });
 
   test('should not occurs error even if 3 level nested in directive', async () => {
-    const content = [
-      `@if(config('app.foo', env('APP_FOO_BAR')))`,
-      `    foo`,
-      `@endif>`,
-      ``,
-    ].join('\n');
+    const content = [`@if(config('app.foo', env('APP_FOO_BAR')))`, `    foo`, `@endif>`, ``].join('\n');
 
-    const expected = [
-      `@if (config('app.foo', env('APP_FOO_BAR')))`,
-      `    foo`,
-      `@endif>`,
-      ``,
-    ].join('\n');
+    const expected = [`@if (config('app.foo', env('APP_FOO_BAR')))`, `    foo`, `@endif>`, ``].join('\n');
 
-    return new BladeFormatter().format(content).then((result) => {
+    return new BladeFormatter().format(content).then((result: any) => {
       assert.equal(result, expected);
     });
   });
 
   test('forelse directive should work', async () => {
-    const content = [
-      `@forelse($students as $student)`,
-      `<div>foo</div>`,
-      `@empty`,
-      `empty`,
-      `@endforelse`,
-      ``,
-    ].join('\n');
+    const content = [`@forelse($students as $student)`, `<div>foo</div>`, `@empty`, `empty`, `@endforelse`, ``].join(
+      '\n',
+    );
 
     const expected = [
       `@forelse($students as $student)`,
@@ -967,7 +844,7 @@ describe('formatter', () => {
       ``,
     ].join('\n');
 
-    return new BladeFormatter().format(content).then((result) => {
+    return new BladeFormatter().format(content).then((result: any) => {
       assert.equal(result, expected);
     });
   });
@@ -975,28 +852,19 @@ describe('formatter', () => {
   test('should preserve spaces between directive and parentheses', async () => {
     const content = [`@if($user === 'foo')`, `foo`, `@endif`, ``].join('\n');
 
-    const expected = [`@if ($user === 'foo')`, `    foo`, `@endif`, ``].join(
-      '\n',
-    );
+    const expected = [`@if ($user === 'foo')`, `    foo`, `@endif`, ``].join('\n');
 
-    return new BladeFormatter().format(content).then((result) => {
+    return new BladeFormatter().format(content).then((result: any) => {
       assert.equal(result, expected);
     });
   });
 
   test('should preserve spaces between directive and parentheses (space exists)', async () => {
-    const content = [`@foreach ($users as $user)`, `foo`, `@endif`, ``].join(
-      '\n',
-    );
+    const content = [`@foreach ($users as $user)`, `foo`, `@endif`, ``].join('\n');
 
-    const expected = [
-      `@foreach ($users as $user)`,
-      `    foo`,
-      `@endif`,
-      ``,
-    ].join('\n');
+    const expected = [`@foreach ($users as $user)`, `    foo`, `@endif`, ``].join('\n');
 
-    return new BladeFormatter().format(content).then((result) => {
+    return new BladeFormatter().format(content).then((result: any) => {
       assert.equal(result, expected);
     });
   });
@@ -1018,7 +886,7 @@ describe('formatter', () => {
       ``,
     ].join('\n');
 
-    return new BladeFormatter().format(content).then((result) => {
+    return new BladeFormatter().format(content).then((result: any) => {
       assert.equal(result, expected);
     });
   });
@@ -1078,7 +946,7 @@ describe('formatter', () => {
       ``,
     ].join('\n');
 
-    return new BladeFormatter().format(content).then((result) => {
+    return new BladeFormatter().format(content).then((result: any) => {
       assert.equal(result, expected);
     });
   });
@@ -1114,7 +982,7 @@ describe('formatter', () => {
       ``,
     ].join('\n');
 
-    return new BladeFormatter().format(content).then((result) => {
+    return new BladeFormatter().format(content).then((result: any) => {
       assert.equal(result, expected);
     });
   });
@@ -1133,7 +1001,7 @@ describe('formatter', () => {
       ``,
     ].join('\n');
 
-    return new BladeFormatter().format(content).then((result) => {
+    return new BladeFormatter().format(content).then((result: any) => {
       assert.equal(result, expected);
     });
   });
@@ -1156,7 +1024,7 @@ describe('formatter', () => {
       ``,
     ].join('\n');
 
-    return new BladeFormatter().format(content).then((result) => {
+    return new BladeFormatter().format(content).then((result: any) => {
       assert.equal(result, expected);
     });
   });
@@ -1183,42 +1051,25 @@ describe('formatter', () => {
       ``,
     ].join('\n');
 
-    return new BladeFormatter().format(content).then((result) => {
+    return new BladeFormatter().format(content).then((result: any) => {
       assert.equal(result, expected);
     });
   });
 
   test('should consider directive in html tag', async () => {
-    const cmdResult = await cmd.execute(
-      path.resolve(__basedir, 'bin', 'blade-formatter'),
-      [
-        path.resolve(
-          __basedir,
-          '__tests__',
-          'fixtures',
-          'inline_php_tag.blade.php',
-        ),
-      ],
-    );
+    const cmdResult = await cmd.execute(path.resolve('bin', 'blade-formatter'), [
+      path.resolve('__tests__', 'fixtures', 'inline_php_tag.blade.php'),
+    ]);
 
-    const formatted = fs.readFileSync(
-      path.resolve(
-        __basedir,
-        '__tests__',
-        'fixtures',
-        'formatted_inline_php_tag.blade.php',
-      ),
-    );
+    const formatted = fs.readFileSync(path.resolve('__tests__', 'fixtures', 'formatted_inline_php_tag.blade.php'));
 
     expect(cmdResult).toEqual(formatted.toString('utf-8'));
   });
 
   test('should not occurs error on inline if to end directive on long line', async () => {
-    const content = [
-      `<div>`,
-      `@if (count($users) && $users->has('friends')) {{ $user->name }} @endif`,
-      `</div>`,
-    ].join('\n');
+    const content = [`<div>`, `@if (count($users) && $users->has('friends')) {{ $user->name }} @endif`, `</div>`].join(
+      '\n',
+    );
 
     const expected = [
       `<div>`,
@@ -1227,19 +1078,13 @@ describe('formatter', () => {
       ``,
     ].join('\n');
 
-    return new BladeFormatter().format(content).then((result) => {
+    return new BladeFormatter().format(content).then((result: any) => {
       assert.equal(result, expected);
     });
   });
 
   test('should format within @php directive', async () => {
-    const content = [
-      `    @php`,
-      `    if ($user) {`,
-      `    $user->name = 'foo';`,
-      `    }`,
-      `    @endphp`,
-    ].join('\n');
+    const content = [`    @php`, `    if ($user) {`, `    $user->name = 'foo';`, `    }`, `    @endphp`].join('\n');
 
     const expected = [
       `    @php`,
@@ -1250,7 +1095,7 @@ describe('formatter', () => {
       ``,
     ].join('\n');
 
-    return new BladeFormatter().format(content).then((result) => {
+    return new BladeFormatter().format(content).then((result: any) => {
       assert.equal(result, expected);
     });
   });
@@ -1268,7 +1113,7 @@ describe('formatter', () => {
       const content = [`{{ ${constant} }}`].join('\n');
       const expected = [`{{ ${constant} }}`, ''].join('\n');
 
-      return new BladeFormatter().format(content).then((result) => {
+      return new BladeFormatter().format(content).then((result: any) => {
         assert.equal(result, expected);
       });
     });
@@ -1277,11 +1122,9 @@ describe('formatter', () => {
   test('should format null safe operator', async () => {
     const content = [`{{ $entity->executors->first()?->name() }}`].join('\n');
 
-    const expected = [`{{ $entity->executors->first()?->name() }}`, ``].join(
-      '\n',
-    );
+    const expected = [`{{ $entity->executors->first()?->name() }}`, ``].join('\n');
 
-    return new BladeFormatter().format(content).then((result) => {
+    return new BladeFormatter().format(content).then((result: any) => {
       assert.equal(result, expected);
     });
   });
@@ -1291,7 +1134,7 @@ describe('formatter', () => {
 
     const expected = [`{{ foo(double_encode: true) }}`, ``].join('\n');
 
-    return new BladeFormatter().format(content).then((result) => {
+    return new BladeFormatter().format(content).then((result: any) => {
       assert.equal(result, expected);
     });
   });
@@ -1310,7 +1153,7 @@ describe('formatter', () => {
       ``,
     ].join('\n');
 
-    return new BladeFormatter().format(content).then((result) => {
+    return new BladeFormatter().format(content).then((result: any) => {
       assert.equal(result, expected);
     });
   });
@@ -1351,15 +1194,13 @@ describe('formatter', () => {
       ``,
     ].join('\n');
 
-    return new BladeFormatter().format(content).then((result) => {
+    return new BladeFormatter().format(content).then((result: any) => {
       assert.equal(result, expected);
     });
   });
 
   test('should format inline directive in scripts #231', async () => {
-    const content = [
-      `<script> @Isset($data['eval_gestionnaire']->project_perception) @endisset </script>`,
-    ].join('\n');
+    const content = [`<script> @Isset($data['eval_gestionnaire']->project_perception) @endisset </script>`].join('\n');
 
     const expected = [
       `<script>`,
@@ -1368,7 +1209,7 @@ describe('formatter', () => {
       ``,
     ].join('\n');
 
-    return new BladeFormatter().format(content).then((result) => {
+    return new BladeFormatter().format(content).then((result: any) => {
       assert.equal(result, expected);
     });
   });
@@ -1409,48 +1250,28 @@ describe('formatter', () => {
 
       return formatter()
         .formatContent(content)
-        .then(function (result) {
+        .then(function (result: any) {
           assert.equal(result, expected);
         });
     });
   });
 
   test('should break chained method in directive', async () => {
-    const content = [
-      '@if (auth()',
-      '->user()',
-      "->subscribed('default'))",
-      'aaa',
-      '@endif',
-    ].join('\n');
+    const content = ['@if (auth()', '->user()', "->subscribed('default'))", 'aaa', '@endif'].join('\n');
 
-    const expected = [
-      "@if (auth()->user()->subscribed('default'))",
-      '    aaa',
-      '@endif',
-      ``,
-    ].join('\n');
+    const expected = ["@if (auth()->user()->subscribed('default'))", '    aaa', '@endif', ``].join('\n');
 
-    return new BladeFormatter().format(content).then((result) => {
+    return new BladeFormatter().format(content).then((result: any) => {
       assert.equal(result, expected);
     });
   });
 
   test('should break chained method in directive 2', async () => {
-    const content = [
-      '@foreach (request()->users() as $user)',
-      'aaa',
-      '@endif',
-    ].join('\n');
+    const content = ['@foreach (request()->users() as $user)', 'aaa', '@endif'].join('\n');
 
-    const expected = [
-      '@foreach (request()->users() as $user)',
-      '    aaa',
-      '@endif',
-      ``,
-    ].join('\n');
+    const expected = ['@foreach (request()->users() as $user)', '    aaa', '@endif', ``].join('\n');
 
-    return new BladeFormatter().format(content).then((result) => {
+    return new BladeFormatter().format(content).then((result: any) => {
       assert.equal(result, expected);
     });
   });
@@ -1471,7 +1292,7 @@ describe('formatter', () => {
       ``,
     ].join('\n');
 
-    return new BladeFormatter().format(content).then((result) => {
+    return new BladeFormatter().format(content).then((result: any) => {
       assert.equal(result, expected);
     });
   });
@@ -1502,7 +1323,7 @@ describe('formatter', () => {
       ``,
     ].join('\n');
 
-    return new BladeFormatter().format(content).then((result) => {
+    return new BladeFormatter().format(content).then((result: any) => {
       assert.equal(result, expected);
     });
   });
@@ -1527,7 +1348,7 @@ describe('formatter', () => {
       `@endif`,
       ``,
     ].join('\n');
-    return new BladeFormatter().format(content).then((result) => {
+    return new BladeFormatter().format(content).then((result: any) => {
       assert.equal(result, content);
     });
   });
@@ -1555,11 +1376,9 @@ describe('formatter', () => {
       ``,
     ].join('\n');
 
-    return new BladeFormatter({ wrapAttributes: 'force-expand-multiline' })
-      .format(content)
-      .then((result) => {
-        assert.equal(result, expected);
-      });
+    return new BladeFormatter({ wrapAttributes: 'force-expand-multiline' }).format(content).then((result: any) => {
+      assert.equal(result, expected);
+    });
   });
 
   test('component attribute name #346', async () => {
@@ -1584,10 +1403,7 @@ describe('formatter', () => {
       `<input class="" type="file" name="product_images[]" multiple />
 `,
     ].join('\n');
-    expected = [
-      `<input class="" type="file" name="product_images[]" multiple />`,
-      ``,
-    ].join('\n');
+    expected = [`<input class="" type="file" name="product_images[]" multiple />`, ``].join('\n');
 
     await util.doubleFormatCheck(content, expected);
   });
@@ -1621,13 +1437,9 @@ describe('formatter', () => {
     ];
 
     directives.forEach(async (target) => {
-      const content = [
-        `<div class="">`,
-        `${target.start}('foo')`,
-        `<div>bar</div>`,
-        `${target.end}`,
-        `</div>`,
-      ].join('\n');
+      const content = [`<div class="">`, `${target.start}('foo')`, `<div>bar</div>`, `${target.end}`, `</div>`].join(
+        '\n',
+      );
       const expected = [
         `<div class="">`,
         `    ${target.start}('foo')`,
@@ -1642,25 +1454,14 @@ describe('formatter', () => {
   });
 
   test('@class directive', async () => {
-    let content = [
-      `<span @class([ 'p-4' , 'font-bold'=>$isActive])></span>`,
-    ].join('\n');
-    let expected = [
-      `<span @class(['p-4', 'font-bold' => $isActive])></span>`,
-      ``,
-    ].join('\n');
+    let content = [`<span @class([ 'p-4' , 'font-bold'=>$isActive])></span>`].join('\n');
+    let expected = [`<span @class(['p-4', 'font-bold' => $isActive])></span>`, ``].join('\n');
 
     await util.doubleFormatCheck(content, expected);
 
-    content = [
-      `<span @class([ 'p-4' , 'font-bold'=>$isActive,`,
-      `    ])></span>`,
-    ].join('\n');
+    content = [`<span @class([ 'p-4' , 'font-bold'=>$isActive,`, `    ])></span>`].join('\n');
 
-    expected = [
-      `<span @class(['p-4', 'font-bold' => $isActive])></span>`,
-      ``,
-    ].join('\n');
+    expected = [`<span @class(['p-4', 'font-bold' => $isActive])></span>`, ``].join('\n');
 
     await util.doubleFormatCheck(content, expected);
 
@@ -1710,43 +1511,20 @@ describe('formatter', () => {
   });
 
   test('@button directive', async () => {
-    let content = [`@button(['class'=>'btn btn-primary p-btn-wide',])`].join(
-      '\n',
-    );
-    let expected = [
-      `@button(['class' => 'btn btn-primary p-btn-wide'])`,
-      ``,
-    ].join('\n');
+    let content = [`@button(['class'=>'btn btn-primary p-btn-wide',])`].join('\n');
+    let expected = [`@button(['class' => 'btn btn-primary p-btn-wide'])`, ``].join('\n');
 
     await util.doubleFormatCheck(content, expected);
 
-    content = [
-      `@button([`,
-      `'class'=>'btn btn-primary p-btn-wide',`,
-      `])`,
-    ].join('\n');
+    content = [`@button([`, `'class'=>'btn btn-primary p-btn-wide',`, `])`].join('\n');
 
-    expected = [
-      `@button([`,
-      `    'class' => 'btn btn-primary p-btn-wide',`,
-      `])`,
-      ``,
-    ].join('\n');
+    expected = [`@button([`, `    'class' => 'btn btn-primary p-btn-wide',`, `])`, ``].join('\n');
 
     await util.doubleFormatCheck(content, expected);
 
-    content = [
-      `<div>`,
-      `@button(['class' => 'btn btn-primary p-btn-wide',])`,
-      `</div>`,
-    ].join('\n');
+    content = [`<div>`, `@button(['class' => 'btn btn-primary p-btn-wide',])`, `</div>`].join('\n');
 
-    expected = [
-      `<div>`,
-      `    @button(['class' => 'btn btn-primary p-btn-wide'])`,
-      `</div>`,
-      ``,
-    ].join('\n');
+    expected = [`<div>`, `    @button(['class' => 'btn btn-primary p-btn-wide'])`, `</div>`, ``].join('\n');
 
     await util.doubleFormatCheck(content, expected);
 

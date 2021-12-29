@@ -1,8 +1,8 @@
-const { spawn, spawnSync } = require('child_process');
-const concat = require('concat-stream');
-const process = require('process');
+import { spawn, spawnSync } from 'child_process';
+import concat from 'concat-stream';
+import process from 'process';
 
-function createProcess(processPath, args = [], env = null) {
+function createProcess(processPath: any, args = [], env = {}) {
   const concatedArgs = [processPath].concat(args);
   return spawn(process.execPath, concatedArgs, {
     env: {
@@ -12,21 +12,21 @@ function createProcess(processPath, args = [], env = null) {
   });
 }
 
-function execute(processPath, args = [], opts = {}) {
+export function execute(processPath: any, args: any = [], opts: any = {}) {
   const { env = null } = opts;
   const childProcess = createProcess(processPath, args, env);
 
   childProcess.stdout.setEncoding('utf-8');
-  childProcess.stdin.setEncoding('utf-8');
+  childProcess.stdin.setDefaultEncoding('utf-8');
 
   const promise = new Promise((resolve, reject) => {
-    childProcess.stderr.once('data', (err) => {
+    childProcess.stderr.once('data', (err: any) => {
       reject(err.toString());
     });
 
     childProcess.on('error', reject);
     childProcess.stdout.pipe(
-      concat((result) => {
+      concat((result: any) => {
         resolve(result.toString());
       }),
     );
@@ -34,7 +34,7 @@ function execute(processPath, args = [], opts = {}) {
   return promise;
 }
 
-function executeSync(processPath, args = [], opts = {}) {
+export function executeSync(processPath: any, args: any = [], opts: any = {}) {
   const { env = null } = opts;
   const concatedArgs = [processPath].concat(args);
   return spawnSync(process.execPath, concatedArgs, {
@@ -45,5 +45,3 @@ function executeSync(processPath, args = [], opts = {}) {
     encoding: 'utf-8',
   });
 }
-
-module.exports = { execute, executeSync };

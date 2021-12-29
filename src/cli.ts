@@ -1,17 +1,17 @@
 import yargs from 'yargs';
 import concat from 'concat-stream';
 import { loadWASM } from 'vscode-oniguruma';
+
+import { promises as fs } from 'fs';
+
+import { hideBin } from 'yargs/helpers';
 import { BladeFormatter } from './main';
 
-const fs = require('fs').promises;
-
 export default async function cli() {
-  const argv = await yargs
+  // @ts-ignore
+  const parsed = await yargs(hideBin(process.argv))
     .usage('Usage: $0 [options] [file glob | ...]')
-    .example(
-      '$0 "resources/views/**/*.blade.php" --write',
-      'Format all files in views directory',
-    )
+    .example('$0 "resources/views/**/*.blade.php" --write', 'Format all files in views directory')
     .option('check-formatted', {
       alias: 'c',
       type: 'boolean',
@@ -67,29 +67,27 @@ export default async function cli() {
     })
     .help('h')
     .alias('h', 'help')
-    .epilog('Copyright Shuhei Hayashibara 2019').argv;
+    .epilog('Copyright Shuhei Hayashibara 2019');
 
-  const wasm = await fs.readFile(
-    require.resolve('vscode-oniguruma/release/onig.wasm'),
-  );
+  // @ts-ignore
+  // eslint-disable-next-line
+  const wasm = await fs.readFile(__non_webpack_require__.resolve('vscode-oniguruma/release/onig.wasm'));
   await loadWASM(wasm.buffer);
 
-  if (argv.stdin) {
+  if (parsed.argv.stdin) {
     await process.stdin.pipe(
-      concat({ encoding: 'string' }, (text) => {
-        return new BladeFormatter(argv)
-          .format(text)
-          .then((result) => process.stdout.write(result));
-      }),
+      concat({ encoding: 'string' }, (text: any) =>
+        new BladeFormatter(parsed.argv).format(text).then((result) => process.stdout.write(result)),
+      ),
     );
     return;
   }
 
-  if (argv._.length === 0) {
-    yargs.showHelp();
+  if (parsed.argv._.length === 0) {
+    parsed.showHelp();
     return;
   }
 
-  const formatter = new BladeFormatter(argv, argv._);
+  const formatter = new BladeFormatter(parsed.argv, parsed.argv._);
   await formatter.formatFromCLI();
 }
