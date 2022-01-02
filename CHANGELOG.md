@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.15.0](https://www.github.com/shufo/blade-formatter/compare/v1.14.4...v1.15.0) (2022-01-02)
+
+
+### Features
+
+* migrate to typescript ([3d39d74](https://www.github.com/shufo/blade-formatter/commit/3d39d7412121116f7a87dd7e547a813f49fdc8ec))
+
 ### [1.14.4](https://www.github.com/shufo/blade-formatter/compare/v1.14.3...v1.14.4) (2021-12-24)
 
 
