@@ -1123,14 +1123,6 @@
     pirates "^4.0.0"
     source-map-support "^0.5.16"
 
-"@babel/runtime-corejs3@^7.12.1":
-  version "7.13.10"
-  resolved "https://registry.npmjs.org/@babel/runtime-corejs3/-/runtime-corejs3-7.13.10.tgz"
-  integrity sha512-x/XYVQ1h684pp1mJwOV4CyvqZXqbc8CMsMGUnAbuc82ZCdv1U63w5RSUzgDSXQHG5Rps/kiksH6g2D5BuaKyXg==
-  dependencies:
-    core-js-pure "^3.0.0"
-    regenerator-runtime "^0.13.4"
-
 "@babel/runtime-corejs3@^7.14.9":
   version "7.16.5"
   resolved "https://registry.npmjs.org/@babel/runtime-corejs3/-/runtime-corejs3-7.16.5.tgz"
@@ -2782,11 +2774,6 @@ core-js-compat@^3.8.1, core-js-compat@^3.9.0:
   dependencies:
     browserslist "^4.16.3"
     semver "7.0.0"
-
-core-js-pure@^3.0.0:
-  version "3.10.0"
-  resolved "https://registry.npmjs.org/core-js-pure/-/core-js-pure-3.10.0.tgz"
-  integrity sha512-CC582enhrFZStO4F8lGI7QL3SYx7/AIRc+IdSi3btrQGrVsTawo5K/crmKbRrQ+MOMhNX4v+PATn0k2NN6wI7A==
 
 core-js-pure@^3.19.0:
   version "3.20.1"
@@ -6984,19 +6971,12 @@ xmlchars@^2.2.0:
   resolved "https://registry.npmjs.org/xmlchars/-/xmlchars-2.2.0.tgz"
   integrity sha512-JZnDKK8B0RCDw84FNdDAIpZK+JuJw+s7Lz8nksI7SIuU3UXJJslUthsi+uWBUYOwPFwW7W7PRLRfUKpxjtjFCw==
 
-xregexp@*:
+xregexp@*, xregexp@^5.0.1:
   version "5.1.0"
   resolved "https://registry.npmjs.org/xregexp/-/xregexp-5.1.0.tgz"
   integrity sha512-PynwUWtXnSZr8tpQlDPMZfPTyv78EYuA4oI959ukxcQ0a9O/lvndLVKy5wpImzzA26eMxpZmnAXJYiQA13AtWA==
   dependencies:
     "@babel/runtime-corejs3" "^7.14.9"
-
-xregexp@^5.0.1:
-  version "5.0.2"
-  resolved "https://registry.npmjs.org/xregexp/-/xregexp-5.0.2.tgz"
-  integrity sha512-JPNfN40YMNSDxZrahMrmtNH1QqPJp0/qNeEJM2nnOlhcBdfCCjekPYFV2OnwKxwvpEYglH1RBotbpRRaEuCG8Q==
-  dependencies:
-    "@babel/runtime-corejs3" "^7.12.1"
 
 y18n@^4.0.0:
   version "4.0.1"
