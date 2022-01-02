@@ -214,6 +214,29 @@ new BladeFormatter(options).format(input).then((formatted) => {
 });
 ```
 
+### ESModule
+
+```js
+import BladeFormatter from "blade-formatter";
+const { Formatter } = BladeFormatter;
+
+const input = `
+<html>
+  <body>
+    <p>foo</p>
+  </body>
+</html>
+`;
+
+const options = {
+    indentSize: 2,
+};
+
+new Formatter(options).formatContent(input).then((formatted) => {
+    console.log(formatted);
+});
+```
+
 ## Extensions
 
 - [vscode-blade-formatter](https://github.com/shufo/vscode-blade-formatter) - [VSCode](https://code.visualstudio.com/) Extension
