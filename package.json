@@ -96,5 +96,13 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/shufo/blade-formatter.git"
-  }
+  },
+  "files": [
+    "dist",
+    "src",
+    "bin",
+    "wasm",
+    "syntaxes",
+    "CHANGELOG.md"
+  ]
 }
