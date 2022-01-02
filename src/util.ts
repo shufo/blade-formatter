@@ -1,16 +1,14 @@
 /* eslint-disable max-len */
-const _ = require('lodash');
-const fs = require('fs');
-const chalk = require('chalk');
-const prettier = require('prettier');
-const detectIndent = require('detect-indent');
-const {
-  indentStartTokens,
-  phpKeywordStartTokens,
-  phpKeywordEndTokens,
-} = require('./indent');
+import _ from 'lodash';
+import fs from 'fs';
+import chalk from 'chalk';
+import prettier from 'prettier/standalone';
+// @ts-ignore
+import phpPlugin from '@prettier/plugin-php/standalone';
+import detectIndent from 'detect-indent';
+import { indentStartTokens, phpKeywordStartTokens, phpKeywordEndTokens } from './indent';
 
-export const optional = (obj) => {
+export const optional = (obj: any) => {
   const chain = {
     get() {
       return null;
@@ -24,13 +22,13 @@ export const optional = (obj) => {
   return obj;
 };
 
-export async function readFile(path) {
+export async function readFile(path: any) {
   return new Promise((resolve, reject) => {
-    fs.readFile(path, (error, data) => (error ? reject(error) : resolve(data)));
+    fs.readFile(path, (error: any, data: any) => (error ? reject(error) : resolve(data)));
   });
 }
 
-export function splitByLines(content) {
+export function splitByLines(content: any) {
   if (!content) {
     return '';
   }
@@ -38,39 +36,39 @@ export function splitByLines(content) {
   return content.split(/\r\n|\n|\r/);
 }
 
-export function formatStringAsPhp(content) {
+export function formatStringAsPhp(content: any) {
   return prettier.format(content.replace(/\n$/, ''), {
     parser: 'php',
     printWidth: 1000,
     singleQuote: true,
+    // @ts-ignore
     phpVersion: '8.0',
+    plugins: [phpPlugin],
   });
 }
 
-export function formatRawStringAsPhp(
-  content,
-  printWidth = 1000,
-  trailingCommaPHP = true,
-) {
+export function formatRawStringAsPhp(content: any, printWidth = 1000, trailingCommaPHP = true) {
   return prettier
     .format(`<?php echo ${content} ?>`, {
       parser: 'php',
       printWidth,
       singleQuote: true,
+      // @ts-ignore
       phpVersion: '8.0',
       trailingCommaPHP,
+      plugins: [phpPlugin],
     })
-    .replace(/<\?php echo (.*)?\?>/gs, (match, p1) => {
-      return p1.trim().replace(/;\s*$/, '');
-    });
+    .replace(/<\?php echo (.*)?\?>/gs, (match: any, p1: any) => p1.trim().replace(/;\s*$/, ''));
 }
 
-export function getArgumentsCount(expression) {
+export function getArgumentsCount(expression: any) {
   const code = `<?php tmp_func${expression}; ?>`;
+  // @ts-ignore
   // eslint-disable-next-line no-underscore-dangle
   const { ast } = prettier.__debug.parse(code, {
     parser: 'php',
     phpVersion: '8.0',
+    plugins: [phpPlugin],
   });
   try {
     return ast.children[0].expression.arguments.length || 0;
@@ -79,7 +77,7 @@ export function getArgumentsCount(expression) {
   }
 }
 
-export function normalizeIndentLevel(length) {
+export function normalizeIndentLevel(length: any) {
   if (length < 0) {
     return 0;
   }
@@ -87,9 +85,9 @@ export function normalizeIndentLevel(length) {
   return length;
 }
 
-export function printDiffs(diffs) {
+export function printDiffs(diffs: any) {
   return Promise.all(
-    _.map(diffs, async (diff) => {
+    _.map(diffs, async (diff: any) => {
       process.stdout.write(`path: ${chalk.bold(diff.path)}:${diff.line}\n`);
       process.stdout.write(chalk.red(`--${diff.original}\n`));
       process.stdout.write(chalk.green(`++${diff.formatted}\n`));
@@ -97,8 +95,8 @@ export function printDiffs(diffs) {
   );
 }
 
-export function generateDiff(path, originalLines, formattedLines) {
-  const diff = _.map(originalLines, (originalLine, index) => {
+export function generateDiff(path: any, originalLines: any, formattedLines: any) {
+  const diff = _.map(originalLines, (originalLine: any, index: any) => {
     if (_.isEmpty(originalLine)) {
       return null;
     }
@@ -118,13 +116,8 @@ export function generateDiff(path, originalLines, formattedLines) {
   return _.without(diff, null);
 }
 
-export async function prettifyPhpContentWithUnescapedTags(content) {
-  const directives = _.without(
-    indentStartTokens,
-    '@switch',
-    '@forelse',
-    '@php',
-  ).join('|');
+export async function prettifyPhpContentWithUnescapedTags(content: any) {
+  const directives = _.without(indentStartTokens, '@switch', '@forelse', '@php').join('|');
 
   const directiveRegexes = new RegExp(
     // eslint-disable-next-line max-len
@@ -133,67 +126,59 @@ export async function prettifyPhpContentWithUnescapedTags(content) {
   );
 
   return new Promise((resolve) => resolve(content))
-    .then((res) =>
-      _.replace(res, directiveRegexes, (match, p1, p2, p3) => {
-        return formatStringAsPhp(`<?php ${p1.substr('1')}${p2}(${p3}) ?>`)
+    .then((res: any) =>
+      _.replace(res, directiveRegexes, (match: any, p1: any, p2: any, p3: any) =>
+        formatStringAsPhp(`<?php ${p1.substr('1')}${p2}(${p3}) ?>`)
           .replace(
             /<\?php\s(.*?)(\s*?)\((.*?)\);*\s\?>\n/gs,
-            (match2, j1, j2, j3) => {
-              return `@${j1.trim()}${j2}(${j3.trim()})`;
-            },
+            (match2: any, j1: any, j2: any, j3: any) => `@${j1.trim()}${j2}(${j3.trim()})`,
           )
-          .replace(/([\n\s]*)->([\n\s]*)/gs, '->');
-      }),
+          .replace(/([\n\s]*)->([\n\s]*)/gs, '->'),
+      ),
     )
     .then((res) => formatStringAsPhp(res));
 }
 
-export async function prettifyPhpContentWithEscapedTags(content) {
+export async function prettifyPhpContentWithEscapedTags(content: any) {
   return new Promise((resolve) => resolve(content))
-    .then((res) => _.replace(res, /{!!/g, '<?php /*escaped*/'))
+    .then((res: any) => _.replace(res, /{!!/g, '<?php /*escaped*/'))
     .then((res) => _.replace(res, /!!}/g, '/*escaped*/ ?>\n'))
     .then((res) => formatStringAsPhp(res))
     .then((res) => _.replace(res, /<\?php\s\/\*escaped\*\//g, '{!! '))
     .then((res) => _.replace(res, /\/\*escaped\*\/\s\?>\n/g, ' !!}'));
 }
 
-export async function removeSemicolon(content) {
+export async function removeSemicolon(content: any) {
   return new Promise((resolve) => {
     resolve(content);
   })
-    .then((res) => _.replace(res, /;[\n\s]*!!\}/g, ' !!}'))
+    .then((res: any) => _.replace(res, /;[\n\s]*!!\}/g, ' !!}'))
     .then((res) => _.replace(res, /;[\s\n]*!!}/g, ' !!}'))
     .then((res) => _.replace(res, /;[\n\s]*}}/g, ' }}'))
     .then((res) => _.replace(res, /; }}/g, ' }}'))
     .then((res) => _.replace(res, /; --}}/g, ' --}}'));
 }
 
-export async function formatAsPhp(content) {
+export async function formatAsPhp(content: any) {
   return prettifyPhpContentWithUnescapedTags(content);
 }
 
-export async function preserveOriginalPhpTagInHtml(content) {
+export async function preserveOriginalPhpTagInHtml(content: any) {
   return new Promise((resolve) => resolve(content))
-    .then((res) => _.replace(res, /<\?php/g, '/** phptag_start **/'))
+    .then((res: any) => _.replace(res, /<\?php/g, '/** phptag_start **/'))
     .then((res) => _.replace(res, /\?>/g, '/** end_phptag **/'));
 }
 
-export function revertOriginalPhpTagInHtml(content) {
+export function revertOriginalPhpTagInHtml(content: any) {
   return new Promise((resolve) => resolve(content))
-    .then((res) =>
-      _.replace(res, /\/\*\*[\s\n]*?phptag_start[\s\n]*?\*\*\//gs, '<?php'),
-    )
-    .then((res) =>
-      _.replace(res, /\/\*\*[\s\n]*?end_phptag[\s\n]*?\*\*\/[\s];\n/g, '?>;'),
-    )
-    .then((res) =>
-      _.replace(res, /\/\*\*[\s\n]*?end_phptag[\s\n]*?\*\*\//g, '?>'),
-    );
+    .then((res: any) => _.replace(res, /\/\*\*[\s\n]*?phptag_start[\s\n]*?\*\*\//gs, '<?php'))
+    .then((res) => _.replace(res, /\/\*\*[\s\n]*?end_phptag[\s\n]*?\*\*\/[\s];\n/g, '?>;'))
+    .then((res) => _.replace(res, /\/\*\*[\s\n]*?end_phptag[\s\n]*?\*\*\//g, '?>'));
 }
 
-export function indent(content, level, options) {
+export function indent(content: any, level: any, options: any) {
   const lines = content.split('\n');
-  return _.map(lines, (line, index) => {
+  return _.map(lines, (line: any, index: any) => {
     if (!line.match(/\w/)) {
       return line;
     }
@@ -217,9 +202,9 @@ export function indent(content, level, options) {
   }).join('\n');
 }
 
-export function unindent(directive, content, level, options) {
+export function unindent(directive: any, content: any, level: any, options: any) {
   const lines = content.split('\n');
-  return _.map(lines, (line) => {
+  return _.map(lines, (line: any) => {
     if (!line.match(/\w/)) {
       return line;
     }
@@ -237,86 +222,67 @@ export function unindent(directive, content, level, options) {
   }).join('\n');
 }
 
-export function preserveDirectives(content) {
+export function preserveDirectives(content: any) {
   return new Promise((resolve) => resolve(content))
-    .then((res) => {
+    .then((res: any) => {
       const regex = new RegExp(
-        `(${phpKeywordStartTokens.join(
-          '|',
-        )})([\\s]*?)\\(((?:[^)(]+|\\((?:[^)(]+|\\([^)(]*\\))*\\))*)\\)`,
+        `(${phpKeywordStartTokens.join('|')})([\\s]*?)\\(((?:[^)(]+|\\((?:[^)(]+|\\([^)(]*\\))*\\))*)\\)`,
         'gis',
       );
-      return _.replace(res, regex, (match, p1, p2, p3) => {
-        return `<beautifyTag start="${p1}${p2}" exp="^^^${_.escape(p3)}^^^">`;
-      });
-    })
-    .then((res) => {
-      const regex = new RegExp(
-        `(?!end=".*)(${phpKeywordEndTokens.join('|')})(?!.*")`,
-        'gi',
+      return _.replace(
+        res,
+        regex,
+        (match: any, p1: any, p2: any, p3: any) => `<beautifyTag start="${p1}${p2}" exp="^^^${_.escape(p3)}^^^">`,
       );
-      return _.replace(res, regex, (match, p1) => {
-        return `</beautifyTag end="${p1}">`;
-      });
+    })
+    .then((res: any) => {
+      const regex = new RegExp(`(?!end=".*)(${phpKeywordEndTokens.join('|')})(?!.*")`, 'gi');
+      return _.replace(res, regex, (match: any, p1: any) => `</beautifyTag end="${p1}">`);
     });
 }
 
-export function preserveDirectivesInTag(content) {
-  return new Promise((resolve) => resolve(content)).then((res) => {
+export function preserveDirectivesInTag(content: any) {
+  return new Promise((resolve) => {
     const regex = new RegExp(
       `(<[^>]*?)(${phpKeywordStartTokens.join(
         '|',
-      )})([\\s]*?)\\(((?:[^)(]+|\\((?:[^)(]+|\\([^)(]*\\))*\\))*)\\)(.*?)(${phpKeywordEndTokens.join(
-        '|',
-      )})([^>]*?>)`,
+      )})([\\s]*?)\\(((?:[^)(]+|\\((?:[^)(]+|\\([^)(]*\\))*\\))*)\\)(.*?)(${phpKeywordEndTokens.join('|')})([^>]*?>)`,
       'gis',
     );
-    return _.replace(res, regex, (match, p1, p2, p3, p4, p5, p6, p7) => {
-      return `${p1}|-- start="${p2}${p3}" exp="^^^${p4}^^^" body="^^^${_.escape(
-        _.trim(p5),
-      )}^^^" end="${p6}" --|${p7}`;
-    });
+    resolve(
+      _.replace(
+        content,
+        regex,
+        (match: any, p1: any, p2: any, p3: any, p4: any, p5: any, p6: any, p7: any) =>
+          `${p1}|-- start="${p2}${p3}" exp="^^^${p4}^^^" body="^^^${_.escape(_.trim(p5))}^^^" end="${p6}" --|${p7}`,
+      ),
+    );
   });
 }
 
-export function revertDirectives(content) {
+export function revertDirectives(content: any) {
   return new Promise((resolve) => resolve(content))
-    .then((res) => {
-      return _.replace(
+    .then((res: any) =>
+      _.replace(
         res,
         /<beautifyTag.*?start="(.*?)".*?exp=".*?\^\^\^(.*?)\^\^\^.*?"\s*>/gs,
-        (match, p1, p2) => {
-          return `${p1}(${_.unescape(p2)})`;
-        },
-      );
-    })
-    .then((res) => {
-      return _.replace(
-        res,
-        /<\/beautifyTag.*?end="(.*?)"\s*>/gs,
-        (match, p1) => {
-          return `${p1}`;
-        },
-      );
-    });
+        (match: any, p1: any, p2: any) => `${p1}(${_.unescape(p2)})`,
+      ),
+    )
+    .then((res) => _.replace(res, /<\/beautifyTag.*?end="(.*?)"\s*>/gs, (match: any, p1: any) => `${p1}`));
 }
 
-export function revertDirectivesInTag(content) {
+export function revertDirectivesInTag(content: any) {
   return new Promise((resolve) => resolve(content))
-    .then((res) => {
-      return _.replace(
+    .then((res: any) =>
+      _.replace(
         res,
         /\|--.*?start="(.*?)".*?exp=".*?\^\^\^(.*?)\^\^\^.*?"(.*?)body=".*?\^\^\^(.*?)\^\^\^.*?".*?end="(.*?)".*?--\|/gs,
-        (match, p1, p2, p3, p4, p5) => {
-          return `${_.trimStart(p1)}(${p2}) ${_.unescape(p4)} ${p5}`;
-        },
-      );
-    })
-    .then((res) => {
-      return _.replace(res, /\/-- end="(.*?)"--\//gs, (match, p1) => {
-        return `${p1}`;
-      });
-    });
+        (match: any, p1: any, p2: any, p3: any, p4: any, p5: any) =>
+          `${_.trimStart(p1)}(${p2}) ${_.unescape(p4)} ${p5}`,
+      ),
+    )
+    .then((res) => _.replace(res, /\/-- end="(.*?)"--\//gs, (match: any, p1: any) => `${p1}`));
 }
 export function printDescription() {
   const returnLine = '\n\n';
@@ -336,13 +302,13 @@ const escapeTags = [
   'beautifyTag',
 ];
 
-export function checkResult(formatted) {
+export function checkResult(formatted: any) {
   if (new RegExp(escapeTags.join('|')).test(formatted)) {
     throw new Error(
       [
-        `Can't format blade: something goes wrong.`,
+        "Can't format blade: something goes wrong.",
         // eslint-disable-next-line max-len
-        `Please check if template is too complicated or not. Or simplify template might solves issue.`,
+        'Please check if template is too complicated or not. Or simplify template might solves issue.',
       ].join('\n'),
     );
   }
@@ -350,7 +316,7 @@ export function checkResult(formatted) {
   return formatted;
 }
 
-export function debugLog(content) {
+export function debugLog(content: any) {
   console.log('content start');
   console.log(content);
   console.log('content end');

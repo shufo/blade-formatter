@@ -32,6 +32,7 @@ jobs:
       - name: npm install, build, linting, and test
         run: |
           yarn install
+          yarn build
           ./bin/blade-formatter __tests__/fixtures/index.blade.php
         env:
           CI: true

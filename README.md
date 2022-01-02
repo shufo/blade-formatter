@@ -18,17 +18,17 @@ This project aims to provide formatter for blade template because there is no of
 - Automatically Indents markup inside directives
 
   ![blade-formatter-indent](https://user-images.githubusercontent.com/1641039/125206632-33c54b00-e2c3-11eb-88ee-5a8b2ae306b5.gif)
-  
+
 - Automatically add spacing to blade templating markers
-  
+
   ![blade-formatter-spacing](https://user-images.githubusercontent.com/1641039/125206634-345de180-e2c3-11eb-9631-016376556dce.gif)
 
 - PHP 8 support (null safe operator, named arguments) 🐘
-  
+
   ![blade-formatter-php8](https://user-images.githubusercontent.com/1641039/125206633-33c54b00-e2c3-11eb-8bc9-3bae838ccf32.gif)
 
 - PSR-2 support (format inside directives)
-  
+
   ![blade-formatter-format-in-directive](https://user-images.githubusercontent.com/1641039/125206630-31fb8780-e2c3-11eb-9618-a7092316a203.gif)
 
 ## Example
@@ -195,7 +195,6 @@ resources/views/books/**/*
 You can use blade formatter by API as well.
 
 ```js
-require = require('esm')(module);
 const { BladeFormatter } = require('blade-formatter');
 
 const input = `
@@ -212,6 +211,29 @@ const options = {
 
 new BladeFormatter(options).format(input).then((formatted) => {
   console.log(formatted);
+});
+```
+
+### ESModule
+
+```js
+import BladeFormatter from "blade-formatter";
+const { Formatter } = BladeFormatter;
+
+const input = `
+<html>
+  <body>
+    <p>foo</p>
+  </body>
+</html>
+`;
+
+const options = {
+    indentSize: 2,
+};
+
+new Formatter(options).formatContent(input).then((formatted) => {
+    console.log(formatted);
 });
 ```
 
