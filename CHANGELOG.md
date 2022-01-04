@@ -1,5 +1,20 @@
 # Changelog
 
+### [1.15.1](https://www.github.com/shufo/blade-formatter/compare/v1.15.0...v1.15.1) (2022-01-04)
+
+
+### Miscellaneous
+
+* **deps-dev:** bump @babel/core from 7.13.14 to 7.16.7 ([9396f6c](https://www.github.com/shufo/blade-formatter/commit/9396f6cfc5f9d7c35fb83f61b071c7382204a99f))
+* **deps-dev:** bump @types/node from 17.0.5 to 17.0.6 ([4726331](https://www.github.com/shufo/blade-formatter/commit/4726331abb50f1b4905a1fa07ee7284c0b49e45b))
+* **deps-dev:** bump babel-jest from 26.6.3 to 27.4.5 ([9c95fbd](https://www.github.com/shufo/blade-formatter/commit/9c95fbd9afc8c7da99b579223bc73d07cb692883))
+* **deps-dev:** bump eslint from 8.5.0 to 8.6.0 ([5732232](https://www.github.com/shufo/blade-formatter/commit/5732232fb75248bbf2d9a8b7deea91f4b09bca4a))
+* **deps-dev:** bump eslint-plugin-prettier from 3.3.1 to 4.0.0 ([a327656](https://www.github.com/shufo/blade-formatter/commit/a3276567e22916f7306ae776f3ea21981e922cf6))
+* **deps:** bump ignore from 5.1.8 to 5.2.0 ([6ee7685](https://www.github.com/shufo/blade-formatter/commit/6ee7685e5d0300bac2966dd3fd9ca011888e2c10))
+* **deps:** bump vscode-oniguruma from 1.5.1 to 1.6.1 ([9c094d9](https://www.github.com/shufo/blade-formatter/commit/9c094d9c6b27eb4f9dc2ab4924b433dcead801dd))
+* **deps:** bump vscode-textmate from 5.4.0 to 6.0.0 ([572cae7](https://www.github.com/shufo/blade-formatter/commit/572cae702aee1620430e7e2001df1e5812b506e2))
+* **deps:** bump xregexp from 5.0.2 to 5.1.0 ([2a62b78](https://www.github.com/shufo/blade-formatter/commit/2a62b78c27a229f91db6f33e58a7efa4c3a8d964))
+
 ## [1.15.0](https://www.github.com/shufo/blade-formatter/compare/v1.14.4...v1.15.0) (2022-01-02)
 
 
