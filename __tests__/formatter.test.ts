@@ -1632,4 +1632,33 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
+
+  test('conditional expression', async () => {
+    const content = [
+      `@if ($condition < 1)`,
+      `    {{-- Do something --}}`,
+      `@elseif ($condition <2)`,
+      `    {{-- Do something --}}`,
+      `@elseif ($condition< 3)`,
+      `        {{-- Do something --}}`,
+      `@else`,
+      `    {{-- Do something --}}`,
+      `@endif`,
+    ].join('\n');
+
+    const expected = [
+      `@if ($condition < 1)`,
+      `    {{-- Do something --}}`,
+      `@elseif ($condition < 2)`,
+      `    {{-- Do something --}}`,
+      `@elseif ($condition < 3)`,
+      `    {{-- Do something --}}`,
+      `@else`,
+      `    {{-- Do something --}}`,
+      `@endif`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
 });
