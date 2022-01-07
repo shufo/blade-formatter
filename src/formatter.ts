@@ -696,14 +696,13 @@ export default class Formatter {
 
   restoreConditions(content: any) {
     return new Promise((resolve) => resolve(content)).then((res: any) =>
-      _.replace(
-        res,
-        new RegExp(`${this.getConditionPlaceholder('(\\d+)')}`, 'gms'),
-        (_match: any, p1: any) => {
-          const matched = this.conditions[p1];
-          return util.formatRawStringAsPhp(matched).trimEnd();
-        },
-      ),
+      _.replace(res, new RegExp(`${this.getConditionPlaceholder('(\\d+)')}`, 'gms'), (_match: any, p1: any) => {
+        const matched = this.conditions[p1];
+        return util
+          .formatRawStringAsPhp(matched)
+          .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
+          .trimEnd();
+      }),
     );
   }
 
