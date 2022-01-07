@@ -260,13 +260,17 @@ export default class Formatter {
 
   async preserveConditions(content: any) {
     const regex = new RegExp(
-      `(?!\\/\\*.*?\\*\\/)(${conditionalTokens.join(
+      `(${conditionalTokens.join(
         '|',
         // eslint-disable-next-line max-len
-      )})(.*)\\((.*)\\)`,
-      'gim',
+      )})(\\s*?)\\(((?:[^)(]+|\\((?:[^)(]+|\\([^)(]*\\))*\\))*)\\)`,
+      'gi',
     );
-    return _.replace(content, regex, (match: any, p1: any, p2: any, p3: any) => `${p1}${p2}(${this.storeConditions(p3)})`);
+    return _.replace(
+      content,
+      regex,
+      (match: any, p1: any, p2: any, p3: any) => `${p1}${p2}(${this.storeConditions(p3)})`,
+    );
   }
 
   async preserveRawPhpTags(content: any) {
