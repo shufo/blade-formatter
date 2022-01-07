@@ -98,6 +98,8 @@ export const phpKeywordEndTokens = ['@endforelse', '@endif', '@endfor', '@endfor
 
 export const inlineFunctionTokens = ['@json'];
 
+export const conditionalTokens = ['@if', '@while', '@case', '@isset', '@empty', '@elseif'];
+
 export function hasStartAndEndToken(tokenizeLineResult: any, originalLine: any) {
   return (
     _.filter(tokenizeLineResult.tokens, (tokenStruct: any) => {
