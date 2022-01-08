@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.15.2](https://www.github.com/shufo/blade-formatter/compare/v1.15.1...v1.15.2) (2022-01-08)
+
+
+### Fixes
+
+* 🐛 indent error in formatting conditional expression ([#429](https://www.github.com/shufo/blade-formatter/issues/429)) ([7b7124d](https://www.github.com/shufo/blade-formatter/commit/7b7124ddbc268564c59917c3285ed803c8c13547))
+
 ### [1.15.1](https://www.github.com/shufo/blade-formatter/compare/v1.15.0...v1.15.1) (2022-01-04)
 
 
