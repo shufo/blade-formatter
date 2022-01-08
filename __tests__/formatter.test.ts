@@ -1663,18 +1663,9 @@ describe('formatter', () => {
   });
 
   test('conditional expression (while)', async () => {
-    const content = [
-      `@while ($condition< 1)`,
-      `{{-- Do something --}}`,
-      `@endwhile`,
-    ].join('\n');
+    const content = [`@while ($condition< 1)`, `{{-- Do something --}}`, `@endwhile`].join('\n');
 
-    const expected = [
-      `@while ($condition < 1)`,
-      `    {{-- Do something --}}`,
-      `@endwhile`,
-      ``,
-    ].join('\n');
+    const expected = [`@while ($condition < 1)`, `    {{-- Do something --}}`, `@endwhile`, ``].join('\n');
 
     await util.doubleFormatCheck(content, expected);
   });
