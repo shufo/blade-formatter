@@ -21,6 +21,7 @@ import {
   indentStartAndEndTokens,
   inlineFunctionTokens,
   optionalStartWithoutEndTokens,
+  conditionalTokens,
 } from './indent';
 
 export default class Formatter {
@@ -43,6 +44,8 @@ export default class Formatter {
   indentSize: any;
 
   inlineDirectives: any;
+
+  conditions: any;
 
   inlinePhpDirectives: any;
 
@@ -91,6 +94,7 @@ export default class Formatter {
     this.rawBlocks = [];
     this.rawPhpTags = [];
     this.inlineDirectives = [];
+    this.conditions = [];
     this.inlinePhpDirectives = [];
     this.rawPropsBlocks = [];
     this.bladeDirectives = [];
@@ -111,6 +115,7 @@ export default class Formatter {
       .then((formattedAsPhp) => this.preserveBladeComment(formattedAsPhp))
       .then((formattedAsPhp) => this.preserveBladeBrace(formattedAsPhp))
       .then((formattedAsPhp) => this.preserveRawBladeBrace(formattedAsPhp))
+      .then((formattedAsPhp) => this.preserveConditions(formattedAsPhp))
       .then((formattedAsPhp) => this.preserveInlineDirective(formattedAsPhp))
       .then((formattedAsPhp) => this.preserveInlinePhpDirective(formattedAsPhp))
       .then((formattedAsPhp) => this.preserveBladeDirectivesInScripts(formattedAsPhp))
@@ -127,6 +132,7 @@ export default class Formatter {
       .then((formattedAsPhp) => this.restoreBladeDirectivesInScripts(formattedAsPhp))
       .then((formattedAsBlade) => this.restoreInlinePhpDirective(formattedAsBlade))
       .then((formattedAsBlade) => this.restoreInlineDirective(formattedAsBlade))
+      .then((formattedAsBlade) => this.restoreConditions(formattedAsBlade))
       .then((formattedAsBlade) => this.restoreRawBladeBrace(formattedAsBlade))
       .then((formattedAsBlade) => this.restoreBladeBrace(formattedAsBlade))
       .then((formattedAsBlade) => this.restoreBladeComment(formattedAsBlade))
@@ -252,6 +258,21 @@ export default class Formatter {
     return _.replace(content, /\{!!(.*?)!!\}/gs, (_match: any, p1: any) => this.storeRawBladeBrace(p1));
   }
 
+  async preserveConditions(content: any) {
+    const regex = new RegExp(
+      `(${conditionalTokens.join(
+        '|',
+        // eslint-disable-next-line max-len
+      )})(\\s*?)\\(((?:[^)(]+|\\((?:[^)(]+|\\([^)(]*\\))*\\))*)\\)`,
+      'gi',
+    );
+    return _.replace(
+      content,
+      regex,
+      (match: any, p1: any, p2: any, p3: any) => `${p1}${p2}(${this.storeConditions(p3)})`,
+    );
+  }
+
   async preserveRawPhpTags(content: any) {
     return _.replace(content, /<\?php(.*?)\?>/gms, (match: any) => this.storeRawPhpTags(match));
   }
@@ -274,6 +295,10 @@ export default class Formatter {
 
   storeInlineDirective(value: any) {
     return this.getInlinePlaceholder(this.inlineDirectives.push(value) - 1);
+  }
+
+  storeConditions(value: any) {
+    return this.getConditionPlaceholder(this.conditions.push(value) - 1);
   }
 
   storeInlinePhpDirective(value: any) {
@@ -334,6 +359,10 @@ export default class Formatter {
 
   getInlinePlaceholder(replace: any) {
     return _.replace('___inline_directive_#___', '#', replace);
+  }
+
+  getConditionPlaceholder(replace: any) {
+    return _.replace('___directive_condition_#___', '#', replace);
   }
 
   getInlinePhpPlaceholder(replace: any) {
@@ -666,6 +695,18 @@ export default class Formatter {
           return matched;
         },
       ),
+    );
+  }
+
+  restoreConditions(content: any) {
+    return new Promise((resolve) => resolve(content)).then((res: any) =>
+      _.replace(res, new RegExp(`${this.getConditionPlaceholder('(\\d+)')}`, 'gms'), (_match: any, p1: any) => {
+        const matched = this.conditions[p1];
+        return util
+          .formatRawStringAsPhp(matched)
+          .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
+          .trimEnd();
+      }),
     );
   }
 

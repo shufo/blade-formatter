@@ -809,8 +809,8 @@ describe('formatter', () => {
     ].join('\n');
 
     const expected = [
-      `<body class=\"hold-transition login-page\" @if (config('admin.login_background_image'))style=\"background:`,
-      `    url({{ config('admin.login_background_image') }}) no-repeat;background-size: cover;\"`,
+      `<body class=\"hold-transition login-page\" @if (config('admin.login_background_image'))`,
+      `    style=\"background: url({{ config('admin.login_background_image') }}) no-repeat;background-size: cover;\"`,
       `    @endif>`,
       ``,
     ].join('\n');
@@ -1622,13 +1622,50 @@ describe('formatter', () => {
     const expected = [
       `@foreach ($items as $item)`,
       `    @switch($item->status)`,
-      `        @case("status")`,
+      `        @case('status')`,
       `            // Do something`,
       `        @break`,
       `    @endswitch`,
       `@endforeach`,
       ``,
     ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
+
+  test('conditional expression', async () => {
+    const content = [
+      `@if ($condition < 1)`,
+      `    {{-- Do something --}}`,
+      `@elseif ($condition <2)`,
+      `    {{-- Do something --}}`,
+      `@elseif ($condition< 3)`,
+      `        {{-- Do something --}}`,
+      `@else`,
+      `    {{-- Do something --}}`,
+      `@endif`,
+    ].join('\n');
+
+    const expected = [
+      `@if ($condition < 1)`,
+      `    {{-- Do something --}}`,
+      `@elseif ($condition < 2)`,
+      `    {{-- Do something --}}`,
+      `@elseif ($condition < 3)`,
+      `    {{-- Do something --}}`,
+      `@else`,
+      `    {{-- Do something --}}`,
+      `@endif`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
+
+  test('conditional expression (while)', async () => {
+    const content = [`@while ($condition< 1)`, `{{-- Do something --}}`, `@endwhile`].join('\n');
+
+    const expected = [`@while ($condition < 1)`, `    {{-- Do something --}}`, `@endwhile`, ``].join('\n');
 
     await util.doubleFormatCheck(content, expected);
   });
