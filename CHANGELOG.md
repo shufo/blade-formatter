@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.16.0](https://www.github.com/shufo/blade-formatter/compare/v1.15.2...v1.16.0) (2022-01-10)
+
+
+### Features
+
+* 🎸 add ignore statement for disable formatting ([f63bc03](https://www.github.com/shufo/blade-formatter/commit/f63bc037afe2b50edd03af4deafdab6590f7be57))
+
 ### [1.15.2](https://www.github.com/shufo/blade-formatter/compare/v1.15.1...v1.15.2) (2022-01-08)
 
 
