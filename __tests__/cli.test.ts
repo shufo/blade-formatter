@@ -371,4 +371,10 @@ describe('The blade formatter CLI', () => {
     const target = 'formatted.multiline_blade_brace.blade.php';
     await util.checkIfTemplateIsFormattedTwice(input, target);
   });
+
+  test.concurrent('ignore entire file', async () => {
+    const input = 'ignore_entire_file_comment.blade.php';
+    const target = 'ignore_entire_file_comment.blade.php';
+    await util.checkIfTemplateIsFormattedTwice(input, target);
+  });
 });
