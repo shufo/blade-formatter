@@ -41,7 +41,6 @@
     "chalk": "^4.1.0",
     "concat-stream": "^2.0.0",
     "detect-indent": "^6.0.0",
-    "esm": "^3.2.25",
     "glob": "^7.1.4",
     "ignore": "^5.1.8",
     "js-beautify": "^1.14.0",
