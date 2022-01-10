@@ -190,6 +190,32 @@ resources/views/products/*
 resources/views/books/**/*
 ```
 
+## Disabling format in file
+
+To disable formatting in your file, you can use blade comments in the following format:
+
+```blade
+{{-- blade-formatter-disable --}}
+    {{ $foo }}
+    {{ $bar }}
+{{-- blade-formatter-enable --}}
+```
+
+To disable format on a specific line, you can use comment in the following format:
+
+```blade
+{{-- blade-formatter-disable-next-line --}}
+    {{ $foo }}
+```
+
+To disable format in an entire file, put a `{{-- blade-formatter-disable --}}` comment at the top of the file:
+
+```blade
+{{-- blade-formatter-disable --}}
+
+{{ $foo }}
+```
+
 ## API
 
 You can use blade formatter by API as well.

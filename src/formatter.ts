@@ -57,6 +57,8 @@ export default class Formatter {
 
   rawBladeBraces: any;
 
+  ignoredLines: any;
+
   rawBlocks: any;
 
   rawPhpTags: any;
@@ -91,6 +93,7 @@ export default class Formatter {
     this.shouldBeIndent = false;
     this.isInsideCommentBlock = false;
     this.stack = [];
+    this.ignoredLines = [];
     this.rawBlocks = [];
     this.rawPhpTags = [];
     this.inlineDirectives = [];
@@ -110,6 +113,7 @@ export default class Formatter {
 
   formatContent(content: any) {
     return new Promise((resolve) => resolve(content))
+      .then((target) => this.preserveIgnoredLines(target))
       .then((target) => this.preserveRawPhpTags(target))
       .then((target) => util.formatAsPhp(target))
       .then((formattedAsPhp) => this.preserveBladeComment(formattedAsPhp))
@@ -137,6 +141,7 @@ export default class Formatter {
       .then((formattedAsBlade) => this.restoreBladeBrace(formattedAsBlade))
       .then((formattedAsBlade) => this.restoreBladeComment(formattedAsBlade))
       .then((target) => this.restoreRawPhpTags(target))
+      .then((target) => this.restoreIgnoredLines(target))
       .then((formattedResult) => util.checkResult(formattedResult));
   }
 
@@ -156,6 +161,23 @@ export default class Formatter {
       .then((content) => this.restorePhpBlock(content));
 
     return Promise.resolve(promise);
+  }
+
+  async preserveIgnoredLines(content: any) {
+    return _.chain(content)
+      .replace(
+        /(^(?<!.+)^{{--\s*blade-formatter-disable\s*--}}.*?)([\r\n]*)$(?![\r\n])/gis,
+        (_match: any, p1: any, p2: any) => {
+          return this.storeIgnoredLines(`${p1}${p2.replace(/^\n/, '')}`);
+        },
+      )
+      .replace(/{{--\s*?blade-formatter-disable\s*?--}}.*?{{--\s*?blade-formatter-enable\s*?--}}/gis, (match: any) =>
+        this.storeIgnoredLines(match),
+      )
+      .replace(/{{--\s*?blade-formatter-disable-next-line\s*?--}}[\r\n]+[^\r\n]+/gis, (match: any) =>
+        this.storeIgnoredLines(match),
+      )
+      .value();
   }
 
   async preservePhpBlock(content: any) {
@@ -289,6 +311,10 @@ export default class Formatter {
     );
   }
 
+  storeIgnoredLines(value: any) {
+    return this.getIgnoredLinePlaceholder(this.ignoredLines.push(value) - 1);
+  }
+
   storeRawBlock(value: any) {
     return this.getRawPlaceholder(this.rawBlocks.push(value) - 1);
   }
@@ -351,6 +377,10 @@ export default class Formatter {
   storeTemplatingString(value: any) {
     const index = this.templatingStrings.push(value) - 1;
     return this.getTemplatingStringPlaceholder(index);
+  }
+
+  getIgnoredLinePlaceholder(replace: any) {
+    return _.replace('___ignored_line_#___', '#', replace);
   }
 
   getRawPlaceholder(replace: any) {
@@ -419,6 +449,16 @@ export default class Formatter {
 
   getTemplatingStringPlaceholder(replace: any) {
     return _.replace('___templating_str_#___', '#', replace);
+  }
+
+  restoreIgnoredLines(content: any) {
+    return _.replace(
+      content,
+      new RegExp(`${this.getIgnoredLinePlaceholder('(\\d+)')}`, 'gm'),
+      (_match: any, p1: any) => {
+        return this.ignoredLines[p1];
+      },
+    );
   }
 
   restorePhpBlock(content: any) {
