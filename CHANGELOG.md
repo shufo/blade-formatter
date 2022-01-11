@@ -1,5 +1,17 @@
 # Changelog
 
+### [1.16.1](https://www.github.com/shufo/blade-formatter/compare/v1.16.0...v1.16.1) (2022-01-11)
+
+
+### Miscellaneous
+
+* 🤖 drop esm from dependencies ([e34a1e5](https://www.github.com/shufo/blade-formatter/commit/e34a1e5ba8d25844a39d18a413ac3f758316451c))
+
+
+### Fixes
+
+* 🐛 `@{{~}}` syntax occurs parse error ([8fe42ec](https://www.github.com/shufo/blade-formatter/commit/8fe42ec9ca9fce6e3fd7c812b037e253750e2d64))
+
 ## [1.16.0](https://www.github.com/shufo/blade-formatter/compare/v1.15.2...v1.16.0) (2022-01-10)
 
 
