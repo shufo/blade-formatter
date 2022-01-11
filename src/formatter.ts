@@ -59,6 +59,8 @@ export default class Formatter {
 
   ignoredLines: any;
 
+  curlyBracesWithJSs: any;
+
   rawBlocks: any;
 
   rawPhpTags: any;
@@ -94,6 +96,7 @@ export default class Formatter {
     this.isInsideCommentBlock = false;
     this.stack = [];
     this.ignoredLines = [];
+    this.curlyBracesWithJSs = [];
     this.rawBlocks = [];
     this.rawPhpTags = [];
     this.inlineDirectives = [];
@@ -114,6 +117,7 @@ export default class Formatter {
   formatContent(content: any) {
     return new Promise((resolve) => resolve(content))
       .then((target) => this.preserveIgnoredLines(target))
+      .then((target) => this.preserveCurlyBraceForJS(target))
       .then((target) => this.preserveRawPhpTags(target))
       .then((target) => util.formatAsPhp(target))
       .then((formattedAsPhp) => this.preserveBladeComment(formattedAsPhp))
@@ -141,6 +145,7 @@ export default class Formatter {
       .then((formattedAsBlade) => this.restoreBladeBrace(formattedAsBlade))
       .then((formattedAsBlade) => this.restoreBladeComment(formattedAsBlade))
       .then((target) => this.restoreRawPhpTags(target))
+      .then((target) => this.restoreCurlyBraceForJS(target))
       .then((target) => this.restoreIgnoredLines(target))
       .then((formattedResult) => util.checkResult(formattedResult));
   }
@@ -178,6 +183,10 @@ export default class Formatter {
         this.storeIgnoredLines(match),
       )
       .value();
+  }
+
+  async preserveCurlyBraceForJS(content: any) {
+    return _.replace(content, /@{{(.*?)}}/gs, (match: any, p1: any) => this.storeCurlyBraceForJS(p1));
   }
 
   async preservePhpBlock(content: any) {
@@ -315,6 +324,10 @@ export default class Formatter {
     return this.getIgnoredLinePlaceholder(this.ignoredLines.push(value) - 1);
   }
 
+  storeCurlyBraceForJS(value: any) {
+    return this.getCurlyBraceForJSPlaceholder(this.curlyBracesWithJSs.push(value) - 1);
+  }
+
   storeRawBlock(value: any) {
     return this.getRawPlaceholder(this.rawBlocks.push(value) - 1);
   }
@@ -381,6 +394,10 @@ export default class Formatter {
 
   getIgnoredLinePlaceholder(replace: any) {
     return _.replace('___ignored_line_#___', '#', replace);
+  }
+
+  getCurlyBraceForJSPlaceholder(replace: any) {
+    return _.replace('___js_curly_brace_#___', '#', replace);
   }
 
   getRawPlaceholder(replace: any) {
@@ -457,6 +474,16 @@ export default class Formatter {
       new RegExp(`${this.getIgnoredLinePlaceholder('(\\d+)')}`, 'gm'),
       (_match: any, p1: any) => {
         return this.ignoredLines[p1];
+      },
+    );
+  }
+
+  restoreCurlyBraceForJS(content: any) {
+    return _.replace(
+      content,
+      new RegExp(`${this.getCurlyBraceForJSPlaceholder('(\\d+)')}`, 'gm'),
+      (_match: any, p1: any) => {
+        return `@{{ ${beautify.js_beautify(this.curlyBracesWithJSs[p1].trim())} }}`;
       },
     );
   }
