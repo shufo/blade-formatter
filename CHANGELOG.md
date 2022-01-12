@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.16.2](https://www.github.com/shufo/blade-formatter/compare/v1.16.1...v1.16.2) (2022-01-12)
+
+
+### Fixes
+
+* 🐛 `[@slot](https://www.github.com/slot)` without `[@endslot](https://www.github.com/endslot)` incorrect formatting ([6061a2d](https://www.github.com/shufo/blade-formatter/commit/6061a2d540895ec5f2a65a36c542b4e6d4490048))
+
 ### [1.16.1](https://www.github.com/shufo/blade-formatter/compare/v1.16.0...v1.16.1) (2022-01-11)
 
 
