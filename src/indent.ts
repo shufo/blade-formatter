@@ -84,6 +84,7 @@ export const optionalStartWithoutEndTokens = {
   '@section': 2,
   '@push': 2,
   '@prepend': 2,
+  '@slot': 2,
 };
 
 export const tokenForIndentStartOrElseTokens = ['@forelse'];
