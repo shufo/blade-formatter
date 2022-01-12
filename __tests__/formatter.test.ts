@@ -1798,4 +1798,35 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
+
+  test('slow without endslot directive https://github.com/shufo/vscode-blade-formatter/issues/304', async () => {
+    const content = [
+      `@component('components.article.intro')`,
+      `    @slot('date', $article->formatDate)`,
+      `        @slot('read_mins', $article->readTime)`,
+      `            @if ($author)`,
+      `                @slot('authors', [['link' => $author_link, 'name' => $author]])`,
+      `                @endif`,
+      `                @slot('intro_text')`,
+      `                    {!! $article->introduction !!}`,
+      `                @endslot`,
+      `            @endcomponent`,
+    ].join('\n');
+
+    const expected = [
+      `@component('components.article.intro')`,
+      `    @slot('date', $article->formatDate)`,
+      `    @slot('read_mins', $article->readTime)`,
+      `    @if ($author)`,
+      `        @slot('authors', [['link' => $author_link, 'name' => $author]])`,
+      `    @endif`,
+      `    @slot('intro_text')`,
+      `        {!! $article->introduction !!}`,
+      `    @endslot`,
+      `@endcomponent`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
 });
