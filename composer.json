@@ -1,0 +1,17 @@
+{
+  "name": "shufo/blade-formatter",
+  "description": "An opinionated blade template formatter for Laravel that respects readability.",
+  "keywords": [
+    "Blade",
+    "Laravel",
+    "Formatter"
+  ],
+  "homepage": "https://github.com/shufo/blade-formatter",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Shuhei Hayashibara",
+      "email": "meikyowise@gmail.com"
+    }
+  ]
+}
