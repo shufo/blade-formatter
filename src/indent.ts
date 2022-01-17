@@ -59,6 +59,8 @@ export const indentEndTokens = [
   '@endguest',
   '@endif',
   '@endisset',
+  '@endpermission',
+  '@endpermissions',
   '@endphp',
   '@endpush',
   '@endsection',

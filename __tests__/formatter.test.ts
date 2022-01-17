@@ -1829,4 +1829,21 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
+
+  test('@permission directive', async () => {
+    const content = [
+      `@permission('post.edit')`,
+      `<button class="btn btn-primary" onclick="editPost({{ $id }})">Edit Post</button>`,
+      `@endpermission`,
+    ].join('\n');
+
+    const expected = [
+      `@permission('post.edit')`,
+      `    <button class="btn btn-primary" onclick="editPost({{ $id }})">Edit Post</button>`,
+      `@endpermission`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
 });
