@@ -1,5 +1,17 @@
 # Changelog
 
+### [1.16.3](https://www.github.com/shufo/blade-formatter/compare/v1.16.2...v1.16.3) (2022-01-22)
+
+
+### Miscellaneous
+
+* 🤖 add composer.json ([b88dc6e](https://www.github.com/shufo/blade-formatter/commit/b88dc6e0409d2cc27198d95ed4488b6a35ecfc5b))
+
+
+### Fixes
+
+* 🐛 support `[@permission](https://www.github.com/permission)`~`[@endpermission](https://www.github.com/endpermission)` directive ([924ca29](https://www.github.com/shufo/blade-formatter/commit/924ca293f9c36432647abb93492d1b596ed48535))
+
 ### [1.16.2](https://www.github.com/shufo/blade-formatter/compare/v1.16.1...v1.16.2) (2022-01-12)
 
 
