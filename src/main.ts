@@ -10,6 +10,29 @@ import _ from 'lodash';
 import Formatter from './formatter';
 import * as util from './util';
 
+type WrapAttributes =
+  | 'auto'
+  | 'force'
+  | 'force-aligned '
+  | 'force-expand-multiline'
+  | 'aligned-multiple'
+  | 'preserve'
+  | 'preserve-aligned';
+
+type CLIOption = {
+  write?: boolean;
+  diff?: boolean;
+  checkFormatted?: boolean;
+  progress?: boolean;
+};
+
+type FormatterOption = {
+  indentSize?: number;
+  wrapLineLength?: number;
+  wrapAttributes?: WrapAttributes;
+  endWithNewline?: boolean;
+};
+
 class BladeFormatter {
   diffs: any;
 
@@ -19,7 +42,7 @@ class BladeFormatter {
 
   ignoreFile: any;
 
-  options: any;
+  options: FormatterOption & CLIOption;
 
   outputs: any;
 
@@ -31,7 +54,7 @@ class BladeFormatter {
 
   static targetFiles: any;
 
-  constructor(options = {}, paths: any = []) {
+  constructor(options: FormatterOption & CLIOption = {}, paths: any = []) {
     this.paths = paths;
     this.options = options;
     this.targetFiles = [];
@@ -50,21 +73,48 @@ class BladeFormatter {
   }
 
   async formatFromCLI() {
-    await this.readIgnoreFile();
-    this.printPreamble();
-    await this.processPaths();
-    this.printResults();
+    try {
+      await this.readIgnoreFile();
+      await this.readRuntimeConfig();
+      this.printPreamble();
+      await this.processPaths();
+      this.printResults();
+    } catch (error) {
+      // do nothing
+    }
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  fileExists(filepath: string) {
+    return fs.promises
+      .access(filepath, fs.constants.F_OK)
+      .then(() => true)
+      .catch(() => false);
   }
 
   async readIgnoreFile() {
     const ignoreFile = '.bladeignore';
 
     try {
-      if (fs.existsSync(ignoreFile)) {
-        this.ignoreFile = fs.readFileSync(ignoreFile).toString();
+      if (await this.fileExists(ignoreFile)) {
+        this.ignoreFile = (await fs.promises.readFile(ignoreFile)).toString();
       }
     } catch (err) {
       // do nothing
+    }
+  }
+
+  async readRuntimeConfig() {
+    const configFile = '.bladeformatterrc';
+
+    try {
+      if (await this.fileExists(configFile)) {
+        this.options = _.merge(this.options, JSON.parse((await fs.promises.readFile(configFile)).toString()));
+      }
+    } catch (error) {
+      process.stdout.write(chalk.red.bold('\nConfig Error: \n\n'));
+      process.stdout.write(nodeutil.format(error));
+      process.exit(1);
     }
   }
 
