@@ -307,7 +307,7 @@ class BladeFormatter {
       if (this.options.checkFormatted) {
         process.stdout.write(
           '\nAbove file(s) are formattable. Forgot to run formatter? ' +
-          `Use ${chalk.bold('--write')} option to overwrite.\n`,
+            `Use ${chalk.bold('--write')} option to overwrite.\n`,
         );
       }
 
