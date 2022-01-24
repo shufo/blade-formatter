@@ -198,7 +198,6 @@ or you can setting in `package.json`
 
 ```json
 {
-  ---
   "blade-formatter":  {
     "indentSize": 4,
     "wrapAttributues": "auto",
