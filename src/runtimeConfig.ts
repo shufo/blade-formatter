@@ -22,35 +22,53 @@ export interface RuntimeConfig {
   useTabs?: boolean;
 }
 
-const defaultConfigNames = ['.bladeformatterrc.json', '.bladeformatterrc'];
+const defaultConfigNames = ['.bladeformatterrc.json', '.bladeformatterrc', 'package.json'];
 
-function findConfigFile(filePath: string): string | null {
+export function findRuntimeConfig(filePath: string): string | null {
   const configs = [path.basename(filePath), ...defaultConfigNames];
 
   return findup(configs, { cwd: path.dirname(filePath) });
 }
 
-export async function getRuntimeConfig(filePath: string): Promise<RuntimeConfig | undefined> {
-  const configFilePath: string | null = findConfigFile(filePath);
-
-  if (configFilePath === null) {
+export async function readRuntimeConfig(filePath: string | null): Promise<RuntimeConfig | undefined> {
+  if (filePath === null) {
     return undefined;
   }
 
-  const options = JSON.parse((await fs.promises.readFile(configFilePath)).toString());
+  const options = JSON.parse((await fs.promises.readFile(filePath)).toString());
 
   const schema: JSONSchemaType<RuntimeConfig> = {
     type: 'object',
     properties: {
       indentSize: { type: 'integer', nullable: true },
       wrapLineLength: { type: 'integer', nullable: true },
-      wrapAttributes: { type: 'string', nullable: true },
+      wrapAttributes: {
+        type: 'string',
+        enum: [
+          'auto',
+          'force',
+          'force-aligned ',
+          'force-expand-multiline',
+          'aligned-multiple',
+          'preserve',
+          'preserve-aligned',
+        ],
+        nullable: true,
+      },
       endWithNewline: { type: 'boolean', nullable: true },
       useTabs: { type: 'boolean', nullable: true },
     },
     additionalProperties: true,
   };
   const validate = ajv.compile(schema);
+
+  if (path.basename(filePath) === 'package.json') {
+    if (!validate(options['blade-formatter'])) {
+      throw validate;
+    }
+
+    return options['blade-formatter'];
+  }
 
   if (!validate(options)) {
     throw validate;

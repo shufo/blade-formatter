@@ -10,16 +10,7 @@ import _ from 'lodash';
 import findup from 'findup-sync';
 import Formatter from './formatter';
 import * as util from './util';
-import { getRuntimeConfig } from './runtimeConfig';
-
-type WrapAttributes =
-  | 'auto'
-  | 'force'
-  | 'force-aligned '
-  | 'force-expand-multiline'
-  | 'aligned-multiple'
-  | 'preserve'
-  | 'preserve-aligned';
+import { findRuntimeConfig, readRuntimeConfig, WrapAttributes } from './runtimeConfig';
 
 export interface CLIOption {
   write?: boolean;
@@ -112,18 +103,27 @@ class BladeFormatter {
   }
 
   async readRuntimeConfig(configFilePath = '.bladeformatterrc') {
+    const configFile = findRuntimeConfig(configFilePath);
+
+    if (_.isNull(configFile)) {
+      return;
+    }
+
     try {
-      const options = await getRuntimeConfig(configFilePath);
+      const options = await readRuntimeConfig(configFile);
       this.options = _.merge(this.options, options);
     } catch (error: any) {
       if (error instanceof SyntaxError) {
-        process.stdout.write(chalk.red.bold('\nJSON Syntax Error: \n\n'));
+        process.stdout.write(chalk.red.bold('\nBlade Formatter JSON Syntax Error: \n\n'));
         process.stdout.write(nodeutil.format(error));
         process.exit(1);
       }
 
-      process.stdout.write(chalk.red.bold(`\nConfig Error: ${configFilePath}\n\n`));
-      process.stdout.write(`\`${error.errors[0].instancePath.replace('/', '')}\` ${error.errors[0].message}`);
+      process.stdout.write(chalk.red.bold(`\nBlade Formatter Config Error: ${nodepath.basename(configFile)}\n\n`));
+      process.stdout.write(`\`${error.errors[0].instancePath.replace('/', '')}\` ${error.errors[0].message}\n\n`);
+      if (error.errors[0].params?.allowedValues) {
+        console.log(error.errors[0].params?.allowedValues);
+      }
       process.exit(1);
     }
   }
