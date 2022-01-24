@@ -10,6 +10,7 @@ import nodeutil from 'util';
 import _ from 'lodash';
 import Formatter from './formatter';
 import * as util from './util';
+import { getRuntimeConfig } from './runtimeConfig';
 
 type WrapAttributes =
   | 'auto'
@@ -78,8 +79,8 @@ class BladeFormatter {
 
   async formatFromCLI() {
     try {
-      await this.readRuntimeConfig();
       await this.readIgnoreFile(this.options.ignoreFilePath);
+      await this.readRuntimeConfig(this.options.runtimeConfigPath);
       this.printPreamble();
       await this.processPaths();
       this.printResults();
@@ -110,16 +111,19 @@ class BladeFormatter {
     }
   }
 
-  async readRuntimeConfig() {
-    const configFile = '.bladeformatterrc';
-
+  async readRuntimeConfig(configFilePath = '.bladeformatterrc') {
     try {
-      if (await this.fileExists(configFile)) {
-        this.options = _.merge(this.options, JSON.parse((await fs.promises.readFile(configFile)).toString()));
+      const options = await getRuntimeConfig(configFilePath);
+      this.options = _.merge(this.options, options);
+    } catch (error: any) {
+      if (error instanceof SyntaxError) {
+        process.stdout.write(chalk.red.bold('\nJSON Syntax Error: \n\n'));
+        process.stdout.write(nodeutil.format(error));
+        process.exit(1);
       }
-    } catch (error) {
-      process.stdout.write(chalk.red.bold('\nConfig Error: \n\n'));
-      process.stdout.write(nodeutil.format(error));
+
+      process.stdout.write(chalk.red.bold(`\nConfig Error: ${configFilePath}\n\n`));
+      process.stdout.write(`\`${error.errors[0].instancePath.replace('/', '')}\` ${error.errors[0].message}`);
       process.exit(1);
     }
   }
@@ -303,7 +307,7 @@ class BladeFormatter {
       if (this.options.checkFormatted) {
         process.stdout.write(
           '\nAbove file(s) are formattable. Forgot to run formatter? ' +
-            `Use ${chalk.bold('--write')} option to overwrite.\n`,
+          `Use ${chalk.bold('--write')} option to overwrite.\n`,
         );
       }
 
