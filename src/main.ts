@@ -1,6 +1,5 @@
 import ignore from 'ignore';
 
-import findConfig from 'find-config';
 import nodepath from 'path';
 import fs from 'fs';
 import process from 'process';
@@ -8,6 +7,7 @@ import chalk from 'chalk';
 import glob from 'glob';
 import nodeutil from 'util';
 import _ from 'lodash';
+import findup from 'findup-sync';
 import Formatter from './formatter';
 import * as util from './util';
 import { getRuntimeConfig } from './runtimeConfig';
@@ -100,7 +100,7 @@ class BladeFormatter {
   async readIgnoreFile(configFilePath = '.bladeignore') {
     const configFilename = nodepath.basename(configFilePath);
     const configDir = nodepath.dirname(configFilePath);
-    const ignoreFile = findConfig(configFilename, { dir: configDir, cwd: configDir });
+    const ignoreFile = findup(configFilename, { cwd: configDir });
 
     try {
       if (ignoreFile) {
@@ -307,7 +307,7 @@ class BladeFormatter {
       if (this.options.checkFormatted) {
         process.stdout.write(
           '\nAbove file(s) are formattable. Forgot to run formatter? ' +
-            `Use ${chalk.bold('--write')} option to overwrite.\n`,
+          `Use ${chalk.bold('--write')} option to overwrite.\n`,
         );
       }
 
