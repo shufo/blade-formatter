@@ -19,19 +19,22 @@ type WrapAttributes =
   | 'preserve'
   | 'preserve-aligned';
 
-type CLIOption = {
+export interface CLIOption {
   write?: boolean;
   diff?: boolean;
   checkFormatted?: boolean;
   progress?: boolean;
-};
+  ignoreFilePath?: string;
+  runtimeConfigPath?: string;
+}
 
-type FormatterOption = {
+export interface FormatterOption {
   indentSize?: number;
   wrapLineLength?: number;
   wrapAttributes?: WrapAttributes;
   endWithNewline?: boolean;
-};
+  useTabs?: boolean;
+}
 
 class BladeFormatter {
   diffs: any;
