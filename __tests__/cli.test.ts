@@ -377,4 +377,34 @@ describe('The blade formatter CLI', () => {
     const target = 'ignore_entire_file_comment.blade.php';
     await util.checkIfTemplateIsFormattedTwice(input, target);
   });
+
+  test.concurrent('specify custom runtime config', async () => {
+    const input = 'index.blade.php';
+    const target = 'formatted.runtime_config.blade.php';
+    await util.checkIfTemplateIsFormattedTwice(input, target, [
+      '--config',
+      path.resolve('__tests__', 'fixtures', '.bladeformatterrc'),
+    ]);
+  });
+
+  test.concurrent('runtime config syntax error', async () => {
+    const cmdResult = await cmd.execute(path.resolve('bin', 'blade-formatter'), [
+      '--config',
+      path.resolve('__tests__', 'fixtures', '.bladeformatterrc.syntax.error'),
+      path.resolve('__tests__', 'fixtures', 'index.blade.php'),
+    ]);
+
+    expect(cmdResult).toContain('JSON Syntax Error');
+  });
+
+  test.concurrent('runtime config type error', async () => {
+    const cmdResult = await cmd.execute(path.resolve('bin', 'blade-formatter'), [
+      '--config',
+      path.resolve('__tests__', 'fixtures', '.bladeformatterrc.type.error'),
+      path.resolve('__tests__', 'fixtures', 'index.blade.php'),
+    ]);
+
+    expect(cmdResult).toContain('Config Error');
+    expect(cmdResult).toContain('must be integer');
+  });
 });
