@@ -63,7 +63,7 @@ export async function readRuntimeConfig(filePath: string | null): Promise<Runtim
   const validate = ajv.compile(schema);
 
   if (path.basename(filePath) === 'package.json') {
-    if (!validate(options['blade-formatter'])) {
+    if (options['blade-formatter'] && !validate(options['blade-formatter'])) {
       throw validate;
     }
 
