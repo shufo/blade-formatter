@@ -1,5 +1,6 @@
 import ignore from 'ignore';
 
+import findConfig from 'find-config';
 import nodepath from 'path';
 import fs from 'fs';
 import process from 'process';
@@ -77,8 +78,8 @@ class BladeFormatter {
 
   async formatFromCLI() {
     try {
-      await this.readIgnoreFile();
       await this.readRuntimeConfig();
+      await this.readIgnoreFile(this.options.ignoreFilePath);
       this.printPreamble();
       await this.processPaths();
       this.printResults();
@@ -95,11 +96,13 @@ class BladeFormatter {
       .catch(() => false);
   }
 
-  async readIgnoreFile() {
-    const ignoreFile = '.bladeignore';
+  async readIgnoreFile(configFilePath = '.bladeignore') {
+    const configFilename = nodepath.basename(configFilePath);
+    const configDir = nodepath.dirname(configFilePath);
+    const ignoreFile = findConfig(configFilename, { dir: configDir, cwd: configDir });
 
     try {
-      if (await this.fileExists(ignoreFile)) {
+      if (ignoreFile) {
         this.ignoreFile = (await fs.promises.readFile(ignoreFile)).toString();
       }
     } catch (err) {
