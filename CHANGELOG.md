@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.17.0](https://www.github.com/shufo/blade-formatter/compare/v1.16.2...v1.17.0) (2022-01-25)
+
+
+### Features
+
+* 🎸 configuring settings by runtime config ([#451](https://www.github.com/shufo/blade-formatter/issues/451)) ([febeeec](https://www.github.com/shufo/blade-formatter/commit/febeeec88cd161dcf44abd9199b2d8f7bdf5468a))
+
+
+### Miscellaneous
+
+* 🤖 add composer.json ([b88dc6e](https://www.github.com/shufo/blade-formatter/commit/b88dc6e0409d2cc27198d95ed4488b6a35ecfc5b))
+
+
+### Fixes
+
+* 🐛 support `@permission`~`@endpermission` directive ([924ca29](https://www.github.com/shufo/blade-formatter/commit/924ca293f9c36432647abb93492d1b596ed48535))
+
 ### [1.16.2](https://www.github.com/shufo/blade-formatter/compare/v1.16.1...v1.16.2) (2022-01-12)
 
 
