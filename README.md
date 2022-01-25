@@ -194,6 +194,8 @@ e.g.
 }
 ```
 
+blade-formatter will searches up the directory structure until reaching root directory.
+
 ## Ignore Files
 
 To ignore specific file, put `.bladeignore` to your repository root will blade-formatter treat it as ignored files.
