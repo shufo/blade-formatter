@@ -10,7 +10,7 @@ import _ from 'lodash';
 import findup from 'findup-sync';
 import Formatter from './formatter';
 import * as util from './util';
-import { findRuntimeConfig, readRuntimeConfig, WrapAttributes } from './runtimeConfig';
+import { findRuntimeConfig, readRuntimeConfig, RuntimeConfig, WrapAttributes } from './runtimeConfig';
 
 export interface CLIOption {
   write?: boolean;
@@ -50,6 +50,8 @@ class BladeFormatter {
 
   static targetFiles: any;
 
+  runtimeConfigCache: RuntimeConfig;
+
   constructor(options: FormatterOption & CLIOption = {}, paths: any = []) {
     this.paths = paths;
     this.options = options;
@@ -61,6 +63,7 @@ class BladeFormatter {
     this.ignoreFile = '';
     this.fulFillFiles = [];
     this.targetFiles = [];
+    this.runtimeConfigCache = {};
   }
 
   format(content: any, opts = {}) {
@@ -102,7 +105,11 @@ class BladeFormatter {
     }
   }
 
-  async readRuntimeConfig(configFilePath = '.bladeformatterrc') {
+  async readRuntimeConfig(configFilePath = '.bladeformatterrc'): Promise<RuntimeConfig | undefined> {
+    if (this.runtimeConfigCache !== {}) {
+      this.options = this.runtimeConfigCache;
+    }
+
     const configFile = findRuntimeConfig(configFilePath);
 
     if (_.isNull(configFile)) {
@@ -112,6 +119,7 @@ class BladeFormatter {
     try {
       const options = await readRuntimeConfig(configFile);
       this.options = _.merge(this.options, options);
+      this.runtimeConfigCache = this.options;
     } catch (error: any) {
       if (error instanceof SyntaxError) {
         process.stdout.write(chalk.red.bold('\nBlade Formatter JSON Syntax Error: \n\n'));
