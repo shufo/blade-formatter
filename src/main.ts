@@ -107,7 +107,7 @@ class BladeFormatter {
 
   async readRuntimeConfig(configFilePath = '.bladeformatterrc'): Promise<RuntimeConfig | undefined> {
     if (this.runtimeConfigCache !== {}) {
-      this.options = this.runtimeConfigCache;
+      this.options = _.merge(this.options, this.runtimeConfigCache);
     }
 
     const configFile = findRuntimeConfig(configFilePath);
