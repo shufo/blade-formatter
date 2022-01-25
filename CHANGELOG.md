@@ -15,7 +15,7 @@
 
 ### Fixes
 
-* 🐛 support `[@permission](https://www.github.com/permission)`~`[@endpermission](https://www.github.com/endpermission)` directive ([924ca29](https://www.github.com/shufo/blade-formatter/commit/924ca293f9c36432647abb93492d1b596ed48535))
+* 🐛 support `@permission`~`@endpermission` directive ([924ca29](https://www.github.com/shufo/blade-formatter/commit/924ca293f9c36432647abb93492d1b596ed48535))
 
 ### [1.16.2](https://www.github.com/shufo/blade-formatter/compare/v1.16.1...v1.16.2) (2022-01-12)
 
