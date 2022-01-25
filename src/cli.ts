@@ -65,6 +65,18 @@ export default async function cli() {
       description: 'format code provided on <STDIN>',
       default: false,
     })
+    .option('config', {
+      alias: ['runtimeConfigPath'],
+      type: 'string',
+      description: 'Use this configuration, overriding .bladeformatterrc config options if present',
+      default: '.bladeformatterrc',
+    })
+    .option('ignore-path', {
+      alias: ['ignoreFilePath'],
+      type: 'string',
+      description: 'Specify path of ignore file',
+      default: '.bladeignore',
+    })
     .help('h')
     .alias('h', 'help')
     .epilog('Copyright Shuhei Hayashibara 2019');

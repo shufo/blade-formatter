@@ -178,6 +178,24 @@ $ blade-formatter -c -d resources/**/*.blade.php
 |                     `--help`, `-h` |                                                                                                                        Show help |         |
 |                  `--version`, `-v` |                                                                                                                     Show version |         |
 
+## Configuring blade-formatter
+
+To configuring project wide settings, put `.bladeformatterrc.json` or `.bladeformatterrc` to your repository root will blade-formatter treat it as setting files.
+
+e.g.
+
+```json
+{
+  "indentSize": 4,
+  "wrapAttributues": "auto",
+  "wrapLineLength": 120,
+  "endWithNewLine": true,
+  "useTabs": false
+}
+```
+
+blade-formatter will searches up the directory structure until reaching root directory.
+
 ## Ignore Files
 
 To ignore specific file, put `.bladeignore` to your repository root will blade-formatter treat it as ignored files.

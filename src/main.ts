@@ -7,8 +7,27 @@ import chalk from 'chalk';
 import glob from 'glob';
 import nodeutil from 'util';
 import _ from 'lodash';
+import findup from 'findup-sync';
 import Formatter from './formatter';
 import * as util from './util';
+import { findRuntimeConfig, readRuntimeConfig, RuntimeConfig, WrapAttributes } from './runtimeConfig';
+
+export interface CLIOption {
+  write?: boolean;
+  diff?: boolean;
+  checkFormatted?: boolean;
+  progress?: boolean;
+  ignoreFilePath?: string;
+  runtimeConfigPath?: string;
+}
+
+export interface FormatterOption {
+  indentSize?: number;
+  wrapLineLength?: number;
+  wrapAttributes?: WrapAttributes;
+  endWithNewline?: boolean;
+  useTabs?: boolean;
+}
 
 class BladeFormatter {
   diffs: any;
@@ -19,7 +38,7 @@ class BladeFormatter {
 
   ignoreFile: any;
 
-  options: any;
+  options: FormatterOption & CLIOption;
 
   outputs: any;
 
@@ -31,7 +50,9 @@ class BladeFormatter {
 
   static targetFiles: any;
 
-  constructor(options = {}, paths: any = []) {
+  runtimeConfigCache: RuntimeConfig;
+
+  constructor(options: FormatterOption & CLIOption = {}, paths: any = []) {
     this.paths = paths;
     this.options = options;
     this.targetFiles = [];
@@ -42,6 +63,7 @@ class BladeFormatter {
     this.ignoreFile = '';
     this.fulFillFiles = [];
     this.targetFiles = [];
+    this.runtimeConfigCache = {};
   }
 
   format(content: any, opts = {}) {
@@ -50,21 +72,67 @@ class BladeFormatter {
   }
 
   async formatFromCLI() {
-    await this.readIgnoreFile();
-    this.printPreamble();
-    await this.processPaths();
-    this.printResults();
+    try {
+      await this.readIgnoreFile(this.options.ignoreFilePath);
+      await this.readRuntimeConfig(this.options.runtimeConfigPath);
+      this.printPreamble();
+      await this.processPaths();
+      this.printResults();
+    } catch (error) {
+      // do nothing
+    }
   }
 
-  async readIgnoreFile() {
-    const ignoreFile = '.bladeignore';
+  // eslint-disable-next-line class-methods-use-this
+  fileExists(filepath: string) {
+    return fs.promises
+      .access(filepath, fs.constants.F_OK)
+      .then(() => true)
+      .catch(() => false);
+  }
+
+  async readIgnoreFile(configFilePath = '.bladeignore') {
+    const configFilename = nodepath.basename(configFilePath);
+    const configDir = nodepath.dirname(configFilePath);
+    const ignoreFile = findup(configFilename, { cwd: configDir });
 
     try {
-      if (fs.existsSync(ignoreFile)) {
-        this.ignoreFile = fs.readFileSync(ignoreFile).toString();
+      if (ignoreFile) {
+        this.ignoreFile = (await fs.promises.readFile(ignoreFile)).toString();
       }
     } catch (err) {
       // do nothing
+    }
+  }
+
+  async readRuntimeConfig(configFilePath = '.bladeformatterrc'): Promise<RuntimeConfig | undefined> {
+    if (this.runtimeConfigCache !== {}) {
+      this.options = _.merge(this.options, this.runtimeConfigCache);
+    }
+
+    const configFile = findRuntimeConfig(configFilePath);
+
+    if (_.isNull(configFile)) {
+      return;
+    }
+
+    try {
+      const options = await readRuntimeConfig(configFile);
+      this.options = _.merge(this.options, options);
+      this.runtimeConfigCache = this.options;
+    } catch (error: any) {
+      if (error instanceof SyntaxError) {
+        process.stdout.write(chalk.red.bold('\nBlade Formatter JSON Syntax Error: \n\n'));
+        process.stdout.write(nodeutil.format(error));
+        process.exit(1);
+      }
+
+      process.stdout.write(chalk.red.bold(`\nBlade Formatter Config Error: ${nodepath.basename(configFile)}\n\n`));
+      process.stdout.write(`\`${error.errors[0].instancePath.replace('/', '')}\` ${error.errors[0].message}\n\n`);
+      if (error.errors[0].params?.allowedValues) {
+        console.log(error.errors[0].params?.allowedValues);
+      }
+      process.exit(1);
     }
   }
 
