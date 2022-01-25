@@ -2,6 +2,7 @@ import path from 'path';
 import fs from 'fs';
 import Ajv, { JSONSchemaType } from 'ajv';
 import findup from 'findup-sync';
+import _ from 'lodash';
 
 const ajv = new Ajv();
 
@@ -22,10 +23,10 @@ export interface RuntimeConfig {
   useTabs?: boolean;
 }
 
-const defaultConfigNames = ['.bladeformatterrc.json', '.bladeformatterrc', 'package.json'];
+const defaultConfigNames = ['.bladeformatterrc.json', '.bladeformatterrc'];
 
 export function findRuntimeConfig(filePath: string): string | null {
-  const configs = [path.basename(filePath), ...defaultConfigNames];
+  const configs = _.uniq([path.basename(filePath), ...defaultConfigNames]);
 
   return findup(configs, { cwd: path.dirname(filePath) });
 }
@@ -61,14 +62,6 @@ export async function readRuntimeConfig(filePath: string | null): Promise<Runtim
     additionalProperties: true,
   };
   const validate = ajv.compile(schema);
-
-  if (path.basename(filePath) === 'package.json') {
-    if (options['blade-formatter'] && !validate(options['blade-formatter'])) {
-      throw validate;
-    }
-
-    return options['blade-formatter'];
-  }
 
   if (!validate(options)) {
     throw validate;

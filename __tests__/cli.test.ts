@@ -407,14 +407,4 @@ describe('The blade formatter CLI', () => {
     expect(cmdResult).toContain('Config Error');
     expect(cmdResult).toContain('must be integer');
   });
-
-  test.concurrent('package.json runtime config', async () => {
-    const input = 'index.blade.php';
-    const target = 'formatted_with_indent_size_2.index.blade.php';
-
-    await util.checkIfTemplateIsFormattedTwice(input, target, [
-      '--config',
-      path.resolve('__tests__', 'fixtures', 'package.json'),
-    ]);
-  });
 });

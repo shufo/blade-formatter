@@ -194,20 +194,6 @@ e.g.
 }
 ```
 
-or you can setting in `package.json`
-
-```json
-{
-  "blade-formatter":  {
-    "indentSize": 4,
-    "wrapAttributues": "auto",
-    "wrapLineLength": 120,
-    "endWithNewLine": true,
-    "useTabs": false
-  }
-}
-```
-
 ## Ignore Files
 
 To ignore specific file, put `.bladeignore` to your repository root will blade-formatter treat it as ignored files.
