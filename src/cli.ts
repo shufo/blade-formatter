@@ -88,9 +88,19 @@ export default async function cli() {
 
   if (parsed.argv.stdin) {
     await process.stdin.pipe(
-      concat({ encoding: 'string' }, (text: any) =>
-        new BladeFormatter(parsed.argv).format(text).then((result) => process.stdout.write(result)),
-      ),
+      concat({ encoding: 'string' }, (text: Buffer) => {
+        return new BladeFormatter(parsed.argv)
+          .format(text)
+          .then((result: string | undefined) => {
+            if (result !== undefined) {
+              process.stdout.write(result);
+            }
+          })
+          .catch((error) => {
+            process.stdout.write(`${error.toString()}\n`);
+            process.exit(1);
+          });
+      }),
     );
     return;
   }

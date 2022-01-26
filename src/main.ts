@@ -11,6 +11,7 @@ import findup from 'findup-sync';
 import Formatter from './formatter';
 import * as util from './util';
 import { findRuntimeConfig, readRuntimeConfig, RuntimeConfig, WrapAttributes } from './runtimeConfig';
+import FormatError from './errors/formatError';
 
 export interface CLIOption {
   write?: boolean;
@@ -68,7 +69,9 @@ class BladeFormatter {
 
   format(content: any, opts = {}) {
     const options = this.options || opts;
-    return new Formatter(options).formatContent(content).catch((err) => console.log(err));
+    return new Formatter(options).formatContent(content).catch((err) => {
+      throw new FormatError(err);
+    });
   }
 
   async formatFromCLI() {

@@ -1846,4 +1846,14 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
+
+  test('formatter throws exception on syntax error', async () => {
+    const content = [
+      `@permission('post.edit')`,
+      `<button class="btn btn-primary" onclick="editPost({{ users('foo) }})">Edit Post</button>`,
+      `@endpermission`,
+    ].join('\n');
+
+    await expect(new BladeFormatter().format(content)).rejects.toThrow('SyntaxError');
+  });
 });
