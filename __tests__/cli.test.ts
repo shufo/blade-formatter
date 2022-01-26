@@ -190,6 +190,25 @@ describe('The blade formatter CLI', () => {
     expect(cmdResult).toEqual(formatted.toString('utf-8'));
   });
 
+  test.concurrent('stdin option should respects runtime config', async () => {
+    const cmdResult = await spawnSync(
+      '/bin/cat',
+      [
+        path.resolve('__tests__/fixtures/runtimeConfig/indentSize/index.blade.php'),
+        '|',
+        path.resolve('./bin/blade-formatter'),
+        '--stdin',
+      ],
+      { stdio: 'pipe', shell: true, cwd: path.resolve('__tests__', 'fixtures', 'runtimeConfig', 'indentSize') },
+    ).stdout.toString();
+
+    const formatted = fs.readFileSync(
+      path.resolve('__tests__', 'fixtures', 'runtimeConfig', 'indentSize', 'formatted.index.blade.php'),
+    );
+
+    expect(cmdResult).toEqual(formatted.toString('utf-8'));
+  });
+
   test.concurrent('error with stdin option', async () => {
     const cmdResult = await spawnSync(
       '/bin/cat',
