@@ -190,6 +190,25 @@ describe('The blade formatter CLI', () => {
     expect(cmdResult).toEqual(formatted.toString('utf-8'));
   });
 
+  test.concurrent('stdin option should respects runtime config', async () => {
+    const cmdResult = await spawnSync(
+      '/bin/cat',
+      [
+        path.resolve('__tests__/fixtures/runtimeConfig/indentSize/index.blade.php'),
+        '|',
+        path.resolve('./bin/blade-formatter'),
+        '--stdin',
+      ],
+      { stdio: 'pipe', shell: true, cwd: path.resolve('__tests__', 'fixtures', 'runtimeConfig', 'indentSize') },
+    ).stdout.toString();
+
+    const formatted = fs.readFileSync(
+      path.resolve('__tests__', 'fixtures', 'runtimeConfig', 'indentSize', 'formatted.index.blade.php'),
+    );
+
+    expect(cmdResult).toEqual(formatted.toString('utf-8'));
+  });
+
   test.concurrent('error with stdin option', async () => {
     const cmdResult = await spawnSync(
       '/bin/cat',
@@ -395,19 +414,19 @@ describe('The blade formatter CLI', () => {
   });
 
   test.concurrent('specify custom runtime config', async () => {
-    const input = 'index.blade.php';
-    const target = 'formatted.runtime_config.blade.php';
+    const input = 'runtimeConfig/index.blade.php';
+    const target = 'runtimeConfig/formatted.runtime_config.blade.php';
     await util.checkIfTemplateIsFormattedTwice(input, target, [
       '--config',
-      path.resolve('__tests__', 'fixtures', '.bladeformatterrc'),
+      path.resolve('__tests__', 'fixtures', 'runtimeConfig', '.bladeformatterrc'),
     ]);
   });
 
   test.concurrent('runtime config syntax error', async () => {
     const cmdResult = await cmd.execute(path.resolve('bin', 'blade-formatter'), [
       '--config',
-      path.resolve('__tests__', 'fixtures', '.bladeformatterrc.syntax.error'),
-      path.resolve('__tests__', 'fixtures', 'index.blade.php'),
+      path.resolve('__tests__', 'fixtures', 'runtimeConfig', '.bladeformatterrc.syntax.error'),
+      path.resolve('__tests__', 'fixtures', 'runtimeConfig', 'index.blade.php'),
     ]);
 
     expect(cmdResult).toContain('JSON Syntax Error');
@@ -416,8 +435,8 @@ describe('The blade formatter CLI', () => {
   test.concurrent('runtime config type error', async () => {
     const cmdResult = await cmd.execute(path.resolve('bin', 'blade-formatter'), [
       '--config',
-      path.resolve('__tests__', 'fixtures', '.bladeformatterrc.type.error'),
-      path.resolve('__tests__', 'fixtures', 'index.blade.php'),
+      path.resolve('__tests__', 'fixtures', 'runtimeConfig', '.bladeformatterrc.type.error'),
+      path.resolve('__tests__', 'fixtures', 'runtimeConfig', 'index.blade.php'),
     ]);
 
     expect(cmdResult).toContain('Config Error');

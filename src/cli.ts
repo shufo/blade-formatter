@@ -69,13 +69,13 @@ export default async function cli() {
       alias: ['runtimeConfigPath'],
       type: 'string',
       description: 'Use this configuration, overriding .bladeformatterrc config options if present',
-      default: '.bladeformatterrc',
+      default: null,
     })
     .option('ignore-path', {
       alias: ['ignoreFilePath'],
       type: 'string',
       description: 'Specify path of ignore file',
-      default: '.bladeignore',
+      default: null,
     })
     .help('h')
     .alias('h', 'help')
