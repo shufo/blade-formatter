@@ -190,6 +190,22 @@ describe('The blade formatter CLI', () => {
     expect(cmdResult).toEqual(formatted.toString('utf-8'));
   });
 
+  test.concurrent('error with stdin option', async () => {
+    const cmdResult = await spawnSync(
+      '/bin/cat',
+      ['__tests__/fixtures/syntax.error.blade.php', '|', './bin/blade-formatter', '--stdin'],
+      { stdio: 'pipe', shell: true },
+    );
+
+    // assert exit status is 1
+    expect(cmdResult.status).toEqual(1);
+
+    const cmdOutput = cmdResult.stdout.toString('utf-8');
+
+    expect(cmdOutput).toContain('SyntaxError');
+    expect(cmdOutput).toContain('Parse Error');
+  });
+
   test.concurrent('show not error even if line return exists after unescaped blade brace', async () => {
     const cmdResult = await spawnSync(
       '/bin/cat',
