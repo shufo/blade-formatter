@@ -1,8 +1,7 @@
 import path from 'path';
 import fs from 'fs';
 import Ajv, { JSONSchemaType } from 'ajv';
-import findup from 'findup-sync';
-import _ from 'lodash';
+import findConfig from 'find-config';
 
 const ajv = new Ajv();
 
@@ -26,9 +25,18 @@ export interface RuntimeConfig {
 const defaultConfigNames = ['.bladeformatterrc.json', '.bladeformatterrc'];
 
 export function findRuntimeConfig(filePath: string): string | null {
-  const configs = _.uniq([path.basename(filePath), ...defaultConfigNames]);
+  for (let i = 0; i < defaultConfigNames.length; i += 1) {
+    const result: string | null = findConfig(defaultConfigNames[i], {
+      cwd: path.dirname(filePath),
+      home: false,
+    });
 
-  return findup(configs, { cwd: path.dirname(filePath) });
+    if (result) {
+      return result;
+    }
+  }
+
+  return null;
 }
 
 export async function readRuntimeConfig(filePath: string | null): Promise<RuntimeConfig | undefined> {

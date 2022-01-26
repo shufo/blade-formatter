@@ -7,7 +7,7 @@ import chalk from 'chalk';
 import glob from 'glob';
 import nodeutil from 'util';
 import _ from 'lodash';
-import findup from 'findup-sync';
+import findConfig from 'find-config';
 import Formatter from './formatter';
 import * as util from './util';
 import { findRuntimeConfig, readRuntimeConfig, RuntimeConfig, WrapAttributes } from './runtimeConfig';
@@ -43,6 +43,8 @@ class BladeFormatter {
 
   outputs: any;
 
+  currentTargetPath: string;
+
   paths: any;
 
   targetFiles: any;
@@ -54,6 +56,7 @@ class BladeFormatter {
   runtimeConfigCache: RuntimeConfig;
 
   constructor(options: FormatterOption & CLIOption = {}, paths: any = []) {
+    this.currentTargetPath = '.';
     this.paths = paths;
     this.options = options;
     this.targetFiles = [];
@@ -67,8 +70,10 @@ class BladeFormatter {
     this.runtimeConfigCache = {};
   }
 
-  format(content: any, opts = {}) {
+  async format(content: any, opts = {}) {
     const options = this.options || opts;
+    await this.readIgnoreFile(process.cwd());
+    await this.readRuntimeConfig(process.cwd());
     return new Formatter(options).formatContent(content).catch((err) => {
       throw new FormatError(err);
     });
@@ -76,9 +81,8 @@ class BladeFormatter {
 
   async formatFromCLI() {
     try {
-      await this.readIgnoreFile(this.options.ignoreFilePath);
-      await this.readRuntimeConfig(this.options.runtimeConfigPath);
       this.printPreamble();
+      await this.readIgnoreFile(process.cwd());
       await this.processPaths();
       this.printResults();
     } catch (error) {
@@ -94,26 +98,41 @@ class BladeFormatter {
       .catch(() => false);
   }
 
-  async readIgnoreFile(configFilePath = '.bladeignore') {
-    const configFilename = nodepath.basename(configFilePath);
-    const configDir = nodepath.dirname(configFilePath);
-    const ignoreFile = findup(configFilename, { cwd: configDir });
+  async readIgnoreFile(filePath: string) {
+    const configFilename = '.bladeignore';
+
+    let configFilePath: string | null;
+    const worakingDir = nodepath.dirname(filePath);
+
+    if (this.options.ignoreFilePath) {
+      configFilePath = this.options.ignoreFilePath;
+    } else {
+      configFilePath = findConfig(configFilename, { cwd: worakingDir });
+    }
+
+    if (!configFilePath) {
+      return;
+    }
 
     try {
-      if (ignoreFile) {
-        this.ignoreFile = (await fs.promises.readFile(ignoreFile)).toString();
-      }
+      this.ignoreFile = (await fs.promises.readFile(configFilePath)).toString();
     } catch (err) {
       // do nothing
     }
   }
 
-  async readRuntimeConfig(configFilePath = '.bladeformatterrc'): Promise<RuntimeConfig | undefined> {
+  async readRuntimeConfig(filePath: string): Promise<RuntimeConfig | undefined> {
     if (this.runtimeConfigCache !== {}) {
       this.options = _.merge(this.options, this.runtimeConfigCache);
     }
 
-    const configFile = findRuntimeConfig(configFilePath);
+    let configFile: string | null;
+
+    if (this.options.runtimeConfigPath) {
+      configFile = this.options.runtimeConfigPath;
+    } else {
+      configFile = findRuntimeConfig(filePath);
+    }
 
     if (_.isNull(configFile)) {
       return;
@@ -185,6 +204,8 @@ class BladeFormatter {
   }
 
   async formatFile(path: any) {
+    await this.readRuntimeConfig(path);
+
     await util
       .readFile(path)
       .then((data: any) => Promise.resolve(data.toString('utf-8')))
