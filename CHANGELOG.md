@@ -1,5 +1,13 @@
 # Changelog
 
+### [1.17.1](https://www.github.com/shufo/blade-formatter/compare/v1.17.0...v1.17.1) (2022-01-26)
+
+
+### Fixes
+
+* 🐛 format from stdin results always exit code 0 ([ae695d4](https://www.github.com/shufo/blade-formatter/commit/ae695d424efde98e7cc01b6c39be8d4f69a6807b))
+* 🐛 input from stdin does not respects runtime config ([547efc7](https://www.github.com/shufo/blade-formatter/commit/547efc78db3b4d466e8b419262bed79e071c43e3))
+
 ## [1.17.0](https://www.github.com/shufo/blade-formatter/compare/v1.16.2...v1.17.0) (2022-01-25)
 
 
