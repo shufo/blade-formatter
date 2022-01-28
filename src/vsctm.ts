@@ -28,7 +28,7 @@ export class VscodeTextmate {
     const wasm = await fs.readFile(
       // @ts-ignore
       // eslint-disable-next-line
-      __non_webpack_require__.resolve('vscode-oniguruma/release/onig.wasm'),
+      require.resolve('vscode-oniguruma/release/onig.wasm'),
     );
     await this.oniguruma?.loadWASM(wasm.buffer);
 
