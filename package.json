@@ -18,12 +18,8 @@
     }
   },
   "scripts": {
-    "build": "node_modules/.bin/webpack -c webpack.config.ts --progress",
-    "build-main": "node_modules/.bin/webpack -c webpack.main.config.ts --progress",
-    "build-cli": "node_modules/.bin/webpack -c webpack.cli.config.ts --progress",
-    "watch": "node_modules/.bin/webpack -c webpack.config.ts --watch --progress",
-    "watch-main": "node_modules/.bin/webpack -c webpack.main.config.ts --watch --progress",
-    "watch-cli": "node_modules/.bin/webpack -c webpack.cli.config.ts --watch --progress",
+    "build": "cross-env NODE_ENV=production node esbuild.ts",
+    "watch": "node esbuild.ts",
     "test": "yarn run build && node --experimental-vm-modules node_modules/.bin/jest",
     "lint": "eslint src -c .eslintrc.js --ext ts",
     "fix": "prettier {src,__{tests,mocks}__}/**/*.ts --write",
