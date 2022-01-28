@@ -122,7 +122,7 @@ class BladeFormatter {
   }
 
   async readRuntimeConfig(filePath: string): Promise<RuntimeConfig | undefined> {
-    if (this.runtimeConfigCache !== {}) {
+    if (_.isEmpty(this.runtimeConfigCache)) {
       this.options = _.merge(this.options, this.runtimeConfigCache);
     }
 
