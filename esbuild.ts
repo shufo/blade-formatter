@@ -14,7 +14,7 @@ if (process.env.NODE_ENV === "production") {
       minify: true,
       platform: "node",
       sourcemap: true,
-      target: "node14",
+      target: "node12",
       plugins: [nodeExternalsPlugin()],
     })
     .then(() => {
@@ -30,7 +30,7 @@ if (process.env.NODE_ENV === "production") {
       bundle: true,
       platform: "node",
       sourcemap: true,
-      target: "node14",
+      target: "node12",
       plugins: [nodeExternalsPlugin()],
       external: ['./src/worker'],
     })
@@ -50,7 +50,7 @@ esbuild
     bundle: true,
     platform: "node",
     sourcemap: true,
-    target: "node14",
+    target: "node12",
     plugins: [nodeExternalsPlugin()],
     external: ['./src/worker'],
     watch: {
@@ -73,7 +73,7 @@ esbuild
     bundle: true,
     platform: "node",
     sourcemap: true,
-    target: "node14",
+    target: "node12",
     plugins: [nodeExternalsPlugin()],
     watch: {
       onRebuild(error, result) {
