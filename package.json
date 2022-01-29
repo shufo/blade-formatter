@@ -11,19 +11,16 @@
   "version": "1.17.1",
   "description": "An opinionated blade template formatter for Laravel",
   "main": "./dist/bundle.js",
-  "types": "./dist/main.d.ts",
+  "types": "./dist/types/main.d.ts",
   "exports": {
     ".": {
       "default": "./dist/bundle.js"
     }
   },
   "scripts": {
-    "build": "node_modules/.bin/webpack -c webpack.config.ts --progress",
-    "build-main": "node_modules/.bin/webpack -c webpack.main.config.ts --progress",
-    "build-cli": "node_modules/.bin/webpack -c webpack.cli.config.ts --progress",
-    "watch": "node_modules/.bin/webpack -c webpack.config.ts --watch --progress",
-    "watch-main": "node_modules/.bin/webpack -c webpack.main.config.ts --watch --progress",
-    "watch-cli": "node_modules/.bin/webpack -c webpack.cli.config.ts --watch --progress",
+    "build": "cross-env NODE_ENV=production node esbuild.ts",
+    "prepublish": "tsc src/main.ts --declaration --emitDeclarationOnly --outDir ./dist/types || true",
+    "watch": "node esbuild.ts",
     "test": "yarn run build && node --experimental-vm-modules node_modules/.bin/jest",
     "lint": "eslint src -c .eslintrc.js --ext ts",
     "fix": "prettier {src,__{tests,mocks}__}/**/*.ts --write",
@@ -68,13 +65,14 @@
     "@types/lodash": "^4.14.178",
     "@types/mocha": "^9.0.0",
     "@types/node": "^17.0.5",
-    "@types/webpack": "^5.28.0",
     "@types/xregexp": "^4.4.0",
     "@typescript-eslint/eslint-plugin": "^5.8.1",
     "@typescript-eslint/parser": "^5.8.1",
     "app-root-path": "^3.0.0",
     "babel-jest": "^27.4.5",
-    "bundle-declarations-webpack-plugin": "^2.2.2",
+    "cross-env": "^7.0.3",
+    "esbuild": "^0.14.14",
+    "esbuild-node-externals": "^1.4.1",
     "eslint": "^8.5.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-airbnb-typescript": "^16.1.0",
@@ -90,10 +88,7 @@
     "ts-loader": "^9.2.6",
     "ts-migrate": "^0.1.27",
     "ts-node": "^10.4.0",
-    "typescript": "^4.5.4",
-    "webpack": "^5.65.0",
-    "webpack-cli": "^4.9.1",
-    "webpack-node-externals": "^3.0.0"
+    "typescript": "^4.5.4"
   },
   "repository": {
     "type": "git",

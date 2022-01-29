@@ -83,7 +83,7 @@ export default async function cli() {
 
   // @ts-ignore
   // eslint-disable-next-line
-  const wasm = await fs.readFile(__non_webpack_require__.resolve('vscode-oniguruma/release/onig.wasm'));
+  const wasm = await fs.readFile(require.resolve('vscode-oniguruma/release/onig.wasm'));
   await loadWASM(wasm.buffer);
 
   if (parsed.argv.stdin) {
