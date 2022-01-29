@@ -1856,4 +1856,35 @@ describe('formatter', () => {
 
     await expect(new BladeFormatter().format(content)).rejects.toThrow('SyntaxError');
   });
+
+  test('inline nested parenthesis #350', async () => {
+    const content = [
+      `@if ($user)`,
+      `    <div>`,
+      `    {{ asset(auth()->user()->getUserMedia('first', 'second')) }}`,
+      `    {{ asset4(asset1(asset2(asset3(auth()->user($aaaa['bbb'])->aaa("aaa"))))) }}`,
+      `    {{ asset(auth()->user($aaaa["bbb"])->aaa('aaa')) }}`,
+      `    {{ $user }}`,
+      `    {{ auth()->user( ["bar","ccc"])->foo("aaa")  }}`,
+      `    {{ asset(auth()->user(['bar', 'ccc'])->tooooooooooooooooooooooooooooooooooolongmethod('aaa')->chained()->tooooooooooooooooooooooooooo()->long()) }}`,
+      `    </div>`,
+      `@endif`,
+    ].join('\n');
+
+    const expected = [
+      `@if ($user)`,
+      `    <div>`,
+      `        {{ asset(auth()->user()->getUserMedia('first', 'second')) }}`,
+      `        {{ asset4(asset1(asset2(asset3(auth()->user($aaaa['bbb'])->aaa('aaa'))))) }}`,
+      `        {{ asset(auth()->user($aaaa['bbb'])->aaa('aaa')) }}`,
+      `        {{ $user }}`,
+      `        {{ auth()->user(['bar', 'ccc'])->foo('aaa') }}`,
+      `        {{ asset(auth()->user(['bar', 'ccc'])->tooooooooooooooooooooooooooooooooooolongmethod('aaa')->chained()->tooooooooooooooooooooooooooo()->long()) }}`,
+      `    </div>`,
+      `@endif`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
 });
