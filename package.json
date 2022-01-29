@@ -11,7 +11,7 @@
   "version": "1.17.1",
   "description": "An opinionated blade template formatter for Laravel",
   "main": "./dist/bundle.js",
-  "types": "./dist/main.d.ts",
+  "types": "./dist/types/main.d.ts",
   "exports": {
     ".": {
       "default": "./dist/bundle.js"
@@ -19,6 +19,7 @@
   },
   "scripts": {
     "build": "cross-env NODE_ENV=production node esbuild.ts",
+    "postbuild": "tsc src/main.ts --declaration --emitDeclarationOnly --outDir ./dist/types || true",
     "watch": "node esbuild.ts",
     "test": "yarn run build && node --experimental-vm-modules node_modules/.bin/jest",
     "lint": "eslint src -c .eslintrc.js --ext ts",
