@@ -1,5 +1,25 @@
 # Changelog
 
+### [1.17.2](https://www.github.com/shufo/blade-formatter/compare/v1.17.1...v1.17.2) (2022-01-29)
+
+
+### Miscellaneous
+
+* 🤖 add build script for esbuild ([aa36fda](https://www.github.com/shufo/blade-formatter/commit/aa36fda2732b38de46b9f2946ea0bfaa6d2ad8d2))
+* 🤖 add esbuild, cross-env to dependencies ([6fe5d9d](https://www.github.com/shufo/blade-formatter/commit/6fe5d9d3fa6ab32c41709c884db68edd90ae11c7))
+* 🤖 change build target to node12 ([73407ab](https://www.github.com/shufo/blade-formatter/commit/73407ab4ee8a894be97c1eeb9600768f0be5f549))
+* 🤖 drop webpack dependencies ([ee5b772](https://www.github.com/shufo/blade-formatter/commit/ee5b7726f401b6a906edca5520fddefdeb66abcc))
+* 🤖 generate types after build ([06711ef](https://www.github.com/shufo/blade-formatter/commit/06711ef94192c84c033ed127000d26b69f16cb4a))
+* 🤖 generate types prepublish only ([9f1a815](https://www.github.com/shufo/blade-formatter/commit/9f1a815a82c48acb17e1495520fe1021a66f47e8))
+* 🤖 minify cli bundle ([c2752c8](https://www.github.com/shufo/blade-formatter/commit/c2752c887f68874d43132d9811e5e0dc3970e190))
+* 🤖 replace build script command with esbuild ([1ff19ac](https://www.github.com/shufo/blade-formatter/commit/1ff19ac58137b22e9fdf9b67cb674bc8d2898df3))
+
+
+### Fixes
+
+* 🐛 expression return always true ([eb67858](https://www.github.com/shufo/blade-formatter/commit/eb6785829f38b86c6287af6c48a30dbb5c017b0b))
+* 🐛 inline nested parenthesis have unexpected formatting ([8132e98](https://www.github.com/shufo/blade-formatter/commit/8132e98a0a481591d674f56c89cce7d7d75d9ca5))
+
 ### [1.17.1](https://www.github.com/shufo/blade-formatter/compare/v1.17.0...v1.17.1) (2022-01-26)
 
 
