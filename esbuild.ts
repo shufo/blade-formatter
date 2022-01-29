@@ -28,6 +28,7 @@ if (process.env.NODE_ENV === "production") {
       entryPoints: ["./src/cli.ts"],
       outfile: "dist/cli-bundle.js",
       bundle: true,
+      minify: true,
       platform: "node",
       sourcemap: true,
       target: "node12",
