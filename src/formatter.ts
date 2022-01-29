@@ -706,9 +706,11 @@ export default class Formatter {
 
           if (this.isInline(bladeBrace)) {
             return `${p1}{{ ${util
-              .formatRawStringAsPhp(bladeBrace)
+              .formatRawStringAsPhp(bladeBrace, 120, false)
               .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
-              .trim()
+              .split('\n')
+              .map((line) => line.trim())
+              .join('')
               // @ts-expect-error ts-migrate(2554) FIXME: Expected 0 arguments, but got 1.
               .trimRight('\n')} }}`;
           }
