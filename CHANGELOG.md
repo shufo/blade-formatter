@@ -1,5 +1,13 @@
 # Changelog
 
+### [1.17.3](https://www.github.com/shufo/blade-formatter/compare/v1.17.2...v1.17.3) (2022-02-06)
+
+
+### Fixes
+
+* 🐛 allow up to 4 level nested parenthesis in directive ([7d133ae](https://www.github.com/shufo/blade-formatter/commit/7d133aef626f1e9eb26b2a04e6de57213b324949))
+* 🐛 hangs when 3 more nested parenthesis used in directive ([ddc1816](https://www.github.com/shufo/blade-formatter/commit/ddc1816a929069bf6d364d0064de223d4d382bd3))
+
 ### [1.17.2](https://www.github.com/shufo/blade-formatter/compare/v1.17.1...v1.17.2) (2022-01-29)
 
 
