@@ -222,11 +222,14 @@ export function unindent(directive: any, content: any, level: any, options: any)
   }).join('\n');
 }
 
+// allow up to 4 level nested parenthesis
+const nestedParenthesisRegex = `\\(((?:[^)(]+|\\((?:[^)(]+|\\((?:[^)(]+|\\((?:[^)(]+|\\([^)(]*\\))*\\))*\\))*\\))*)\\)`;
+
 export function preserveDirectives(content: any) {
   return new Promise((resolve) => resolve(content))
     .then((res: any) => {
       const regex = new RegExp(
-        `(${phpKeywordStartTokens.join('|')})([\\s]*?)\\(((?:[^)(]+|\\((?:[^)(]+|\\([^)(]*\\))*\\))*)\\)`,
+        `(${phpKeywordStartTokens.join('|')})([\\s]*?)${nestedParenthesisRegex}`,
         'gis',
       );
       return _.replace(
@@ -246,7 +249,7 @@ export function preserveDirectivesInTag(content: any) {
     const regex = new RegExp(
       `(<[^>]*?)(${phpKeywordStartTokens.join(
         '|',
-      )})([\\s]*?)\\(((?:[^)(]+|\\((?:[^)(]+|\\([^)(]*\\))*\\))*)\\)(.*?)(${phpKeywordEndTokens.join('|')})([^>]*?>)`,
+      )})([\\s]*?)${nestedParenthesisRegex}(.*?)(${phpKeywordEndTokens.join('|')})([^>]*?>)`,
       'gis',
     );
     resolve(
