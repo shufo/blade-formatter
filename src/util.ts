@@ -228,10 +228,7 @@ const nestedParenthesisRegex = `\\(((?:[^)(]+|\\((?:[^)(]+|\\((?:[^)(]+|\\((?:[^
 export function preserveDirectives(content: any) {
   return new Promise((resolve) => resolve(content))
     .then((res: any) => {
-      const regex = new RegExp(
-        `(${phpKeywordStartTokens.join('|')})([\\s]*?)${nestedParenthesisRegex}`,
-        'gis',
-      );
+      const regex = new RegExp(`(${phpKeywordStartTokens.join('|')})([\\s]*?)${nestedParenthesisRegex}`, 'gis');
       return _.replace(
         res,
         regex,
@@ -247,9 +244,9 @@ export function preserveDirectives(content: any) {
 export function preserveDirectivesInTag(content: any) {
   return new Promise((resolve) => {
     const regex = new RegExp(
-      `(<[^>]*?)(${phpKeywordStartTokens.join(
+      `(<[^>]*?)(${phpKeywordStartTokens.join('|')})([\\s]*?)${nestedParenthesisRegex}(.*?)(${phpKeywordEndTokens.join(
         '|',
-      )})([\\s]*?)${nestedParenthesisRegex}(.*?)(${phpKeywordEndTokens.join('|')})([^>]*?>)`,
+      )})([^>]*?>)`,
       'gis',
     );
     resolve(
