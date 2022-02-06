@@ -1887,4 +1887,37 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
+
+  test('3 more level nested parenthesis #340', async () => {
+    const content = [
+      `<div>`,
+      `    @if (count($foo->bar(Auth::user(), Request::path())) >= 1)`,
+      `    foo`,
+      `    @endif`,
+      `    @if (count($foo->bar(Auth::user($baz->method()), Request::path())) >= 1)`,
+      `    foo`,
+      `    @endif`,
+      `    @foreach (Auth::users($my->users($as->foo)) as $user)`,
+      `    foo`,
+      `    @endif`,
+      `</div>`,
+    ].join('\n');
+
+    const expected = [
+      `<div>`,
+      `    @if (count($foo->bar(Auth::user(), Request::path())) >= 1)`,
+      `        foo`,
+      `    @endif`,
+      `    @if (count($foo->bar(Auth::user($baz->method()), Request::path())) >= 1)`,
+      `        foo`,
+      `    @endif`,
+      `    @foreach (Auth::users($my->users($as->foo)) as $user)`,
+      `        foo`,
+      `    @endif`,
+      `</div>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
 });
