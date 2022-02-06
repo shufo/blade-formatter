@@ -1900,6 +1900,9 @@ describe('formatter', () => {
       `    @foreach (Auth::users($my->users($as->foo)) as $user)`,
       `    foo`,
       `    @endif`,
+      `    @isset($user->foo($user->bar($user->baz())))`,
+      `    foo`,
+      `    @endisset`,
       `</div>`,
     ].join('\n');
 
@@ -1914,6 +1917,9 @@ describe('formatter', () => {
       `    @foreach (Auth::users($my->users($as->foo)) as $user)`,
       `        foo`,
       `    @endif`,
+      `    @isset($user->foo($user->bar($user->baz())))`,
+      `        foo`,
+      `    @endisset`,
       `</div>`,
       ``,
     ].join('\n');

@@ -116,12 +116,15 @@ export function generateDiff(path: any, originalLines: any, formattedLines: any)
   return _.without(diff, null);
 }
 
+// allow up to 4 level nested parenthesis
+const nestedParenthesisRegex = `\\(((?:[^)(]+|\\((?:[^)(]+|\\((?:[^)(]+|\\((?:[^)(]+|\\([^)(]*\\))*\\))*\\))*\\))*)\\)`;
+
 export async function prettifyPhpContentWithUnescapedTags(content: any) {
   const directives = _.without(indentStartTokens, '@switch', '@forelse', '@php').join('|');
 
   const directiveRegexes = new RegExp(
     // eslint-disable-next-line max-len
-    `(?!\\/\\*.*?\\*\\/)(${directives})(\\s*?)\\(((?:[^)(]+|\\((?:[^)(]+|\\([^)(]*\\))*\\))*)\\)`,
+    `(?!\\/\\*.*?\\*\\/)(${directives})(\\s*?)${nestedParenthesisRegex}`,
     'gmi',
   );
 
@@ -221,9 +224,6 @@ export function unindent(directive: any, content: any, level: any, options: any)
     return indentChar.repeat(whitespaces) + line.trimLeft();
   }).join('\n');
 }
-
-// allow up to 4 level nested parenthesis
-const nestedParenthesisRegex = `\\(((?:[^)(]+|\\((?:[^)(]+|\\((?:[^)(]+|\\((?:[^)(]+|\\([^)(]*\\))*\\))*\\))*\\))*)\\)`;
 
 export function preserveDirectives(content: any) {
   return new Promise((resolve) => resolve(content))
