@@ -233,7 +233,7 @@ export default class Formatter {
       const inlineFunctionDirectives = inlineFunctionTokens.join('|');
       const inlineFunctionRegex = new RegExp(
         // eslint-disable-next-line max-len
-        `(?!\\/\\*.*?\\*\\/)(${inlineFunctionDirectives})(\\s*?)\\(((?:[^)(]+|\\((?:[^)(]+|\\([^)(]*\\))*\\))*)\\)`,
+        `(?!\\/\\*.*?\\*\\/)(${inlineFunctionDirectives})(\\s*?)\\(((?:[^)(]+|\\((?:[^)(]+|\\((?:[^)(]+|\\((?:[^)(]+|\\([^)(]*\\))*\\))*\\))*\\))*)\\)`,
         'gmi',
       );
 
@@ -294,7 +294,7 @@ export default class Formatter {
       `(${conditionalTokens.join(
         '|',
         // eslint-disable-next-line max-len
-      )})(\\s*?)\\(((?:[^)(]+|\\((?:[^)(]+|\\([^)(]*\\))*\\))*)\\)`,
+      )})(\\s*?)\\(((?:[^)(]+|\\((?:[^)(]+|\\((?:[^)(]+|\\((?:[^)(]+|\\([^)(]*\\))*\\))*\\))*\\))*)\\)`,
       'gi',
     );
     return _.replace(
