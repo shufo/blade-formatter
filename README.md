@@ -320,7 +320,8 @@ $ npm -g config set user root
 
 - [ ] Editable custom directives
 - [x] `@for` directive support
-- [ ] ignore formatting in blade comment
+- [x] ignore formatting in blade comment
+- [ ] automatically add new line after directive
 
 ## Contributors
 
