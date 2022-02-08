@@ -1,5 +1,18 @@
 # Changelog
 
+### [1.17.4](https://www.github.com/shufo/blade-formatter/compare/v1.17.3...v1.17.4) (2022-02-08)
+
+
+### Miscellaneous
+
+* **deps:** bump @prettier/plugin-php from 0.17.6 to 0.18.0 ([63a22a5](https://www.github.com/shufo/blade-formatter/commit/63a22a54794d7fca48859919fe43752397aa246a))
+
+
+### Fixes
+
+* 🐛 break line before and after directives if needed ([c55d7fa](https://www.github.com/shufo/blade-formatter/commit/c55d7fac74bc11798115c45d0709011a2bf700d3))
+* 🐛 support up to 4 level nested parenthesis ([911a005](https://www.github.com/shufo/blade-formatter/commit/911a0052d42f6941a34feadd1f479f7175472c64))
+
 ### [1.17.3](https://www.github.com/shufo/blade-formatter/compare/v1.17.2...v1.17.3) (2022-02-06)
 
 
