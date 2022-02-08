@@ -126,6 +126,7 @@ export default class Formatter {
       .then((target) => this.preserveConditions(target))
       .then((target) => this.preserveInlineDirective(target))
       .then((target) => this.preserveInlinePhpDirective(target))
+      .then((target) => this.breakLineBeforeAndAfterDirective(target))
       .then((target) => this.preserveBladeDirectivesInScripts(target))
       .then(async (target) => {
         this.bladeDirectives = await this.formatPreservedBladeDirectives(this.bladeDirectives);
@@ -274,6 +275,26 @@ export default class Formatter {
       });
 
       return `<script${p1}>${p2}</script>`;
+    });
+  }
+
+  async breakLineBeforeAndAfterDirective(content: any) {
+    const regex = new RegExp(
+      `(${phpKeywordStartTokens.join(
+        '|',
+        // eslint-disable-next-line max-len
+      )})(\\s*?)\\(((?:[^)(]+|\\((?:[^)(]+|\\((?:[^)(]+|\\((?:[^)(]+|\\([^)(]*\\))*\\))*\\))*\\))*)\\)(\\s*)(.*?)(\\s*?)(${phpKeywordEndTokens.join(
+        '|',
+      )})`,
+      'gis',
+    );
+
+    return _.replace(content, regex, (_match: any, p1: any, p2: any, p3: any, p4: any, p5: any, p6: any, p7: any) => {
+      if (p5 === '') {
+        return `${p1}${p2}(${p3})${p4.trim()}\n${p5.trim()}${p6.trim()}${p7.trim()}`;
+      }
+
+      return `${p1}${p2}(${p3})${p4.trim()}\n${p5.trim()}\n${p6.trim()}${p7.trim()}`;
     });
   }
 
