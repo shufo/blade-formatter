@@ -1927,4 +1927,56 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
+
+  test('it should line break before and after directives', async () => {
+    const content = [
+      `<div>`,
+      `    @if (count($foo->bar(Auth::user(), Request::path())) >= 1) foo`,
+      `    @endif`,
+      `    <div>`,
+      `        @if (count($foo->bar(Auth::user(), Request::path())) >= 1)`,
+      `            foo`,
+      `        @endif`,
+      `    </div>`,
+      `    @foreach ($collection as $item)`,
+      `        {{ $item }} @endforeach`,
+      `    @if (count($foo->bar(Auth::user(), Request::path())) >= 1)`,
+      `    foo`,
+      ``,
+      `    @endif`,
+      `    @if (count($foo->bar(Auth::user(), Request::path())) >= 1) foo`,
+      ``,
+      `    @endif`,
+      `    @if (count($foo->bar(Auth::user(), Request::path())) >= 1)`,
+      `    @endif`,
+      `</div>`,
+    ].join('\n');
+
+    const expected = [
+      `<div>`,
+      `    @if (count($foo->bar(Auth::user(), Request::path())) >= 1)`,
+      `        foo`,
+      `    @endif`,
+      `    <div>`,
+      `        @if (count($foo->bar(Auth::user(), Request::path())) >= 1)`,
+      `            foo`,
+      `        @endif`,
+      `    </div>`,
+      `    @foreach ($collection as $item)`,
+      `        {{ $item }}`,
+      `    @endforeach`,
+      `    @if (count($foo->bar(Auth::user(), Request::path())) >= 1)`,
+      `        foo`,
+      `    @endif`,
+      `    @if (count($foo->bar(Auth::user(), Request::path())) >= 1)`,
+      `        foo`,
+      `    @endif`,
+      `    @if (count($foo->bar(Auth::user(), Request::path())) >= 1)`,
+      `    @endif`,
+      `</div>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
 });
