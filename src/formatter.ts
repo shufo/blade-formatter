@@ -23,6 +23,7 @@ import {
   optionalStartWithoutEndTokens,
   conditionalTokens,
 } from './indent';
+import { nestedParenthesisRegex } from './regex';
 
 export default class Formatter {
   argumentCheck: any;
@@ -234,7 +235,7 @@ export default class Formatter {
       const inlineFunctionDirectives = inlineFunctionTokens.join('|');
       const inlineFunctionRegex = new RegExp(
         // eslint-disable-next-line max-len
-        `(?!\\/\\*.*?\\*\\/)(${inlineFunctionDirectives})(\\s*?)\\(((?:[^)(]+|\\((?:[^)(]+|\\((?:[^)(]+|\\((?:[^)(]+|\\([^)(]*\\))*\\))*\\))*\\))*)\\)`,
+        `(?!\\/\\*.*?\\*\\/)(${inlineFunctionDirectives})(\\s*?)${nestedParenthesisRegex}`,
         'gmi',
       );
 
@@ -283,7 +284,7 @@ export default class Formatter {
       `(${phpKeywordStartTokens.join(
         '|',
         // eslint-disable-next-line max-len
-      )})(\\s*?)\\(((?:[^)(]+|\\((?:[^)(]+|\\((?:[^)(]+|\\((?:[^)(]+|\\([^)(]*\\))*\\))*\\))*\\))*)\\)(\\s*)(.*?)(\\s*?)(${phpKeywordEndTokens.join(
+      )})(\\s*?)${nestedParenthesisRegex}(\\s*)(.*?)(\\s*?)(${phpKeywordEndTokens.join(
         '|',
       )})`,
       'gis',
@@ -315,7 +316,7 @@ export default class Formatter {
       `(${conditionalTokens.join(
         '|',
         // eslint-disable-next-line max-len
-      )})(\\s*?)\\(((?:[^)(]+|\\((?:[^)(]+|\\((?:[^)(]+|\\((?:[^)(]+|\\([^)(]*\\))*\\))*\\))*\\))*)\\)`,
+      )})(\\s*?)${nestedParenthesisRegex}`,
       'gi',
     );
     return _.replace(
