@@ -284,9 +284,7 @@ export default class Formatter {
       `(${phpKeywordStartTokens.join(
         '|',
         // eslint-disable-next-line max-len
-      )})(\\s*?)${nestedParenthesisRegex}(\\s*)(.*?)(\\s*?)(${phpKeywordEndTokens.join(
-        '|',
-      )})`,
+      )})(\\s*?)${nestedParenthesisRegex}(\\s*)(.*?)(\\s*?)(${phpKeywordEndTokens.join('|')})`,
       'gis',
     );
 
