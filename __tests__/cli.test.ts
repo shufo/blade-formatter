@@ -429,7 +429,7 @@ describe('The blade formatter CLI', () => {
       path.resolve('__tests__', 'fixtures', 'runtimeConfig', 'index.blade.php'),
     ]);
 
-    expect(cmdResult).not.toContain('JSON Syntax Error');
+    expect(cmdResult).not.toContain('Error');
   });
 
   test.concurrent('runtime config syntax error', async () => {
