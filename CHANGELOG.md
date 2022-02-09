@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.17.5](https://www.github.com/shufo/blade-formatter/compare/v1.17.4...v1.17.5) (2022-02-09)
+
+
+### Fixes
+
+* 🐛 wrap attributes option force-aligned didn't work ([01d0821](https://www.github.com/shufo/blade-formatter/commit/01d0821877b7c3619d76d11eb8db6f430501361f))
+
 ### [1.17.4](https://www.github.com/shufo/blade-formatter/compare/v1.17.3...v1.17.4) (2022-02-08)
 
 
