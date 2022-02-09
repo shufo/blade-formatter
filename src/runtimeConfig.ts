@@ -8,7 +8,7 @@ const ajv = new Ajv();
 export type WrapAttributes =
   | 'auto'
   | 'force'
-  | 'force-aligned '
+  | 'force-aligned'
   | 'force-expand-multiline'
   | 'aligned-multiple'
   | 'preserve'
@@ -56,7 +56,7 @@ export async function readRuntimeConfig(filePath: string | null): Promise<Runtim
         enum: [
           'auto',
           'force',
-          'force-aligned ',
+          'force-aligned',
           'force-expand-multiline',
           'aligned-multiple',
           'preserve',
