@@ -422,6 +422,16 @@ describe('The blade formatter CLI', () => {
     ]);
   });
 
+  test.concurrent('specify wrap attributes config by rc file', async () => {
+    const cmdResult = await cmd.execute(path.resolve('bin', 'blade-formatter'), [
+      '--config',
+      path.resolve('__tests__', 'fixtures', 'runtimeConfig', '.bladeformatterrc.force-aligned'),
+      path.resolve('__tests__', 'fixtures', 'runtimeConfig', 'index.blade.php'),
+    ]);
+
+    expect(cmdResult).not.toContain('JSON Syntax Error');
+  });
+
   test.concurrent('runtime config syntax error', async () => {
     const cmdResult = await cmd.execute(path.resolve('bin', 'blade-formatter'), [
       '--config',
