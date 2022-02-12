@@ -1995,4 +1995,60 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
+
+  test('complex line break', async () => {
+    const content = [
+      `<div>`,
+      `@if ($user) @if ($condition) aaa @endif`,
+      `@endif`,
+      `  @can('edit') bbb`,
+      `  @endcan`,
+      `@auth('user') ccc`,
+      `@endauth`,
+      `</div>`,
+      `<div>`,
+      `@section('title') aaa @endsection`,
+      `</div>`,
+      `<div>@foreach($users as $user) @foreach($shops as $shop) {{ $user["id"] . $shop["id"] }} @endforeach @endforeach</div>`,
+      `<div>@if($users) @foreach($shops as $shop) {{ $user["id"] . $shop["id"] }} @endforeach @endif</div>`,
+    ].join('\n');
+
+    const expected = [
+      `<div>`,
+      `    @if ($user)`,
+      `        @if ($condition)`,
+      `            aaa`,
+      `        @endif`,
+      `    @endif`,
+      `    @can('edit')`,
+      `        bbb`,
+      `    @endcan`,
+      `    @auth('user')`,
+      `        ccc`,
+      `    @endauth`,
+      `</div>`,
+      `<div>`,
+      `    @section('title')`,
+      `        aaa`,
+      `    @endsection`,
+      `</div>`,
+      `<div>`,
+      `    @foreach ($users as $user)`,
+      `        @foreach ($shops as $shop)`,
+      `            {{ $user['id'] . $shop['id'] }}`,
+      `        @endforeach`,
+      `    @endforeach`,
+      `</div>`,
+      `<div>`,
+      `    @if ($users)`,
+      `        @foreach ($shops as $shop)`,
+      `            {{ $user['id'] . $shop['id'] }}`,
+      `        @endforeach`,
+      `    @endif`,
+      `</div>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
 });
