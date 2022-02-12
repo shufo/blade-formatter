@@ -2051,4 +2051,26 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
+
+  test('inline @json directive', async () => {
+    const content = [
+      `<myComponent`,
+      `    :prop-data='@json($data['initialEvents'])'>`,
+      `foo`,
+      `</myComponent>`,
+      `<div data-single-quote='@json('string with single quote')'>`,
+      `</div>`,
+    ].join('\n');
+
+    const expected = [
+      `<myComponent :prop-data='@json($data['initialEvents'])'>`,
+      `    foo`,
+      `</myComponent>`,
+      `<div data-single-quote='@json('string with single quote')'>`,
+      `</div>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
 });
