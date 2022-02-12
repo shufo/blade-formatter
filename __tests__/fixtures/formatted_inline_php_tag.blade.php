@@ -1,7 +1,9 @@
 @extends('frontend.layouts.layout')
 @section('head')
 @endsection
-@section('title') commonmanagement @endsection
+@section('title')
+    commonmanagement
+@endsection
 @section('content')
     <div class="multi-column">
         <drawer-nav :items="{{ json_encode($drawerNavigation) }}" csrf-token="{{ csrf_token() }}"></drawer-nav>

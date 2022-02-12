@@ -206,14 +206,18 @@ export default class Formatter {
   }
 
   async preserveInlineDirective(content: any) {
+    // preserve inline directives inside html tag
     const regex = new RegExp(
-      `(?!\\/\\*.*?\\*\\/)(${phpKeywordStartTokens.join(
+      `(\\S+=["']?(?:.(?!["']?\\s+(?:\\S+)=|\\s*\\/?[>"']))+.["']?.*?)(${phpKeywordStartTokens.join(
         '|',
         // eslint-disable-next-line max-len
-      )}).*(${phpKeywordEndTokens.join('|')})`,
+      )})(.*)(${phpKeywordEndTokens.join('|')})`,
       'gim',
     );
-    return _.replace(content, regex, (match: any) => this.storeInlineDirective(match));
+    return _.replace(content, regex, (match: string, p1: string, p2: string, p3: string, p4: string) => {
+      return `${p1}${this.storeInlineDirective(p2 + p3 + p4)}`;
+      // return `${p1}${this.storeInlineDirective(p2)}${p3}${p4}${p5}`;
+    });
   }
 
   async preserveInlinePhpDirective(content: any) {
@@ -279,22 +283,60 @@ export default class Formatter {
     });
   }
 
-  async breakLineBeforeAndAfterDirective(content: any) {
-    const regex = new RegExp(
-      `(${phpKeywordStartTokens.join(
-        '|',
-        // eslint-disable-next-line max-len
-      )})(\\s*?)${nestedParenthesisRegex}(\\s*)(.*?)(\\s*?)(${phpKeywordEndTokens.join('|')})`,
-      'gis',
-    );
+  /**
+   * Recursively insert line break before and after directives
+   * @param content string
+   * @returns
+   */
+  breakLineBeforeAndAfterDirective(content: string): string {
+    const directives = _.chain(indentStartTokens)
+      .map((x: any) => _.replace(x, /@/, ''))
+      .value();
 
-    return _.replace(content, regex, (_match: any, p1: any, p2: any, p3: any, p4: any, p5: any, p6: any, p7: any) => {
-      if (p5 === '') {
-        return `${p1}${p2}(${p3})${p4.trim()}\n${p5.trim()}${p6.trim()}${p7.trim()}`;
+    _.forEach(directives, (directive: any) => {
+      try {
+        const recursivelyMatched = xregexp.matchRecursive(content, `\\@${directive}`, `\\@end${directive}`, 'gmi', {
+          valueNames: [null, 'left', 'match', 'right'],
+        });
+
+        if (_.isEmpty(recursivelyMatched)) {
+          return;
+        }
+        // console.log(recursivelyMatched);
+        // console.log(content);
+
+        // eslint-disable-next-line
+        for (const matched of recursivelyMatched) {
+          if (matched.name === 'match') {
+            if (new RegExp(indentStartTokens.join('|')).test(matched.value)) {
+              // eslint-disable-next-line
+              content = _.replace(content, matched.value, this.breakLineBeforeAndAfterDirective(matched.value));
+            }
+
+            const innerRegex = new RegExp(`^(\\s*?)${nestedParenthesisRegex}(.*)`, 'gmis');
+
+            const replaced = _.replace(
+              `${matched.value}`,
+              innerRegex,
+              (_match: string, p1: string, p2: string, p3: string) => {
+                if (p3.trim() === '') {
+                  return `${p1}(${p2.trim()})\n${p3.trim()}`;
+                }
+
+                return `${p1}(${p2.trim()})\n${p3.trim()}\n`;
+              },
+            );
+
+            // eslint-disable-next-line
+            content = _.replace(content, matched.value, replaced);
+          }
+        }
+      } catch (error) {
+        // do nothing to ignore unmatched directive pair
       }
-
-      return `${p1}${p2}(${p3})${p4.trim()}\n${p5.trim()}\n${p6.trim()}${p7.trim()}`;
     });
+
+    return content;
   }
 
   async preserveBladeComment(content: any) {
