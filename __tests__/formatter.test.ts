@@ -471,7 +471,6 @@ describe('formatter', () => {
       `@extends('layouts.mainLayout')`,
       ``,
       `@section('someBlock')`,
-      ``,
       `@endsection`,
       '',
     ].join('\n');
@@ -1074,7 +1073,9 @@ describe('formatter', () => {
 
     const expected = [
       `<div>`,
-      `    @if (count($users) && $users->has('friends')) {{ $user->name }} @endif`,
+      `    @if (count($users) && $users->has('friends'))`,
+      `        {{ $user->name }}`,
+      `    @endif`,
       `</div>`,
       ``,
     ].join('\n');
@@ -1143,13 +1144,15 @@ describe('formatter', () => {
   test('should format blade directive in scripts', async () => {
     const content = [
       `    <script>`,
-      `        @isset($data['eval_gestionnaire']->project_perception) @endisset`,
+      `        @isset($data['eval_gestionnaire']->project_perception) foo @endisset`,
       `    </script>`,
     ].join('\n');
 
     const expected = [
       `    <script>`,
-      `        @isset($data['eval_gestionnaire']->project_perception) @endisset`,
+      `        @isset($data['eval_gestionnaire']->project_perception)`,
+      `            foo`,
+      `        @endisset`,
       `    </script>`,
       ``,
     ].join('\n');
@@ -1201,11 +1204,15 @@ describe('formatter', () => {
   });
 
   test('should format inline directive in scripts #231', async () => {
-    const content = [`<script> @Isset($data['eval_gestionnaire']->project_perception) @endisset </script>`].join('\n');
+    const content = [`<script> @Isset($data['eval_gestionnaire']->project_perception) foo @endisset </script>`].join(
+      '\n',
+    );
 
     const expected = [
       `<script>`,
-      `    @isset($data['eval_gestionnaire']->project_perception) @endisset`,
+      `    @isset($data['eval_gestionnaire']->project_perception)`,
+      `        foo`,
+      `    @endisset`,
       `</script>`,
       ``,
     ].join('\n');
