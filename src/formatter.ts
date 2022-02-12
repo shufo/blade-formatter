@@ -224,7 +224,7 @@ export default class Formatter {
     return _.replace(
       content,
       // eslint-disable-next-line max-len
-      /(?!\/\*.*?\*\/)(@php|@class|@button)(\s*?)\(((?:[^)(]+|\((?:[^)(]+|\((?:[^)(]+|\([^)(]*\))*\))*\)))*\)/gms,
+      new RegExp(`(?!\\/\\*.*?\\*\\/)(@php|@class|@button|@json)(\\s*?)${nestedParenthesisRegex}`, 'gms'),
       (match: any) => this.storeInlinePhpDirective(match),
     );
   }
@@ -897,7 +897,7 @@ export default class Formatter {
             return formatted;
           }
 
-          return `${p1}${matched}`;
+          return `${p1}${util.formatRawStringAsPhp(matched).trimEnd()}`;
         },
       ),
     );
