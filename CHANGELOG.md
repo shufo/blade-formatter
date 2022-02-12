@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.18.0](https://www.github.com/shufo/blade-formatter/compare/v1.17.5...v1.18.0) (2022-02-12)
+
+
+### Features
+
+* 🎸 auto line break around directives ([a290e09](https://www.github.com/shufo/blade-formatter/commit/a290e09195f5f9ef973b319a34245a33707cd502))
+
+
+### Fixes
+
+* 🐛 json directive adds unexpected whitespace ([69aa499](https://www.github.com/shufo/blade-formatter/commit/69aa499a48588c84eca00fb487992d9fe7c22d64))
+
 ### [1.17.5](https://www.github.com/shufo/blade-formatter/compare/v1.17.4...v1.17.5) (2022-02-09)
 
 
