@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.18.3](https://www.github.com/shufo/blade-formatter/compare/v1.18.2...v1.18.3) (2022-02-13)
+
+
+### Fixes
+
+* 🐛 multiple directive in html tag gets unexpected format ([7f68515](https://www.github.com/shufo/blade-formatter/commit/7f6851537b7788f7346abbb3085b2fd1ad3a71b2))
+
 ### [1.18.2](https://www.github.com/shufo/blade-formatter/compare/v1.18.1...v1.18.2) (2022-02-13)
 
 
