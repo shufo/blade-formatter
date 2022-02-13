@@ -2073,4 +2073,21 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
+
+  test('inline @error directive should keep its format', async () => {
+    const content = [
+      `<span class="text-gray-700 @error('restaurant_id') text-red-500 @enderror">`,
+      `    Choose restaurant`,
+      `</span>`,
+    ].join('\n');
+
+    const expected = [
+      `<span class="text-gray-700 @error('restaurant_id') text-red-500 @enderror">`,
+      `    Choose restaurant`,
+      `</span>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
 });
