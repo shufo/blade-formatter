@@ -205,7 +205,7 @@ export default class Formatter {
     return _.replace(content, /(?<!@)@php(.*?)@endphp/gs, (match: any, p1: any) => this.storeRawBlock(p1));
   }
 
-  async preserveInlineDirective(content: any) {
+  preserveInlineDirective(content: string): string {
     // preserve inline directives inside html tag
     const regex = new RegExp(
       `(<[\\w]+?[^>]*?)(${indentStartTokens.join(
@@ -214,11 +214,11 @@ export default class Formatter {
       )})(\\s*?)(${nestedParenthesisRegex})(.*?)(${indentEndTokens.join('|')})(.*?>)`,
       'gims',
     );
-    return _.replace(
+    const replaced = _.replace(
       content,
       regex,
       (
-        match: string,
+        _match: string,
         p1: string,
         p2: string,
         p3: string,
@@ -231,6 +231,12 @@ export default class Formatter {
         return `${p1}${this.storeInlineDirective(`${p2.trim()}${p3}${p4.trim()} ${p6.trim()} ${p7.trim()}`)}${p8}`;
       },
     );
+
+    if (regex.test(replaced)) {
+      return this.preserveInlineDirective(replaced);
+    }
+
+    return replaced;
   }
 
   async preserveInlinePhpDirective(content: any) {
