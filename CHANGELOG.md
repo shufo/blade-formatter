@@ -1,5 +1,17 @@
 # Changelog
 
+### [1.18.2](https://www.github.com/shufo/blade-formatter/compare/v1.18.1...v1.18.2) (2022-02-13)
+
+
+### Miscellaneous
+
+* 🤖 (dev) add husky, lint-staged for auto formatting ([53ef010](https://www.github.com/shufo/blade-formatter/commit/53ef010db07a72ce8d28112ec3b77080e33a99c3))
+
+
+### Fixes
+
+* 🐛 directive with line break occurs unexpected behaviour ([f716a67](https://www.github.com/shufo/blade-formatter/commit/f716a673034cf1cea716b9ced6e7601bb02a7076))
+
 ### [1.18.1](https://www.github.com/shufo/blade-formatter/compare/v1.18.0...v1.18.1) (2022-02-13)
 
 
