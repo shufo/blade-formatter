@@ -321,8 +321,6 @@ export default class Formatter {
         if (_.isEmpty(recursivelyMatched)) {
           return;
         }
-        // console.log(recursivelyMatched);
-        // console.log(content);
 
         // eslint-disable-next-line
         for (const matched of recursivelyMatched) {
