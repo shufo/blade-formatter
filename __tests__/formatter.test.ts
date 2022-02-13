@@ -808,9 +808,8 @@ describe('formatter', () => {
     ].join('\n');
 
     const expected = [
-      `<body class=\"hold-transition login-page\" @if (config('admin.login_background_image'))`,
-      `    style=\"background: url({{ config('admin.login_background_image') }}) no-repeat;background-size: cover;\"`,
-      `    @endif>`,
+      `<body class=\"hold-transition login-page\"`,
+      `    @if (config('admin.login_background_image')) style=\"background: url({{ config('admin.login_background_image') }}) no-repeat;background-size: cover;\" @endif>`,
       ``,
     ].join('\n');
 
@@ -1044,7 +1043,9 @@ describe('formatter', () => {
       `@if (count($topics))`,
       `    <ul class="list-group border-0">`,
       `        @foreach ($topics as $topic)`,
-      `            <li class="list-group-item border-right-0 border-left-0 @if ($loop->first) border-top-0 @endif"></li>`,
+      `            <li`,
+      `                class="list-group-item border-right-0 border-left-0 @if ($loop->first) border-top-0 @endif">`,
+      `            </li>`,
       `        @endforeach`,
       `    </ul>`,
       `@endif`,
@@ -2095,11 +2096,28 @@ describe('formatter', () => {
     const content = [
       `<password-input name="password_confirmation" type="password" @if ('password') error error-message="{{ $message }}" @endif placeholder="password: " outlined>`,
       `</password-input>`,
+      `<password-input name="password_confirmation" type="password"`,
+      `@if ('password') error error-message="{{ $message }}" @endif placeholder="password: " outlined>`,
+      `</password-input>`,
+      // multiline directive inside html tag should be formatted into inline
+      `<password-input name="password_confirmation" type="password" @if ('password')`,
+      `error error-message="{{ $message }}"`,
+      `@endif`,
+      `placeholder="password: " outlined></password-input>`,
     ].join('\n');
 
     const expected = [
-      `<password-input name="password_confirmation" type="password" @if ('password') error error-message="{{ $message }}" @endif placeholder="password: " outlined>`,
+      `<password-input name="password_confirmation" type="password"`,
+      `    @if ('password') error error-message="{{ $message }}" @endif placeholder="password: "`,
+      `    outlined>`,
       `</password-input>`,
+      `<password-input name="password_confirmation" type="password"`,
+      `    @if ('password') error error-message="{{ $message }}" @endif placeholder="password: "`,
+      `    outlined>`,
+      `</password-input>`,
+      `<password-input name="password_confirmation" type="password"`,
+      `    @if ('password') error error-message="{{ $message }}" @endif placeholder="password: "`,
+      `    outlined></password-input>`,
       ``,
     ].join('\n');
 
