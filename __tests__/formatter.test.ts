@@ -2135,4 +2135,33 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
+
+  test('order aware nested directive', async () => {
+    const content = [
+      `@component('components.elements.button') @slot('href') /plant/details/{{ $plant->system_name }} @endslot @endcomponent`,
+      `@section('components.elements.button') @error('href') /plant/details/{{ $plant->system_name }} @enderror @endsection`,
+      `@foreach($users as $user) @error('href') {{ $user }} @enderror @endforeach`,
+    ].join('\n');
+
+    const expected = [
+      `@component('components.elements.button')`,
+      `    @slot('href')`,
+      `        /plant/details/{{ $plant->system_name }}`,
+      `    @endslot`,
+      `@endcomponent`,
+      `@section('components.elements.button')`,
+      `    @error('href')`,
+      `        /plant/details/{{ $plant->system_name }}`,
+      `    @enderror`,
+      `@endsection`,
+      `@foreach ($users as $user)`,
+      `    @error('href')`,
+      `        {{ $user }}`,
+      `    @enderror`,
+      `@endforeach`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
 });
