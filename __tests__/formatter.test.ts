@@ -2104,6 +2104,14 @@ describe('formatter', () => {
       `error error-message="{{ $message }}"`,
       `@endif`,
       `placeholder="password: " outlined></password-input>`,
+      // multiple directives in html tag
+      `<password-input name="password_confirmation" type="password" @if ('password')`,
+      `error error-message="{{ $message }}"`,
+      `@endif`,
+      `@if ('password')`,
+      `error error-message="{{ $message }}"`,
+      `@endif`,
+      `placeholder="パスワード" outlined></password-input>`,
     ].join('\n');
 
     const expected = [
@@ -2118,6 +2126,10 @@ describe('formatter', () => {
       `<password-input name="password_confirmation" type="password"`,
       `    @if ('password') error error-message="{{ $message }}" @endif placeholder="password: "`,
       `    outlined></password-input>`,
+      `<password-input name="password_confirmation" type="password"`,
+      `    @if ('password') error error-message="{{ $message }}" @endif`,
+      `    @if ('password') error error-message="{{ $message }}" @endif placeholder="パスワード" outlined>`,
+      `</password-input>`,
       ``,
     ].join('\n');
 
