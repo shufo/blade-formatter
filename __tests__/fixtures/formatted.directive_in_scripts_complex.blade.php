@@ -37,7 +37,7 @@
                             $imageSize = File::size($imagePath);
                             $imageName = File::name($imagePath);
                         @endphp
-                    
+                
                         files.push({
                         processing: true,
                         accepted: true,
@@ -45,7 +45,7 @@
                         size: {{ $imageSize }},
                         type: '{{ $imageMime }}',
                         status: Dropzone.SUCCESS,});
-                    
+                
                         fileUrls.push("{{ $imageUrl }}")
                         response.fileHashes.push("{{ $image->image_hash }}")
                         response.imageIds.push("{{ $image->id }}")
