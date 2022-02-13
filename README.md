@@ -287,18 +287,6 @@ new Formatter(options).formatContent(input).then((formatted) => {
 - [coc-blade](https://github.com/yaegassy/coc-blade) - [coc.nvim](https://github.com/neoclide/coc.nvim) Extension by [@yaegassy](https://github.com/yaegassy)
 - [prettier-plugin-blade](https://github.com/shufo/prettier-plugin-blade) - Prettier plugin for Blade
 
-## Contributing
-
-1.  Fork it
-2.  Create your feature branch (`git checkout -b my-new-feature`)
-3.  Commit your changes (`git commit -am 'Add some feature'`)
-4.  Push to the branch (`git push origin my-new-feature`)
-5.  Create new Pull Request
-
-## LICENSE
-
-MIT
-
 ## Troubleshoot
 
 - If you encounter the error until installation like below
@@ -321,7 +309,7 @@ $ npm -g config set user root
 - [ ] Editable custom directives
 - [x] `@for` directive support
 - [x] ignore formatting in blade comment
-- [ ] automatically add new line after directive
+- [x] automatically add new line after directive
 
 ## Contributors
 
@@ -372,3 +360,15 @@ $ npm -g config set user root
     </td></tr>
 </table>
 <!-- readme: collaborators,contributors -end -->
+
+## Contributing
+
+1.  Fork it
+2.  Create your feature branch (`git checkout -b my-new-feature`)
+3.  Commit your changes (`git commit -am 'Add some feature'`)
+4.  Push to the branch (`git push origin my-new-feature`)
+5.  Create new Pull Request
+
+## LICENSE
+
+MIT
