@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.18.4](https://www.github.com/shufo/blade-formatter/compare/v1.18.3...v1.18.4) (2022-02-13)
+
+
+### Fixes
+
+* 🐛 inline nested directive may not resolve auto line break ([07f873c](https://www.github.com/shufo/blade-formatter/commit/07f873c003da0a798966d2e096ff144ee06ed3c1))
+
 ### [1.18.3](https://www.github.com/shufo/blade-formatter/compare/v1.18.2...v1.18.3) (2022-02-13)
 
 
