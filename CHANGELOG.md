@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.18.1](https://www.github.com/shufo/blade-formatter/compare/v1.18.0...v1.18.1) (2022-02-13)
+
+
+### Fixes
+
+* 🐛 inlined error directive is formatted to multiple lines ([4c90c0d](https://www.github.com/shufo/blade-formatter/commit/4c90c0dc1dc07566d15778ef7b36992e66d108ef))
+
 ## [1.18.0](https://www.github.com/shufo/blade-formatter/compare/v1.17.5...v1.18.0) (2022-02-12)
 
 
