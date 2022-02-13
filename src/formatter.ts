@@ -208,16 +208,29 @@ export default class Formatter {
   async preserveInlineDirective(content: any) {
     // preserve inline directives inside html tag
     const regex = new RegExp(
-      `(\\S+=["']?(?:.(?!["']?\\s+(?:\\S+)=|\\s*\\/?[>"']))+.["']?.*?)(${indentStartTokens.join(
+      `(<[\\w]+?[^>]*?)(${indentStartTokens.join(
         '|',
         // eslint-disable-next-line max-len
-      )})(.*)(${indentEndTokens.join('|')})`,
-      'gim',
+      )})(\\s*?)(${nestedParenthesisRegex})(.*?)(${indentEndTokens.join('|')})(.*?>)`,
+      'gims',
     );
-    return _.replace(content, regex, (match: string, p1: string, p2: string, p3: string, p4: string) => {
-      return `${p1}${this.storeInlineDirective(p2 + p3 + p4)}`;
-      // return `${p1}${this.storeInlineDirective(p2)}${p3}${p4}${p5}`;
-    });
+    return _.replace(
+      content,
+      regex,
+      (
+        match: string,
+        p1: string,
+        p2: string,
+        p3: string,
+        p4: string,
+        p5: string,
+        p6: string,
+        p7: string,
+        p8: string,
+      ) => {
+        return `${p1}${this.storeInlineDirective(`${p2.trim()}${p3}${p4.trim()} ${p6.trim()} ${p7.trim()}`)}${p8}`;
+      },
+    );
   }
 
   async preserveInlinePhpDirective(content: any) {
@@ -395,7 +408,7 @@ export default class Formatter {
   }
 
   storeInlineDirective(value: any) {
-    return this.getInlinePlaceholder(this.inlineDirectives.push(value) - 1);
+    return this.getInlinePlaceholder(this.inlineDirectives.push(value) - 1, value.length);
   }
 
   storeConditions(value: any) {
@@ -466,8 +479,14 @@ export default class Formatter {
     return _.replace('@__raw_block_#__@', '#', replace);
   }
 
-  getInlinePlaceholder(replace: any) {
-    return _.replace('___inline_directive_#___', '#', replace);
+  getInlinePlaceholder(replace: any, length = 0) {
+    if (length > 0) {
+      const template = '___inline_directive_#___';
+      const gap = length - template.length;
+      return _.replace(`___inline_directive_${_.repeat('_', gap > 0 ? gap : 0)}#___`, '#', replace);
+    }
+
+    return _.replace('___inline_directive_+?#___', '#', replace);
   }
 
   getConditionPlaceholder(replace: any) {
