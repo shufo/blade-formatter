@@ -2090,4 +2090,19 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
+
+  test('inline @if-@endif directive should keep its format', async () => {
+    const content = [
+      `<password-input name="password_confirmation" type="password" @if ('password') error error-message="{{ $message }}" @endif placeholder="password: " outlined>`,
+      `</password-input>`,
+    ].join('\n');
+
+    const expected = [
+      `<password-input name="password_confirmation" type="password" @if ('password') error error-message="{{ $message }}" @endif placeholder="password: " outlined>`,
+      `</password-input>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
 });
