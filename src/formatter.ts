@@ -208,10 +208,10 @@ export default class Formatter {
   async preserveInlineDirective(content: any) {
     // preserve inline directives inside html tag
     const regex = new RegExp(
-      `(\\S+=["']?(?:.(?!["']?\\s+(?:\\S+)=|\\s*\\/?[>"']))+.["']?.*?)(${phpKeywordStartTokens.join(
+      `(\\S+=["']?(?:.(?!["']?\\s+(?:\\S+)=|\\s*\\/?[>"']))+.["']?.*?)(${indentStartTokens.join(
         '|',
         // eslint-disable-next-line max-len
-      )})(.*)(${phpKeywordEndTokens.join('|')})`,
+      )})(.*)(${indentEndTokens.join('|')})`,
       'gim',
     );
     return _.replace(content, regex, (match: string, p1: string, p2: string, p3: string, p4: string) => {
