@@ -36,7 +36,7 @@ export default class Formatter {
 
   classes: any;
 
-  currentIndentLevel: any;
+  currentIndentLevel: number;
 
   diffs: any;
 
@@ -308,6 +308,42 @@ export default class Formatter {
    * @returns
    */
   breakLineBeforeAndAfterDirective(content: string): string {
+    const unbalancedConditions = ['@case'];
+
+    _.forEach(unbalancedConditions, (directive) => {
+      // eslint-disable-next-line
+      content = _.replace(
+        content,
+        new RegExp(`(\\s*?)(${directive})(\\s*?)${nestedParenthesisRegex}(\\s*)`, 'gmi'),
+        (match) => {
+          return `\n${match.trim()}\n`;
+        },
+      );
+    });
+
+    // eslint-disable-next-line
+    content = _.replace(content, /@case\S*?\s*?@case/gim, (match) => {
+      return `${match.replace('\n', '')}`;
+    });
+
+    const unbalancedEchos = ['@break'];
+
+    _.forEach(unbalancedEchos, (directive) => {
+      // eslint-disable-next-line
+      content = _.replace(content, new RegExp(`(\\s*?)${directive}\\s*`, 'gmi'), (match) => {
+        return `\n${match.trim()}\n\n`;
+      });
+    });
+
+    // other directives
+    _.forEach(['@default'], (directive) => {
+      // eslint-disable-next-line
+      content = _.replace(content, new RegExp(`(\\s*?)${directive}\\s*`, 'gmi'), (match) => {
+        return `\n\n${match.trim()}\n`;
+      });
+    });
+
+    // add line break around balanced directives
     const directives = _.chain(indentStartTokens)
       .map((x: any) => _.replace(x, /@/, ''))
       .value();
@@ -1036,8 +1072,11 @@ export default class Formatter {
   processKeyword(token: any) {
     if (_.includes(phpKeywordStartTokens, token)) {
       if (_.last(this.stack) === '@case' && token === '@case') {
-        this.currentIndentLevel -= 1;
-        return;
+        this.decrementIndentLevel();
+      }
+
+      if (token === '@case') {
+        this.shouldBeIndent = true;
       }
 
       this.stack.push(token);
@@ -1045,6 +1084,12 @@ export default class Formatter {
     }
 
     if (_.includes(phpKeywordEndTokens, token)) {
+      if (token === '@break') {
+        this.decrementIndentLevel();
+        this.stack.pop();
+        return;
+      }
+
       if (_.last(this.stack) !== '@hassection') {
         this.stack.pop();
         return;
@@ -1058,15 +1103,16 @@ export default class Formatter {
 
     if (_.includes(indentStartOrElseTokens, token)) {
       if (_.includes(tokenForIndentStartOrElseTokens, _.last(this.stack))) {
-        this.currentIndentLevel -= 1;
+        this.decrementIndentLevel();
         this.shouldBeIndent = true;
       }
     }
 
     if (_.includes(indentStartTokens, token)) {
       if (_.last(this.stack) === '@section' && token === '@section') {
-        if (this.currentIndentLevel > 0) this.currentIndentLevel -= 1;
+        if (this.currentIndentLevel > 0) this.decrementIndentLevel();
         this.shouldBeIndent = true;
+        this.stack.push(token);
       } else {
         this.shouldBeIndent = true;
         this.stack.push(token);
@@ -1074,17 +1120,19 @@ export default class Formatter {
     }
 
     if (_.includes(indentEndTokens, token)) {
-      if (_.last(this.stack) === '@default') {
-        this.currentIndentLevel -= 1;
+      if (token === '@endswitch' && _.last(this.stack) === '@default') {
+        this.decrementIndentLevel(2);
+        this.shouldBeIndent = false;
+        return;
       }
 
-      this.currentIndentLevel -= 1;
+      this.decrementIndentLevel();
       this.shouldBeIndent = false;
       this.stack.pop();
     }
 
     if (_.includes(indentElseTokens, token)) {
-      this.currentIndentLevel -= 1;
+      this.decrementIndentLevel();
       this.shouldBeIndent = true;
     }
   }
@@ -1147,7 +1195,7 @@ export default class Formatter {
 
   processTokenizeResult(tokenizeLineResult: any, originalLine: any) {
     if (this.shouldBeIndent) {
-      this.currentIndentLevel += 1;
+      this.incrementIndentLevel();
       this.shouldBeIndent = false;
     }
 
@@ -1170,8 +1218,7 @@ export default class Formatter {
   insertFormattedLineToResult(originalLine: any) {
     const originalLineWhitespaces = detectIndent(originalLine).amount;
     const whitespaces = originalLineWhitespaces + this.indentSize * this.currentIndentLevel;
-
-    const formattedLine = this.indentCharacter.repeat(whitespaces < 0 ? 0 : whitespaces) + originalLine.trimLeft();
+    const formattedLine = this.indentCharacter.repeat(whitespaces < 0 ? 0 : whitespaces) + originalLine.trim();
 
     // blankline
     if (originalLine.length === 0) {
@@ -1189,5 +1236,13 @@ export default class Formatter {
         formatted: formattedLine,
       });
     }
+  }
+
+  incrementIndentLevel(level = 1) {
+    this.currentIndentLevel += level;
+  }
+
+  decrementIndentLevel(level = 1) {
+    this.currentIndentLevel -= level;
   }
 }
