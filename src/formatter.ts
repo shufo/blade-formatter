@@ -36,7 +36,7 @@ export default class Formatter {
 
   classes: any;
 
-  currentIndentLevel: any;
+  currentIndentLevel: number;
 
   diffs: any;
 
