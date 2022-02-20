@@ -316,9 +316,14 @@ export default class Formatter {
         content,
         new RegExp(`(\\s*?)(${directive})(\\s*?)${nestedParenthesisRegex}(\\s*)`, 'gmi'),
         (match) => {
-          return `${match.trim()}\n`;
+          return `\n${match.trim()}\n`;
         },
       );
+    });
+
+    // eslint-disable-next-line
+    content = _.replace(content, /@case\S*?\s*?@case/gim, (match) => {
+      return `${match.replace('\n', '')}`;
     });
 
     const unbalancedEchos = ['@break'];
@@ -1118,7 +1123,6 @@ export default class Formatter {
       if (token === '@endswitch' && _.last(this.stack) === '@default') {
         this.decrementIndentLevel(2);
         this.shouldBeIndent = false;
-        this.stack.pop();
         return;
       }
 
