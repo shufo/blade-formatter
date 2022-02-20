@@ -1214,8 +1214,7 @@ export default class Formatter {
   insertFormattedLineToResult(originalLine: any) {
     const originalLineWhitespaces = detectIndent(originalLine).amount;
     const whitespaces = originalLineWhitespaces + this.indentSize * this.currentIndentLevel;
-
-    const formattedLine = this.indentCharacter.repeat(whitespaces < 0 ? 0 : whitespaces) + originalLine.trimLeft();
+    const formattedLine = this.indentCharacter.repeat(whitespaces < 0 ? 0 : whitespaces) + originalLine.trim();
 
     // blankline
     if (originalLine.length === 0) {
