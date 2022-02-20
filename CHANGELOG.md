@@ -1,5 +1,19 @@
 # Changelog
 
+### [1.18.5](https://www.github.com/shufo/blade-formatter/compare/v1.18.4...v1.18.5) (2022-02-20)
+
+
+### Miscellaneous
+
+* **deps:** bump @prettier/plugin-php from 0.18.0 to 0.18.1 ([551a86b](https://www.github.com/shufo/blade-formatter/commit/551a86b9f578d456113b35602d8c89aa5d622590))
+
+
+### Fixes
+
+* 🐛 line break around case directives ([634ed31](https://www.github.com/shufo/blade-formatter/commit/634ed31d015051b100cfedf8ff8c7d719a2e6eb6))
+* 🐛 nested switch directive gets unexpected format ([865cadf](https://www.github.com/shufo/blade-formatter/commit/865cadfd6792a0f1998d680b46cb2cd9629bf6a3))
+* 🐛 unexpected indentation around case-break directive ([5be21c8](https://www.github.com/shufo/blade-formatter/commit/5be21c8bb3e78064559b737bf6c0414a32f2cbaf))
+
 ### [1.18.4](https://www.github.com/shufo/blade-formatter/compare/v1.18.3...v1.18.4) (2022-02-13)
 
 
