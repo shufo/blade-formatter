@@ -308,6 +308,37 @@ export default class Formatter {
    * @returns
    */
   breakLineBeforeAndAfterDirective(content: string): string {
+    const unbalancedConditions = ['@case'];
+
+    _.forEach(unbalancedConditions, (directive) => {
+      // eslint-disable-next-line
+      content = _.replace(
+        content,
+        new RegExp(`(\\s*?)(${directive})(\\s*?)${nestedParenthesisRegex}(\\s*)`, 'gmi'),
+        (match) => {
+          return `${match.trim()}\n`;
+        },
+      );
+    });
+
+    const unbalancedEchos = ['@break'];
+
+    _.forEach(unbalancedEchos, (directive) => {
+      // eslint-disable-next-line
+      content = _.replace(content, new RegExp(`(\\s*?)${directive}\\s*`, 'gmi'), (match) => {
+        return `\n${match.trim()}\n\n`;
+      });
+    });
+
+    // other directives
+    _.forEach(['@default'], (directive) => {
+      // eslint-disable-next-line
+      content = _.replace(content, new RegExp(`(\\s*?)${directive}\\s*`, 'gmi'), (match) => {
+        return `\n\n${match.trim()}\n`;
+      });
+    });
+
+    // add line break around balanced directives
     const directives = _.chain(indentStartTokens)
       .map((x: any) => _.replace(x, /@/, ''))
       .value();
