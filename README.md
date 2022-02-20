@@ -187,7 +187,7 @@ e.g.
 ```json
 {
   "indentSize": 4,
-  "wrapAttributues": "auto",
+  "wrapAttributes": "auto",
   "wrapLineLength": 120,
   "endWithNewLine": true,
   "useTabs": false
