@@ -224,9 +224,12 @@ export function unindent(directive: any, content: any, level: any, options: any)
 }
 
 export function preserveDirectives(content: any) {
+  const startTokens = _.without(phpKeywordStartTokens, '@case');
+  const endTokens = _.without(phpKeywordEndTokens, '@break');
+
   return new Promise((resolve) => resolve(content))
     .then((res: any) => {
-      const regex = new RegExp(`(${phpKeywordStartTokens.join('|')})([\\s]*?)${nestedParenthesisRegex}`, 'gis');
+      const regex = new RegExp(`(${startTokens.join('|')})([\\s]*?)${nestedParenthesisRegex}`, 'gis');
       return _.replace(
         res,
         regex,
@@ -234,7 +237,7 @@ export function preserveDirectives(content: any) {
       );
     })
     .then((res: any) => {
-      const regex = new RegExp(`(?!end=".*)(${phpKeywordEndTokens.join('|')})(?!.*")`, 'gi');
+      const regex = new RegExp(`(?!end=".*)(${endTokens.join('|')})(?!.*")`, 'gi');
       return _.replace(res, regex, (match: any, p1: any) => `</beautifyTag end="${p1}">`);
     });
 }

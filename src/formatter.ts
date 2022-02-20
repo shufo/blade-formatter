@@ -1067,8 +1067,11 @@ export default class Formatter {
   processKeyword(token: any) {
     if (_.includes(phpKeywordStartTokens, token)) {
       if (_.last(this.stack) === '@case' && token === '@case') {
-        this.currentIndentLevel -= 1;
-        return;
+        this.decrementIndentLevel();
+      }
+
+      if (token === '@case') {
+        this.shouldBeIndent = true;
       }
 
       this.stack.push(token);
@@ -1076,6 +1079,12 @@ export default class Formatter {
     }
 
     if (_.includes(phpKeywordEndTokens, token)) {
+      if (token === '@break') {
+        this.decrementIndentLevel();
+        this.stack.pop();
+        return;
+      }
+
       if (_.last(this.stack) !== '@hassection') {
         this.stack.pop();
         return;
@@ -1098,6 +1107,7 @@ export default class Formatter {
       if (_.last(this.stack) === '@section' && token === '@section') {
         if (this.currentIndentLevel > 0) this.decrementIndentLevel();
         this.shouldBeIndent = true;
+        this.stack.push(token);
       } else {
         this.shouldBeIndent = true;
         this.stack.push(token);
@@ -1105,8 +1115,11 @@ export default class Formatter {
     }
 
     if (_.includes(indentEndTokens, token)) {
-      if (_.last(this.stack) === '@default') {
-        this.currentIndentLevel -= 1;
+      if (token === '@endswitch' && _.last(this.stack) === '@default') {
+        this.decrementIndentLevel(2);
+        this.shouldBeIndent = false;
+        this.stack.pop();
+        return;
       }
 
       this.decrementIndentLevel();
