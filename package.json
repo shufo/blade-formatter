@@ -8,7 +8,7 @@
     "formatter",
     "laravel"
   ],
-  "version": "1.18.4",
+  "version": "1.18.5",
   "description": "An opinionated blade template formatter for Laravel",
   "main": "./dist/bundle.js",
   "types": "./dist/types/main.d.ts",
