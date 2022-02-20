@@ -1089,14 +1089,14 @@ export default class Formatter {
 
     if (_.includes(indentStartOrElseTokens, token)) {
       if (_.includes(tokenForIndentStartOrElseTokens, _.last(this.stack))) {
-        this.currentIndentLevel -= 1;
+        this.decrementIndentLevel();
         this.shouldBeIndent = true;
       }
     }
 
     if (_.includes(indentStartTokens, token)) {
       if (_.last(this.stack) === '@section' && token === '@section') {
-        if (this.currentIndentLevel > 0) this.currentIndentLevel -= 1;
+        if (this.currentIndentLevel > 0) this.decrementIndentLevel();
         this.shouldBeIndent = true;
       } else {
         this.shouldBeIndent = true;
@@ -1109,13 +1109,13 @@ export default class Formatter {
         this.currentIndentLevel -= 1;
       }
 
-      this.currentIndentLevel -= 1;
+      this.decrementIndentLevel();
       this.shouldBeIndent = false;
       this.stack.pop();
     }
 
     if (_.includes(indentElseTokens, token)) {
-      this.currentIndentLevel -= 1;
+      this.decrementIndentLevel();
       this.shouldBeIndent = true;
     }
   }
@@ -1178,7 +1178,7 @@ export default class Formatter {
 
   processTokenizeResult(tokenizeLineResult: any, originalLine: any) {
     if (this.shouldBeIndent) {
-      this.currentIndentLevel += 1;
+      this.incrementIndentLevel();
       this.shouldBeIndent = false;
     }
 
@@ -1220,5 +1220,13 @@ export default class Formatter {
         formatted: formattedLine,
       });
     }
+  }
+
+  incrementIndentLevel(level = 1) {
+    this.currentIndentLevel += level;
+  }
+
+  decrementIndentLevel(level = 1) {
+    this.currentIndentLevel -= level;
   }
 }
