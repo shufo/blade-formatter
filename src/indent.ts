@@ -72,8 +72,8 @@ export const indentEndTokens = [
   '@endwhile',
   '@endauth',
   '@endforelse',
-  '@endfor',
   '@endforeach',
+  '@endfor',
   '@endphp',
   '@endcomponent',
   '@endsection',
@@ -97,7 +97,7 @@ export const indentStartAndEndTokens = ['@default'];
 
 export const phpKeywordStartTokens = ['@forelse', '@if', '@for', '@foreach', '@while', '@sectionmissing', '@case'];
 
-export const phpKeywordEndTokens = ['@endforelse', '@endif', '@endfor', '@endforeach', '@endwhile', '@break'];
+export const phpKeywordEndTokens = ['@endforelse', '@endif', '@endforeach', '@endfor', '@endwhile', '@break'];
 
 export const inlineFunctionTokens = ['@json'];
 
