@@ -331,17 +331,17 @@ $ npm -g config set user root
         </a>
     </td>
     <td align="center">
-        <a href="https://github.com/schelmo">
-            <img src="https://avatars.githubusercontent.com/u/47602?v=4" width="100;" alt="schelmo"/>
-            <br />
-            <sub><b>Schelmo</b></sub>
-        </a>
-    </td>
-    <td align="center">
         <a href="https://github.com/yaegassy">
             <img src="https://avatars.githubusercontent.com/u/188642?v=4" width="100;" alt="yaegassy"/>
             <br />
             <sub><b>Yaegassy</b></sub>
+        </a>
+    </td>
+    <td align="center">
+        <a href="https://github.com/schelmo">
+            <img src="https://avatars.githubusercontent.com/u/47602?v=4" width="100;" alt="schelmo"/>
+            <br />
+            <sub><b>Schelmo</b></sub>
         </a>
     </td>
     <td align="center">
