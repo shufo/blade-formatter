@@ -1,5 +1,13 @@
 # Changelog
 
+### [1.18.6](https://www.github.com/shufo/blade-formatter/compare/v1.18.5...v1.18.6) (2022-02-21)
+
+
+### Fixes
+
+* 🐛 switch-case directive formatting error ([d719528](https://www.github.com/shufo/blade-formatter/commit/d719528f0525f93ff391431d81c785942c60b230))
+* endforelse causing formatting error ([#486](https://www.github.com/shufo/blade-formatter/issues/486)) ([9ff3753](https://www.github.com/shufo/blade-formatter/commit/9ff3753eec2cf9f280e69b8caa5fc642b0037ec7))
+
 ### [1.18.5](https://www.github.com/shufo/blade-formatter/compare/v1.18.4...v1.18.5) (2022-02-20)
 
 
