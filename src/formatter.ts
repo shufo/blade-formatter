@@ -1087,6 +1087,7 @@ export default class Formatter {
       if (token === '@break') {
         this.decrementIndentLevel();
         this.stack.pop();
+        this.stack.push(token);
         return;
       }
 
