@@ -308,6 +308,28 @@ export default class Formatter {
    * @returns
    */
   breakLineBeforeAndAfterDirective(content: string): string {
+    // handle directive around html tags
+    // eslint-disable-next-line
+    content = _.replace(
+      content,
+      new RegExp(
+        `(?<=<.*?>)(${_.without(indentStartTokens, '@php').join('|')})(\\s*)${nestedParenthesisRegex}.*?(?=<.*?>)`,
+        'gmis',
+      ),
+      (match) => {
+        return `\n${match.trim()}\n`;
+      },
+    );
+
+    // eslint-disable-next-line
+    content = _.replace(
+      content,
+      new RegExp(`(?<=<.*?>).*?(${_.without(indentEndTokens, '@endphp').join('|')})(?=<.*?>)`, 'gmis'),
+      (match) => {
+        return `\n${match.trim()}\n`;
+      },
+    );
+
     const unbalancedConditions = ['@case', ...indentElseTokens];
 
     // eslint-disable-next-line
