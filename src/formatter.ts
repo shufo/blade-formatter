@@ -308,18 +308,25 @@ export default class Formatter {
    * @returns
    */
   breakLineBeforeAndAfterDirective(content: string): string {
-    const unbalancedConditions = ['@case'];
+    const unbalancedConditions = ['@case', ...indentElseTokens];
 
-    _.forEach(unbalancedConditions, (directive) => {
-      // eslint-disable-next-line
-      content = _.replace(
-        content,
-        new RegExp(`(\\s*?)(${directive})(\\s*?)${nestedParenthesisRegex}(\\s*)`, 'gmi'),
-        (match) => {
-          return `\n${match.trim()}\n`;
-        },
-      );
-    });
+    // eslint-disable-next-line
+    content = _.replace(
+      content,
+      new RegExp(`(\\s*?)(${unbalancedConditions.join('|')})(\\s*?)${nestedParenthesisRegex}(\\s*)`, 'gmi'),
+      (match) => {
+        return `\n${match.trim()}\n`;
+      },
+    );
+
+    // eslint-disable-next-line
+    content = _.replace(
+      content,
+      new RegExp(`\\s*?(?!(${_.without(indentElseTokens, '@else').join('|')}))@else\\s+`, 'gim'),
+      (match) => {
+        return `\n${match.trim()}\n`;
+      },
+    );
 
     // eslint-disable-next-line
     content = _.replace(content, /@case\S*?\s*?@case/gim, (match) => {

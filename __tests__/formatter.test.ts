@@ -2327,4 +2327,35 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
+
+  test('else token auto line breaking', async () => {
+    const content = [
+      `@if (count($users) === 1)`,
+      `    Foo`,
+      `@elseif (count($users) > 1)Bar`,
+      `@elseif (count($users) > 2)Bar2`,
+      `@else Baz@endif`,
+      `@can('update') foo @elsecan('read') bar @endcan`,
+    ].join('\n');
+
+    const expected = [
+      `@if (count($users) === 1)`,
+      `    Foo`,
+      `@elseif (count($users) > 1)`,
+      `    Bar`,
+      `@elseif (count($users) > 2)`,
+      `    Bar2`,
+      `@else`,
+      `    Baz`,
+      `@endif`,
+      `@can('update')`,
+      `    foo`,
+      `@elsecan('read')`,
+      `    bar`,
+      `@endcan`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
 });
