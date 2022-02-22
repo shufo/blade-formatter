@@ -2327,4 +2327,27 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
+
+  test('else token auto line breaking', async () => {
+    const content = [
+      `@if (count($users) === 1)`,
+      `    Foo`,
+      `@elseif (count($users) > 1)Bar`,
+      `@else`,
+      `    Baz@endif`,
+    ].join('\n');
+
+    const expected = [
+      `@if (count($users) === 1)`,
+      `    Foo`,
+      `@elseif (count($users) > 1)`,
+      `    Bar`,
+      `@else`,
+      `    Baz`,
+      `@endif`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
 });
