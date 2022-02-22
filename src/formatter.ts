@@ -338,6 +338,7 @@ export default class Formatter {
       new RegExp(`(\\s*?)(${unbalancedConditions.join('|')})(\\s*?)${nestedParenthesisRegex}(\\s*)`, 'gmi'),
       (match) => {
         return `\n${match.trim()}\n`;
+        // handle else directive
       },
     );
 
@@ -347,11 +348,13 @@ export default class Formatter {
       new RegExp(`\\s*?(?!(${_.without(indentElseTokens, '@else').join('|')}))@else\\s+`, 'gim'),
       (match) => {
         return `\n${match.trim()}\n`;
+        // handle case directive
       },
     );
 
     // eslint-disable-next-line
     content = _.replace(content, /@case\S*?\s*?@case/gim, (match) => {
+      // handle unbalanced echos
       return `${match.replace('\n', '')}`;
     });
 
