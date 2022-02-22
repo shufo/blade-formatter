@@ -320,6 +320,15 @@ export default class Formatter {
     );
 
     // eslint-disable-next-line
+    content = _.replace(
+      content,
+      new RegExp(`\\s*?(?!(${_.without(indentElseTokens, '@else').join('|')}))@else\\s+`, 'gim'),
+      (match) => {
+        return `\n${match.trim()}\n`;
+      },
+    );
+
+    // eslint-disable-next-line
     content = _.replace(content, /@case\S*?\s*?@case/gim, (match) => {
       return `${match.replace('\n', '')}`;
     });

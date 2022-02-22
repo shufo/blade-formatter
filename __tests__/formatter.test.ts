@@ -2333,8 +2333,8 @@ describe('formatter', () => {
       `@if (count($users) === 1)`,
       `    Foo`,
       `@elseif (count($users) > 1)Bar`,
-      `@else`,
-      `    Baz@endif`,
+      `@elseif (count($users) > 2)Bar2`,
+      `@else Baz@endif`,
     ].join('\n');
 
     const expected = [
@@ -2342,6 +2342,8 @@ describe('formatter', () => {
       `    Foo`,
       `@elseif (count($users) > 1)`,
       `    Bar`,
+      `@elseif (count($users) > 2)`,
+      `    Bar2`,
       `@else`,
       `    Baz`,
       `@endif`,
