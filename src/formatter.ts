@@ -308,6 +308,28 @@ export default class Formatter {
    * @returns
    */
   breakLineBeforeAndAfterDirective(content: string): string {
+    // handle directive around html tags
+    // eslint-disable-next-line
+    content = _.replace(
+      content,
+      new RegExp(
+        `(?<=<.*?>)(${_.without(indentStartTokens, '@php').join('|')})(\\s*)${nestedParenthesisRegex}.*?(?=<.*?>)`,
+        'gmis',
+      ),
+      (match) => {
+        return `\n${match.trim()}\n`;
+      },
+    );
+
+    // eslint-disable-next-line
+    content = _.replace(
+      content,
+      new RegExp(`(?<=<.*?>).*?(${_.without(indentEndTokens, '@endphp').join('|')})(?=<.*?>)`, 'gmis'),
+      (match) => {
+        return `\n${match.trim()}\n`;
+      },
+    );
+
     const unbalancedConditions = ['@case', ...indentElseTokens];
 
     // eslint-disable-next-line
@@ -316,6 +338,7 @@ export default class Formatter {
       new RegExp(`(\\s*?)(${unbalancedConditions.join('|')})(\\s*?)${nestedParenthesisRegex}(\\s*)`, 'gmi'),
       (match) => {
         return `\n${match.trim()}\n`;
+        // handle else directive
       },
     );
 
@@ -325,11 +348,13 @@ export default class Formatter {
       new RegExp(`\\s*?(?!(${_.without(indentElseTokens, '@else').join('|')}))@else\\s+`, 'gim'),
       (match) => {
         return `\n${match.trim()}\n`;
+        // handle case directive
       },
     );
 
     // eslint-disable-next-line
     content = _.replace(content, /@case\S*?\s*?@case/gim, (match) => {
+      // handle unbalanced echos
       return `${match.replace('\n', '')}`;
     });
 

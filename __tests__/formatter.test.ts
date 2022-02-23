@@ -2358,4 +2358,68 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
+
+  test('line breaking with html tag', async () => {
+    const content = [
+      `<div>`,
+      `<div>@can('auth')`,
+      `foo @elsecan('aaa') bar @endcan</div>`,
+      `<div>@foreach($users as $user)`,
+      `{{$user}} bar @endforeach</div></div>`,
+      `<p class="@if($verified) mb-6 @endif">@if($user)`,
+      `{!!$user!!} @elseif ($authorized) foo @else bar @endif</p>`,
+      `<input type="text" />`,
+      `<p>@for ($i = 0; $i < 5; $i++)`,
+      `aaa`,
+      `@endfor</p>`,
+      `<p>@if($user)`,
+      `{!!$user!!} @elseif ($authorized) foo @else bar @endif`,
+      ``,
+      `</p>`,
+    ].join('\n');
+
+    const expected = [
+      `<div>`,
+      `    <div>`,
+      `        @can('auth')`,
+      `            foo`,
+      `        @elsecan('aaa')`,
+      `            bar`,
+      `        @endcan`,
+      `    </div>`,
+      `    <div>`,
+      `        @foreach ($users as $user)`,
+      `            {{ $user }} bar`,
+      `        @endforeach`,
+      `    </div>`,
+      `</div>`,
+      `<p class="@if ($verified) mb-6 @endif">`,
+      `    @if ($user)`,
+      `        {!! $user !!}`,
+      `    @elseif ($authorized)`,
+      `        foo`,
+      `    @else`,
+      `        bar`,
+      `    @endif`,
+      `</p>`,
+      `<input type="text" />`,
+      `<p>`,
+      `    @for ($i = 0; $i < 5; $i++)`,
+      `        aaa`,
+      `    @endfor`,
+      `</p>`,
+      `<p>`,
+      `    @if ($user)`,
+      `        {!! $user !!}`,
+      `    @elseif ($authorized)`,
+      `        foo`,
+      `    @else`,
+      `        bar`,
+      `    @endif`,
+      `</p>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
 });
