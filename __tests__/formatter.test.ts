@@ -2422,4 +2422,25 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
+
+  test('raw php inlined comment #493', async () => {
+    const content = [
+      `<?php /** foo */ echo 1; ?>`,
+      `<?php /** @var \App\Models\Game $game */ ?>`,
+      `@foreach ($preview['new'] as $game)`,
+      `    <x-game.preview.new :game="$game" />`,
+      `@endforeach`,
+    ].join('\n');
+
+    const expected = [
+      `<?php /** foo */ echo 1; ?>`,
+      `<?php /** @var \App\Models\Game $game */ ?>`,
+      `@foreach ($preview['new'] as $game)`,
+      `    <x-game.preview.new :game="$game" />`,
+      `@endforeach`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
 });
