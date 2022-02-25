@@ -369,6 +369,13 @@ $ npm -g config set user root
 4.  Push to the branch (`git push origin my-new-feature`)
 5.  Create new Pull Request
 
+## Testing
+
+```bash
+$ yarn install
+$ yarn run test
+```
+
 ## LICENSE
 
 MIT
