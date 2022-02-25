@@ -1003,6 +1003,14 @@ export default class Formatter {
         (_match: any, p1: any) => {
           // const result= this.rawPhpTags[p1];
           try {
+            const matched = this.rawPhpTags[p1];
+            const commentBlockExists = /(?<=<\?php\s*?)\/\*.*?\*\/(?=\s*?\?>)/gim.test(matched);
+            const inlinedComment = commentBlockExists && this.isInline(matched);
+
+            if (inlinedComment) {
+              return matched;
+            }
+
             const result = util
               .formatStringAsPhp(this.rawPhpTags[p1])
               .trim()

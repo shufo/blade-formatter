@@ -1,5 +1,24 @@
 # Changelog
 
+## [1.19.0](https://www.github.com/shufo/blade-formatter/compare/v1.18.6...v1.19.0) (2022-02-23)
+
+
+### Features
+
+* 🎸 auto line breaking around else if directives ([81a2cd4](https://www.github.com/shufo/blade-formatter/commit/81a2cd4503cde0858729ebb288e9bc2d05e48a66))
+
+
+### Miscellaneous
+
+* **deps:** bump @prettier/plugin-php from 0.18.1 to 0.18.2 ([08bdd2c](https://www.github.com/shufo/blade-formatter/commit/08bdd2c100561aa4a2fb552424608c3b099038cf))
+
+
+### Fixes
+
+* 🐛 auto line break around else directive ([62f08a1](https://www.github.com/shufo/blade-formatter/commit/62f08a175310fc4d112f32824a86b21b111af7df))
+* 🐛 inlined php doc gets unexpected line break ([1f4aa43](https://www.github.com/shufo/blade-formatter/commit/1f4aa432209912b9be46a329b47cfcf389c40db9))
+* 🐛 line break does not occur around html tag ([1e23dab](https://www.github.com/shufo/blade-formatter/commit/1e23dabcba36a0f60fe842dfedabb4446399f4b5))
+
 ### [1.18.6](https://www.github.com/shufo/blade-formatter/compare/v1.18.5...v1.18.6) (2022-02-21)
 
 
