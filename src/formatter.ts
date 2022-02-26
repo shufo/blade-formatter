@@ -119,6 +119,7 @@ export default class Formatter {
 
   formatContent(content: any) {
     return new Promise((resolve) => resolve(content))
+      .then((target) => this.sortTailwindcssClasses(target))
       .then((target) => this.preserveIgnoredLines(target))
       .then((target) => this.preserveCurlyBraceForJS(target))
       .then((target) => this.preserveRawPhpTags(target))
@@ -151,7 +152,6 @@ export default class Formatter {
       .then((target) => this.restoreRawPhpTags(target))
       .then((target) => this.restoreCurlyBraceForJS(target))
       .then((target) => this.restoreIgnoredLines(target))
-      .then((target) => this.sortTailwindcssClasses(target))
       .then((formattedResult) => util.checkResult(formattedResult));
   }
 
@@ -173,7 +173,7 @@ export default class Formatter {
     return Promise.resolve(promise);
   }
 
-  async sortTailwindcssClasses(content: string) {
+  async sortTailwindcssClasses(content: any) {
     if (!this.options.sortTailwindcssClasses) {
       return content;
     }
