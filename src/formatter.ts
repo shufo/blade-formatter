@@ -7,6 +7,7 @@ import * as vscodeTmModule from 'vscode-textmate';
 import detectIndent from 'detect-indent';
 import Aigle from 'aigle';
 import xregexp from 'xregexp';
+import { FormatterOption, CLIOption } from './main';
 import * as vsctm from './vsctm';
 import * as util from './util';
 import {
@@ -54,7 +55,7 @@ export default class Formatter {
 
   oniguruma: any;
 
-  options: any;
+  options: FormatterOption & CLIOption;
 
   rawBladeBraces: any;
 
