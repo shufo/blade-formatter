@@ -2459,4 +2459,41 @@ describe('formatter', () => {
       assert.equal(result, expected);
     });
   });
+
+  test('long tailwindcss classs', async () => {
+    const content = [
+      `<div class="container z-50                                                      z-10 z-20 justify-center text-left foo md:text-center">`,
+      `</div>`,
+    ].join('\n');
+
+    const expected = [
+      `<div class="foo container z-50 z-10 z-20 justify-center text-left md:text-center">`,
+      `</div>`,
+      ``,
+    ].join('\n');
+
+    const result = await new Formatter({ sortTailwindcssClasses: true }).formatContent(content);
+    assert.equal(result, expected);
+    const result2 = await new Formatter({ sortTailwindcssClasses: true }).formatContent(result);
+    assert.equal(result2, result);
+  });
+
+  test('tailwindcss classs with new line', async () => {
+    const content = [
+      `<div class="container z-50`,
+      `z-10 z-20 justify-center text-left foo md:text-center">`,
+      `</div>`,
+    ].join('\n');
+
+    const expected = [
+      `<div class="foo container z-50 z-10 z-20 justify-center text-left md:text-center">`,
+      `</div>`,
+      ``,
+    ].join('\n');
+
+    const result = await new Formatter({ sortTailwindcssClasses: true }).formatContent(content);
+    assert.equal(result, expected);
+    const result2 = await new Formatter({ sortTailwindcssClasses: true }).formatContent(result);
+    assert.equal(result2, result);
+  });
 });
