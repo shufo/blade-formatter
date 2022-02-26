@@ -318,6 +318,21 @@ $ npm -g config set user root
 - [x] ignore formatting in blade comment
 - [x] automatically add new line after directive
 
+## Testing
+
+```bash
+$ yarn install
+$ yarn run test
+```
+
+## Contributing
+
+1.  Fork it
+2.  Create your feature branch (`git checkout -b my-new-feature`)
+3.  Commit your changes (`git commit -am 'Add some feature'`)
+4.  Push to the branch (`git push origin my-new-feature`)
+5.  Create new Pull Request
+
 ## Contributors
 
 <!-- readme: collaborators,contributors -start -->
@@ -367,21 +382,6 @@ $ npm -g config set user root
     </td></tr>
 </table>
 <!-- readme: collaborators,contributors -end -->
-
-## Contributing
-
-1.  Fork it
-2.  Create your feature branch (`git checkout -b my-new-feature`)
-3.  Commit your changes (`git commit -am 'Add some feature'`)
-4.  Push to the branch (`git push origin my-new-feature`)
-5.  Create new Pull Request
-
-## Testing
-
-```bash
-$ yarn install
-$ yarn run test
-```
 
 ## LICENSE
 
