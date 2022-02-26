@@ -2443,4 +2443,20 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
+
+  test('sort tailwindcss classs option can work', function () {
+    const content = [
+      `<div class="justify-center z-50 z-10 z-20 container text-left foo md:text-center">`,
+      `</div>`,
+    ].join('\n');
+    const expected = [
+      `<div class="foo container z-50 z-10 z-20 justify-center text-left md:text-center">`,
+      `</div>`,
+      ``,
+    ].join('\n');
+
+    return new Formatter({ sortTailwindcssClasses: true }).formatContent(content).then((result: string) => {
+      assert.equal(result, expected);
+    });
+  });
 });
