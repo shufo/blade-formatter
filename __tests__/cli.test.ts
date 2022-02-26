@@ -432,6 +432,18 @@ describe('The blade formatter CLI', () => {
     expect(cmdResult).not.toContain('Error');
   });
 
+  test.concurrent('specify sort tailwindcss classes config by rc file', async () => {
+    const cmdResult = await cmd.execute(path.resolve('bin', 'blade-formatter'), [
+      '--config',
+      path.resolve('__tests__', 'fixtures', 'runtimeConfig', '.bladeformatterrc.sort-tailwind-classes'),
+      path.resolve('__tests__', 'fixtures', 'tailwindcss.blade.php'),
+    ]);
+
+    const formatted = fs.readFileSync(path.resolve('__tests__', 'fixtures', 'formatted.tailwindcss.blade.php'));
+
+    expect(cmdResult).toEqual(formatted.toString('utf-8'));
+  });
+
   test.concurrent('runtime config syntax error', async () => {
     const cmdResult = await cmd.execute(path.resolve('bin', 'blade-formatter'), [
       '--config',
