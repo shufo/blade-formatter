@@ -252,7 +252,12 @@ const input = `
 `;
 
 const options = {
-  indentSize: 2,
+  indentSize: 4,
+  wrapAttributes: "auto",
+  wrapLineLength: 120,
+  endWithNewLine: true,
+  useTabs: false,
+  sortTailwindcssClasses: true,
 };
 
 new BladeFormatter(options).format(input).then((formatted) => {
