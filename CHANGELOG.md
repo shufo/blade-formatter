@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.20.1](https://www.github.com/shufo/blade-formatter/compare/v1.20.0...v1.20.1) (2022-02-26)
+
+
+### Fixes
+
+* 🐛 unnecessary line break inserted after classes sorted ([7e4b695](https://www.github.com/shufo/blade-formatter/commit/7e4b695b44d6f8a36894ea10092ef82d19933862))
+
 ## [1.20.0](https://www.github.com/shufo/blade-formatter/compare/v1.19.0...v1.20.0) (2022-02-26)
 
 
