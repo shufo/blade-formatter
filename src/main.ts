@@ -28,6 +28,7 @@ export interface FormatterOption {
   wrapAttributes?: WrapAttributes;
   endWithNewline?: boolean;
   useTabs?: boolean;
+  sortTailwindcssClasses?: true;
 }
 
 class BladeFormatter {

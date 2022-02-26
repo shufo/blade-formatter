@@ -7,6 +7,7 @@ import * as vscodeTmModule from 'vscode-textmate';
 import detectIndent from 'detect-indent';
 import Aigle from 'aigle';
 import xregexp from 'xregexp';
+import { sortClasses } from '@shufo/tailwindcss-class-sorter';
 import { FormatterOption, CLIOption } from './main';
 import * as vsctm from './vsctm';
 import * as util from './util';
@@ -150,6 +151,7 @@ export default class Formatter {
       .then((target) => this.restoreRawPhpTags(target))
       .then((target) => this.restoreCurlyBraceForJS(target))
       .then((target) => this.restoreIgnoredLines(target))
+      .then((target) => this.sortTailwindcssClasses(target))
       .then((formattedResult) => util.checkResult(formattedResult));
   }
 
@@ -169,6 +171,16 @@ export default class Formatter {
       .then((content) => this.restorePhpBlock(content));
 
     return Promise.resolve(promise);
+  }
+
+  async sortTailwindcssClasses(content: string) {
+    if (!this.options.sortTailwindcssClasses) {
+      return content;
+    }
+
+    return _.replace(content, /\bclass\s*=\s*([\"\'])([_a-zA-Z0-9\s\-\:\/]+)([\"\'])/gi, (_match, p1, p2, p3) => {
+      return `class=${p1}${sortClasses(p2)}${p3}`;
+    });
   }
 
   async preserveIgnoredLines(content: any) {

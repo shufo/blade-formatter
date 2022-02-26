@@ -54,6 +54,12 @@ export default async function cli() {
       description: 'The way to wrap attributes',
       default: 'auto',
     })
+    .option('sort-tailwindcss-classes', {
+      alias: 'sort-classes',
+      type: 'boolean',
+      description: 'Sort tailwindcss classes',
+      default: false,
+    })
     .option('progress', {
       alias: 'p',
       type: 'boolean',
