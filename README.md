@@ -31,6 +31,8 @@ This project aims to provide formatter for blade template because there is no of
 
   ![blade-formatter-format-in-directive](https://user-images.githubusercontent.com/1641039/125206630-31fb8780-e2c3-11eb-9618-a7092316a203.gif)
 
+- Automatic [Tailwind CSS](https://tailwindcss.com/) Class Sorting. see [Options](#Options)
+
 ## Example
 
 ### Input
@@ -173,7 +175,7 @@ $ blade-formatter -c -d resources/**/*.blade.php
 |              `--indent-size`, `-i` |                                                                                                                 Indentation size |       4 |
 |     `--wrap-line-length`, `--wrap` |                                                                                                     The length of line wrap size |     120 |
 | `--wrap-attributes`, `--wrap-atts` | The way to wrap attributes. `[auto\|force\|force-aligned\|force-expand-multiline\|aligned-multiple\|preserve\|preserve-aligned]` |  `auto` |
-| `--sort-tailwindcss-classes`, `--sort-classes` | Sort Tailwindcss classes automatically. |  false |
+| `--sort-tailwindcss-classes`, `--sort-classes` | Sort Tailwindcss classes automatically. This option respects `tailwind.config.js` and sort classes according to settings. |  false |
 |         `--end-with-newline`, `-e` |                                                                                                          End output with newline |    true |
 |                          `--stdin` |                                                                                                format code provided on `<STDIN>` |   false |
 |                     `--help`, `-h` |                                                                                                                        Show help |         |
