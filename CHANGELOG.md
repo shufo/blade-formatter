@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.20.2](https://www.github.com/shufo/blade-formatter/compare/v1.20.1...v1.20.2) (2022-03-02)
+
+
+### Fixes
+
+* 🐛 include directive does not indent parameters ([d0d1022](https://www.github.com/shufo/blade-formatter/commit/d0d1022389d597fb936ce021d161876296781365))
+
 ### [1.20.1](https://www.github.com/shufo/blade-formatter/compare/v1.20.0...v1.20.1) (2022-02-26)
 
 
