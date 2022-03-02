@@ -29,7 +29,9 @@
                 @if (0 < count($errors))
                     <div class="alert alert-danger" role="alert">error</div>
                 @endif
-                @include("users.{$directory}.create_and_edits_form", ['_botton_text' => $_botton_text])
+                @include("users.{$directory}.create_and_edits_form", [
+                    '_botton_text' => $_botton_text,
+                ])
             </div>
         </div>
     </div>
