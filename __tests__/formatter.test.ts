@@ -2496,4 +2496,63 @@ describe('formatter', () => {
     const result2 = await new Formatter({ sortTailwindcssClasses: true }).formatContent(result);
     assert.equal(result2, result);
   });
+
+  test('@include directive should format its parameter', async () => {
+    const content = [
+      `@include('parts.partials.buttons.btn-group', ["buttons" => [`,
+      `[`,
+      `"style" => "link",`,
+      `"link" => [`,
+      `"title" => "Call to Action",`,
+      `"url" => "#",`,
+      `"target" => "_self",`,
+      `],`,
+      `],`,
+      `]])`,
+      `<div>`,
+      `@include('parts.partials.buttons.btn-group', ["buttons" => [`,
+      `[`,
+      `"style" => "link",`,
+      `"link" => [`,
+      `"title" => "Call to Action",`,
+      `"url" => "#",`,
+      `"target" => "_self",`,
+      `],`,
+      `],`,
+      `]])`,
+      `</div>`,
+    ].join('\n');
+
+    const expected = [
+      `@include('parts.partials.buttons.btn-group', [`,
+      `    'buttons' => [`,
+      `        [`,
+      `            'style' => 'link',`,
+      `            'link' => [`,
+      `                'title' => 'Call to Action',`,
+      `                'url' => '#',`,
+      `                'target' => '_self',`,
+      `            ],`,
+      `        ],`,
+      `    ],`,
+      `])`,
+      `<div>`,
+      `    @include('parts.partials.buttons.btn-group', [`,
+      `        'buttons' => [`,
+      `            [`,
+      `                'style' => 'link',`,
+      `                'link' => [`,
+      `                    'title' => 'Call to Action',`,
+      `                    'url' => '#',`,
+      `                    'target' => '_self',`,
+      `                ],`,
+      `            ],`,
+      `        ],`,
+      `    ])`,
+      `</div>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
 });
