@@ -256,7 +256,7 @@ export default class Formatter {
     return _.replace(
       content,
       // eslint-disable-next-line max-len
-      new RegExp(`(?!\\/\\*.*?\\*\\/)(@php|@class|@button|@json)(\\s*?)${nestedParenthesisRegex}`, 'gms'),
+      new RegExp(`(?!\\/\\*.*?\\*\\/)(@php|@class|@button|@json|@include)(\\s*?)${nestedParenthesisRegex}`, 'gms'),
       (match: any) => this.storeInlinePhpDirective(match),
     );
   }
@@ -963,29 +963,10 @@ export default class Formatter {
               .trimRight('\n')}`;
           }
 
-          if (matched.includes('@button')) {
-            const formatted = _.replace(matched, /@(button)(.*)/gis, (match2: any, p3: any, p4: any) => {
+          if (/(@button|@class|@include)/gi.test(matched)) {
+            const formatted = _.replace(matched, /@(button|class|include)(.*)/gis, (match2: any, p3: any, p4: any) => {
               const inside = util
                 .formatRawStringAsPhp(`func_inline_for_${p3}${p4}`, 80, true)
-                .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
-                .trim()
-                // @ts-expect-error ts-migrate(2554) FIXME: Expected 0 arguments, but got 1.
-                .trimRight('\n');
-
-              if (this.isInline(inside)) {
-                return `${this.indentRawPhpBlock(p1, `@${inside}`.replace('func_inline_for_', ''))}`;
-              }
-
-              return `${p1}${this.indentRawPhpBlock(p1, `@${inside}`.replace('func_inline_for_', ''))}`;
-            });
-
-            return formatted;
-          }
-
-          if (matched.includes('@class')) {
-            const formatted = _.replace(matched, /@(class)(.*)/gis, (match2: any, p4: any, p5: any) => {
-              const inside = util
-                .formatRawStringAsPhp(`func_inline_for_${p4}${p5}`, 80, true)
                 .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
                 .trim()
                 // @ts-expect-error ts-migrate(2554) FIXME: Expected 0 arguments, but got 1.
