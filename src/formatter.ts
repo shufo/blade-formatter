@@ -968,6 +968,7 @@ export default class Formatter {
               const inside = util
                 .formatRawStringAsPhp(`func_inline_for_${p3}${p4}`, 80, true)
                 .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
+                .replace(/,(\s*?\))/gis, (_match5, p5) => p5)
                 .trim()
                 // @ts-expect-error ts-migrate(2554) FIXME: Expected 0 arguments, but got 1.
                 .trimRight('\n');
