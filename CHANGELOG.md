@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.20.4](https://www.github.com/shufo/blade-formatter/compare/v1.20.3...v1.20.4) (2022-03-03)
+
+
+### Fixes
+
+* 🐛 consider wrapLineLength in include directives ([4e4aa5f](https://www.github.com/shufo/blade-formatter/commit/4e4aa5faea229fc72a75d0b658701ae12be319aa))
+
 ### [1.20.3](https://www.github.com/shufo/blade-formatter/compare/v1.20.2...v1.20.3) (2022-03-03)
 
 
