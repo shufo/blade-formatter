@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.20.3](https://www.github.com/shufo/blade-formatter/compare/v1.20.2...v1.20.3) (2022-03-03)
+
+
+### Fixes
+
+* 🐛 formatted include directive adds unnecessary comma ([3533fee](https://www.github.com/shufo/blade-formatter/commit/3533fee96f771655f0eaddc8d7469a0ed64ad122))
+
 ### [1.20.2](https://www.github.com/shufo/blade-formatter/compare/v1.20.1...v1.20.2) (2022-03-02)
 
 
