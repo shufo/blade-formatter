@@ -965,8 +965,21 @@ export default class Formatter {
 
           if (/(@button|@class|@include)/gi.test(matched)) {
             const formatted = _.replace(matched, /@(button|class|include)(.*)/gis, (match2: any, p3: any, p4: any) => {
+              let wrapLength;
+
+              if (['button', 'class'].includes(p3)) {
+                wrapLength = 80;
+              }
+
+              if (p3 === 'include') {
+                const matchedViewName = matched.match(/@include\s*?\(\s*?['"](.*?)['"]\s*?/i);
+                const includeViewName: string = _.nth(matchedViewName, 1) ?? '';
+
+                wrapLength = this.wrapLineLength + `func_inline_for_${p3}`.length - p1.length - includeViewName.length;
+              }
+
               const inside = util
-                .formatRawStringAsPhp(`func_inline_for_${p3}${p4}`, 80, true)
+                .formatRawStringAsPhp(`func_inline_for_${p3}${p4}`, wrapLength, true)
                 .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
                 .replace(/,(\s*?\))/gis, (_match5, p5) => p5)
                 .trim()
