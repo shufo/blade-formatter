@@ -2555,4 +2555,18 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
+
+  test('@include directive should not add an extra comma on long view name #504', async () => {
+    const content = [`@include('livewire.cx.equipment-list-internal.account', ['account' => $account])`].join('\n');
+
+    const expected = [
+      `@include(`,
+      `    'livewire.cx.equipment-list-internal.account',`,
+      `    ['account' => $account]`,
+      `)`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
 });
