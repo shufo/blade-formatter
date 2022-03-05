@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.20.5](https://www.github.com/shufo/blade-formatter/compare/v1.20.4...v1.20.5) (2022-03-05)
+
+
+### Fixes
+
+* 🐛 inilne script tag removes previous DOM ([22f0029](https://www.github.com/shufo/blade-formatter/commit/22f0029633c94c76ec5e454b661ed41676a03721))
+
 ### [1.20.4](https://www.github.com/shufo/blade-formatter/compare/v1.20.3...v1.20.4) (2022-03-03)
 
 
