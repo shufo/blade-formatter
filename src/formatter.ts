@@ -613,7 +613,7 @@ export default class Formatter {
   }
 
   getScriptPlaceholder(replace: any) {
-    return _.replace('___scripts_#___', '#', replace);
+    return _.replace('<preservedScript ___scripts_#___ />', '#', replace);
   }
 
   getClassPlaceholder(replace: any, length: any) {
@@ -783,6 +783,10 @@ export default class Formatter {
 
     const indented = _.chain(lines)
       .map((line: any, index: any) => {
+        if (index === 0) {
+          return line;
+        }
+
         if (index === lines.length - 1) {
           return prefixForEnd + line;
         }
@@ -796,7 +800,7 @@ export default class Formatter {
       .value()
       .join('\n');
 
-    return this.restoreTemplatingString(indented);
+    return this.restoreTemplatingString(`${prefix}${indented}`);
   }
 
   indentRawPhpBlock(prefix: any, content: any) {
