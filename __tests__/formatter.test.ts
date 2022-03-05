@@ -2617,4 +2617,20 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
+
+  test('inline script tag should keep its element #508', async () => {
+    const content = [`<p>foo</p><p>bar</p><script>document.write("buz");</script><p>blah</p>`].join('\n');
+
+    const expected = [
+      `<p>foo</p>`,
+      `<p>bar</p>`,
+      `<script>`,
+      `    document.write("buz");`,
+      `</script>`,
+      `<p>blah</p>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
 });
