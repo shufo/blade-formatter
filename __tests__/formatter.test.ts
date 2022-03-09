@@ -2650,52 +2650,53 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
-});
-test('@checked directive', async () => {
-  const content = [
-    `<input type="checkbox"`,
-    `        name="active"`,
-    `        value="active"`,
-    `        @checked(old('active',$user->active)) />`,
-  ].join('\n');
 
-  const expected = [
-    `<input type="checkbox" name="active" value="active" @checked(old('active', $user->active)) />`,
-    ``,
-  ].join('\n');
+  test('@checked directive', async () => {
+    const content = [
+      `<input type="checkbox"`,
+      `        name="active"`,
+      `        value="active"`,
+      `        @checked(old('active',$user->active)) />`,
+    ].join('\n');
 
-  await util.doubleFormatCheck(content, expected);
-});
+    const expected = [
+      `<input type="checkbox" name="active" value="active" @checked(old('active', $user->active)) />`,
+      ``,
+    ].join('\n');
 
-test('@selected directive', async () => {
-  const content = [
-    `<select name="version">`,
-    `@foreach ($product->versions as $version)`,
-    `<option value="{{ $version }}" @selected(old('version')==$version)>`,
-    `{{ $version }}`,
-    `</option>`,
-    `@endforeach`,
-    `</select>`,
-  ].join('\n');
+    await util.doubleFormatCheck(content, expected);
+  });
 
-  const expected = [
-    `<select name="version">`,
-    `    @foreach ($product->versions as $version)`,
-    `        <option value="{{ $version }}" @selected(old('version') == $version)>`,
-    `            {{ $version }}`,
-    `        </option>`,
-    `    @endforeach`,
-    `</select>`,
-    ``,
-  ].join('\n');
+  test('@selected directive', async () => {
+    const content = [
+      `<select name="version">`,
+      `@foreach ($product->versions as $version)`,
+      `<option value="{{ $version }}" @selected(old('version')==$version)>`,
+      `{{ $version }}`,
+      `</option>`,
+      `@endforeach`,
+      `</select>`,
+    ].join('\n');
 
-  await util.doubleFormatCheck(content, expected);
-});
+    const expected = [
+      `<select name="version">`,
+      `    @foreach ($product->versions as $version)`,
+      `        <option value="{{ $version }}" @selected(old('version') == $version)>`,
+      `            {{ $version }}`,
+      `        </option>`,
+      `    @endforeach`,
+      `</select>`,
+      ``,
+    ].join('\n');
 
-test('@disabled directive', async () => {
-  const content = [`<button type="submit" @disabled($errors->isNotEmpty() )>Submit</button>`].join('\n');
+    await util.doubleFormatCheck(content, expected);
+  });
 
-  const expected = [`<button type="submit" @disabled($errors->isNotEmpty())>Submit</button>`, ``].join('\n');
+  test('@disabled directive', async () => {
+    const content = [`<button type="submit" @disabled($errors->isNotEmpty() )>Submit</button>`].join('\n');
 
-  await util.doubleFormatCheck(content, expected);
+    const expected = [`<button type="submit" @disabled($errors->isNotEmpty())>Submit</button>`, ``].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
 });
