@@ -2699,4 +2699,61 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
+
+  test('@includeIf, @includeWhen, @includeUnless and @includeFirst directive', async () => {
+    const content = [
+      `<div>`,
+      `@includeIf('livewire.cx.equipment-list-internal.account',['status'=>'complete',`,
+      `'foo'=>$user,'bar'=>$bbb,'baz'=>$myVariable])`,
+      `</div>`,
+      `<div>`,
+      `@includeWhen($boolean,'livewire.cx.equipment-list-internal.account',['status'=>'complete',`,
+      `'foo'=>$user,'bar'=>$bbb,'baz'=>$myVariable])`,
+      `</div>`,
+      `<div>`,
+      `@includeUnless($boolean,'livewire.cx.equipment-list-internal.account',['status'=>'complete',`,
+      `'foo'=>$user,'bar'=>$bbb,'baz'=>$myVariable])`,
+      `</div>`,
+      `<div>`,
+      `@includeFirst(['custom.admin','admin'],['status'=>'complete',`,
+      `'foo'=>$user,'bar'=>$bbb,'baz'=>$myVariable])`,
+      `</div>`,
+    ].join('\n');
+
+    const expected = [
+      `<div>`,
+      `    @includeIf('livewire.cx.equipment-list-internal.account', [`,
+      `        'status' => 'complete',`,
+      `        'foo' => $user,`,
+      `        'bar' => $bbb,`,
+      `        'baz' => $myVariable,`,
+      `    ])`,
+      `</div>`,
+      `<div>`,
+      `    @includeWhen($boolean, 'livewire.cx.equipment-list-internal.account', [`,
+      `        'status' => 'complete',`,
+      `        'foo' => $user,`,
+      `        'bar' => $bbb,`,
+      `        'baz' => $myVariable,`,
+      `    ])`,
+      `</div>`,
+      `<div>`,
+      `    @includeUnless($boolean, 'livewire.cx.equipment-list-internal.account', [`,
+      `        'status' => 'complete',`,
+      `        'foo' => $user,`,
+      `        'bar' => $bbb,`,
+      `        'baz' => $myVariable,`,
+      `    ])`,
+      `</div>`,
+      `<div>`,
+      `    @includeFirst(`,
+      `        ['custom.admin', 'admin'],`,
+      `        ['status' => 'complete', 'foo' => $user, 'bar' => $bbb, 'baz' => $myVariable]`,
+      `    )`,
+      `</div>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
 });
