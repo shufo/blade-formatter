@@ -99,7 +99,16 @@ export const phpKeywordStartTokens = ['@forelse', '@if', '@for', '@foreach', '@w
 
 export const phpKeywordEndTokens = ['@endforelse', '@endif', '@endforeach', '@endfor', '@endwhile', '@break'];
 
-export const inlineFunctionTokens = ['@json'];
+export const inlineFunctionTokens = [
+  '@json',
+  '@selected',
+  '@checked',
+  '@disabled',
+  '@php',
+  '@include',
+  '@button',
+  '@class',
+];
 
 export const conditionalTokens = ['@if', '@while', '@case', '@isset', '@empty', '@elseif'];
 

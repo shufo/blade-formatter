@@ -256,7 +256,7 @@ export default class Formatter {
     return _.replace(
       content,
       // eslint-disable-next-line max-len
-      new RegExp(`(?!\\/\\*.*?\\*\\/)(@php|@class|@button|@json|@include)(\\s*?)${nestedParenthesisRegex}`, 'gms'),
+      new RegExp(`(?!\\/\\*.*?\\*\\/)(${inlineFunctionTokens.join('|')})(\\s*?)${nestedParenthesisRegex}`, 'gms'),
       (match: any) => this.storeInlinePhpDirective(match),
     );
   }
