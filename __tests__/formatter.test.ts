@@ -2633,4 +2633,69 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
+
+  test('inline @php directive in script tag', async () => {
+    const content = [
+      `<script>`,
+      `@php(     $password_reset_url=View::getSection('password_reset_url') ?? config('adminlte.password_reset_url', 'password/reset', env('test', env('test'))))`,
+      `</script>`,
+    ].join('\n');
+
+    const expected = [
+      `<script>`,
+      `    @php($password_reset_url = View::getSection('password_reset_url') ?? config('adminlte.password_reset_url', 'password/reset', env('test', env('test'))))`,
+      `</script>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
+});
+test('@checked directive', async () => {
+  const content = [
+    `<input type="checkbox"`,
+    `        name="active"`,
+    `        value="active"`,
+    `        @checked(old('active',$user->active)) />`,
+  ].join('\n');
+
+  const expected = [
+    `<input type="checkbox" name="active" value="active" @checked(old('active', $user->active)) />`,
+    ``,
+  ].join('\n');
+
+  await util.doubleFormatCheck(content, expected);
+});
+
+test('@selected directive', async () => {
+  const content = [
+    `<select name="version">`,
+    `@foreach ($product->versions as $version)`,
+    `<option value="{{ $version }}" @selected(old('version')==$version)>`,
+    `{{ $version }}`,
+    `</option>`,
+    `@endforeach`,
+    `</select>`,
+  ].join('\n');
+
+  const expected = [
+    `<select name="version">`,
+    `    @foreach ($product->versions as $version)`,
+    `        <option value="{{ $version }}" @selected(old('version') == $version)>`,
+    `            {{ $version }}`,
+    `        </option>`,
+    `    @endforeach`,
+    `</select>`,
+    ``,
+  ].join('\n');
+
+  await util.doubleFormatCheck(content, expected);
+});
+
+test('@disabled directive', async () => {
+  const content = [`<button type="submit" @disabled($errors->isNotEmpty() )>Submit</button>`].join('\n');
+
+  const expected = [`<button type="submit" @disabled($errors->isNotEmpty())>Submit</button>`, ``].join('\n');
+
+  await util.doubleFormatCheck(content, expected);
 });
