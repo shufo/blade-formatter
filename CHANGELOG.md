@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.21.0](https://www.github.com/shufo/blade-formatter/compare/v1.20.5...v1.21.0) (2022-03-09)
+
+
+### Features
+
+* 🎸 support for include~ directives ([8ada749](https://www.github.com/shufo/blade-formatter/commit/8ada7492ceb4ef37c71a3771f1abe95ee618026e))
+* 🎸 support for selected, disabled and checked directive ([6dfaf46](https://www.github.com/shufo/blade-formatter/commit/6dfaf46e4557a54f2407f69ceb11bf2a09ac1422))
+
 ### [1.20.5](https://www.github.com/shufo/blade-formatter/compare/v1.20.4...v1.20.5) (2022-03-05)
 
 
