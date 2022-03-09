@@ -106,6 +106,10 @@ export const inlineFunctionTokens = [
   '@disabled',
   '@php',
   '@include',
+  '@includeif',
+  '@includewhen',
+  '@includeunless',
+  '@includefirst',
   '@button',
   '@class',
 ];
