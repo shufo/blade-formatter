@@ -2633,4 +2633,21 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
+
+  test('inline @php directive in script tag', async () => {
+    const content = [
+      `<script>`,
+      `@php(     $password_reset_url=View::getSection('password_reset_url') ?? config('adminlte.password_reset_url', 'password/reset', env('test', env('test'))))`,
+      `</script>`,
+    ].join('\n');
+
+    const expected = [
+      `<script>`,
+      `    @php($password_reset_url = View::getSection('password_reset_url') ?? config('adminlte.password_reset_url', 'password/reset', env('test', env('test'))))`,
+      `</script>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
 });
