@@ -2756,4 +2756,33 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
+
+  test('long expression blade brace', async () => {
+    const content = [
+      `<a href="{{ $relatedAuthority->id }}" class="no-border"`,
+      `   itemprop="{{ $author->isCorporateBody() ?`,
+      `                ($relatedAuthority->isCorporateBody() ? 'knowsAbout' : 'member') :`,
+      `                ($relatedAuthority->isCorporateBody() ? 'memberOf' : 'knows') }}">`,
+      `    <strong>{{ formatName($relatedAuthority->name) }}</strong>`,
+      `    <i class="icon-arrow-right"></i>`,
+      `</a><br>`,
+    ].join('\n');
+
+    const expected = [
+      `<a href="{{ $relatedAuthority->id }}" class="no-border"`,
+      `    itemprop="{{ $author->isCorporateBody()`,
+      `        ? ($relatedAuthority->isCorporateBody()`,
+      `            ? 'knowsAbout'`,
+      `            : 'member')`,
+      `        : ($relatedAuthority->isCorporateBody()`,
+      `            ? 'memberOf'`,
+      `            : 'knows') }}">`,
+      `    <strong>{{ formatName($relatedAuthority->name) }}</strong>`,
+      `    <i class="icon-arrow-right"></i>`,
+      `</a><br>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
 });

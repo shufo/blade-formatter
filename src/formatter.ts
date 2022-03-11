@@ -808,8 +808,12 @@ export default class Formatter {
       return content;
     }
 
-    if (this.isInline(content)) {
+    if (this.isInline(content) && /\s/.test(prefix)) {
       return `${prefix}${content}`;
+    }
+
+    if (this.isInline(content) && /\S/.test(prefix)) {
+      return `${content}`;
     }
 
     const leftIndentAmount = detectIndent(prefix).amount;
@@ -888,7 +892,7 @@ export default class Formatter {
           return `${p1}{{ ${this.indentRawPhpBlock(
             p1,
             util
-              .formatRawStringAsPhp(bladeBrace)
+              .formatRawStringAsPhp(bladeBrace, 120, true)
               .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
               .trim()
               // @ts-expect-error ts-migrate(2554) FIXME: Expected 0 arguments, but got 1.
