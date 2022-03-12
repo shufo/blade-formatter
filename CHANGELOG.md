@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.21.2](https://www.github.com/shufo/blade-formatter/compare/v1.21.1...v1.21.2) (2022-03-12)
+
+
+### Fixes
+
+* 🐛 some character prevent reordering of tailwindcss classes ([5c126f2](https://www.github.com/shufo/blade-formatter/commit/5c126f27e3ab0e3919b1a0ab106ddbe143087187))
+
 ### [1.21.1](https://www.github.com/shufo/blade-formatter/compare/v1.21.0...v1.21.1) (2022-03-12)
 
 
