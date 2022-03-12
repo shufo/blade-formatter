@@ -74,6 +74,8 @@ export default class Formatter {
 
   scripts: any;
 
+  htmlTags: Array<string>;
+
   shouldBeIndent: any;
 
   stack: any;
@@ -112,6 +114,7 @@ export default class Formatter {
     this.rawBladeBraces = [];
     this.scripts = [];
     this.classes = [];
+    this.htmlTags = [];
     this.templatingStrings = [];
     this.result = [];
     this.diffs = [];
@@ -138,8 +141,10 @@ export default class Formatter {
       })
       .then((target) => this.preserveScripts(target))
       .then((target) => this.preserveClass(target))
+      .then((target) => this.preserveHtmlTags(target))
       .then((target) => this.formatAsHtml(target))
       .then((target) => this.formatAsBlade(target))
+      .then((target) => this.restoreHtmlTags(target))
       .then((target) => this.restoreClass(target))
       .then((target) => this.restoreScripts(target))
       .then((target) => this.restoreBladeDirectivesInScripts(target))
@@ -216,6 +221,16 @@ export default class Formatter {
 
   async preserveRawPhpBlock(content: any) {
     return _.replace(content, /(?<!@)@php(.*?)@endphp/gs, (match: any, p1: any) => this.storeRawBlock(p1));
+  }
+
+  async preserveHtmlTags(content: string) {
+    const contentUnformatted = ['textarea', 'pre'];
+
+    return _.replace(
+      content,
+      new RegExp(`<(${contentUnformatted.join('|')})\\s{0,1}.*?>.*?<\\/(${contentUnformatted.join('|')})>`, 'gis'),
+      (match: string) => this.storeHtmlTag(match),
+    );
   }
 
   preserveInlineDirective(content: string): string {
@@ -516,6 +531,10 @@ export default class Formatter {
     return this.getBladeCommentPlaceholder(this.bladeComments.push(value) - 1);
   }
 
+  storeHtmlTag(value: string) {
+    return this.getHtmlTagPlaceholder((this.htmlTags.push(value) - 1).toString());
+  }
+
   storeBladeBrace(value: any, length: any) {
     const index = this.bladeBraces.push(value) - 1;
     const brace = '{{  }}';
@@ -613,7 +632,11 @@ export default class Formatter {
   }
 
   getScriptPlaceholder(replace: any) {
-    return _.replace('<preservedScript ___scripts_#___ />', '#', replace);
+    return _.replace('<blade ___scripts_#___ />', '#', replace);
+  }
+
+  getHtmlTagPlaceholder(replace: string) {
+    return _.replace('<blade ___html_tags_#___ />', '#', replace);
   }
 
   getClassPlaceholder(replace: any, length: any) {
@@ -1072,6 +1095,25 @@ export default class Formatter {
           return this.indentScriptBlock(p1, beautify.html_beautify(script, options));
         },
       ),
+    );
+  }
+
+  async restoreHtmlTags(content: any) {
+    return _.replace(
+      content,
+      new RegExp(`(.*?)${this.getHtmlTagPlaceholder('(\\d+)')}`, 'gim'),
+      (_match: any, p1: string, p2: number) => {
+        const options = {
+          indent_size: util.optional(this.options).indentSize || 4,
+          wrap_line_length: util.optional(this.options).wrapLineLength || 120,
+          wrap_attributes: util.optional(this.options).wrapAttributes || 'auto',
+          wrap_attributes_indent_size: p1.length + (util.optional(this.options).indentSize || 4) * 1,
+          end_with_newline: false,
+          templating: ['php'],
+        };
+
+        return `${p1}${beautify.html_beautify(this.htmlTags[p2], options)}`;
+      },
     );
   }
 
