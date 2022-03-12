@@ -2785,4 +2785,45 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
+
+  test('whitespace sensitive tag should keep its content unformatted', async () => {
+    const content = [
+      `<div>`,
+      `@foreach (config('translatable.locales') as $i => $locale)`,
+      `    <div role="tabpanel" class="tab-pane  {{ $i == 0 ? 'active' : '' }}" id="{{ $locale }}">`,
+      `        <div class="form-group">`,
+      `            <textarea class="form-control wysiwyg" name="{{ $locale }}[content]" rows="8" id="{{ $locale }}[content]"`,
+      ` cols="8">`,
+      `    {{ old($locale . '[content]', $notice->translateOrNew($locale)->content) }} </textarea>`,
+      `        </div>`,
+      `    </div>`,
+      `@endforeach`,
+      `    </div>`,
+      `<div>`,
+      `<pre>`,
+      `aaaa </pre>`,
+      `</div>`,
+    ].join('\n');
+
+    const expected = [
+      `<div>`,
+      `    @foreach (config('translatable.locales') as $i => $locale)`,
+      `        <div role="tabpanel" class="tab-pane  {{ $i == 0 ? 'active' : '' }}" id="{{ $locale }}">`,
+      `            <div class="form-group">`,
+      `                <textarea class="form-control wysiwyg" name="{{ $locale }}[content]" rows="8" id="{{ $locale }}[content]"`,
+      `                    cols="8">`,
+      `    {{ old($locale . '[content]', $notice->translateOrNew($locale)->content) }} </textarea>`,
+      `            </div>`,
+      `        </div>`,
+      `    @endforeach`,
+      `</div>`,
+      `<div>`,
+      `    <pre>`,
+      `aaaa </pre>`,
+      `</div>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
 });
