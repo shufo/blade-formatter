@@ -2460,6 +2460,15 @@ describe('formatter', () => {
     });
   });
 
+  test('sort tailwindcss classs with various character', function () {
+    const content = [`<div class="m-5 md:tw-mx-[1rem]   tw-mx-1 foo"></div>`].join('\n');
+    const expected = [`<div class="md:tw-mx-[1rem] tw-mx-1 foo m-5"></div>`, ``].join('\n');
+
+    return new Formatter({ sortTailwindcssClasses: true }).formatContent(content).then((result: string) => {
+      assert.equal(result, expected);
+    });
+  });
+
   test('long tailwindcss classs', async () => {
     const content = [
       `<div class="container z-50                                                      z-10 z-20 justify-center text-left foo md:text-center">`,
