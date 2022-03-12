@@ -1,5 +1,13 @@
 # Changelog
 
+### [1.21.1](https://www.github.com/shufo/blade-formatter/compare/v1.21.0...v1.21.1) (2022-03-12)
+
+
+### Fixes
+
+* 🐛 curly braces with long expression gets unexpected result ([b48c7a7](https://www.github.com/shufo/blade-formatter/commit/b48c7a7324bb2e24a9ceafb300d0c54f96b42f14))
+* 🐛 whitespace sensitive tag gets formatted unexpectedly ([96271c0](https://www.github.com/shufo/blade-formatter/commit/96271c071d3e9e7fcfb0bdc8d59d23cf201cf068))
+
 ## [1.21.0](https://www.github.com/shufo/blade-formatter/compare/v1.20.5...v1.21.0) (2022-03-09)
 
 
