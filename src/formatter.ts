@@ -183,7 +183,7 @@ export default class Formatter {
       return content;
     }
 
-    return _.replace(content, /\bclass\s*=\s*([\"\'])([_a-zA-Z0-9\s\-\:\/]+)([\"\'])/gi, (_match, p1, p2, p3) => {
+    return _.replace(content, /\bclass\s*=\s*([\"\'])(.+?)([\"\'])/gis, (_match, p1, p2, p3) => {
       return `class=${p1}${sortClasses(p2)}${p3}`;
     });
   }
