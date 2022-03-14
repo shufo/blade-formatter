@@ -2850,6 +2850,6 @@ describe('formatter', () => {
       ``,
     ].join('\n');
 
-    await util.doubleFormatCheckWithSort(content, expected, { sortTailwindcssClasses: true });
+    await util.doubleFormatCheck(content, expected, { sortTailwindcssClasses: true });
   });
 });
