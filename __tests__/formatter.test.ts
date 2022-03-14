@@ -2835,4 +2835,21 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
+
+  test('sort blade brace mixes classes', async () => {
+    const content = [
+      `<div`,
+      `    class="px-4 py-5 bg-white sm:p-6 shadow     {{ isset($actions) ? 'sm:rounded-tl-md sm:rounded-tr-md' : 'sm:rounded-md' }} {{ isset($actions) ? 'foo' : 'bar' }}">`,
+      `</div>`,
+    ].join('\n');
+
+    const expected = [
+      `<div`,
+      `    class="{{ isset($actions) ? 'sm:rounded-tl-md sm:rounded-tr-md' : 'sm:rounded-md' }} {{ isset($actions) ? 'foo' : 'bar' }} bg-white px-4 py-5 shadow sm:p-6">`,
+      `</div>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheckWithSort(content, expected, { sortTailwindcssClasses: true });
+  });
 });
