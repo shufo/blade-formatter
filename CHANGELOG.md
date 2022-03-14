@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.21.3](https://www.github.com/shufo/blade-formatter/compare/v1.21.2...v1.21.3) (2022-03-14)
+
+
+### Fixes
+
+* 🐛 class sorting fails when blade braces mixed in classes ([f4b10c5](https://www.github.com/shufo/blade-formatter/commit/f4b10c573d1e22c2e1fdcc5e4fc080755819d606))
+
 ### [1.21.2](https://www.github.com/shufo/blade-formatter/compare/v1.21.1...v1.21.2) (2022-03-12)
 
 
