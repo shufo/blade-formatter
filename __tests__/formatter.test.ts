@@ -2852,4 +2852,39 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected, { sortTailwindcssClasses: true });
   });
+
+  test('string literal with line break in raw php directive', async () => {
+    const content = [
+      `<div>`,
+      `    <div>`,
+      `        @php`,
+      `            $myvar = "lorem`,
+      `        ipsum";`,
+      `            $foo = "lorem`,
+      ``,
+      `multiline`,
+      `        ipsum";`,
+      `        @endphp`,
+      `    </div>`,
+      `</div>`,
+    ].join('\n');
+
+    const expected = [
+      `<div>`,
+      `    <div>`,
+      `        @php`,
+      `            $myvar = "lorem`,
+      `        ipsum";`,
+      `            $foo = "lorem`,
+      ``,
+      `multiline`,
+      `        ipsum";`,
+      `        @endphp`,
+      `    </div>`,
+      `</div>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
 });

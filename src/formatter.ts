@@ -82,6 +82,8 @@ export default class Formatter {
 
   templatingStrings: any;
 
+  stringLiteralInPhp: Array<string>;
+
   vsctm: any;
 
   wrapAttributes: any;
@@ -116,6 +118,7 @@ export default class Formatter {
     this.classes = [];
     this.htmlTags = [];
     this.templatingStrings = [];
+    this.stringLiteralInPhp = [];
     this.result = [];
     this.diffs = [];
   }
@@ -495,6 +498,12 @@ export default class Formatter {
     );
   }
 
+  preserveStringLiteralInPhp(content: any) {
+    return _.replace(content, /['"].*?['"]/gms, (match: string) => {
+      return `${this.storeStringLiteralInPhp(match)}`;
+    });
+  }
+
   storeIgnoredLines(value: any) {
     return this.getIgnoredLinePlaceholder(this.ignoredLines.push(value) - 1);
   }
@@ -569,6 +578,11 @@ export default class Formatter {
   storeTemplatingString(value: any) {
     const index = this.templatingStrings.push(value) - 1;
     return this.getTemplatingStringPlaceholder(index);
+  }
+
+  storeStringLiteralInPhp(value: any) {
+    const index = this.stringLiteralInPhp.push(value) - 1;
+    return this.getStringLiteralInPhpPlaceholder(index);
   }
 
   getIgnoredLinePlaceholder(replace: any) {
@@ -657,6 +671,10 @@ export default class Formatter {
     return _.replace('___templating_str_#___', '#', replace);
   }
 
+  getStringLiteralInPhpPlaceholder(replace: any) {
+    return _.replace("'___php_content_#___'", '#', replace);
+  }
+
   restoreIgnoredLines(content: any) {
     return _.replace(
       content,
@@ -704,7 +722,11 @@ export default class Formatter {
             return `${p1}@php${q2}@endphp`;
           }
 
-          return `${_.isEmpty(p1) ? '' : p1}@php${this.indentRawBlock(p1, q2)}@endphp`;
+          const preserved = this.preserveStringLiteralInPhp(q2);
+          const indented = this.indentRawBlock(p1, preserved);
+          const restored = this.restoreStringLiteralInPhp(indented);
+
+          return `${_.isEmpty(p1) ? '' : p1}@php${restored}@endphp`;
         });
       },
     );
@@ -1131,6 +1153,14 @@ export default class Formatter {
       content,
       new RegExp(`${this.getTemplatingStringPlaceholder('(\\d+)')}`, 'gms'),
       (_match: any, p1: any) => this.templatingStrings[p1],
+    );
+  }
+
+  restoreStringLiteralInPhp(content: any) {
+    return _.replace(
+      content,
+      new RegExp(`${this.getStringLiteralInPhpPlaceholder('(\\d+)')}`, 'gms'),
+      (_match: any, p1: any) => this.stringLiteralInPhp[p1],
     );
   }
 
