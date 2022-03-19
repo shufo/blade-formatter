@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.21.5](https://www.github.com/shufo/blade-formatter/compare/v1.21.4...v1.21.5) (2022-03-19)
+
+
+### Fixes
+
+* 🐛 infinitely indent with string literal containing line break ([#524](https://www.github.com/shufo/blade-formatter/issues/524)) ([6dec896](https://www.github.com/shufo/blade-formatter/commit/6dec8968f0fe23d783fa2b48d60cd10b6ae05c98))
+
 ### [1.21.4](https://www.github.com/shufo/blade-formatter/compare/v1.21.3...v1.21.4) (2022-03-18)
 
 
