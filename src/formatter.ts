@@ -1196,10 +1196,10 @@ export default class Formatter {
         const offsetLine = p1.split('\n').pop();
         const matches  = (/(\s*)([^\s]+.*)/g).exec(offsetLine) ?? [];
         const offset = (matches[1] ?? '').length + ((matches[2]??'').length / (this.indentCharacter === '\t' ? 4: 1));
-        const lines = beautify.js_beautify(this.xData[p2]).split('\n')
+        const lines = beautify.js_beautify(this.xData[p2],{brace_style:'preserve-inline'}).split('\n')
 
         const firstLine = lines[0];
-        const indentLevel = offset / this.indentSize;
+        const indentLevel = Math.floor((offset - 2 * (this.indentCharacter === '\t' ? 1 : 4)) / this.indentSize);
         const prefix = this.indentCharacter.repeat(indentLevel < 0 ? 0 : indentLevel * this.indentSize);
         let offsettedLines = lines.map(line => prefix + line);
         offsettedLines[0] = firstLine
@@ -1216,10 +1216,11 @@ export default class Formatter {
         const offsetLine = p1.split('\n').pop();
         const matches  = (/(\s*)([^\s]+.*)/g).exec(offsetLine) ?? [];
         const offset = (matches[1] ?? '').length + ((matches[2]??'').length / (this.indentCharacter === '\t' ? 4: 1));
-        const lines = beautify.js_beautify(this.xInit[p2]).split('\n')
+        
+        const lines = beautify.js_beautify(this.xInit[p2],{brace_style:'preserve-inline'}).split('\n')
 
         const firstLine = lines[0];
-        const indentLevel = offset / this.indentSize;
+        const indentLevel = Math.floor((offset - 2 * (this.indentCharacter === '\t' ? 1 : 4)) / this.indentSize);
         const prefix = this.indentCharacter.repeat(indentLevel < 0 ? 0 : indentLevel * this.indentSize);
         let offsettedLines = lines.map(line => prefix + line);
         offsettedLines[0] = firstLine
