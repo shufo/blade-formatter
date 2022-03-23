@@ -320,6 +320,13 @@ $ npm -g config set user root
 - [x] ignore formatting in blade comment
 - [x] automatically add new line after directive
 
+## Development
+
+```bash
+$ yarn install
+$ yarn run watch # watch changes
+```
+
 ## Testing
 
 ```bash
