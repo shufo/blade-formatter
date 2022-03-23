@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.22.0](https://www.github.com/shufo/blade-formatter/compare/v1.21.5...v1.22.0) (2022-03-23)
+
+
+### Features
+
+* x-data and x-init alpine attribute support ([#526](https://www.github.com/shufo/blade-formatter/issues/526)) ([fc61b4e](https://www.github.com/shufo/blade-formatter/commit/fc61b4e4a16f00a06875e82f3586cdfa8da3da8a))
+
+
+### Miscellaneous
+
+* **deps:** bump prettier from 2.5.1 to 2.6.0 ([7af4b81](https://www.github.com/shufo/blade-formatter/commit/7af4b814edc7ae5eb26874d60f785420ad133e63))
+* **deps:** bump yargs from 17.3.1 to 17.4.0 ([6c791fc](https://www.github.com/shufo/blade-formatter/commit/6c791fc8530bc4654281275aa1fa08a3f30ba089))
+
 ### [1.21.5](https://www.github.com/shufo/blade-formatter/compare/v1.21.4...v1.21.5) (2022-03-19)
 
 
