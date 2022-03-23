@@ -75,7 +75,7 @@ export default class Formatter {
   scripts: any;
 
   xData: any;
-  
+
   xInit: any;
 
   htmlTags: Array<string>;
@@ -600,7 +600,6 @@ export default class Formatter {
   }
   storeXData(value: any) {
     const index = this.xData.push(value) - 1;
-
     return this.getXDataPlaceholder(index);
   }
   storeXInit(value: any) {
@@ -1192,17 +1191,17 @@ export default class Formatter {
     return _.replace(
       content,
       new RegExp(`^(.*?)${this.getXDataPlaceholder('(\\d+)')}`, 'gm'),
-      (_match: any, p1: any, p2:any) => {
+      (_match: any, p1: any, p2: any) => {
         const offsetLine = p1.split('\n').pop();
-        const matches  = (/(\s*)([^\s]+.*)/g).exec(offsetLine) ?? [];
-        const offset = (matches[1] ?? '').length + ((matches[2]??'').length / (this.indentCharacter === '\t' ? 4: 1));
-        const lines = beautify.js_beautify(this.xData[p2],{brace_style:'preserve-inline'}).split('\n')
+        const [_, offset] = /(\s*)[^\s]+/g.exec(offsetLine) ?? [];
+        const lines = beautify.js_beautify(this.xData[p2], { brace_style: 'preserve-inline' }).split('\n');
+
+        const indentLevel = offset.length / (this.indentCharacter === '\t' ? 4 : 1);
 
         const firstLine = lines[0];
-        const indentLevel = Math.floor((offset - 2 * (this.indentCharacter === '\t' ? 1 : 4)) / this.indentSize);
-        const prefix = this.indentCharacter.repeat(indentLevel < 0 ? 0 : indentLevel * this.indentSize);
-        let offsettedLines = lines.map(line => prefix + line);
-        offsettedLines[0] = firstLine
+        const prefix = this.indentCharacter.repeat(indentLevel < 0 ? 0 : indentLevel);
+        let offsettedLines = lines.map((line) => prefix + line);
+        offsettedLines[0] = firstLine;
         return `${p1}${offsettedLines.join('\n')}`;
       },
     );
@@ -1212,18 +1211,17 @@ export default class Formatter {
     return _.replace(
       content,
       new RegExp(`^(.*?)${this.getXInitPlaceholder('(\\d+)')}`, 'gm'),
-      (_match: any, p1: any, p2:any) => {
+      (_match: any, p1: any, p2: any) => {
         const offsetLine = p1.split('\n').pop();
-        const matches  = (/(\s*)([^\s]+.*)/g).exec(offsetLine) ?? [];
-        const offset = (matches[1] ?? '').length + ((matches[2]??'').length / (this.indentCharacter === '\t' ? 4: 1));
-        
-        const lines = beautify.js_beautify(this.xInit[p2],{brace_style:'preserve-inline'}).split('\n')
+        const [_, offset] = /(\s*)[^\s]+/g.exec(offsetLine) ?? [];
+        const lines = beautify.js_beautify(this.xInit[p2], { brace_style: 'preserve-inline' }).split('\n');
+
+        const indentLevel = offset.length / (this.indentCharacter === '\t' ? 4 : 1);
 
         const firstLine = lines[0];
-        const indentLevel = Math.floor((offset - 2 * (this.indentCharacter === '\t' ? 1 : 4)) / this.indentSize);
-        const prefix = this.indentCharacter.repeat(indentLevel < 0 ? 0 : indentLevel * this.indentSize);
-        let offsettedLines = lines.map(line => prefix + line);
-        offsettedLines[0] = firstLine
+        const prefix = this.indentCharacter.repeat(indentLevel < 0 ? 0 : indentLevel);
+        let offsettedLines = lines.map((line) => prefix + line);
+        offsettedLines[0] = firstLine;
         return `${p1}${offsettedLines.join('\n')}`;
       },
     );
