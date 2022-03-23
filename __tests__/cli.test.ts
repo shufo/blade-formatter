@@ -325,9 +325,7 @@ describe('The blade formatter CLI', () => {
       path.resolve('__tests__', 'fixtures', 'alpine_attributes.blade.php'),
     ]);
 
-    const formatted = fs.readFileSync(
-      path.resolve('__tests__', 'fixtures', 'formatted.alpine_attributes.blade.php'),
-    );
+    const formatted = fs.readFileSync(path.resolve('__tests__', 'fixtures', 'formatted.alpine_attributes.blade.php'));
 
     expect(cmdResult).toEqual(formatted.toString('utf-8'));
   });
