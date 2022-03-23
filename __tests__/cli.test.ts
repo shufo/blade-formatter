@@ -320,6 +320,18 @@ describe('The blade formatter CLI', () => {
     expect(cmdResult).toEqual(formatted.toString('utf-8'));
   });
 
+  test.concurrent('can fomrat alpine attributes', async () => {
+    const cmdResult = await cmd.execute(path.resolve('bin', 'blade-formatter'), [
+      path.resolve('__tests__', 'fixtures', 'alpine_attributes.blade.php'),
+    ]);
+
+    const formatted = fs.readFileSync(
+      path.resolve('__tests__', 'fixtures', 'formatted.alpine_attributes.blade.php'),
+    );
+
+    expect(cmdResult).toEqual(formatted.toString('utf-8'));
+  });
+
   test.concurrent('complicated directive in script tag', async () => {
     const cmdResult = await cmd.execute(path.resolve('bin', 'blade-formatter'), [
       path.resolve('__tests__', 'fixtures', 'directive_in_scripts_complex.blade.php'),

@@ -74,6 +74,10 @@ export default class Formatter {
 
   scripts: any;
 
+  xData: any;
+
+  xInit: any;
+
   htmlTags: Array<string>;
 
   shouldBeIndent: any;
@@ -116,6 +120,8 @@ export default class Formatter {
     this.rawBladeBraces = [];
     this.scripts = [];
     this.classes = [];
+    this.xData = [];
+    this.xInit = [];
     this.htmlTags = [];
     this.templatingStrings = [];
     this.stringLiteralInPhp = [];
@@ -144,11 +150,15 @@ export default class Formatter {
       .then((target) => this.preserveScripts(target))
       .then((target) => this.sortTailwindcssClasses(target))
       .then((target) => this.preserveClass(target))
+      .then((target) => this.formatXData(target))
+      .then((target) => this.formatXInit(target))
       .then((target) => this.preserveHtmlTags(target))
       .then((target) => this.formatAsHtml(target))
       .then((target) => this.formatAsBlade(target))
       .then((target) => this.restoreHtmlTags(target))
       .then((target) => this.restoreClass(target))
+      .then((target) => this.restoreXData(target))
+      .then((target) => this.restoreXInit(target))
       .then((target) => this.restoreScripts(target))
       .then((target) => this.restoreBladeDirectivesInScripts(target))
       .then((target) => this.restoreInlinePhpDirective(target))
@@ -497,6 +507,20 @@ export default class Formatter {
       (_match: any, p1: any, p2: any, p3: any) => `${p1}class="${this.storeClass(p2)}"${p3}`,
     );
   }
+  async formatXData(content: any) {
+    return _.replace(
+      content,
+      /(\s*)x-data="(.*?)"(\s*)/gs,
+      (_match: any, p1: any, p2: any, p3: any) => `${p1}x-data="${this.storeXData(p2)}"${p3}`,
+    );
+  }
+  async formatXInit(content: any) {
+    return _.replace(
+      content,
+      /(\s*)x-init="(.*?)"(\s*)/gs,
+      (_match: any, p1: any, p2: any, p3: any) => `${p1}x-init="${this.storeXInit(p2)}"${p3}`,
+    );
+  }
 
   preserveStringLiteralInPhp(content: any) {
     return _.replace(content, /['"].*?['"]/gms, (match: string) => {
@@ -573,6 +597,14 @@ export default class Formatter {
     }
 
     return this.getClassPlaceholder(index, null);
+  }
+  storeXData(value: any) {
+    const index = this.xData.push(value) - 1;
+    return this.getXDataPlaceholder(index);
+  }
+  storeXInit(value: any) {
+    const index = this.xInit.push(value) - 1;
+    return this.getXInitPlaceholder(index);
   }
 
   storeTemplatingString(value: any) {
@@ -665,6 +697,13 @@ export default class Formatter {
     }
 
     return _.replace('___class_+?#___', '#', replace);
+  }
+
+  getXInitPlaceholder(replace: any) {
+    return _.replace('___x_init_#___', '#', replace);
+  }
+  getXDataPlaceholder(replace: any) {
+    return _.replace('___x_data_#___', '#', replace);
   }
 
   getTemplatingStringPlaceholder(replace: any) {
@@ -1145,6 +1184,46 @@ export default class Formatter {
       // @ts-expect-error ts-migrate(2554) FIXME: Expected 2 arguments, but got 1.
       new RegExp(`${this.getClassPlaceholder('(\\d+)')}`, 'gms'),
       (_match: any, p1: any) => this.classes[p1],
+    );
+  }
+
+  restoreXData(content: any) {
+    return _.replace(
+      content,
+      new RegExp(`^(.*?)${this.getXDataPlaceholder('(\\d+)')}`, 'gm'),
+      (_match: any, p1: any, p2: any) => {
+        const offsetLine = p1.split('\n').pop();
+        const [_, offset] = /(\s*)[^\s]+/g.exec(offsetLine) ?? [];
+        const lines = beautify.js_beautify(this.xData[p2], { brace_style: 'preserve-inline' }).split('\n');
+
+        const indentLevel = offset.length / (this.indentCharacter === '\t' ? 4 : 1);
+
+        const firstLine = lines[0];
+        const prefix = this.indentCharacter.repeat(indentLevel < 0 ? 0 : indentLevel);
+        let offsettedLines = lines.map((line) => prefix + line);
+        offsettedLines[0] = firstLine;
+        return `${p1}${offsettedLines.join('\n')}`;
+      },
+    );
+  }
+
+  restoreXInit(content: any) {
+    return _.replace(
+      content,
+      new RegExp(`^(.*?)${this.getXInitPlaceholder('(\\d+)')}`, 'gm'),
+      (_match: any, p1: any, p2: any) => {
+        const offsetLine = p1.split('\n').pop();
+        const [_, offset] = /(\s*)[^\s]+/g.exec(offsetLine) ?? [];
+        const lines = beautify.js_beautify(this.xInit[p2], { brace_style: 'preserve-inline' }).split('\n');
+
+        const indentLevel = offset.length / (this.indentCharacter === '\t' ? 4 : 1);
+
+        const firstLine = lines[0];
+        const prefix = this.indentCharacter.repeat(indentLevel < 0 ? 0 : indentLevel);
+        let offsettedLines = lines.map((line) => prefix + line);
+        offsettedLines[0] = firstLine;
+        return `${p1}${offsettedLines.join('\n')}`;
+      },
     );
   }
 
