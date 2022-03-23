@@ -23,7 +23,7 @@
     "watch": "node esbuild.ts",
     "test": "yarn run build && node --experimental-vm-modules node_modules/.bin/jest",
     "lint": "eslint src -c .eslintrc.js --ext ts",
-    "fix": "prettier {src,__{tests,mocks}__}/**/*.ts --write",
+    "fix": "prettier {src,__tests__}/**/*.ts --write",
     "check_formatted": "prettier **/*.ts -c",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0",
     "prepare": "husky install"
