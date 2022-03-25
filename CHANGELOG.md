@@ -1,5 +1,17 @@
 # Changelog
 
+### [1.22.1](https://www.github.com/shufo/blade-formatter/compare/v1.22.0...v1.22.1) (2022-03-25)
+
+
+### Miscellaneous
+
+* **deps:** bump minimist from 1.2.5 to 1.2.6 ([7401512](https://www.github.com/shufo/blade-formatter/commit/740151245087499ebfc8907365221448c346c568))
+
+
+### Fixes
+
+* 🐛 handle `[@js](https://www.github.com/js)` and `[@entangle](https://www.github.com/entangle)` for x-data and x-init ([#531](https://www.github.com/shufo/blade-formatter/issues/531)) ([b87572c](https://www.github.com/shufo/blade-formatter/commit/b87572c1bbadac53c95982b69449720c88596334))
+
 ## [1.22.0](https://www.github.com/shufo/blade-formatter/compare/v1.21.5...v1.22.0) (2022-03-23)
 
 
