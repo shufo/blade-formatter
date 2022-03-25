@@ -707,6 +707,20 @@ export default class Formatter {
     return _.replace('___x_init_#___', '#', replace);
   }
 
+  getPlaceholder(attribute: string, replace: any, length: any = null) {
+    if (length && length > 0) {
+      const template = `___${attribute}_#___`;
+      const gap = length - template.length;
+      return _.replace(`___${attribute}${_.repeat('_', gap > 0 ? gap : 1)}#___`, '#', replace);
+    }
+
+    if (_.isNull(length)) {
+      return _.replace(`___${attribute}_#___`, '#', replace);
+    }
+
+    return _.replace(`s___${attribute}_+?#___`, '#', replace);
+  }
+
   getXDataPlaceholder(replace: any) {
     return _.replace('___x_data_#___', '#', replace);
   }
@@ -1199,7 +1213,8 @@ export default class Formatter {
       (_match: any, p1: any, p2: any) => {
         const offsetLine = p1.split('\n').pop();
         const [, offset] = /(\s*)[^\s]+/g.exec(offsetLine) ?? [];
-        const lines = beautify.js_beautify(this.xData[p2], { brace_style: 'preserve-inline' }).split('\n');
+
+        const lines = this.formatJS(this.xData[p2]).split('\n');
 
         const indentLevel = offset.length / (this.indentCharacter === '\t' ? 4 : 1);
 
@@ -1219,7 +1234,8 @@ export default class Formatter {
       (_match: any, p1: any, p2: any) => {
         const offsetLine = p1.split('\n').pop();
         const [, offset] = /(\s*)[^\s]+/g.exec(offsetLine) ?? [];
-        const lines = beautify.js_beautify(this.xInit[p2], { brace_style: 'preserve-inline' }).split('\n');
+
+        const lines = this.formatJS(this.xInit[p2]).split('\n');
 
         const indentLevel = offset.length / (this.indentCharacter === '\t' ? 4 : 1);
 
@@ -1457,5 +1473,31 @@ export default class Formatter {
 
   decrementIndentLevel(level = 1) {
     this.currentIndentLevel -= level;
+  }
+
+  formatJS(jsCode: string): string {
+    const tempVarStore: any = {
+      js: [],
+      entangle: [],
+    };
+    Object.keys(tempVarStore).forEach((directive) => {
+      jsCode = jsCode.replace(
+        new RegExp(`@${directive}\\((?:[^)(]+|\\((?:[^)(]+|\\([^)(]*\\))*\\))*\\)`, 'gs'),
+        (m: any) => {
+          const index = tempVarStore[directive].push(m) - 1;
+          return this.getPlaceholder(directive, index, m.length);
+        },
+      );
+    });
+    jsCode = beautify.js_beautify(jsCode, { brace_style: 'preserve-inline' });
+
+    Object.keys(tempVarStore).forEach((directive) => {
+      jsCode = jsCode.replace(
+        new RegExp(this.getPlaceholder(directive, '_*(\\d+)'), 'gms'),
+        (_match: any, p1: any) => tempVarStore[directive][p1],
+      );
+    });
+
+    return jsCode;
   }
 }
