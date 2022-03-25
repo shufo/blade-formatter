@@ -10,7 +10,7 @@
 
 ### Fixes
 
-* 🐛 handle `[@js](https://www.github.com/js)` and `[@entangle](https://www.github.com/entangle)` for x-data and x-init ([#531](https://www.github.com/shufo/blade-formatter/issues/531)) ([b87572c](https://www.github.com/shufo/blade-formatter/commit/b87572c1bbadac53c95982b69449720c88596334))
+* 🐛 handle `@js` and `@entangle` for x-data and x-init ([#531](https://www.github.com/shufo/blade-formatter/issues/531)) ([b87572c](https://www.github.com/shufo/blade-formatter/commit/b87572c1bbadac53c95982b69449720c88596334))
 
 ## [1.22.0](https://www.github.com/shufo/blade-formatter/compare/v1.21.5...v1.22.0) (2022-03-23)
 
