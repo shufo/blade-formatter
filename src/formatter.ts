@@ -1476,12 +1476,13 @@ export default class Formatter {
   }
 
   formatJS(jsCode: string): string {
+    let code: string = jsCode;
     const tempVarStore: any = {
       js: [],
       entangle: [],
     };
     Object.keys(tempVarStore).forEach((directive) => {
-      jsCode = jsCode.replace(
+      code = code.replace(
         new RegExp(`@${directive}\\((?:[^)(]+|\\((?:[^)(]+|\\([^)(]*\\))*\\))*\\)`, 'gs'),
         (m: any) => {
           const index = tempVarStore[directive].push(m) - 1;
@@ -1489,15 +1490,15 @@ export default class Formatter {
         },
       );
     });
-    jsCode = beautify.js_beautify(jsCode, { brace_style: 'preserve-inline' });
+    code = beautify.js_beautify(code, { brace_style: 'preserve-inline' });
 
     Object.keys(tempVarStore).forEach((directive) => {
-      jsCode = jsCode.replace(
+      code = code.replace(
         new RegExp(this.getPlaceholder(directive, '_*(\\d+)'), 'gms'),
         (_match: any, p1: any) => tempVarStore[directive][p1],
       );
     });
 
-    return jsCode;
+    return code;
   }
 }
