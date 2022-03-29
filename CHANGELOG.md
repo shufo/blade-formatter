@@ -1,5 +1,16 @@
 # Changelog
 
+### [1.22.2](https://www.github.com/shufo/blade-formatter/compare/v1.22.1...v1.22.2) (2022-03-29)
+
+
+### Miscellaneous
+
+* **deps:** bump @prettier/plugin-php from 0.18.3 to 0.18.4 ([535f065](https://www.github.com/shufo/blade-formatter/commit/535f065f5eb194d4e8613b925a5f6297778c9b6d))
+* **deps:** bump ajv from 8.10.0 to 8.11.0 ([22c0670](https://www.github.com/shufo/blade-formatter/commit/22c0670065649fc44ad96ba3756ce97596edcc28))
+* **deps:** bump ansi-regex from 4.1.0 to 4.1.1 ([c5294ab](https://www.github.com/shufo/blade-formatter/commit/c5294ab95284d9eeb0df9bbb5cdb05364748488a))
+* **deps:** bump js-beautify from 1.14.0 to 1.14.1 ([91b338f](https://www.github.com/shufo/blade-formatter/commit/91b338fd6008e48d10770924531560334005c2ab))
+* **deps:** bump prettier from 2.6.0 to 2.6.1 ([1cfdfe3](https://www.github.com/shufo/blade-formatter/commit/1cfdfe3441b6f569cbddd3a5af9ecb92d6d2202c))
+
 ### [1.22.1](https://www.github.com/shufo/blade-formatter/compare/v1.22.0...v1.22.1) (2022-03-25)
 
 
