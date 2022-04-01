@@ -474,4 +474,10 @@ describe('The blade formatter CLI', () => {
     expect(cmdResult).toContain('Config Error');
     expect(cmdResult).toContain('must be integer');
   });
+
+  test.concurrent('component attribute', async () => {
+    const input = 'component_attribute.blade.php';
+    const target = 'formatted.component_attribute.blade.php';
+    await util.checkIfTemplateIsFormattedTwice(input, target);
+  });
 });
