@@ -88,6 +88,8 @@ export default class Formatter {
 
   stringLiteralInPhp: Array<string>;
 
+  componentAttributes: Array<string>;
+
   vsctm: any;
 
   wrapAttributes: any;
@@ -125,6 +127,7 @@ export default class Formatter {
     this.htmlTags = [];
     this.templatingStrings = [];
     this.stringLiteralInPhp = [];
+    this.componentAttributes = [];
     this.result = [];
     this.diffs = [];
   }
@@ -150,12 +153,14 @@ export default class Formatter {
       .then((target) => this.preserveScripts(target))
       .then((target) => this.sortTailwindcssClasses(target))
       .then((target) => this.preserveClass(target))
+      .then((target) => this.preserveComponentAttribute(target))
       .then((target) => this.formatXData(target))
       .then((target) => this.formatXInit(target))
       .then((target) => this.preserveHtmlTags(target))
       .then((target) => this.formatAsHtml(target))
       .then((target) => this.formatAsBlade(target))
       .then((target) => this.restoreHtmlTags(target))
+      .then((target) => this.restoreComponentAttribute(target))
       .then((target) => this.restoreClass(target))
       .then((target) => this.restoreXData(target))
       .then((target) => this.restoreXInit(target))
@@ -508,6 +513,14 @@ export default class Formatter {
     );
   }
 
+  async preserveComponentAttribute(content: string) {
+    return _.replace(
+      content,
+      /(?<=.*?<x-.*?):[a-zA-Z0-9.\-_.]*?=(["']).*?\1(?=.*?\/*?>)/gis,
+      (match: any) => `${this.storeComponentAttribute(match)}`,
+    );
+  }
+
   async formatXData(content: any) {
     return _.replace(
       content,
@@ -599,6 +612,12 @@ export default class Formatter {
     }
 
     return this.getClassPlaceholder(index, null);
+  }
+
+  storeComponentAttribute(value: any) {
+    const index = this.componentAttributes.push(value) - 1;
+
+    return this.getComponentAttributePlaceholder(index.toString());
   }
 
   storeXData(value: any) {
@@ -701,6 +720,10 @@ export default class Formatter {
     }
 
     return _.replace('___class_+?#___', '#', replace);
+  }
+
+  getComponentAttributePlaceholder(replace: string) {
+    return _.replace('___attribute_#___', '#', replace);
   }
 
   getXInitPlaceholder(replace: any) {
@@ -913,6 +936,33 @@ export default class Formatter {
 
     if (this.isInline(content) && /\s/.test(prefix)) {
       return `${prefix}${content}`;
+    }
+
+    if (this.isInline(content) && /\S/.test(prefix)) {
+      return `${content}`;
+    }
+
+    const leftIndentAmount = detectIndent(prefix).amount;
+    const indentLevel = leftIndentAmount / this.indentSize;
+    const prefixSpaces = this.indentCharacter.repeat(indentLevel < 0 ? 0 : indentLevel * this.indentSize);
+
+    const lines = content.split('\n');
+
+    return _.chain(lines)
+      .map((line: any, index: any) => {
+        if (index === 0) {
+          return line.trim();
+        }
+
+        return prefixSpaces + line;
+      })
+      .value()
+      .join('\n');
+  }
+
+  indentComponentAttribute(prefix: string, content: string) {
+    if (_.isEmpty(prefix)) {
+      return content;
     }
 
     if (this.isInline(content) && /\S/.test(prefix)) {
@@ -1261,6 +1311,29 @@ export default class Formatter {
       content,
       new RegExp(`${this.getStringLiteralInPhpPlaceholder('(\\d+)')}`, 'gms'),
       (_match: any, p1: any) => this.stringLiteralInPhp[p1],
+    );
+  }
+
+  restoreComponentAttribute(content: string): string {
+    return _.replace(
+      content,
+      new RegExp(`${this.getComponentAttributePlaceholder('(\\d+)')}`, 'gim'),
+      (_match: any, p1: any) => {
+        const placeholder = this.getComponentAttributePlaceholder(p1);
+        const matchedLine = content.match(new RegExp(`^(.*?)${placeholder}`, 'gmi')) ?? [''];
+        const indent = detectIndent(matchedLine[0]);
+
+        const matched = this.componentAttributes[p1];
+        const formatted = _.replace(matched, /(?<=:.*?=(["'])).*?(?=\1)/gis, (match) => {
+          try {
+            return util.formatRawStringAsPhp(match).trimEnd();
+          } catch (error) {
+            return match;
+          }
+        });
+
+        return `${this.indentComponentAttribute(indent.indent, formatted)}`;
+      },
     );
   }
 
