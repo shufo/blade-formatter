@@ -965,6 +965,10 @@ export default class Formatter {
       return content;
     }
 
+    if (this.isInline(content)) {
+      return `${content}`;
+    }
+
     if (this.isInline(content) && /\S/.test(prefix)) {
       return `${content}`;
     }
