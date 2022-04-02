@@ -1,5 +1,17 @@
 # Changelog
 
+### [1.22.3](https://www.github.com/shufo/blade-formatter/compare/v1.22.2...v1.22.3) (2022-04-02)
+
+
+### Fixes
+
+* 🐛 blade component attribute indents forever ([c4eff00](https://www.github.com/shufo/blade-formatter/commit/c4eff00370833327543ce14f7dd693d519e2bafa))
+
+
+### Miscellaneous
+
+* 🤖 (dev-deps) bump json-schema to 0.1.28 ([4202180](https://www.github.com/shufo/blade-formatter/commit/4202180d4ef7c9e5820359d06174be0ca1d3198f))
+
 ### [1.22.2](https://www.github.com/shufo/blade-formatter/compare/v1.22.1...v1.22.2) (2022-03-29)
 
 
