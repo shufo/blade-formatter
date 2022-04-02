@@ -6,6 +6,12 @@
             'scheduler' => ['label' => 'Find a meeting date'],
         ]" />
     <x-h1 :variable123-with-hyphen="['array' => 123]" />
+    <x-h1 legend="Meeting Schedule" name="meeting_type" value="single" v-model="form.meeting_type" :variable123-with-hyphen="[
+        'array' => 123,
+        'series' => ['label' => 'Recurring meeting'],
+        'series2' => ['label' => 'Recurring meeting'],
+        'series3' => ['label' => 'Recurring meeting'],
+    ]" />
     <div>
         <x-h1 :variable1="[
             'key1' => 123,
