@@ -1326,7 +1326,7 @@ export default class Formatter {
         const matched = this.componentAttributes[p1];
         const formatted = _.replace(matched, /(?<=:.*?=(["'])).*?(?=\1)/gis, (match) => {
           try {
-            return util.formatRawStringAsPhp(match, this.options.wrapLineLength - indent.amount).trimEnd();
+            return util.formatRawStringAsPhp(match, this.wrapLineLength - indent.amount).trimEnd();
           } catch (error) {
             return match;
           }
