@@ -516,7 +516,7 @@ export default class Formatter {
   async preserveComponentAttribute(content: string) {
     return _.replace(
       content,
-      /(?<=.*?<x-.*?):[a-zA-Z0-9.\-_.]*?=(["']).*?\1(?=.*?\/*?>)/gis,
+      /(?<=<x-.*?):[a-zA-Z0-9.\-_.]*?=(["']).*?\1(?=.*?\/*?>)/gis,
       (match: any) => `${this.storeComponentAttribute(match)}`,
     );
   }
