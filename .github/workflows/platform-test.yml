@@ -33,6 +33,6 @@ jobs:
         run: |
           yarn install
           yarn build
-          yarn run bin -s __tests__/fixtures/index.blade.php
+          yarn run -s bin __tests__/fixtures/index.blade.php
         env:
           CI: true
