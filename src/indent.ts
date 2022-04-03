@@ -1,5 +1,7 @@
 import _ from 'lodash';
 
+export const directivePrefix = '@';
+
 export const indentStartTokens = [
   '@alert',
   '@push',
@@ -37,6 +39,8 @@ export const indentStartTokens = [
   '@hassection',
   '@section',
 ];
+
+export const indentStartTokensWithoutPrefix = _.map(indentStartTokens, (token) => token.substring(1));
 
 export const indentEndTokens = [
   '@endalert',

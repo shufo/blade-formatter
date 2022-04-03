@@ -24,6 +24,8 @@ import {
   inlineFunctionTokens,
   optionalStartWithoutEndTokens,
   conditionalTokens,
+  directivePrefix,
+  indentStartTokensWithoutPrefix,
 } from './indent';
 import { nestedParenthesisRegex } from './regex';
 
@@ -254,10 +256,10 @@ export default class Formatter {
   preserveInlineDirective(content: string): string {
     // preserve inline directives inside html tag
     const regex = new RegExp(
-      `(<[\\w]+?[^>]*?)(${indentStartTokens.join(
+      `(<[\\w]+?[^>]*?)${directivePrefix}(${indentStartTokensWithoutPrefix.join(
         '|',
         // eslint-disable-next-line max-len
-      )})(\\s*?)(${nestedParenthesisRegex})(.*?)(${indentEndTokens.join('|')})(.*?>)`,
+      )})(\\s*?)(${nestedParenthesisRegex})(.*?)(@end\\2)(.*?>)`,
       'gims',
     );
     const replaced = _.replace(
@@ -274,7 +276,9 @@ export default class Formatter {
         p7: string,
         p8: string,
       ) => {
-        return `${p1}${this.storeInlineDirective(`${p2.trim()}${p3}${p4.trim()} ${p6.trim()} ${p7.trim()}`)}${p8}`;
+        return `${p1}${this.storeInlineDirective(
+          `${directivePrefix}${p2.trim()}${p3}${p4.trim()} ${p6.trim()} ${p7.trim()}`,
+        )}${p8}`;
       },
     );
 

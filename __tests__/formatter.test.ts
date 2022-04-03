@@ -2887,4 +2887,26 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
+  test('directive inside component attribute', async () => {
+    const content = [
+      `@section('body')`,
+      `    <x-alert :live="@env('production')" />`,
+      `@endsection`,
+      `<x-button ::class="{ danger: [1, 2, 3] }">`,
+      `    Submit`,
+      `</x-button>`,
+    ].join('\n');
+
+    const expected = [
+      `@section('body')`,
+      `    <x-alert :live="@env('production')" />`,
+      `@endsection`,
+      `<x-button ::class="{ danger: [1, 2, 3] }">`,
+      `    Submit`,
+      `</x-button>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
 });
