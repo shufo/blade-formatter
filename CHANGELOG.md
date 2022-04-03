@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.23.0](https://www.github.com/shufo/blade-formatter/compare/v1.22.3...v1.23.0) (2022-04-03)
+
+
+### Features
+
+* 🎸 automatically formats double colon component attribute ([461c059](https://www.github.com/shufo/blade-formatter/commit/461c059497fb49a8f07d8c296abfe5883f272302))
+
+
+### Fixes
+
+* 🐛 unexpected directive match occur on inline directive ([854be88](https://www.github.com/shufo/blade-formatter/commit/854be88ee80382a225e4cc0249a82a76b1c2ae83))
+
 ### [1.22.3](https://www.github.com/shufo/blade-formatter/compare/v1.22.2...v1.22.3) (2022-04-02)
 
 
