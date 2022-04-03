@@ -2887,6 +2887,21 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
+
+  test('it should not throw exception even if inline component attribute has syntax error', async () => {
+    const content = [`<x-h1 :variable1="," />`].join('\n');
+    const expected = [`<x-h1 :variable1="," />`, ``].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+    await expect(new BladeFormatter().format(content)).resolves.not.toThrow('SyntaxError');
+  });
+
+  test('syntax error on multiline component attribute throws a syntax error', async () => {
+    const content = [`<x-h1 :variable1="[`, `    'key1' => 123`, `    'key2' => 'value2',`, `]" />`].join('\n');
+
+    await expect(new BladeFormatter().format(content)).rejects.toThrow('SyntaxError');
+  });
+
   test('directive inside component attribute', async () => {
     const content = [
       `@section('body')`,
