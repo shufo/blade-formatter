@@ -154,16 +154,16 @@ export default class Formatter {
       })
       .then((target) => this.preserveScripts(target))
       .then((target) => this.sortTailwindcssClasses(target))
-      .then((target) => this.preserveClass(target))
       .then((target) => this.preserveComponentAttribute(target))
+      .then((target) => this.preserveClass(target))
       .then((target) => this.formatXData(target))
       .then((target) => this.formatXInit(target))
       .then((target) => this.preserveHtmlTags(target))
       .then((target) => this.formatAsHtml(target))
       .then((target) => this.formatAsBlade(target))
       .then((target) => this.restoreHtmlTags(target))
-      .then((target) => this.restoreComponentAttribute(target))
       .then((target) => this.restoreClass(target))
+      .then((target) => this.restoreComponentAttribute(target))
       .then((target) => this.restoreXData(target))
       .then((target) => this.restoreXInit(target))
       .then((target) => this.restoreScripts(target))
@@ -520,7 +520,7 @@ export default class Formatter {
   async preserveComponentAttribute(content: string) {
     return _.replace(
       content,
-      /(?<=<x-.*?):[a-zA-Z0-9.\-_.]*?=(["']).*?\1(?=.*?\/*?>)/gis,
+      /(?<=<x-.*?\s):{1,2}[a-zA-Z0-9.\-_.:]*?=(["']).*?\1(?=.*?\/*?>)/gis,
       (match: any) => `${this.storeComponentAttribute(match)}`,
     );
   }
@@ -1332,13 +1332,34 @@ export default class Formatter {
         const indent = detectIndent(matchedLine[0]);
 
         const matched = this.componentAttributes[p1];
-        const formatted = _.replace(matched, /(?<=:.*?=(["'])).*?(?=\1)/gis, (match) => {
-          try {
-            return util.formatRawStringAsPhp(match, this.wrapLineLength - indent.amount).trimEnd();
-          } catch (error) {
-            return match;
-          }
-        });
+        const formatted = _.replace(
+          matched,
+          /(:{1,2}.*?=)(["'])(.*?)(?=\2)/gis,
+          (match, p2: string, p3: string, p4: string) => {
+            if (p4 === '') {
+              return match;
+            }
+
+            if (p2.startsWith('::')) {
+              return `${p2}${p3}${beautify
+                .js_beautify(p4, {
+                  wrap_line_length: this.wrapLineLength - indent.amount,
+                  brace_style: 'preserve-inline',
+                })
+                .trim()}`;
+            }
+
+            if (this.isInline(p4)) {
+              try {
+                return `${p2}${p3}${util.formatRawStringAsPhp(p4, this.wrapLineLength - indent.amount).trimEnd()}`;
+              } catch (error) {
+                return `${p2}${p3}${p4}`;
+              }
+            }
+
+            return `${p2}${p3}${util.formatRawStringAsPhp(p4, this.wrapLineLength - indent.amount).trimEnd()}`;
+          },
+        );
 
         return `${this.indentComponentAttribute(indent.indent, formatted)}`;
       },
