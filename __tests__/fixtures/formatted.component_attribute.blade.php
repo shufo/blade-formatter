@@ -78,5 +78,21 @@
     </x-laravel-blade-sortable::sortable>
     <x-alert type="error" :message="1" class="mb-4" />
     <x-alert type="error" :message="'foo'" class="mb-4" />
-    <x-alert type="error" :message="," class="mb-4" />
+    <x-alert type="error" :message="" class="mb-4" />
+    <x-button ::class="{ danger: isDeleting, danger1: isDeleting, danger2: isDeleting, danger3: isDeleting }">
+        Submit
+    </x-button>
+    <x-button ::class="{
+        danger: isDeleting,
+        danger1: isDeleting,
+        danger2: isDeleting,
+        danger3: isDeleting,
+        danger4: isDeleting,
+        danger5: isDeleting
+    }">
+        Submit
+    </x-button>
+    <x-button ::style="{ color: 'red', display: 'flex' }">
+        Submit
+    </x-button>
 @endsection
