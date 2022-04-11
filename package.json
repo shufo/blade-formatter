@@ -50,7 +50,7 @@
     "php-parser": "3.0.3",
     "prettier": "^2.2.0",
     "vscode-oniguruma": "1.6.2",
-    "vscode-textmate": "^6.0.0",
+    "vscode-textmate": "^7.0.1",
     "xregexp": "^5.0.1",
     "yargs": "^17.3.1"
   },
