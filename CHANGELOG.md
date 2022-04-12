@@ -1,5 +1,16 @@
 # Changelog
 
+### [1.23.1](https://www.github.com/shufo/blade-formatter/compare/v1.23.0...v1.23.1) (2022-04-12)
+
+
+### Miscellaneous
+
+* **deps:** bump glob from 7.2.0 to 8.0.1 ([d7b6653](https://www.github.com/shufo/blade-formatter/commit/d7b6653db35865b54fd27acb4b08d6969fdea0d0))
+* **deps:** bump js-beautify from 1.14.1 to 1.14.3 ([89ad217](https://www.github.com/shufo/blade-formatter/commit/89ad2170be098f33664e0a6cf03a04795ca9623b))
+* **deps:** bump prettier from 2.6.1 to 2.6.2 ([766857b](https://www.github.com/shufo/blade-formatter/commit/766857b2cc43f5dc6d4c8d643c9c6e6c98773b69))
+* **deps:** bump vscode-textmate from 6.0.0 to 7.0.1 ([a416629](https://www.github.com/shufo/blade-formatter/commit/a416629dac9df8e302a112f87470625c326c7ef7))
+* **deps:** bump yargs from 17.4.0 to 17.4.1 ([f3e9d45](https://www.github.com/shufo/blade-formatter/commit/f3e9d45e37574ed43c21670df9835a61a5749564))
+
 ## [1.23.0](https://www.github.com/shufo/blade-formatter/compare/v1.22.3...v1.23.0) (2022-04-03)
 
 
