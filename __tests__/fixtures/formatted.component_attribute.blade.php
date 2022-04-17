@@ -27,7 +27,7 @@
         <x-menu.item>...</x-menu.item>
     </x-menu>
     <x-alert type="error" :message="$message" class="mb-4" />
-    <div :foo="aaaa">
+    <div :foo="aaaa ">
     </div>
     <div :foo="aaaa" />
     <div :aaa="aaaa">
