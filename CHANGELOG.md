@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.23.2](https://www.github.com/shufo/blade-formatter/compare/v1.23.1...v1.23.2) (2022-04-17)
+
+
+### Fixes
+
+* 🐛 colon prefixed attribute gets unexpected format ([0d78cfa](https://www.github.com/shufo/blade-formatter/commit/0d78cfac8d4756451f69debc5a804dd4f3c8e109))
+
 ### [1.23.1](https://www.github.com/shufo/blade-formatter/compare/v1.23.0...v1.23.1) (2022-04-12)
 
 
