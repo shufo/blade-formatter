@@ -2924,4 +2924,31 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
+
+  test('colon prefixed attribute #552', async () => {
+    const content = [
+      `<x-app-layout>`,
+      `@if ($user)`,
+      `Is HR`,
+      `@endif`,
+      `</x-app-layout>`,
+      `<tbody x-data class="divide-y divide-gray-200 bg-gray-50">`,
+      `<template x-for="shipment in in_progress" :key="shipment.id" />`,
+      `</tbody>`,
+    ].join('\n');
+
+    const expected = [
+      `<x-app-layout>`,
+      `    @if ($user)`,
+      `        Is HR`,
+      `    @endif`,
+      `</x-app-layout>`,
+      `<tbody x-data class="divide-y divide-gray-200 bg-gray-50">`,
+      `    <template x-for="shipment in in_progress" :key="shipment.id" />`,
+      `</tbody>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
 });

@@ -520,7 +520,7 @@ export default class Formatter {
   async preserveComponentAttribute(content: string) {
     return _.replace(
       content,
-      /(?<=<x-.*?\s):{1,2}[a-zA-Z0-9.\-_.:]*?=(["']).*?\1(?=.*?\/*?>)/gis,
+      /(?<=<x-[^<]*?\s):{1,2}(?<!=>)[\w\-_.]*?=(["'])(?!=>)[^]*?\1(?=[^>]*?\/*?>)/gim,
       (match: any) => `${this.storeComponentAttribute(match)}`,
     );
   }
