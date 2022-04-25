@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.23.4](https://www.github.com/shufo/blade-formatter/compare/v1.23.3...v1.23.4) (2022-04-25)
+
+
+### Fixes
+
+* 🐛 prevent set directive to be wrapped ([81e6897](https://www.github.com/shufo/blade-formatter/commit/81e6897e04042d25145dc03c30580799573a2bb0))
+
 ### [1.23.3](https://www.github.com/shufo/blade-formatter/compare/v1.23.2...v1.23.3) (2022-04-25)
 
 
