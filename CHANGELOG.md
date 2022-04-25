@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.23.3](https://www.github.com/shufo/blade-formatter/compare/v1.23.2...v1.23.3) (2022-04-25)
+
+
+### Fixes
+
+* 🐛 shorthand bindings gets unexpected indentation ([d5989b7](https://www.github.com/shufo/blade-formatter/commit/d5989b76f775cf1051cd74228e7f8e46c8e0b28c))
+
 ### [1.23.2](https://www.github.com/shufo/blade-formatter/compare/v1.23.1...v1.23.2) (2022-04-17)
 
 
