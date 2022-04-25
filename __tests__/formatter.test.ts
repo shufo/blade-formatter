@@ -2988,4 +2988,17 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
+
+  test('@set directive #542', async () => {
+    const content = [
+      `@set($myVariableWithVeryVeryVeryVeryVeryLongName = ($myFirstCondition || $mySecondCondition)?'My text':'My alternative text')`,
+    ].join('\n');
+
+    const expected = [
+      `@set($myVariableWithVeryVeryVeryVeryVeryLongName = $myFirstCondition || $mySecondCondition ? 'My text' : 'My alternative text')`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
 });
