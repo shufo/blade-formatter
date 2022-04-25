@@ -1,7 +1,7 @@
 /* eslint-disable class-methods-use-this */
 
 import os from 'os';
-import beautify from 'js-beautify';
+import beautify, { JSBeautifyOptions } from 'js-beautify';
 import _ from 'lodash';
 import * as vscodeTmModule from 'vscode-textmate';
 import detectIndent from 'detect-indent';
