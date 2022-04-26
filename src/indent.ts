@@ -119,7 +119,7 @@ export const inlineFunctionTokens = [
   '@class',
 ];
 
-export const conditionalTokens = ['@if', '@while', '@case', '@isset', '@empty', '@elseif'];
+export const conditionalTokens = ['@if', '@while', '@case', '@isset', '@empty', '@elseif', '@component'];
 
 export function hasStartAndEndToken(tokenizeLineResult: any, originalLine: any) {
   return (

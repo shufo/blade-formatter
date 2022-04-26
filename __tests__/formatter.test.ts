@@ -3001,4 +3001,52 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
+
+  test('@component directive indentation', async () => {
+    const content = [
+      `<div>`,
+      `        <div>`,
+      `@component('path.to.component', [`,
+      `    'title' => 'My title',`,
+      `'description' => '',`,
+      `    'header' => [`,
+      `        'transparent' => true,`,
+      `                  ],`,
+      `  'footer' => [`,
+      `        'hide' => true,`,
+      `    ],`,
+      `            ])`,
+      `    <div>`,
+      `        some content`,
+      `            </div>`,
+      `          @endcomponent`,
+      `</div>`,
+      `</div>`,
+    ].join('\n');
+
+    const expected = [
+      `<div>`,
+      `    <div>`,
+      `        @component('path.to.component',`,
+      `            [`,
+      `                'title' => 'My title',`,
+      `                'description' => '',`,
+      `                'header' => [`,
+      `                    'transparent' => true,`,
+      `                ],`,
+      `                'footer' => [`,
+      `                    'hide' => true,`,
+      `                ],`,
+      `            ])`,
+      `            <div>`,
+      `                some content`,
+      `            </div>`,
+      `        @endcomponent`,
+      `    </div>`,
+      `</div>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
 });
