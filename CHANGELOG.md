@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.23.5](https://www.github.com/shufo/blade-formatter/compare/v1.23.4...v1.23.5) (2022-04-27)
+
+
+### Fixes
+
+* 🐛 component directive argument lose indentation ([14a1568](https://www.github.com/shufo/blade-formatter/commit/14a1568a83472ca7292b884b54fc1036eb37cf5b))
+
 ### [1.23.4](https://www.github.com/shufo/blade-formatter/compare/v1.23.3...v1.23.4) (2022-04-25)
 
 
