@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.23.6](https://www.github.com/shufo/blade-formatter/compare/v1.23.5...v1.23.6) (2022-05-02)
+
+
+### Fixes
+
+* 🐛 long inline blade braces adds unexpected line break ([bfd9609](https://www.github.com/shufo/blade-formatter/commit/bfd96094835d3640457038a0c806b78a93a1e357))
+
 ### [1.23.5](https://www.github.com/shufo/blade-formatter/compare/v1.23.4...v1.23.5) (2022-04-27)
 
 
