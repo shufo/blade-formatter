@@ -468,7 +468,7 @@ export default class Formatter {
             );
 
             // eslint-disable-next-line
-            content = _.replace(content, matched.value, replaced);
+            content = _.replace(content, matched.value, util.escapeReplacementString(replaced));
           }
         }
       } catch (error) {

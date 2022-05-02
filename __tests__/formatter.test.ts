@@ -3069,4 +3069,31 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
+
+  test('special character in replacement parameter #565', async () => {
+    const content = [
+      `@section('foo')`,
+      `    <script>`,
+      `        alert('$');`,
+      `        alert('$$');`,
+      `        alert('$$$');`,
+      `        alert('$$$$');`,
+      `    </script>`,
+      `@endsection`,
+    ].join('\n');
+
+    const expected = [
+      `@section('foo')`,
+      `    <script>`,
+      `        alert('$');`,
+      `        alert('$$');`,
+      `        alert('$$$');`,
+      `        alert('$$$$');`,
+      `    </script>`,
+      `@endsection`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
 });

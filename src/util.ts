@@ -317,10 +317,14 @@ export function checkResult(formatted: any) {
   return formatted;
 }
 
+export function escapeReplacementString(string: string) {
+  return string.replace(/\$/g, '$$$$');
+}
+
 export function debugLog(content: any) {
-  console.log('content start');
+  console.log('------------------- content start -------------------');
   console.log(content);
-  console.log('content end');
+  console.log('------------------- content end   -------------------');
 
   return content;
 }
