@@ -322,9 +322,9 @@ export function escapeReplacementString(string: string) {
 }
 
 export function debugLog(content: any) {
-  console.log('content start');
+  console.log('------------------- content start -------------------');
   console.log(content);
-  console.log('content end');
+  console.log('------------------- content end   -------------------');
 
   return content;
 }
