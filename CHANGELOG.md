@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.23.7](https://www.github.com/shufo/blade-formatter/compare/v1.23.6...v1.23.7) (2022-05-02)
+
+
+### Fixes
+
+* 🐛 dollar sign may cause formatting errors ([b9f98b8](https://www.github.com/shufo/blade-formatter/commit/b9f98b84baa4e777eff329d51461139dd1863251))
+
 ### [1.23.6](https://www.github.com/shufo/blade-formatter/compare/v1.23.5...v1.23.6) (2022-05-02)
 
 
