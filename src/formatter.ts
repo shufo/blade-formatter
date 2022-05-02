@@ -1070,7 +1070,7 @@ export default class Formatter {
 
           if (this.isInline(bladeBrace)) {
             return `${p1}{{ ${util
-              .formatRawStringAsPhp(bladeBrace, 120, false)
+              .formatRawStringAsPhp(bladeBrace, 1000, false)
               .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
               .split('\n')
               .map((line) => line.trim())

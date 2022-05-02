@@ -3049,4 +3049,24 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
+
+  test('long inline brade braces', async () => {
+    const content = [
+      `<input id="combobox" type="text" placeholder="{{ $itemsPlaceholder }}" role="combobox" aria-controls="options"`,
+      `       aria-expanded="false" x-on:keydown.up.prevent="hoverPreviousItem()"`,
+      `       x-on:keydown.enter.stop.prevent="selectItem()" x-on:keydown.down.prevent="hoverNextItem()" x-ref="input"`,
+      `       x-model="input"`,
+      `       class="form-input focus:border-blue-good-standard-light focus:ring-blue-good-standard-light {{ empty($selectedItemIds)?'placeholder:text-blue-good-standard-light focus:placeholder:text-blue-good-standard-dark':'placeholder:text-gray-good-standard-light focus:placeholder:text-gray-good-standard-dark' }} {{ $inputClasses }} w-full rounded-md border border-gray-300 bg-white py-2 pr-3 pl-12 text-base shadow-sm transition-all placeholder:font-medium focus:outline-none focus:ring-1">`,
+    ].join('\n');
+
+    const expected = [
+      `<input id="combobox" type="text" placeholder="{{ $itemsPlaceholder }}" role="combobox" aria-controls="options"`,
+      `    aria-expanded="false" x-on:keydown.up.prevent="hoverPreviousItem()" x-on:keydown.enter.stop.prevent="selectItem()"`,
+      `    x-on:keydown.down.prevent="hoverNextItem()" x-ref="input" x-model="input"`,
+      `    class="form-input focus:border-blue-good-standard-light focus:ring-blue-good-standard-light {{ empty($selectedItemIds) ? 'placeholder:text-blue-good-standard-light focus:placeholder:text-blue-good-standard-dark' : 'placeholder:text-gray-good-standard-light focus:placeholder:text-gray-good-standard-dark' }} {{ $inputClasses }} w-full rounded-md border border-gray-300 bg-white py-2 pr-3 pl-12 text-base shadow-sm transition-all placeholder:font-medium focus:outline-none focus:ring-1">`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
 });
