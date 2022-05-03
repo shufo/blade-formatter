@@ -525,7 +525,7 @@ export default class Formatter {
   async preserveShorthandBinding(content: string) {
     return _.replace(
       content,
-      /(?<=<(?!livewire)[^<]*?(\s|x-bind)):{1}(?<!=>)[\w\-_.]*?=(["'])(?!=>)[^]*?\2(?=[^>]*?\/*?>)/gim,
+      /(?<=<(?!livewire:)[^<]*?(\s|x-bind)):{1}(?<!=>)[\w\-_.]*?=(["'])(?!=>)[^]*?\2(?=[^>]*?\/*?>)/gim,
       (match: any) => `${this.storeShorthandBinding(match)}`,
     );
   }
@@ -533,7 +533,7 @@ export default class Formatter {
   async preserveComponentAttribute(content: string) {
     return _.replace(
       content,
-      /(?<=<(x-|livewire)[^<]*?\s):{1,2}(?<!=>)[\w\-_.]*?=(["'])(?!=>)[^]*?\2(?=[^>]*?\/*?>)/gim,
+      /(?<=<(x-|livewire:)[^<]*?\s):{1,2}(?<!=>)[\w\-_.]*?=(["'])(?!=>)[^]*?\2(?=[^>]*?\/*?>)/gim,
       (match: any) => `${this.storeComponentAttribute(match)}`,
     );
   }
