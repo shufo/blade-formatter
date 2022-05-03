@@ -450,7 +450,11 @@ export default class Formatter {
           if (matched.name === 'match') {
             if (new RegExp(indentStartTokens.join('|')).test(matched.value)) {
               // eslint-disable-next-line
-              content = _.replace(content, matched.value, this.breakLineBeforeAndAfterDirective(matched.value));
+              content = _.replace(
+                content,
+                matched.value,
+                this.breakLineBeforeAndAfterDirective(util.escapeReplacementString(matched.value)),
+              );
             }
 
             const innerRegex = new RegExp(`^(\\s*?)${nestedParenthesisRegex}(.*)`, 'gmis');

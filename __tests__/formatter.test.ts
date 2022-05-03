@@ -3121,4 +3121,31 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
+
+  test('dollar sign with nested directive #569', async () => {
+    const content = [
+      `@section('foo')`,
+      `    <script>`,
+      `        alert('anything as long as the string ends with a dollar sign -> $');`,
+      `    </script>`,
+      `    @if(true)`,
+      `    foo`,
+      `    @endif`,
+      `@endsection`,
+    ].join('\n');
+
+    const expected = [
+      `@section('foo')`,
+      `    <script>`,
+      `        alert('anything as long as the string ends with a dollar sign -> $');`,
+      `    </script>`,
+      `    @if (true)`,
+      `        foo`,
+      `    @endif`,
+      `@endsection`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
 });
