@@ -1,5 +1,13 @@
 # Changelog
 
+### [1.23.8](https://www.github.com/shufo/blade-formatter/compare/v1.23.7...v1.23.8) (2022-05-03)
+
+
+### Fixes
+
+* 🐛 dollar sign with nested directive causes error ([f2305d0](https://www.github.com/shufo/blade-formatter/commit/f2305d039f3ba4c6d22e45339b828d5796bc2ff7))
+* 🐛 livewire tag causes unexpected formatting ([6951635](https://www.github.com/shufo/blade-formatter/commit/69516358a1de94c7a389d9e60e30aa3d19300523))
+
 ### [1.23.7](https://www.github.com/shufo/blade-formatter/compare/v1.23.6...v1.23.7) (2022-05-02)
 
 
