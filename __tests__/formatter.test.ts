@@ -3230,4 +3230,33 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
+
+  test('@aware directive #576', async () => {
+    const content = [
+      `@aware(['color'=>'gray'])`,
+      `@aware([`,
+      `    'variant'   => 'primary',`,
+      `    'colors'        => [`,
+      `        'primary'   =>         'btn-primary',`,
+      `      'secondary' =>     'btn-secondary',`,
+      `   'danger' => 'btn-danger',`,
+      `    ]`,
+      `])`,
+    ].join('\n');
+
+    const expected = [
+      `@aware(['color' => 'gray'])`,
+      `@aware([`,
+      `    'variant' => 'primary',`,
+      `    'colors' => [`,
+      `        'primary' => 'btn-primary',`,
+      `        'secondary' => 'btn-secondary',`,
+      `        'danger' => 'btn-danger',`,
+      `    ],`,
+      `])`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
 });
