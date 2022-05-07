@@ -28,7 +28,11 @@
                 @isset($item->images)
                     let files = [];
                     let fileUrls = [];
-                    let response = { status:"success", fileHashes: [], imageIds: []};
+                    let response = {
+                        status: "success",
+                        fileHashes: [],
+                        imageIds: []
+                    };
                     @foreach ($item->images as $image)
                         @php
                             $imageUrl = asset('img/' . $image->image_hash);
@@ -37,15 +41,16 @@
                             $imageSize = File::size($imagePath);
                             $imageName = File::name($imagePath);
                         @endphp
-                
+
                         files.push({
-                        processing: true,
-                        accepted: true,
-                        name: "{{ $imageName }}",
-                        size: {{ $imageSize }},
-                        type: '{{ $imageMime }}',
-                        status: Dropzone.SUCCESS,});
-                
+                            processing: true,
+                            accepted: true,
+                            name: "{{ $imageName }}",
+                            size: {{ $imageSize }},
+                            type: '{{ $imageMime }}',
+                            status: Dropzone.SUCCESS,
+                        });
+
                         fileUrls.push("{{ $imageUrl }}")
                         response.fileHashes.push("{{ $image->image_hash }}")
                         response.imageIds.push("{{ $image->id }}")
