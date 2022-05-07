@@ -1060,6 +1060,7 @@ export default class Formatter {
       formatted = _.replace(
         formatted,
         new RegExp(`^(.*?)${this.getRawPlaceholder('(\\d+)')}`, 'gm'),
+        // eslint-disable-next-line no-shadow
         (match: any, p1: any, p2: any) => {
           let rawBlock = this.rawBlocks[p2];
 
