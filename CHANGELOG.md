@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.24.0](https://www.github.com/shufo/blade-formatter/compare/v1.23.8...v1.24.0) (2022-05-07)
+
+
+### Features
+
+* 🎸 support aware directive ([#577](https://www.github.com/shufo/blade-formatter/issues/577)) ([e3f935c](https://www.github.com/shufo/blade-formatter/commit/e3f935c8fbd5072f28c2f5dbbdf1cd71a22a51d7))
+
+
+### Fixes
+
+* 🐛 indentation lost in nested directive in script tag ([2b0fb15](https://www.github.com/shufo/blade-formatter/commit/2b0fb153053b15a939f6c82ee860956c0815da55))
+
 ### [1.23.8](https://www.github.com/shufo/blade-formatter/compare/v1.23.7...v1.23.8) (2022-05-03)
 
 
