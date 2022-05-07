@@ -235,7 +235,7 @@ export default class Formatter {
   }
 
   async preservePhpBlock(content: any) {
-    return this.preserveRawPhpBlock(content).then((target) => this.preservePropsBlock(target));
+    return this.preserveRawPhpBlock(content);
   }
 
   async preservePropsBlock(content: any) {

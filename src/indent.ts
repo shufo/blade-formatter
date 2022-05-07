@@ -117,6 +117,8 @@ export const inlineFunctionTokens = [
   '@includefirst',
   '@button',
   '@class',
+  '@props',
+  '@aware',
 ];
 
 export const conditionalTokens = ['@if', '@while', '@case', '@isset', '@empty', '@elseif', '@component'];
