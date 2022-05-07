@@ -304,10 +304,10 @@ export default class Formatter {
   }
 
   preserveBladeDirectivesInScripts(content: any) {
-    return _.replace(content, /<script(.*?)>(.*?)<\/script>/gis, (_match: any, p1: any, p2: any) => {
+    return _.replace(content, /(?<=<script[^>]*?>)(.*?)(?=<\/script>)/gis, (match: string) => {
       const targetTokens = [...indentStartTokens, ...inlineFunctionTokens];
-      if (new RegExp(targetTokens.join('|'), 'gmi').test(p2) === false) {
-        return `<script${p1}>${p2}</script>`;
+      if (new RegExp(targetTokens.join('|'), 'gmi').test(match) === false) {
+        return match.trim();
       }
 
       const inlineFunctionDirectives = inlineFunctionTokens.join('|');
@@ -316,44 +316,37 @@ export default class Formatter {
         `(?!\\/\\*.*?\\*\\/)(${inlineFunctionDirectives})(\\s*?)${nestedParenthesisRegex}`,
         'gmi',
       );
+      const endTokens = _.chain(indentEndTokens).without('@endphp');
 
-      // eslint-disable-next-line no-param-reassign
-      p2 = _.replace(p2, inlineFunctionRegex, (match: any) =>
-        this.storeBladeDirective(util.formatRawStringAsPhp(match)),
+      let formatted: string = match;
+
+      formatted = _.replace(formatted, inlineFunctionRegex, (matched: any) =>
+        this.storeBladeDirective(util.formatRawStringAsPhp(matched)),
       );
 
-      const directives = _.chain(indentStartTokens)
-        .without('@switch', '@forelse', '@empty')
-        .map((x: any) => _.replace(x, /@/, ''))
-        .value();
+      formatted = _.replace(
+        formatted,
+        new RegExp(`(${indentStartTokens.join('|')})\\s*?${nestedParenthesisRegex}`, 'gis'),
+        (matched) => {
+          return `if ( /*${matched}*/ ) {`;
+        },
+      );
 
-      _.forEach(directives, (directive: any) => {
-        try {
-          const recursivelyMatched = xregexp.matchRecursive(p2, `\\@${directive}`, `\\@end${directive}`, 'gmi', {
-            valueNames: [null, 'left', 'match', 'right'],
-          });
-          let output = '';
+      formatted = _.replace(
+        formatted,
+        new RegExp(`(${[...indentElseTokens, ...indentStartOrElseTokens].join('|')})(?!\\s*?\\(.*?\\))`, 'gis'),
+        (matched) => {
+          return `/***script_placeholder***/} /* ${matched} */ {`;
+        },
+      );
 
-          if (_.isEmpty(recursivelyMatched)) {
-            return;
-          }
-
-          _.forEach(recursivelyMatched, (r: any) => {
-            output += r.value;
-            if (r.name === 'right') {
-              if (p2.includes(output)) {
-                // eslint-disable-next-line no-param-reassign
-                p2 = _.replace(p2, output, this.storeBladeDirective(output));
-              }
-              output = '';
-            }
-          });
-        } catch (error) {
-          throw new Error('directive in scripts parsing error');
-        }
+      formatted = _.replace(formatted, new RegExp(`(${endTokens.join('|')})`, 'gis'), (matched) => {
+        return `/***script_placeholder***/} /*${matched}*/`;
       });
 
-      return `<script${p1}>${p2}</script>`;
+      formatted = _.replace(formatted, /(?<!@)@php(.*?)@endphp/gis, (_matched: any, p1: any) => this.storeRawBlock(p1));
+
+      return formatted;
     });
   }
 
@@ -676,7 +669,7 @@ export default class Formatter {
   }
 
   getRawPlaceholder(replace: any) {
-    return _.replace('@__raw_block_#__@', '#', replace);
+    return _.replace('___raw_block_#___', '#', replace);
   }
 
   getInlinePlaceholder(replace: any, length = 0) {
@@ -1034,7 +1027,74 @@ export default class Formatter {
       this.indentBladeDirectiveBlock(p1, this.bladeDirectives[p2]),
     );
 
-    if (regex.test(content)) {
+    result = _.replace(result, /(?<=<script[^>]*?>)(.*?)(?=<\/script>)/gis, (match: string) => {
+      let formatted: string = match;
+
+      formatted = _.replace(
+        formatted,
+        new RegExp(`if \\( \\/\\*((${indentStartTokens.join('|')}).*?)\\*\\/ \\) \\{`, 'gis'),
+        (_match: any, p1: any) => {
+          return `${p1}`;
+        },
+      );
+
+      formatted = _.replace(
+        formatted,
+        new RegExp(`} \\/\\* (${[...indentElseTokens, ...indentStartOrElseTokens].join('|')}) \\*\\/ {`, 'gis'),
+        (_match: any, p1: any) => {
+          return `${p1}`;
+        },
+      );
+
+      const endTokens = _.chain(indentEndTokens).without('@endphp');
+
+      formatted = _.replace(
+        formatted,
+        new RegExp(`} \\/\\*(${endTokens.join('|')})\\*\\/`, 'gis'),
+        (_match: any, p1: any) => {
+          return `${p1}`;
+        },
+      );
+
+      // restore php block
+      formatted = _.replace(
+        formatted,
+        new RegExp(`^(.*?)${this.getRawPlaceholder('(\\d+)')}`, 'gm'),
+        // eslint-disable-next-line no-shadow
+        (match: any, p1: any, p2: any) => {
+          let rawBlock = this.rawBlocks[p2];
+
+          if (this.isInline(rawBlock) && this.isMultilineStatement(rawBlock)) {
+            rawBlock = util.formatStringAsPhp(`<?php\n${rawBlock}\n?>`).trim();
+          } else if (rawBlock.split('\n').length > 1) {
+            rawBlock = util.formatStringAsPhp(`<?php${rawBlock}?>`).trim();
+          } else {
+            rawBlock = `<?php${rawBlock}?>`;
+          }
+
+          return _.replace(rawBlock, /^(\s*)?<\?php(.*?)\?>/gms, (_matched: any, _q1: any, q2: any) => {
+            if (this.isInline(rawBlock)) {
+              return `${p1}@php${q2}@endphp`;
+            }
+
+            const preserved = this.preserveStringLiteralInPhp(q2);
+            const indented = this.indentRawBlock(p1, preserved);
+            const restored = this.restoreStringLiteralInPhp(indented);
+
+            return `${_.isEmpty(p1) ? '' : p1}@php${restored}@endphp`;
+          });
+        },
+      );
+
+      // eslint-disable-next-line
+      formatted = _.replace(formatted, /^.*?\/\*\*\*script_placeholder\*\*\*\/\s/gim, (_match: any) => {
+        return ``;
+      });
+
+      return formatted;
+    });
+
+    if (regex.test(result)) {
       result = this.restoreBladeDirectivesInScripts(result);
     }
 

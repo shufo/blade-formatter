@@ -22,8 +22,7 @@
                     onclick="yaCounter.reachGoal('form'); return true;">{{ $face_btn_text }}</a>
             @endisset
             @isset($clutch)
-                <script type="text/javascript" src="https://widget.clutch.co/static/js/widget.js">
-                </script>
+                <script type="text/javascript" src="https://widget.clutch.co/static/js/widget.js"></script>
                 <div class="face__clutch clutch-widget" data-url="https://widget.clutch.co" data-widget-type="2"
                     data-height="50" data-clutchcompany-id="861064" {{ $clutch === 'dark' ? 'data-darkbg="1"' : '' }}>
                 </div>

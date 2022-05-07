@@ -300,6 +300,7 @@ const escapeTags = [
   '__BLADE__;',
   '/\\* blade_comment_start \\*/',
   '/\\* blade_comment_end \\*/',
+  '/\\*\\*\\*script_placeholder\\*\\*\\*/',
   'beautifyTag',
 ];
 
