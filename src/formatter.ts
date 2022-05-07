@@ -1027,63 +1027,73 @@ export default class Formatter {
       this.indentBladeDirectiveBlock(p1, this.bladeDirectives[p2]),
     );
 
-    result = _.replace(
-      result,
-      new RegExp(`if \\( \\/\\*((${indentStartTokens.join('|')}).*?)\\*\\/ \\) \\{`, 'gis'),
-      (_match: any, p1: any) => {
-        return `${p1}`;
-      },
-    );
+    result = _.replace(result, /(?<=<script[^>]*?>)(.*?)(?=<\/script>)/gis, (match: string) => {
+      let formatted: string = match;
 
-    result = _.replace(
-      result,
-      new RegExp(`} \\/\\* (${[...indentElseTokens, ...indentStartOrElseTokens].join('|')}) \\*\\/ {`, 'gis'),
-      (_match: any, p1: any) => {
-        return `${p1}`;
-      },
-    );
+      formatted = _.replace(
+        formatted,
+        new RegExp(`if \\( \\/\\*((${indentStartTokens.join('|')}).*?)\\*\\/ \\) \\{`, 'gis'),
+        (_match: any, p1: any) => {
+          return `${p1}`;
+        },
+      );
 
-    const endTokens = _.chain(indentEndTokens).without('@endphp');
+      formatted = _.replace(
+        formatted,
+        new RegExp(`} \\/\\* (${[...indentElseTokens, ...indentStartOrElseTokens].join('|')}) \\*\\/ {`, 'gis'),
+        (_match: any, p1: any) => {
+          return `${p1}`;
+        },
+      );
 
-    result = _.replace(result, new RegExp(`} \\/\\*(${endTokens.join('|')})\\*\\/`, 'gis'), (_match: any, p1: any) => {
-      return `${p1}`;
-    });
+      const endTokens = _.chain(indentEndTokens).without('@endphp');
 
-    // restore php block
-    result = _.replace(
-      result,
-      new RegExp(`^(.*?)${this.getRawPlaceholder('(\\d+)')}`, 'gm'),
-      (match: any, p1: any, p2: any) => {
-        let rawBlock = this.rawBlocks[p2];
+      formatted = _.replace(
+        formatted,
+        new RegExp(`} \\/\\*(${endTokens.join('|')})\\*\\/`, 'gis'),
+        (_match: any, p1: any) => {
+          return `${p1}`;
+        },
+      );
 
-        if (this.isInline(rawBlock) && this.isMultilineStatement(rawBlock)) {
-          rawBlock = util.formatStringAsPhp(`<?php\n${rawBlock}\n?>`).trim();
-        } else if (rawBlock.split('\n').length > 1) {
-          rawBlock = util.formatStringAsPhp(`<?php${rawBlock}?>`).trim();
-        } else {
-          rawBlock = `<?php${rawBlock}?>`;
-        }
+      // restore php block
+      formatted = _.replace(
+        formatted,
+        new RegExp(`^(.*?)${this.getRawPlaceholder('(\\d+)')}`, 'gm'),
+        (match: any, p1: any, p2: any) => {
+          let rawBlock = this.rawBlocks[p2];
 
-        return _.replace(rawBlock, /^(\s*)?<\?php(.*?)\?>/gms, (_matched: any, _q1: any, q2: any) => {
-          if (this.isInline(rawBlock)) {
-            return `${p1}@php${q2}@endphp`;
+          if (this.isInline(rawBlock) && this.isMultilineStatement(rawBlock)) {
+            rawBlock = util.formatStringAsPhp(`<?php\n${rawBlock}\n?>`).trim();
+          } else if (rawBlock.split('\n').length > 1) {
+            rawBlock = util.formatStringAsPhp(`<?php${rawBlock}?>`).trim();
+          } else {
+            rawBlock = `<?php${rawBlock}?>`;
           }
 
-          const preserved = this.preserveStringLiteralInPhp(q2);
-          const indented = this.indentRawBlock(p1, preserved);
-          const restored = this.restoreStringLiteralInPhp(indented);
+          return _.replace(rawBlock, /^(\s*)?<\?php(.*?)\?>/gms, (_matched: any, _q1: any, q2: any) => {
+            if (this.isInline(rawBlock)) {
+              return `${p1}@php${q2}@endphp`;
+            }
 
-          return `${_.isEmpty(p1) ? '' : p1}@php${restored}@endphp`;
-        });
-      },
-    );
+            const preserved = this.preserveStringLiteralInPhp(q2);
+            const indented = this.indentRawBlock(p1, preserved);
+            const restored = this.restoreStringLiteralInPhp(indented);
 
-    // eslint-disable-next-line
-    result = _.replace(result, /^.*?\/\*\*\*script_placeholder\*\*\*\/\s/gim, (_match: any) => {
-      return ``;
+            return `${_.isEmpty(p1) ? '' : p1}@php${restored}@endphp`;
+          });
+        },
+      );
+
+      // eslint-disable-next-line
+      formatted = _.replace(formatted, /^.*?\/\*\*\*script_placeholder\*\*\*\/\s/gim, (_match: any) => {
+        return ``;
+      });
+
+      return formatted;
     });
 
-    if (regex.test(content)) {
+    if (regex.test(result)) {
       result = this.restoreBladeDirectivesInScripts(result);
     }
 
