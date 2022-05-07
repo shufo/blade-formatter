@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.23.9](https://www.github.com/shufo/blade-formatter/compare/v1.23.8...v1.23.9) (2022-05-07)
+
+
+### Fixes
+
+* 🐛 indentation lost in nested directive in script tag ([2b0fb15](https://www.github.com/shufo/blade-formatter/commit/2b0fb153053b15a939f6c82ee860956c0815da55))
+
 ### [1.23.8](https://www.github.com/shufo/blade-formatter/compare/v1.23.7...v1.23.8) (2022-05-03)
 
 
