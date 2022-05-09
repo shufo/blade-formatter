@@ -4,11 +4,13 @@ export const directivePrefix = '@';
 
 export const indentStartTokens = [
   '@alert',
+  '@pushonce',
   '@push',
   '@slot',
   '@switch',
   '@unless',
   '@verbatim',
+  '@prependonce',
   '@prepend',
   '@once',
   '@error',
@@ -44,6 +46,7 @@ export const indentStartTokensWithoutPrefix = _.map(indentStartTokens, (token) =
 
 export const indentEndTokens = [
   '@endalert',
+  '@endpushonce',
   '@endpush',
   '@endslot',
   '@endswitch',
@@ -51,6 +54,7 @@ export const indentEndTokens = [
   '@endverbatim',
   '@show',
   '@stop',
+  '@endprependonce',
   '@endprepend',
   '@endonce',
   '@enderror',

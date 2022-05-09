@@ -3259,4 +3259,46 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
+
+  test('@pushonce directive', async () => {
+    const content = [
+      `@pushOnce('scripts')`,
+      `<script>`,
+      `// Your custom JavaScript...`,
+      `</script>`,
+      `@endPushOnce`,
+    ].join('\n');
+
+    const expected = [
+      `@pushOnce('scripts')`,
+      `    <script>`,
+      `        // Your custom JavaScript...`,
+      `    </script>`,
+      `@endPushOnce`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
+
+  test('@prependonce directive', async () => {
+    const content = [
+      `@prependOnce('scripts')`,
+      `<script>`,
+      `// Your custom JavaScript...`,
+      `</script>`,
+      `@endPrependOnce`,
+    ].join('\n');
+
+    const expected = [
+      `@prependOnce('scripts')`,
+      `    <script>`,
+      `        // Your custom JavaScript...`,
+      `    </script>`,
+      `@endPrependOnce`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
 });
