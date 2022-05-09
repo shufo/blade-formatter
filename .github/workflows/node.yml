@@ -36,3 +36,6 @@ jobs:
         yarn test
       env:
         CI: true
+    - uses: codecov/codecov-action@v2
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
