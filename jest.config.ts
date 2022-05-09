@@ -1,4 +1,4 @@
-import type {Config} from '@jest/types';
+import type { Config } from '@jest/types';
 
 const appRoot = require('app-root-path');
 
@@ -6,7 +6,7 @@ const config: Config.InitialOptions = {
   globals: {
     __basedir: appRoot.toString(),
     'ts-jest': {
-      tsconfig: './tsconfig.json'
+      tsconfig: './tsconfig.json',
     },
   },
   testMatch: ['**/__tests__/**/?(*.)+(spec|test).[jt]s?(x)'],
@@ -22,10 +22,9 @@ const config: Config.InitialOptions = {
   testTimeout: 10000,
   verbose: true,
   cache: false,
-  testEnvironment: "node",
-  setupFiles: [
-   "<rootDir>/jest.setup.ts"
-  ]
+  testEnvironment: 'node',
+  setupFiles: ['<rootDir>/jest.setup.ts'],
+  collectCoverage: true,
 };
 
 export default config;
