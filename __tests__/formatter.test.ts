@@ -153,7 +153,7 @@ describe('formatter', () => {
   ];
 
   builtInDirectives.forEach((directive) => {
-    test('builtin directive test', () => {
+    test(`builtin directive test: ${directive}`, () => {
       const content = [
         `<section>`,
         `@${directive}($foo)`,
