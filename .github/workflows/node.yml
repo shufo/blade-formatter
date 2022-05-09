@@ -28,11 +28,19 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-yarn-
 
-    - name: npm install, build, linting, and test
+    - name: npm install
       run: |
         yarn install
+      env:
+        CI: true
+    - name: linting
+      run: |
         yarn run lint
         yarn run check_formatted
+      env:
+        CI: true
+    - name: yarn run test
+      run: |
         yarn test
       env:
         CI: true
