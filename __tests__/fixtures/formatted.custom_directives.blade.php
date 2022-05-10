@@ -86,6 +86,12 @@
     @routeis('home')
         // Your stuff here
     @endrouteis
+    <!-- inlined custom directive without arguments -->
+    @isHome
+        we are on home
+    @else
+        not home
+    @endisHome
     <!-- inlined if~else-endif custom directive -->
     @session('success')
         <div class="alert alert-success">{{ \Session::get('success') }}</div>
