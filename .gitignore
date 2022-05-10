@@ -3,3 +3,5 @@ yarn-error.log
 *.ipynb
 /types
 /dist
+/coverage
+/test*.blade.php
