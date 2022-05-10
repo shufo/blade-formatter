@@ -302,6 +302,9 @@ const escapeTags = [
   '/\\* blade_comment_end \\*/',
   '/\\*\\*\\*script_placeholder\\*\\*\\*/',
   'beautifyTag',
+  '@customdirective',
+  '@elsecustomdirective',
+  '@endcustomdirective',
 ];
 
 export function checkResult(formatted: any) {

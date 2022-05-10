@@ -40,6 +40,7 @@ export const indentStartTokens = [
   '@component',
   '@hassection',
   '@section',
+  '@customdirective',
 ];
 
 export const indentStartTokensWithoutPrefix = _.map(indentStartTokens, (token) => token.substring(1));
@@ -85,9 +86,18 @@ export const indentEndTokens = [
   '@endphp',
   '@endcomponent',
   '@endsection',
+  '@endcustomdirective',
 ];
 
-export const indentElseTokens = ['@elseenv', '@elseif', '@elsecanany', '@elsecannot', '@elsecan', '@else'];
+export const indentElseTokens = [
+  '@elseenv',
+  '@elseif',
+  '@elsecanany',
+  '@elsecannot',
+  '@elsecan',
+  '@else',
+  '@elsecustomdirective',
+];
 
 // Directives which do not need an end token if a parameter is present
 export const optionalStartWithoutEndTokens = {
