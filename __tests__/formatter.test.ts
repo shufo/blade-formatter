@@ -3301,4 +3301,54 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
+
+  test('inline directive should format its inside expression', async () => {
+    const content = [`@lang("foo"     )`].join('\n');
+
+    const expected = [`@lang('foo')`, ``].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
+
+  test('long inline directive should format its inside expression', async () => {
+    const content = [
+      `<div>@lang(["foo"=>123,"entangle_state1"=>123,      "entangle_state2" => 124, "entangle_state3" => 125, "entangle_state4" => 126, "entangle_state5" => 127, "entangle_state6" => 128])</div>`,
+    ].join('\n');
+
+    const expected = [
+      `<div>@lang(['foo' => 123, 'entangle_state1' => 123, 'entangle_state2' => 124, 'entangle_state3' => 125, 'entangle_state4' => 126, 'entangle_state5' => 127, 'entangle_state6' => 128])</div>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
+
+  test('inline directive passed multiple argument should not throws Exception', async () => {
+    const content = [`@instanceof($user, App\\User::class)`].join('\n');
+
+    await expect(new BladeFormatter().format(content)).resolves.not.toThrow('Error');
+  });
+
+  test('it should not throws Exception even if custom directive unmatched', async () => {
+    const content = [`@unlessdisk('local')`, `  foo`, `@endunless`].join('\n');
+
+    await expect(new BladeFormatter().format(content)).resolves.not.toThrow('Error');
+  });
+
+  test('line break custom directive', async () => {
+    const content = [`@disk('local') foo @elsedisk('s3') bar @else baz @enddisk`].join('\n');
+
+    const expected = [
+      `@disk('local')`,
+      `    foo`,
+      `@elsedisk('s3')`,
+      `    bar`,
+      `@else`,
+      `    baz`,
+      `@enddisk`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
 });
