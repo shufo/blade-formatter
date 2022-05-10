@@ -322,10 +322,12 @@ export function escapeReplacementString(string: string) {
   return string.replace(/\$/g, '$$$$');
 }
 
-export function debugLog(content: any) {
-  console.log('------------------- content start -------------------');
-  console.log(content);
-  console.log('------------------- content end   -------------------');
+export function debugLog(...content: any) {
+  _.each(content, (item) => {
+    console.log('------------------- content start -------------------');
+    console.log(item);
+    console.log('------------------- content end   -------------------');
+  });
 
   return content;
 }
