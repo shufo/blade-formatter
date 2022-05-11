@@ -38,7 +38,6 @@ export const indentStartTokens = [
   '@foreach',
   '@php',
   '@component',
-  '@hassection',
   '@section',
   '@customdirective',
 ];
@@ -135,7 +134,9 @@ export const inlineFunctionTokens = [
   '@aware',
 ];
 
-export const conditionalTokens = ['@if', '@while', '@case', '@isset', '@empty', '@elseif', '@component'];
+export const conditionalTokens = ['@if', '@while', '@case', '@isset', '@empty', '@elseif', '@component', '@hassection'];
+
+export const unbalancedStartTokens = ['@hassection'];
 
 export function hasStartAndEndToken(tokenizeLineResult: any, originalLine: any) {
   return (

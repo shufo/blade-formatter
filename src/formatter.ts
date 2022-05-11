@@ -26,6 +26,7 @@ import {
   conditionalTokens,
   directivePrefix,
   indentStartTokensWithoutPrefix,
+  unbalancedStartTokens,
 } from './indent';
 import { nestedParenthesisRegex } from './regex';
 
@@ -96,6 +97,8 @@ export default class Formatter {
 
   customDirectives: Array<string>;
 
+  unbalancedDirectives: Array<string>;
+
   vsctm: any;
 
   wrapAttributes: any;
@@ -136,6 +139,7 @@ export default class Formatter {
     this.shorthandBindings = [];
     this.componentAttributes = [];
     this.customDirectives = [];
+    this.unbalancedDirectives = [];
     this.result = [];
     this.diffs = [];
   }
@@ -151,6 +155,7 @@ export default class Formatter {
       .then((target) => this.preserveRawBladeBrace(target))
       .then((target) => this.preserveConditions(target))
       .then((target) => this.preserveCustomDirective(target))
+      .then((target) => this.preserveUnbalancedDirective(target))
       .then((target) => this.preserveInlineDirective(target))
       .then((target) => this.preserveInlinePhpDirective(target))
       .then((target) => this.breakLineBeforeAndAfterDirective(target))
@@ -179,6 +184,7 @@ export default class Formatter {
       .then((target) => this.restoreBladeDirectivesInScripts(target))
       .then((target) => this.restoreInlinePhpDirective(target))
       .then((target) => this.restoreInlineDirective(target))
+      .then((target) => this.restoreUnbalancedDirective(target))
       .then((target) => this.restoreCustomDirective(target))
       .then((target) => this.restoreConditions(target))
       .then((target) => this.restoreRawBladeBrace(target))
@@ -283,6 +289,7 @@ export default class Formatter {
       ...inlineFunctionTokens,
       ...phpKeywordStartTokens,
       ...['@unless[a-z]*\\(.*?\\)'],
+      ...unbalancedStartTokens,
     ].join('|');
 
     const inlineRegex = new RegExp(
@@ -578,6 +585,23 @@ export default class Formatter {
     );
   }
 
+  /**
+   * preserve unbalanced directive like @hasSection
+   */
+  preserveUnbalancedDirective(content: any) {
+    const regex = new RegExp(`((${unbalancedStartTokens.join('|')})(?!.*?\\2)(?:\\s|\\(.*?\\)))+(?=.*?@endif)`, 'gis');
+
+    let replaced: string = _.replace(content, regex, (_match: string, p1: string) => {
+      return `${this.storeUnbalancedDirective(p1)}`;
+    });
+
+    if (regex.test(replaced)) {
+      replaced = this.preserveUnbalancedDirective(replaced);
+    }
+
+    return replaced;
+  }
+
   async preserveRawPhpTags(content: any) {
     return _.replace(content, /<\?php(.*?)\?>/gms, (match: any) => this.storeRawPhpTags(match));
   }
@@ -686,6 +710,10 @@ export default class Formatter {
 
   storeEndCustomDirective(value: string) {
     return this.getEndCustomDirectivePlaceholder((this.customDirectives.push(value) - 1).toString());
+  }
+
+  storeUnbalancedDirective(value: string) {
+    return this.getUnbalancedDirectivePlaceholder((this.unbalancedDirectives.push(value) - 1).toString());
   }
 
   storeBladeBrace(value: any, length: any) {
@@ -833,6 +861,10 @@ export default class Formatter {
 
   getEndCustomDirectivePlaceholder(replace: string) {
     return _.replace('@endcustomdirective(___#___)', '#', replace);
+  }
+
+  getUnbalancedDirectivePlaceholder(replace: string) {
+    return _.replace('@if (unbalanced___#___)', '#', replace);
   }
 
   getClassPlaceholder(replace: any, length: any) {
@@ -1317,6 +1349,15 @@ export default class Formatter {
             .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
             .trimEnd(),
         );
+      }),
+    );
+  }
+
+  restoreUnbalancedDirective(content: any) {
+    return new Promise((resolve) => resolve(content)).then((res: any) =>
+      _.replace(res, /@if \(unbalanced___(\d+)___\)/gms, (_match: any, p1: any) => {
+        const matched = this.unbalancedDirectives[p1];
+        return matched;
       }),
     );
   }
