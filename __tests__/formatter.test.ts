@@ -3520,6 +3520,7 @@ describe('formatter', () => {
     ].join('\n');
 
     const expected = [
+      `<!-- escaped blade directive -->`,
       `<div>`,
       `    @@if("foo")`,
       `    @@endif`,
