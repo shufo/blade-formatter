@@ -3502,4 +3502,38 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
+
+  test('escaped blade directive', async () => {
+    const content = [
+      `<!-- escaped blade directive -->`,
+      `<div>`,
+      `@@if("foo")`,
+      `@@endif`,
+      `</div>`,
+      `<!-- escaped custom blade directive -->`,
+      `<div>`,
+      `@@isAdmin`,
+      `@@endisAdmin`,
+      `@@escaped("foo")`,
+      `@@endescaped`,
+      `</div>`,
+    ].join('\n');
+
+    const expected = [
+      `<div>`,
+      `    @@if("foo")`,
+      `    @@endif`,
+      `</div>`,
+      `<!-- escaped custom blade directive -->`,
+      `<div>`,
+      `    @@isAdmin`,
+      `    @@endisAdmin`,
+      `    @@escaped("foo")`,
+      `    @@endescaped`,
+      `</div>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
 });

@@ -101,6 +101,8 @@ export default class Formatter {
 
   unbalancedDirectives: Array<string>;
 
+  escapedBladeDirectives: Array<string>;
+
   vsctm: any;
 
   wrapAttributes: any;
@@ -143,6 +145,7 @@ export default class Formatter {
     this.customDirectives = [];
     this.directivesInScript = [];
     this.unbalancedDirectives = [];
+    this.escapedBladeDirectives = [];
     this.result = [];
     this.diffs = [];
   }
@@ -152,6 +155,7 @@ export default class Formatter {
       .then((target) => this.preserveIgnoredLines(target))
       .then((target) => this.preserveCurlyBraceForJS(target))
       .then((target) => this.preserveRawPhpTags(target))
+      .then((target) => this.preserveEscapedBladeDirective(target))
       .then((target) => util.formatAsPhp(target))
       .then((target) => this.preserveBladeComment(target))
       .then((target) => this.preserveBladeBrace(target))
@@ -193,6 +197,7 @@ export default class Formatter {
       .then((target) => this.restoreRawBladeBrace(target))
       .then((target) => this.restoreBladeBrace(target))
       .then((target) => this.restoreBladeComment(target))
+      .then((target) => this.restoreEscapedBladeDirective(target))
       .then((target) => this.restoreRawPhpTags(target))
       .then((target) => this.restoreCurlyBraceForJS(target))
       .then((target) => this.restoreIgnoredLines(target))
@@ -638,6 +643,10 @@ export default class Formatter {
     return content;
   }
 
+  async preserveEscapedBladeDirective(content: string) {
+    return _.replace(content, /@@\w*/gim, (match: string) => this.storeEscapedBladeDirective(match));
+  }
+
   async preserveBladeComment(content: any) {
     return _.replace(content, /\{\{--(.*?)--\}\}/gs, (_match: any, p1: any) => this.storeBladeComment(p1));
   }
@@ -766,6 +775,10 @@ export default class Formatter {
 
   storeBladeDirective(value: any) {
     return this.getBladeDirectivePlaceholder(this.bladeDirectives.push(value) - 1);
+  }
+
+  storeEscapedBladeDirective(value: string) {
+    return this.getEscapedBladeDirectivePlaceholder((this.escapedBladeDirectives.push(value) - 1).toString());
   }
 
   storeBladeComment(value: any) {
@@ -899,6 +912,10 @@ export default class Formatter {
 
   getBladeDirectivePlaceholder(replace: any) {
     return _.replace('___blade_directive_#___', '#', replace);
+  }
+
+  getEscapedBladeDirectivePlaceholder(replace: string) {
+    return _.replace('___escaped_directive_#___', '#', replace);
   }
 
   getBladeCommentPlaceholder(replace: any) {
@@ -1347,6 +1364,16 @@ export default class Formatter {
         res,
         new RegExp(`${this.getBladeCommentPlaceholder('(\\d+)')}`, 'gms'),
         (_match: any, p1: any) => `{{-- ${this.bladeComments[p1].trim()} --}}`,
+      ),
+    );
+  }
+
+  async restoreEscapedBladeDirective(content: any) {
+    return new Promise((resolve) => resolve(content)).then((res: any) =>
+      _.replace(
+        res,
+        new RegExp(`${this.getEscapedBladeDirectivePlaceholder('(\\d+)')}`, 'gms'),
+        (_match: string, p1: number) => this.escapedBladeDirectives[p1],
       ),
     );
   }
