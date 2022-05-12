@@ -97,6 +97,8 @@ export default class Formatter {
 
   customDirectives: Array<string>;
 
+  directivesInScript: Array<string>;
+
   unbalancedDirectives: Array<string>;
 
   vsctm: any;
@@ -139,6 +141,7 @@ export default class Formatter {
     this.shorthandBindings = [];
     this.componentAttributes = [];
     this.customDirectives = [];
+    this.directivesInScript = [];
     this.unbalancedDirectives = [];
     this.result = [];
     this.diffs = [];
@@ -154,12 +157,12 @@ export default class Formatter {
       .then((target) => this.preserveBladeBrace(target))
       .then((target) => this.preserveRawBladeBrace(target))
       .then((target) => this.preserveConditions(target))
-      .then((target) => this.preserveCustomDirective(target))
-      .then((target) => this.preserveUnbalancedDirective(target))
       .then((target) => this.preserveInlineDirective(target))
       .then((target) => this.preserveInlinePhpDirective(target))
-      .then((target) => this.breakLineBeforeAndAfterDirective(target))
       .then((target) => this.preserveBladeDirectivesInScripts(target))
+      .then((target) => this.preserveCustomDirective(target))
+      .then((target) => this.preserveUnbalancedDirective(target))
+      .then((target) => this.breakLineBeforeAndAfterDirective(target))
       .then(async (target) => {
         this.bladeDirectives = await this.formatPreservedBladeDirectives(this.bladeDirectives);
         return target;
@@ -181,11 +184,11 @@ export default class Formatter {
       .then((target) => this.restoreXData(target))
       .then((target) => this.restoreXInit(target))
       .then((target) => this.restoreScripts(target))
+      .then((target) => this.restoreUnbalancedDirective(target))
+      .then((target) => this.restoreCustomDirective(target))
       .then((target) => this.restoreBladeDirectivesInScripts(target))
       .then((target) => this.restoreInlinePhpDirective(target))
       .then((target) => this.restoreInlineDirective(target))
-      .then((target) => this.restoreUnbalancedDirective(target))
-      .then((target) => this.restoreCustomDirective(target))
       .then((target) => this.restoreConditions(target))
       .then((target) => this.restoreRawBladeBrace(target))
       .then((target) => this.restoreBladeBrace(target))
@@ -410,26 +413,103 @@ export default class Formatter {
         formatted,
         new RegExp(`(${indentStartTokens.join('|')})\\s*?${nestedParenthesisRegex}`, 'gis'),
         (matched) => {
-          return `if ( /*${matched}*/ ) {`;
+          return `if ( /*${this.storeBladeDirectiveInScript(matched)}*/ ) {`;
         },
       );
 
       formatted = _.replace(
         formatted,
-        new RegExp(`(${[...indentElseTokens, ...indentStartOrElseTokens].join('|')})(?!\\s*?\\(.*?\\))`, 'gis'),
+        new RegExp(`(${[...indentElseTokens, ...indentStartOrElseTokens].join('|')})(?!\\w+?\\s*?\\(.*?\\))`, 'gis'),
         (matched) => {
-          return `/***script_placeholder***/} /* ${matched} */ {`;
+          return `/***script_placeholder***/} /* ${this.storeBladeDirectiveInScript(matched)} */ {`;
         },
       );
 
       formatted = _.replace(formatted, new RegExp(`(${endTokens.join('|')})`, 'gis'), (matched) => {
-        return `/***script_placeholder***/} /*${matched}*/`;
+        return `/***script_placeholder***/} /*${this.storeBladeDirectiveInScript(matched)}*/`;
       });
 
       formatted = _.replace(formatted, /(?<!@)@php(.*?)@endphp/gis, (_matched: any, p1: any) => this.storeRawBlock(p1));
 
+      // custom directive
+      formatted = this.preserveCustomDirectiveInScript(formatted);
+
       return formatted;
     });
+  }
+
+  /**
+   *
+   * @param content string between <script>~</script>
+   * @returns string
+   */
+  preserveCustomDirectiveInScript(content: string): string {
+    const negativeLookAhead = [
+      ..._.without(indentStartTokens, '@unless'),
+      ...indentEndTokens,
+      ...indentElseTokens,
+      ...['@unless\\(.*?\\)'],
+    ].join('|');
+
+    const inlineNegativeLookAhead = [
+      ..._.without(indentStartTokens, '@unless'),
+      ...indentEndTokens,
+      ...indentElseTokens,
+      ...inlineFunctionTokens,
+      ...phpKeywordStartTokens,
+      ...['@unless[a-z]*\\(.*?\\)'],
+      ...unbalancedStartTokens,
+    ].join('|');
+
+    const inlineRegex = new RegExp(
+      `(?!(${inlineNegativeLookAhead}))(@([a-zA-Z1-9_\\-]+))(?!.*?@end\\3)${nestedParenthesisRegex}.*?(?<!@end\\5)`,
+      'gis',
+    );
+
+    const regex = new RegExp(
+      `(?!(${negativeLookAhead}))(@(unless)*([a-zA-Z1-9_\\-]+))(?!.*?\\2)(\\s|\\(.*?\\))+(.*?)(@end\\4)`,
+      'gis',
+    );
+
+    let formatted: string;
+
+    // preserve inline directives
+    formatted = _.replace(content, inlineRegex, (match: string) => {
+      return this.storeInlineCustomDirective(match);
+    });
+
+    // preserve begin~else~end directives
+    formatted = _.replace(
+      formatted,
+      regex,
+      (match: string, p1: string, p2: string, p3: string, p4: string, p5: string, p6: string, p7: string) => {
+        if (indentStartTokens.includes(p2)) {
+          return match;
+        }
+
+        let result: string = match;
+
+        result = _.replace(result, new RegExp(`${p2}(${nestedParenthesisRegex})*`, 'gim'), (beginStr: string) => {
+          return `if ( /*${this.storeBladeDirectiveInScript(beginStr)}*/ ) {`;
+        });
+
+        result = _.replace(result, new RegExp(`@else${p4}(${nestedParenthesisRegex})*`, 'gim'), (elseStr: string) => {
+          return `/***script_placeholder***/} /* ${this.storeBladeDirectiveInScript(elseStr)} */ {`;
+        });
+        result = _.replace(result, p7, (endStr: string) => {
+          return `/***script_placeholder***/} /*${this.storeBladeDirectiveInScript(endStr)}*/`;
+        });
+
+        return result;
+      },
+    );
+
+    // replace directives recursively
+    if (regex.test(formatted)) {
+      formatted = this.preserveCustomDirectiveInScript(formatted);
+    }
+
+    return formatted;
   }
 
   /**
@@ -779,6 +859,10 @@ export default class Formatter {
     return this.getStringLiteralInPhpPlaceholder(index);
   }
 
+  storeBladeDirectiveInScript(value: string) {
+    return this.getBladeDirectiveInScriptPlaceholder((this.directivesInScript.push(value) - 1).toString());
+  }
+
   getIgnoredLinePlaceholder(replace: any) {
     return _.replace('___ignored_line_#___', '#', replace);
   }
@@ -922,6 +1006,10 @@ export default class Formatter {
 
   getStringLiteralInPhpPlaceholder(replace: any) {
     return _.replace("'___php_content_#___'", '#', replace);
+  }
+
+  getBladeDirectiveInScriptPlaceholder(replace: any) {
+    return _.replace('___directives_script_#___', '#', replace);
   }
 
   restoreIgnoredLines(content: any) {
@@ -1171,27 +1259,28 @@ export default class Formatter {
 
       formatted = _.replace(
         formatted,
-        new RegExp(`if \\( \\/\\*((${indentStartTokens.join('|')}).*?)\\*\\/ \\) \\{`, 'gis'),
+        new RegExp(
+          `if \\( \\/\\*(?:(?:${this.getBladeDirectiveInScriptPlaceholder('(\\d+)')}).*?)\\*\\/ \\) \\{`,
+          'gis',
+        ),
         (_match: any, p1: any) => {
-          return `${p1}`;
+          return `${this.directivesInScript[p1]}`;
         },
       );
 
       formatted = _.replace(
         formatted,
-        new RegExp(`} \\/\\* (${[...indentElseTokens, ...indentStartOrElseTokens].join('|')}) \\*\\/ {`, 'gis'),
+        new RegExp(`} \\/\\* (?:${this.getBladeDirectiveInScriptPlaceholder('(\\d+)')}) \\*\\/ {`, 'gis'),
         (_match: any, p1: any) => {
-          return `${p1}`;
+          return `${this.directivesInScript[p1].trim()}`;
         },
       );
 
-      const endTokens = _.chain(indentEndTokens).without('@endphp');
-
       formatted = _.replace(
         formatted,
-        new RegExp(`} \\/\\*(${endTokens.join('|')})\\*\\/`, 'gis'),
+        new RegExp(`} \\/\\*(?:${this.getBladeDirectiveInScriptPlaceholder('(\\d+)')})\\*\\/`, 'gis'),
         (_match: any, p1: any) => {
-          return `${p1}`;
+          return `${this.directivesInScript[p1]}`;
         },
       );
 
@@ -1225,10 +1314,14 @@ export default class Formatter {
         },
       );
 
-      // eslint-disable-next-line
-      formatted = _.replace(formatted, /^.*?\/\*\*\*script_placeholder\*\*\*\/\s/gim, (_match: any) => {
-        return ``;
-      });
+      // delete place holder
+      formatted = _.replace(
+        formatted,
+        /(?<=[\S]+)\s*?\/\*\*\*script_placeholder\*\*\*\/(\s)/gim,
+        (_match: any, p1: string) => {
+          return p1;
+        },
+      );
 
       return formatted;
     });
@@ -1720,6 +1813,10 @@ export default class Formatter {
   }
 
   async formatAsBlade(content: any) {
+    // init parameters
+    this.currentIndentLevel = 0;
+    this.shouldBeIndent = false;
+
     const splitedLines = util.splitByLines(content);
     const vsctmModule = await new vsctm.VscodeTextmate(this.vsctm, this.oniguruma);
     // @ts-expect-error ts-migrate(2554) FIXME: Expected 0 arguments, but got 1.
