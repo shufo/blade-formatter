@@ -1,5 +1,26 @@
 # Changelog
 
+## [1.25.0](https://www.github.com/shufo/blade-formatter/compare/v1.24.0...v1.25.0) (2022-05-12)
+
+
+### Features
+
+* 🎸 support custom blade directives ([a563bd3](https://www.github.com/shufo/blade-formatter/commit/a563bd320b75e02370877cc88939a1c41e7bf2f6))
+* 🎸 support pushonce and prependonce directive ([f573917](https://www.github.com/shufo/blade-formatter/commit/f5739175ef4ca6e2c650fc39727d82ba41dc0dd5))
+
+
+### Miscellaneous
+
+* 🤖 (deps-dev) add codecov to collect coverage ([5b56084](https://www.github.com/shufo/blade-formatter/commit/5b56084a04638f56f91a70a359a7de939fe60786))
+
+
+### Fixes
+
+* 🐛 custom directive in script tag ([d64e5f6](https://www.github.com/shufo/blade-formatter/commit/d64e5f6f053d3e03423c20b5db64b26cd2bb9a4f))
+* 🐛 escaped blade directive inserts unexpected line break ([57735e6](https://www.github.com/shufo/blade-formatter/commit/57735e6c059ff6390b1a866cf7b0debb8ec177bd))
+* 🐛 lower case/upper case mixed custom directive ([761a92d](https://www.github.com/shufo/blade-formatter/commit/761a92db120c865f5a2c5474963a5f89bb5f87ad))
+* 🐛 preserve unbalanced directive ([4e7922a](https://www.github.com/shufo/blade-formatter/commit/4e7922a969ab1eacb3baebcba2ae5fffffddd06a))
+
 ## [1.24.0](https://www.github.com/shufo/blade-formatter/compare/v1.23.8...v1.24.0) (2022-05-07)
 
 
