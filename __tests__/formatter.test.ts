@@ -3537,4 +3537,33 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
+
+  test('upper case/lower case mixed custom directive', async () => {
+    const content = [
+      `<div>`,
+      `@largestFirst(1, 2)`,
+      `Lorem ipsum`,
+      `@elseLargestFirst(5, 3)`,
+      `dolor sit amet`,
+      `@else`,
+      `consectetur adipiscing elit`,
+      `@endLargestFirst`,
+      `</div>`,
+    ].join('\n');
+
+    const expected = [
+      `<div>`,
+      `    @largestFirst(1, 2)`,
+      `        Lorem ipsum`,
+      `    @elseLargestFirst(5, 3)`,
+      `        dolor sit amet`,
+      `    @else`,
+      `        consectetur adipiscing elit`,
+      `    @endLargestFirst`,
+      `</div>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
 });
