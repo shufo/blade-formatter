@@ -328,12 +328,12 @@ export default class Formatter {
 
         let result: string = match;
 
-        result = _.replace(result, new RegExp(`${p2}(${nestedParenthesisRegex})*`), (begin: string) => {
-          return this.storeBeginCustomDirective(begin);
+        result = _.replace(result, new RegExp(`${p2}(${nestedParenthesisRegex})*`, 'gim'), (beginStr: string) => {
+          return this.storeBeginCustomDirective(beginStr);
         });
         result = _.replace(result, p7, this.storeEndCustomDirective(p7));
-        result = _.replace(result, new RegExp(`@else${p4}(${nestedParenthesisRegex})*`), (match3: string) => {
-          return this.storeElseCustomDirective(match3);
+        result = _.replace(result, new RegExp(`@else${p4}(${nestedParenthesisRegex})*`, 'gim'), (elseStr: string) => {
+          return this.storeElseCustomDirective(elseStr);
         });
 
         return result;
