@@ -3446,4 +3446,60 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
+
+  test('custom directive in script tag', async () => {
+    const content = [
+      `<script src="http://<unknown>/">`,
+      `    // nested custom directives`,
+      `    @unlessdisk('local')`,
+      `    @unlessdisk('s3')`,
+      `    @unlessdisk('gcp')`,
+      `const a = arr.push(["1","2",{a: 1}]);`,
+      `  @else`,
+      `  const a = [1,2,3];`,
+      `    @enddisk`,
+      `    console.log("foo");`,
+      `    @enddisk`,
+      `                 console.log("baz");`,
+      `    @enddisk`,
+      ``,
+      `    // inlined custom directives`,
+      `    @disk("local")       console.log('local');`,
+      ` @elsedisk("s3")   console.log('s3');`,
+      `    @else console.log('other storage');`,
+      `    @enddisk`,
+      `</script>`,
+    ].join('\n');
+
+    const expected = [
+      `<script src="http://<unknown>/">`,
+      `    // nested custom directives`,
+      `    @unlessdisk('local')`,
+      `        @unlessdisk('s3')`,
+      `            @unlessdisk('gcp')`,
+      `                const a = arr.push(["1", "2", {`,
+      `                    a: 1`,
+      `                }]);`,
+      `            @else`,
+      `                const a = [1, 2, 3];`,
+      `            @enddisk`,
+      `            console.log("foo");`,
+      `        @enddisk`,
+      `        console.log("baz");`,
+      `    @enddisk`,
+      ``,
+      `    // inlined custom directives`,
+      `    @disk("local")`,
+      `        console.log('local');`,
+      `    @elsedisk("s3")`,
+      `        console.log('s3');`,
+      `    @else`,
+      `        console.log('other storage');`,
+      `    @enddisk`,
+      `</script>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
 });
