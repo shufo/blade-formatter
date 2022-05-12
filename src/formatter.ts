@@ -1267,6 +1267,7 @@ export default class Formatter {
   restoreBladeDirectivesInScripts(content: any) {
     const regex = new RegExp(`^(.*?)${this.getBladeDirectivePlaceholder('(\\d+)')}`, 'gm');
 
+    // restore inline blade directive
     let result = _.replace(content, regex, (_match: any, p1: any, p2: any) =>
       this.indentBladeDirectiveBlock(p1, this.bladeDirectives[p2]),
     );
@@ -1274,6 +1275,7 @@ export default class Formatter {
     result = _.replace(result, /(?<=<script[^>]*?>)(.*?)(?=<\/script>)/gis, (match: string) => {
       let formatted: string = match;
 
+      // restore begin
       formatted = _.replace(
         formatted,
         new RegExp(
@@ -1285,6 +1287,7 @@ export default class Formatter {
         },
       );
 
+      // restore else
       formatted = _.replace(
         formatted,
         new RegExp(`} \\/\\* (?:${this.getBladeDirectiveInScriptPlaceholder('(\\d+)')}) \\*\\/ {`, 'gis'),
@@ -1293,6 +1296,7 @@ export default class Formatter {
         },
       );
 
+      // restore end
       formatted = _.replace(
         formatted,
         new RegExp(`} \\/\\*(?:${this.getBladeDirectiveInScriptPlaceholder('(\\d+)')})\\*\\/`, 'gis'),
