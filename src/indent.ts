@@ -38,8 +38,8 @@ export const indentStartTokens = [
   '@foreach',
   '@php',
   '@component',
-  '@hassection',
   '@section',
+  '@customdirective',
 ];
 
 export const indentStartTokensWithoutPrefix = _.map(indentStartTokens, (token) => token.substring(1));
@@ -85,9 +85,18 @@ export const indentEndTokens = [
   '@endphp',
   '@endcomponent',
   '@endsection',
+  '@endcustomdirective',
 ];
 
-export const indentElseTokens = ['@elseenv', '@elseif', '@elsecanany', '@elsecannot', '@elsecan', '@else'];
+export const indentElseTokens = [
+  '@elseenv',
+  '@elseif',
+  '@elsecanany',
+  '@elsecannot',
+  '@elsecan',
+  '@else',
+  '@elsecustomdirective',
+];
 
 // Directives which do not need an end token if a parameter is present
 export const optionalStartWithoutEndTokens = {
@@ -125,7 +134,9 @@ export const inlineFunctionTokens = [
   '@aware',
 ];
 
-export const conditionalTokens = ['@if', '@while', '@case', '@isset', '@empty', '@elseif', '@component'];
+export const conditionalTokens = ['@if', '@while', '@case', '@isset', '@empty', '@elseif', '@component', '@hassection'];
+
+export const unbalancedStartTokens = ['@hassection'];
 
 export function hasStartAndEndToken(tokenizeLineResult: any, originalLine: any) {
   return (

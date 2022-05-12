@@ -480,4 +480,10 @@ describe('The blade formatter CLI', () => {
     const target = 'formatted.component_attribute.blade.php';
     await util.checkIfTemplateIsFormattedTwice(input, target);
   });
+
+  test.concurrent('custom directives', async () => {
+    const input = 'custom_directives.blade.php';
+    const target = 'formatted.custom_directives.blade.php';
+    await util.checkIfTemplateIsFormattedTwice(input, target);
+  });
 });

@@ -32,6 +32,7 @@ This project aims to provide formatter for blade template because there is no of
   ![blade-formatter-format-in-directive](https://user-images.githubusercontent.com/1641039/125206630-31fb8780-e2c3-11eb-9618-a7092316a203.gif)
 
 - Automatic [Tailwind CSS](https://tailwindcss.com/) Class Sorting. see [Options](#Options)
+- [Custom Directive](https://laravel.com/docs/9.x/blade#custom-if-statements) support
 
 ## Example
 
@@ -315,7 +316,7 @@ $ npm -g config set user root
 
 ## TODO
 
-- [ ] Editable custom directives
+- [x] custom directives
 - [x] `@for` directive support
 - [x] ignore formatting in blade comment
 - [x] automatically add new line after directive

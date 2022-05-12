@@ -3214,8 +3214,7 @@ describe('formatter', () => {
       `            @endif`,
       `        @endforelse`,
       ``,
-      `        @if ($user)`,
-      `        @elseif`,
+      `        @if ($user) @elseif`,
       `            aaa`,
       `        @endif`,
       `        @empty($aaa)`,
@@ -3296,6 +3295,272 @@ describe('formatter', () => {
       `        // Your custom JavaScript...`,
       `    </script>`,
       `@endPrependOnce`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
+
+  test('inline directive should format its inside expression', async () => {
+    const content = [`@lang("foo"     )`].join('\n');
+
+    const expected = [`@lang('foo')`, ``].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
+
+  test('long inline directive should format its inside expression', async () => {
+    const content = [
+      `<div>@lang(["foo"=>123,"entangle_state1"=>123,      "entangle_state2" => 124, "entangle_state3" => 125, "entangle_state4" => 126, "entangle_state5" => 127, "entangle_state6" => 128])</div>`,
+    ].join('\n');
+
+    const expected = [
+      `<div>@lang(['foo' => 123, 'entangle_state1' => 123, 'entangle_state2' => 124, 'entangle_state3' => 125, 'entangle_state4' => 126, 'entangle_state5' => 127, 'entangle_state6' => 128])</div>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
+
+  test('inline directive passed multiple argument should not throws Exception', async () => {
+    const content = [`@instanceof($user, App\\User::class)`].join('\n');
+
+    await expect(new BladeFormatter().format(content)).resolves.not.toThrow('Error');
+  });
+
+  test('it should not throws Exception even if custom directive unmatched', async () => {
+    const content = [`@unlessdisk('local')`, `  foo`, `@endunless`].join('\n');
+
+    await expect(new BladeFormatter().format(content)).resolves.not.toThrow('Error');
+  });
+
+  test('line break custom directive', async () => {
+    const content = [`@disk('local') foo @elsedisk('s3') bar @else baz @enddisk`].join('\n');
+
+    const expected = [
+      `@disk('local')`,
+      `    foo`,
+      `@elsedisk('s3')`,
+      `    bar`,
+      `@else`,
+      `    baz`,
+      `@enddisk`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
+
+  test('overrided unbalanced directive #554', async () => {
+    const content = [
+      `<thead class="uk-background-default">`,
+      `        <tr>`,
+      `            <th><strong>{{ __('Definition') }}</strong></th>`,
+      `            <th><strong>{{ __('Job') }}</strong></th>`,
+      `            <th><strong>{{ __('Serial Numbers') }}</strong></th>`,
+      `            <th><strong>{{ __('Works from') }}</strong></th>`,
+      `            <th><strong>{{ __('T.I.P.') }}</strong></th>`,
+      `            <th><strong>{{ __('DOC.') }}</strong></th>`,
+      `            <th><strong>{{ __('PROMO') }}</strong></th>`,
+      `            @hasAccess('platform.systems.broadcasts')`,
+      `            <th><strong>{{ __('NOTIFICATION') }}</strong></th>`,
+      `            @endhasAccess`,
+      `            @hasSection('techdocs')`,
+      `                <th><strong>{{ __('NOTIFICATION') }}</strong></th>`,
+      `                @endhasSection`,
+      `            </tr>`,
+      `        </thead>`,
+      `<section>`,
+      `    @hasSection('navigation')`,
+      `        @if ($user)`,
+      `            {{ $user->name }}`,
+      `        @endif`,
+      `            @hasSection('techdocs')`,
+      `            @hasSection('foo')`,
+      `                <th><strong>{{ __('NOTIFICATION') }}</strong></th>`,
+      `                @endhasSection`,
+      `                <th><strong>{{ __('NOTIFICATION') }}</strong></th>`,
+      `                @endhasSection`,
+      `    @endhasSection`,
+      `</section>`,
+    ].join('\n');
+
+    const expected = [
+      `<thead class="uk-background-default">`,
+      `    <tr>`,
+      `        <th><strong>{{ __('Definition') }}</strong></th>`,
+      `        <th><strong>{{ __('Job') }}</strong></th>`,
+      `        <th><strong>{{ __('Serial Numbers') }}</strong></th>`,
+      `        <th><strong>{{ __('Works from') }}</strong></th>`,
+      `        <th><strong>{{ __('T.I.P.') }}</strong></th>`,
+      `        <th><strong>{{ __('DOC.') }}</strong></th>`,
+      `        <th><strong>{{ __('PROMO') }}</strong></th>`,
+      `        @hasAccess('platform.systems.broadcasts')`,
+      `            <th><strong>{{ __('NOTIFICATION') }}</strong></th>`,
+      `        @endhasAccess`,
+      `        @hasSection('techdocs')`,
+      `            <th><strong>{{ __('NOTIFICATION') }}</strong></th>`,
+      `        @endhasSection`,
+      `    </tr>`,
+      `</thead>`,
+      `<section>`,
+      `    @hasSection('navigation')`,
+      `        @if ($user)`,
+      `            {{ $user->name }}`,
+      `        @endif`,
+      `        @hasSection('techdocs')`,
+      `            @hasSection('foo')`,
+      `                <th><strong>{{ __('NOTIFICATION') }}</strong></th>`,
+      `            @endhasSection`,
+      `            <th><strong>{{ __('NOTIFICATION') }}</strong></th>`,
+      `        @endhasSection`,
+      `    @endhasSection`,
+      `</section>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
+
+  test('nested hasSection~endif', async () => {
+    const content = [
+      `<section>`,
+      `    @hasSection('navigation')`,
+      `    @hasSection('techdocs')`,
+      `       {{ $user->name }}`,
+      ` @endif`,
+      `    @endif`,
+      `</section>`,
+    ].join('\n');
+
+    const expected = [
+      `<section>`,
+      `    @hasSection('navigation')`,
+      `        @hasSection('techdocs')`,
+      `            {{ $user->name }}`,
+      `        @endif`,
+      `    @endif`,
+      `</section>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
+
+  test('custom directive in script tag', async () => {
+    const content = [
+      `<script src="http://<unknown>/">`,
+      `    // nested custom directives`,
+      `    @unlessdisk('local')`,
+      `    @unlessdisk('s3')`,
+      `    @unlessdisk('gcp')`,
+      `const a = arr.push(["1","2",{a: 1}]);`,
+      `  @else`,
+      `  const a = [1,2,3];`,
+      `    @enddisk`,
+      `    console.log("foo");`,
+      `    @enddisk`,
+      `                 console.log("baz");`,
+      `    @enddisk`,
+      ``,
+      `    // inlined custom directives`,
+      `    @disk("local")       console.log('local');`,
+      ` @elsedisk("s3")   console.log('s3');`,
+      `    @else console.log('other storage');`,
+      `    @enddisk`,
+      `</script>`,
+    ].join('\n');
+
+    const expected = [
+      `<script src="http://<unknown>/">`,
+      `    // nested custom directives`,
+      `    @unlessdisk('local')`,
+      `        @unlessdisk('s3')`,
+      `            @unlessdisk('gcp')`,
+      `                const a = arr.push(["1", "2", {`,
+      `                    a: 1`,
+      `                }]);`,
+      `            @else`,
+      `                const a = [1, 2, 3];`,
+      `            @enddisk`,
+      `            console.log("foo");`,
+      `        @enddisk`,
+      `        console.log("baz");`,
+      `    @enddisk`,
+      ``,
+      `    // inlined custom directives`,
+      `    @disk("local")`,
+      `        console.log('local');`,
+      `    @elsedisk("s3")`,
+      `        console.log('s3');`,
+      `    @else`,
+      `        console.log('other storage');`,
+      `    @enddisk`,
+      `</script>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
+
+  test('escaped blade directive', async () => {
+    const content = [
+      `<!-- escaped blade directive -->`,
+      `<div>`,
+      `@@if("foo")`,
+      `@@endif`,
+      `</div>`,
+      `<!-- escaped custom blade directive -->`,
+      `<div>`,
+      `@@isAdmin`,
+      `@@endisAdmin`,
+      `@@escaped("foo")`,
+      `@@endescaped`,
+      `</div>`,
+    ].join('\n');
+
+    const expected = [
+      `<!-- escaped blade directive -->`,
+      `<div>`,
+      `    @@if("foo")`,
+      `    @@endif`,
+      `</div>`,
+      `<!-- escaped custom blade directive -->`,
+      `<div>`,
+      `    @@isAdmin`,
+      `    @@endisAdmin`,
+      `    @@escaped("foo")`,
+      `    @@endescaped`,
+      `</div>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
+
+  test('upper case/lower case mixed custom directive', async () => {
+    const content = [
+      `<div>`,
+      `@largestFirst(1, 2)`,
+      `Lorem ipsum`,
+      `@elseLargestFirst(5, 3)`,
+      `dolor sit amet`,
+      `@else`,
+      `consectetur adipiscing elit`,
+      `@endLargestFirst`,
+      `</div>`,
+    ].join('\n');
+
+    const expected = [
+      `<div>`,
+      `    @largestFirst(1, 2)`,
+      `        Lorem ipsum`,
+      `    @elseLargestFirst(5, 3)`,
+      `        dolor sit amet`,
+      `    @else`,
+      `        consectetur adipiscing elit`,
+      `    @endLargestFirst`,
+      `</div>`,
       ``,
     ].join('\n');
 
