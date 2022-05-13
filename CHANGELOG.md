@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.25.1](https://www.github.com/shufo/blade-formatter/compare/v1.25.0...v1.25.1) (2022-05-13)
+
+
+### Fixes
+
+* 🐛 multiline blade brace results in unexpected formatting ([e45f6e7](https://www.github.com/shufo/blade-formatter/commit/e45f6e7cb7cb9a6e7da78b88d9b5e0189d2d0b85))
+
 ## [1.25.0](https://www.github.com/shufo/blade-formatter/compare/v1.24.0...v1.25.0) (2022-05-12)
 
 
