@@ -3566,4 +3566,18 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
+
+  test('multiline blade brace #581', async () => {
+    const content = [
+      `<reservation-modal`,
+      `    :my-count="{{ json_encode(`,
+      `        $user->countReservations()`,
+      `    ) }}"`,
+      `>`,
+    ].join('\n');
+
+    const expected = [`<reservation-modal :my-count="{{ json_encode($user->countReservations()) }}">`, ``].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
 });
