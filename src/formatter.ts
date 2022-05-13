@@ -1387,38 +1387,37 @@ export default class Formatter {
 
   restoreBladeBrace(content: any) {
     return new Promise((resolve) => resolve(content)).then((res: any) =>
-      _.replace(
-        res,
-        new RegExp(`(.*?)${this.getBladeBracePlaceholder('(\\d+)')}`, 'gm'),
-        (_match: any, p1: any, p2: any) => {
-          const bladeBrace = this.bladeBraces[p2];
+      _.replace(res, new RegExp(`${this.getBladeBracePlaceholder('(\\d+)')}`, 'gm'), (_match: string, p1: number) => {
+        const placeholder = this.getBladeBracePlaceholder(p1.toString());
+        const matchedLine = content.match(new RegExp(`^(.*?)${placeholder}`, 'gmi')) ?? [''];
+        const indent = detectIndent(matchedLine[0]);
+        const bladeBrace = this.bladeBraces[p1];
 
-          if (bladeBrace.trim() === '') {
-            return `${p1}{{${bladeBrace}}}`;
-          }
+        if (bladeBrace.trim() === '') {
+          return `{{${bladeBrace}}}`;
+        }
 
-          if (this.isInline(bladeBrace)) {
-            return `${p1}{{ ${util
-              .formatRawStringAsPhp(bladeBrace, 1000, false)
-              .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
-              .split('\n')
-              .map((line) => line.trim())
-              .join('')
-              // @ts-expect-error ts-migrate(2554) FIXME: Expected 0 arguments, but got 1.
-              .trimRight('\n')} }}`;
-          }
+        if (this.isInline(bladeBrace)) {
+          return `{{ ${util
+            .formatRawStringAsPhp(bladeBrace, 1000, false)
+            .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
+            .split('\n')
+            .map((line) => line.trim())
+            .join('')
+            // @ts-expect-error ts-migrate(2554) FIXME: Expected 0 arguments, but got 1.
+            .trimRight('\n')} }}`;
+        }
 
-          return `${p1}{{ ${this.indentRawPhpBlock(
-            p1,
-            util
-              .formatRawStringAsPhp(bladeBrace, 120, true)
-              .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
-              .trim()
-              // @ts-expect-error ts-migrate(2554) FIXME: Expected 0 arguments, but got 1.
-              .trimRight('\n'),
-          )} }}`;
-        },
-      ),
+        return `{{ ${this.indentRawPhpBlock(
+          indent.indent,
+          util
+            .formatRawStringAsPhp(bladeBrace, this.wrapLineLength, true)
+            .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
+            .trim()
+            // @ts-expect-error ts-migrate(2554) FIXME: Expected 0 arguments, but got 1.
+            .trimRight('\n'),
+        )} }}`;
+      }),
     );
   }
 
