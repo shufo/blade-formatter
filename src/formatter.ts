@@ -354,9 +354,9 @@ export default class Formatter {
   preserveInlineDirective(content: string): string {
     // preserve inline directives inside html tag
     const regex = new RegExp(
-      `(?<=<[\\w]+?[^>]*?)${directivePrefix}(${indentStartTokensWithoutPrefix.join(
+      `(?<=<[\\w\\-\\_]+?[^>]*?)${directivePrefix}(${indentStartTokensWithoutPrefix.join(
         '|',
-      )})(\\s*?)(\\(.*?\\))(.*?)(@end\\1|@endif)(?=.*?>)`,
+      )})(\\s*?)(\\(.*?\\))(.*?)(@end\\1|@endif)(?=.*?/*>)`,
       'gims',
     );
     const replaced = _.replace(
