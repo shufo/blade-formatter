@@ -1,5 +1,13 @@
 # Changelog
 
+### [1.25.2](https://www.github.com/shufo/blade-formatter/compare/v1.25.1...v1.25.2) (2022-05-14)
+
+
+### Fixes
+
+* 🐛 allow hyphen and underscore included html tag name ([5cffd0e](https://www.github.com/shufo/blade-formatter/commit/5cffd0ed9ce49c68835ff99f49819f4fa9a7dd7b))
+* 🐛 timeout on isset~endif directive in html tag ([4e22644](https://www.github.com/shufo/blade-formatter/commit/4e226442777c8fc48e7c6d895317d3c6a9ca1840))
+
 ### [1.25.1](https://www.github.com/shufo/blade-formatter/compare/v1.25.0...v1.25.1) (2022-05-13)
 
 
