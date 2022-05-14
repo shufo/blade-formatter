@@ -3579,4 +3579,19 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
+
+  test('it should not time out on @isset~@endif directive in html tag #585', async () => {
+    const content = [
+      `<input type="text" name="{{ 'flow_locales['.$index.'][title]' }}"`,
+      `    @isset($flow->locale) value="{{ $flow->locale['title'] }}" @endif>`,
+    ].join('\n');
+
+    const expected = [
+      `<input type="text" name="{{ 'flow_locales[' . $index . '][title]' }}"`,
+      `    @isset($flow->locale) value="{{ $flow->locale['title'] }}" @endif>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
 });
