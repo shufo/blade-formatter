@@ -227,8 +227,12 @@ export default class Formatter {
       return content;
     }
 
-    return _.replace(content, /\bclass\s*=\s*([\"\'])(.+?)([\"\'])/gis, (_match, p1, p2, p3) => {
-      return `class=${p1}${sortClasses(p2)}${p3}`;
+    return _.replace(content, /(?<=\bclass\s*=\s*([\"\']))(.*?)(?=\1)/gis, (_match, p1, p2) => {
+      if (_.isEmpty(p2)) {
+        return p2;
+      }
+
+      return sortClasses(p2);
     });
   }
 

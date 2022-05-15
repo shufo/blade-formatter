@@ -3594,4 +3594,33 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
+
+  test('it should keep format even if sort target class string is empty', async () => {
+    const content = [
+      `<div class="">`,
+      `    @php`,
+      `        switch ($color) {`,
+      `            case 'white':`,
+      `                $colorClasses = 'bg-white';`,
+      `                break;`,
+      `        }`,
+      `    @endphp`,
+      `</div>`,
+    ].join('\n');
+
+    const expected = [
+      `<div class="">`,
+      `    @php`,
+      `        switch ($color) {`,
+      `            case 'white':`,
+      `                $colorClasses = 'bg-white';`,
+      `                break;`,
+      `        }`,
+      `    @endphp`,
+      `</div>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
 });
