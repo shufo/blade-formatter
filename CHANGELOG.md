@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.25.3](https://www.github.com/shufo/blade-formatter/compare/v1.25.2...v1.25.3) (2022-05-15)
+
+
+### Fixes
+
+* 🐛 empty class string results in unexpected formatting ([29cafc7](https://www.github.com/shufo/blade-formatter/commit/29cafc781b5d8bea21e30f6a36c74b43f5743368))
+
 ### [1.25.2](https://www.github.com/shufo/blade-formatter/compare/v1.25.1...v1.25.2) (2022-05-14)
 
 
