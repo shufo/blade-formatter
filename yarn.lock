@@ -1453,9 +1453,9 @@
     php-parser "3.1.0-beta.5"
 
 "@shufo/tailwindcss-class-sorter@^1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@shufo/tailwindcss-class-sorter/-/tailwindcss-class-sorter-1.0.3.tgz#385d65799d6c98b1b8d1866ffbd7a00bf5378a22"
-  integrity sha512-21VBqMiCr8Xl6iZxXLti7BiSZlAftel3V0ErgFBhIca8FUau1G5YhuH5hPfWDrNr+JxQt3Gc0TLilC9D+dEf/A==
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@shufo/tailwindcss-class-sorter/-/tailwindcss-class-sorter-1.0.4.tgz#0ebcc809b8a43a400eb8cbc56c62b1d38aa0d72d"
+  integrity sha512-/unffzgX9m/4BuguzWFADf1prucwaj90nB4N6exa3TwQI3/IJ3OAugHS5ZwRjXYD/imL8NNKNt6IE5ehtLYJkw==
   dependencies:
     escalade "^3.1.1"
     object-hash "^3.0.0"
