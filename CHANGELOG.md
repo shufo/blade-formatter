@@ -1,5 +1,19 @@
 # Changelog
 
+### [1.25.4](https://www.github.com/shufo/blade-formatter/compare/v1.25.3...v1.25.4) (2022-05-17)
+
+
+### Miscellaneous
+
+* **deps:** bump @shufo/tailwindcss-class-sorter from 1.0.3 to 1.0.4 ([2ea7b06](https://www.github.com/shufo/blade-formatter/commit/2ea7b06a09dd29c4974f0da12dd4a9ea42f42e16))
+* **deps:** bump glob from 8.0.1 to 8.0.3 ([fdbfc20](https://www.github.com/shufo/blade-formatter/commit/fdbfc2064cd479affa30f081ccf4930c7ea30f33))
+* **deps:** bump yargs from 17.4.1 to 17.5.1 ([ee4d594](https://www.github.com/shufo/blade-formatter/commit/ee4d594f0616896cd6d74a5c9035170dcc1cf061))
+
+
+### Fixes
+
+* 🐛 format broken by x-bind:class when class sort enabled ([bcee004](https://www.github.com/shufo/blade-formatter/commit/bcee004845fe628225a8cd5d196d51e22bd17323))
+
 ### [1.25.3](https://www.github.com/shufo/blade-formatter/compare/v1.25.2...v1.25.3) (2022-05-15)
 
 
