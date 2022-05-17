@@ -3623,4 +3623,22 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
+
+  test('it should not match x-bind:class sort class regex', async () => {
+    const content = [
+      `<div x-bind:class="{ 'mb-3 pb-3 border-b-2 border-light-gray': what }" @class([`,
+      `                 'flex w-full items-center',`,
+      `                      $boxClasses,`,
+      `                            ])>`,
+      `</div>`,
+    ].join('\n');
+
+    const expected = [
+      `<div x-bind:class="{ 'mb-3 pb-3 border-b-2 border-light-gray': what }" @class(['flex w-full items-center', $boxClasses])>`,
+      `</div>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected, { sortTailwindcssClasses: true });
+  });
 });

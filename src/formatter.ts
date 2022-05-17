@@ -227,7 +227,7 @@ export default class Formatter {
       return content;
     }
 
-    return _.replace(content, /(?<=\bclass\s*=\s*([\"\']))(.*?)(?=\1)/gis, (_match, p1, p2) => {
+    return _.replace(content, /(?<=\s+(?!:)class\s*=\s*([\"\']))(.*?)(?=\1)/gis, (_match, p1, p2) => {
       if (_.isEmpty(p2)) {
         return p2;
       }
