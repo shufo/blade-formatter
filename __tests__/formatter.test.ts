@@ -3639,6 +3639,6 @@ describe('formatter', () => {
       ``,
     ].join('\n');
 
-    await util.doubleFormatCheck(content, expected);
+    await util.doubleFormatCheck(content, expected, { sortTailwindcssClasses: true });
   });
 });
