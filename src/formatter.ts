@@ -237,20 +237,27 @@ export default class Formatter {
   }
 
   async preserveIgnoredLines(content: any) {
-    return _.chain(content)
-      .replace(
-        /(^(?<!.+)^{{--\s*blade-formatter-disable\s*--}}.*?)([\r\n]*)$(?![\r\n])/gis,
-        (_match: any, p1: any, p2: any) => {
-          return this.storeIgnoredLines(`${p1}${p2.replace(/^\n/, '')}`);
-        },
-      )
-      .replace(/{{--\s*?blade-formatter-disable\s*?--}}.*?{{--\s*?blade-formatter-enable\s*?--}}/gis, (match: any) =>
-        this.storeIgnoredLines(match),
-      )
-      .replace(/{{--\s*?blade-formatter-disable-next-line\s*?--}}[\r\n]+[^\r\n]+/gis, (match: any) =>
-        this.storeIgnoredLines(match),
-      )
-      .value();
+    return (
+      _.chain(content)
+        // ignore entire file
+        .replace(
+          /(^(?<!.+)^{{--\s*blade-formatter-disable\s*--}}.*?)([\r\n]*)$(?![\r\n])/gis,
+          (_match: any, p1: any, p2: any) => {
+            return this.storeIgnoredLines(`${p1}${p2.replace(/^\n/, '')}`);
+          },
+        )
+        // range ignore
+        .replace(
+          /(?:({{--\s*?blade-formatter-disable\s*?--}}|<!--\s*?prettier-ignore-start\s*?-->|{{--\s*?prettier-ignore-start\s*?--}})).*?(?:({{--\s*?blade-formatter-enable\s*?--}}|<!--\s*?prettier-ignore-end\s*?-->|{{--\s*?prettier-ignore-end\s*?--}}))/gis,
+          (match: any) => this.storeIgnoredLines(match),
+        )
+        // line ignore
+        .replace(
+          /(?:{{--\s*?blade-formatter-disable-next-line\s*?--}}|{{--\s*?prettier-ignore\s*?--}}|<!--\s*?prettier-ignore\s*?-->)[\r\n]+[^\r\n]+/gis,
+          (match: any) => this.storeIgnoredLines(match),
+        )
+        .value()
+    );
   }
 
   async preserveCurlyBraceForJS(content: any) {
