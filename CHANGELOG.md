@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.26.0](https://www.github.com/shufo/blade-formatter/compare/v1.25.4...v1.26.0) (2022-05-19)
+
+
+### Features
+
+* 🎸 prettier ignore syntax ([5b74b96](https://www.github.com/shufo/blade-formatter/commit/5b74b96041af164070be57d82aafd2e653ccebb9))
+
+
+### Fixes
+
+* 🐛 nested unless condition results in unexpected format ([3a1d52c](https://www.github.com/shufo/blade-formatter/commit/3a1d52cf00b3e59292f360cf42ee1f0ecf2da30e))
+
 ### [1.25.4](https://www.github.com/shufo/blade-formatter/compare/v1.25.3...v1.25.4) (2022-05-17)
 
 
