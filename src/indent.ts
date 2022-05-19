@@ -134,7 +134,17 @@ export const inlineFunctionTokens = [
   '@aware',
 ];
 
-export const conditionalTokens = ['@if', '@while', '@case', '@isset', '@empty', '@elseif', '@component', '@hassection'];
+export const conditionalTokens = [
+  '@if',
+  '@while',
+  '@case',
+  '@isset',
+  '@empty',
+  '@elseif',
+  '@component',
+  '@hassection',
+  '@unless',
+];
 
 export const unbalancedStartTokens = ['@hassection'];
 
