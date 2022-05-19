@@ -3642,6 +3642,61 @@ describe('formatter', () => {
     await util.doubleFormatCheck(content, expected, { sortTailwindcssClasses: true });
   });
 
+  test('prettier ignore syntax', async () => {
+    const content = [
+      `<!-- prettier-ignore-start -->`,
+      `<div id="foo-bar-baz"          class="bar-foo-baz" title="a sample title" data-foo="bar" data-bar="baz">`,
+      `lorem ipsum dolor sit amet`,
+      `<div>`,
+      `foo`,
+      `</div>`,
+      `</div>`,
+      `<!-- prettier-ignore-end -->`,
+      `{{-- prettier-ignore-start --}}`,
+      `<div id="foo-bar-baz"          class="bar-foo-baz" title="a sample title" data-foo="bar" data-bar="baz">`,
+      `lorem ipsum dolor sit amet`,
+      `<div>`,
+      `foo`,
+      `</div>`,
+      `</div>`,
+      `{{-- prettier-ignore-end --}}`,
+      ``,
+      `<!-- prettier-ignore -->`,
+      `<span id="foo-bar-baz"          class="bar-foo-baz" title="a sample title" data-foo="bar" data-bar="baz" />`,
+      ``,
+      `{{-- prettier-ignore --}}`,
+      `<span id="foo-bar-baz"          class="bar-foo-baz" title="a sample title" data-foo="bar" data-bar="baz" />`,
+    ].join('\n');
+
+    const expected = [
+      `<!-- prettier-ignore-start -->`,
+      `<div id="foo-bar-baz"          class="bar-foo-baz" title="a sample title" data-foo="bar" data-bar="baz">`,
+      `lorem ipsum dolor sit amet`,
+      `<div>`,
+      `foo`,
+      `</div>`,
+      `</div>`,
+      `<!-- prettier-ignore-end -->`,
+      `{{-- prettier-ignore-start --}}`,
+      `<div id="foo-bar-baz"          class="bar-foo-baz" title="a sample title" data-foo="bar" data-bar="baz">`,
+      `lorem ipsum dolor sit amet`,
+      `<div>`,
+      `foo`,
+      `</div>`,
+      `</div>`,
+      `{{-- prettier-ignore-end --}}`,
+      ``,
+      `<!-- prettier-ignore -->`,
+      `<span id="foo-bar-baz"          class="bar-foo-baz" title="a sample title" data-foo="bar" data-bar="baz" />`,
+      ``,
+      `{{-- prettier-ignore --}}`,
+      `<span id="foo-bar-baz"          class="bar-foo-baz" title="a sample title" data-foo="bar" data-bar="baz" />`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
+
   test('nested unless condition', async () => {
     const content = [
       `<x-panel class="bg-gray-50">`,
