@@ -3641,4 +3641,29 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected, { sortTailwindcssClasses: true });
   });
+
+  test('nested unless condition', async () => {
+    const content = [
+      `<x-panel class="bg-gray-50">`,
+      `    <x-content>`,
+      `    @unless(isset($primaryTicketingLinkData) && $primaryTicketingLinkData['isSoldOut'] && $ticketCount <= 0)`,
+      `    @include('events.partials.wanted-tickets-button')`,
+      `    @endunless`,
+      `    </x-content>`,
+      `</x-panel>`,
+    ].join('\n');
+
+    const expected = [
+      `<x-panel class="bg-gray-50">`,
+      `    <x-content>`,
+      `        @unless(isset($primaryTicketingLinkData) && $primaryTicketingLinkData['isSoldOut'] && $ticketCount <= 0)`,
+      `            @include('events.partials.wanted-tickets-button')`,
+      `        @endunless`,
+      `    </x-content>`,
+      `</x-panel>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected, { wrapAttributes: 'force-expand-multiline' });
+  });
 });
