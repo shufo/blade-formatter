@@ -3696,7 +3696,7 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
-  
+
   test('nested unless condition', async () => {
     const content = [
       `<x-panel class="bg-gray-50">`,
