@@ -106,7 +106,7 @@ export const optionalStartWithoutEndTokens = {
   '@slot': 2,
 };
 
-export const tokenForIndentStartOrElseTokens = ['@forelse'];
+export const tokenForIndentStartOrElseTokens = ['@forelse', '@if'];
 
 export const indentStartOrElseTokens = ['@empty'];
 
