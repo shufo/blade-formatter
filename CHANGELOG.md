@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.26.1](https://www.github.com/shufo/blade-formatter/compare/v1.26.0...v1.26.1) (2022-05-21)
+
+
+### Fixes
+
+* 🐛 nested forelse directive results in unexpected format ([3f6ad82](https://www.github.com/shufo/blade-formatter/commit/3f6ad82c67787422cbdfef61862d531a1f2e6354))
+
 ## [1.26.0](https://www.github.com/shufo/blade-formatter/compare/v1.25.4...v1.26.0) (2022-05-19)
 
 
