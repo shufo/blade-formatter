@@ -3721,4 +3721,41 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected, { wrapAttributes: 'force-expand-multiline' });
   });
+
+  test('nested @forelse https://github.com/shufo/vscode-blade-formatter/issues/425', async () => {
+    const content = [
+      `@forelse($users as $user)`,
+      `@if ($user)`,
+      `foo`,
+      `@forelse($users as $user)`,
+      `  foo`,
+      `  @empty`,
+      `  bar`,
+      `  @endforelse`,
+      `  @endif`,
+      `baz`,
+      `@empty`,
+      `something goes here`,
+      `@endforelse`,
+    ].join('\n');
+
+    const expected = [
+      `@forelse($users as $user)`,
+      `    @if ($user)`,
+      `        foo`,
+      `        @forelse($users as $user)`,
+      `            foo`,
+      `        @empty`,
+      `            bar`,
+      `        @endforelse`,
+      `    @endif`,
+      `    baz`,
+      `@empty`,
+      `    something goes here`,
+      `@endforelse`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
 });
