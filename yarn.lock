@@ -1444,13 +1444,13 @@
     fastq "^1.6.0"
 
 "@prettier/plugin-php@^0.18.0":
-  version "0.18.5"
-  resolved "https://registry.yarnpkg.com/@prettier/plugin-php/-/plugin-php-0.18.5.tgz#5e9c6111b309c7bb90927c615b03e6d0b7ba520c"
-  integrity sha512-apDk8VZ4w+xN2iE8BrmJzeq9hNU6kscvBVP9a2NJp++ClPwLQ8F8+uXXd6FBkFdneNIikvrnJ8Z2mxAslh9Kyw==
+  version "0.18.6"
+  resolved "https://registry.yarnpkg.com/@prettier/plugin-php/-/plugin-php-0.18.6.tgz#56862bc826b05b1fd7b479edfeb531d05396018e"
+  integrity sha512-pnOOgaQVPe/KBRb1/ofShjlzD51s3wRduflIC74itP4HzWifmxXbOMGhBoUSpwSII7rTJfHN9kH2bsUu1Rqpaw==
   dependencies:
     linguist-languages "^7.5.1"
     mem "^8.0.0"
-    php-parser "3.1.0-beta.7"
+    php-parser "3.1.0-beta.8"
 
 "@shufo/tailwindcss-class-sorter@^1.0.3":
   version "1.0.4"
@@ -5560,10 +5560,10 @@ php-parser@3.0.3:
   resolved "https://registry.npmjs.org/php-parser/-/php-parser-3.0.3.tgz"
   integrity sha512-WjbrtYrwmLY9hpoKoq1+mVqJhT0dEVDZRWSpNIw2MpTw3VM/K4C6e0WR4KlU6G/XROkV7tpH4NesV2dDiPxqaw==
 
-php-parser@3.1.0-beta.7:
-  version "3.1.0-beta.7"
-  resolved "https://registry.yarnpkg.com/php-parser/-/php-parser-3.1.0-beta.7.tgz#8df7d100a547b128e573a60980e332cd6e7a1e71"
-  integrity sha512-d0Ic+st1I5ZxQ6sSv79dtWNTK4oT35JxA0G2yb/A4Kyi82TwUEEeCkyQu7GZ2tDP2QIVVuJoABLR2mXJXU9+wQ==
+php-parser@3.1.0-beta.8:
+  version "3.1.0-beta.8"
+  resolved "https://registry.yarnpkg.com/php-parser/-/php-parser-3.1.0-beta.8.tgz#fc2bda8b5e310a115dcbe4a3c85bb13131f7b2c4"
+  integrity sha512-TA4zYkVGv0Daail0yGZIUUxYWt37hz5nfaLgx17Tn25wdyoW4xtjv6UphrtyFCxNL1sZgJvSb5Q83zw76ZP/uA==
 
 picocolors@^1.0.0:
   version "1.0.0"
