@@ -1,5 +1,18 @@
 # Changelog
 
+### [1.26.2](https://www.github.com/shufo/blade-formatter/compare/v1.26.1...v1.26.2) (2022-06-02)
+
+
+### Miscellaneous
+
+* **deps:** bump @prettier/plugin-php from 0.18.4 to 0.18.5 ([1af9057](https://www.github.com/shufo/blade-formatter/commit/1af90570a4842a148e614ae4b652bb2748aa51ed))
+* **deps:** bump @prettier/plugin-php from 0.18.5 to 0.18.6 ([ac96301](https://www.github.com/shufo/blade-formatter/commit/ac963017ce02850f33e33a2aef0af0c269d89fec))
+
+
+### Fixes
+
+* 🐛 inline directive results in unexpected format if nested ([aff6cd4](https://www.github.com/shufo/blade-formatter/commit/aff6cd40df56f740a1093daa9a02c1df679d6eea))
+
 ### [1.26.1](https://www.github.com/shufo/blade-formatter/compare/v1.26.0...v1.26.1) (2022-05-21)
 
 
