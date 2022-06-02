@@ -27,6 +27,7 @@ import {
   directivePrefix,
   indentStartTokensWithoutPrefix,
   unbalancedStartTokens,
+  cssAtRuleTokens,
 } from './indent';
 import { nestedParenthesisRegex } from './regex';
 
@@ -309,6 +310,7 @@ export default class Formatter {
       ...phpKeywordStartTokens,
       ...['@unless[a-z]*\\(.*?\\)'],
       ...unbalancedStartTokens,
+      ...cssAtRuleTokens,
     ].join('|');
 
     const inlineRegex = new RegExp(
