@@ -3758,4 +3758,23 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
+
+  test('@disabled directive with method access https://github.com/shufo/vscode-blade-formatter/issues/429', async () => {
+    const content = [
+      `@disabled(!auth()->user()->ownsTest($variable)) @if ($this->$variable) ... @else ... @endif`,
+      `@disabled(!auth()->user()->ownsTest($variable))`,
+    ].join('\n');
+
+    const expected = [
+      `@disabled(!auth()->user()->ownsTest($variable)) @if ($this->$variable)`,
+      `    ...`,
+      `@else`,
+      `    ...`,
+      `@endif`,
+      `@disabled(!auth()->user()->ownsTest($variable))`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
 });
