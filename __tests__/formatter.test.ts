@@ -2593,15 +2593,11 @@ describe('formatter', () => {
 
     const expected = [
       `@include('livewire.cx', ['account' => $account])`,
-      `@include('livewire.cx.equipment-list-internal.account', [`,
-      `    'account' => $account,`,
-      `])`,
+      `@include('livewire.cx.equipment-list-internal.account', ['account' => $account])`,
       `<div>`,
       `    <div>`,
       `        <div>`,
-      `            @include('livewire.cx.equipment-list-internal.account', [`,
-      `                'account' => $account,`,
-      `            ])`,
+      `            @include('livewire.cx.equipment-list-internal.account', ['account' => $account])`,
       `        </div>`,
       `    </div>`,
       `</div>`,
@@ -2611,9 +2607,7 @@ describe('formatter', () => {
       `            <div>`,
       `                <div>`,
       `                    <div>`,
-      `                        @include('livewire.cx.equipment-list-internal.account', [`,
-      `                            'account' => $account,`,
-      `                        ])`,
+      `                        @include('livewire.cx.equipment-list-internal.account', ['account' => $account])`,
       `                    </div>`,
       `                </div>`,
       `            </div>`,
@@ -2754,10 +2748,8 @@ describe('formatter', () => {
       `    ])`,
       `</div>`,
       `<div>`,
-      `    @includeFirst(`,
-      `        ['custom.admin', 'admin'],`,
-      `        ['status' => 'complete', 'foo' => $user, 'bar' => $bbb, 'baz' => $myVariable]`,
-      `    )`,
+      `    @includeFirst(['custom.admin', 'admin'],`,
+      `        ['status' => 'complete', 'foo' => $user, 'bar' => $bbb, 'baz' => $myVariable])`,
       `</div>`,
       ``,
     ].join('\n');
@@ -3753,6 +3745,25 @@ describe('formatter', () => {
       `@empty`,
       `    something goes here`,
       `@endforelse`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
+
+  test('@disabled directive with method access https://github.com/shufo/vscode-blade-formatter/issues/429', async () => {
+    const content = [
+      `@disabled(!auth()->user()->ownsTest($variable)) @if ($this->$variable) ... @else ... @endif`,
+      `@disabled(!auth()->user()->ownsTest($variable))`,
+    ].join('\n');
+
+    const expected = [
+      `@disabled(!auth()->user()->ownsTest($variable)) @if ($this->$variable)`,
+      `    ...`,
+      `@else`,
+      `    ...`,
+      `@endif`,
+      `@disabled(!auth()->user()->ownsTest($variable))`,
       ``,
     ].join('\n');
 

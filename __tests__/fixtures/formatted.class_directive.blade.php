@@ -14,11 +14,7 @@
                 <div></div>
                 <p>@lang('users.index')</p>
             </div>
-            @button([
-                'class' => 'pf-1',
-                'text' => 'Save',
-                'foo' => 'bar',
-            ])
+            @button(['class' => 'pf-1', 'text' => 'Save', 'foo' => 'bar'])
             <div class="pf-users-branch">
                 <ul @class(['pf-users-branch__list'])>
                     @foreach ($tree as $users)
