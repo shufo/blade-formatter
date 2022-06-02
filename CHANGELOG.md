@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.26.3](https://www.github.com/shufo/blade-formatter/compare/v1.26.2...v1.26.3) (2022-06-02)
+
+
+### Fixes
+
+* 🐛 at-rules of css results in Syntax Error ([029bd3f](https://www.github.com/shufo/blade-formatter/commit/029bd3fbbd0fd5ed73c5f097ee89ceb829018be4))
+
 ### [1.26.2](https://www.github.com/shufo/blade-formatter/compare/v1.26.1...v1.26.2) (2022-06-02)
 
 
