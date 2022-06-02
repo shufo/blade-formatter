@@ -148,6 +148,21 @@ export const conditionalTokens = [
 
 export const unbalancedStartTokens = ['@hassection'];
 
+export const cssAtRuleTokens = [
+  '@charset',
+  '@color-profile',
+  '@counter-style',
+  '@font-face',
+  '@font-feature-values',
+  '@import',
+  '@keyframes',
+  '@media',
+  '@namespace',
+  '@page',
+  '@property',
+  '@supports',
+];
+
 export function hasStartAndEndToken(tokenizeLineResult: any, originalLine: any) {
   return (
     _.filter(tokenizeLineResult.tokens, (tokenStruct: any) => {
