@@ -3813,7 +3813,6 @@ describe('formatter', () => {
       `                padding-bottom: 20px !important;`,
       `            }`,
       `        }`,
-      ``,
       `    </style>`,
       `@endsection`,
       ``,

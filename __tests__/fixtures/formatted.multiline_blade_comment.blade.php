@@ -8,7 +8,6 @@ this images is example --}}
     .original-image-tag {
         white-space: nowrap;
     }
-
 </style>
 <script>
     $('.original-image-input').on('change', handleUpload);
