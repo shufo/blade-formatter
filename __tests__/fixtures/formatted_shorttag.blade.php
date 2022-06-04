@@ -339,7 +339,6 @@
         a.status-1 {
             font-weight: bold;
         }
-
     </style>
     <script>
         jQuery(document).ready(function($) {

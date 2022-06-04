@@ -5,7 +5,6 @@
 
                 text-decoration: underline !important;
             }
-
         </style>
     @overwrite
 </div>

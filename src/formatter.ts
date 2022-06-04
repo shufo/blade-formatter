@@ -211,6 +211,9 @@ export default class Formatter {
       wrap_line_length: util.optional(this.options).wrapLineLength || 120,
       wrap_attributes: util.optional(this.options).wrapAttributes || 'auto',
       end_with_newline: util.optional(this.options).endWithNewline || true,
+      css: {
+        end_with_newline: false,
+      },
     };
 
     const promise = new Promise((resolve) => resolve(data))
