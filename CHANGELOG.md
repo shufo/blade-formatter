@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.26.4](https://www.github.com/shufo/blade-formatter/compare/v1.26.3...v1.26.4) (2022-06-04)
+
+
+### Fixes
+
+* 🐛 new line inserted at end of style tag ([4634794](https://www.github.com/shufo/blade-formatter/commit/4634794dd372cdd7ca10e6e3bff73bffccdb5280))
+
 ### [1.26.3](https://www.github.com/shufo/blade-formatter/compare/v1.26.2...v1.26.3) (2022-06-02)
 
 
