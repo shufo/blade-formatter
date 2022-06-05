@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.26.5](https://www.github.com/shufo/blade-formatter/compare/v1.26.4...v1.26.5) (2022-06-05)
+
+
+### Fixes
+
+* 🐛 unexpected result when wrap attributes option specified ([aa60a9c](https://www.github.com/shufo/blade-formatter/commit/aa60a9ce156f20ba1af9147b0adc1bf3ce363a00))
+
 ### [1.26.4](https://www.github.com/shufo/blade-formatter/compare/v1.26.3...v1.26.4) (2022-06-04)
 
 
