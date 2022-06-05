@@ -1705,12 +1705,20 @@ export default class Formatter {
           indent_size: util.optional(this.options).indentSize || 4,
           wrap_line_length: util.optional(this.options).wrapLineLength || 120,
           wrap_attributes: util.optional(this.options).wrapAttributes || 'auto',
-          wrap_attributes_indent_size: indent.amount + (util.optional(this.options).indentSize || 4) * 1,
           end_with_newline: false,
           templating: ['php'],
         };
 
-        return `${beautify.html_beautify(this.htmlTags[p1], options)}`;
+        const matched = this.htmlTags[p1];
+        const openingTag = _.first(matched.match(/(<(textarea|pre).*?(?<!=)>)(?=.*?<\/\2>)/gis));
+
+        if (openingTag === undefined) {
+          return `${this.indentScriptBlock(indent, beautify.html_beautify(matched, options))}`;
+        }
+
+        const restofTag = matched.substring(openingTag.length, matched.length);
+
+        return `${this.indentScriptBlock(indent, beautify.html_beautify(openingTag, options))}${restofTag}`;
       },
     );
   }

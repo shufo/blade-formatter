@@ -3820,4 +3820,70 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
+
+  test('textarea wrapping https://github.com/shufo/vscode-blade-formatter/issues/414', async () => {
+    const content = [
+      `<body class="bg-background font-sans text-sm text-gray-900"`,
+      `      class="bg-background font-sans text-sm text-gray-900">`,
+      `    <form action="#"`,
+      `          method="POST"`,
+      `          class="space-y-4 py-6">`,
+      `        ...`,
+      `        <!-- Idea Description -->`,
+      `        <div>`,
+      `            <textarea class="good-rounded good-border w-full bg-gray-100 px-4 py-2 text-sm"`,
+      `                      name="idea_description"`,
+      `                      id="idea-description"`,
+      `                      cols="30"`,
+      `                      rows="4"`,
+      `                      data="{'aa' => '123'}" x-foo="good-rounded good-border w-full bg-gray-100 px-4 py-2 text-sm" x-bar="321"`,
+      `            data-x="aa123">               </textarea>`,
+      `        </div>`,
+      `    </form>`,
+      `</body>`,
+    ].join('\n');
+
+    const alignedMultipleExpected = [
+      `<body class="bg-background font-sans text-sm text-gray-900" class="bg-background font-sans text-sm text-gray-900">`,
+      `    <form action="#" method="POST" class="space-y-4 py-6">`,
+      `        ...`,
+      `        <!-- Idea Description -->`,
+      `        <div>`,
+      `            <textarea class="good-rounded good-border w-full bg-gray-100 px-4 py-2 text-sm" name="idea_description"`,
+      `                      id="idea-description" cols="30" rows="4" data="{'aa' => '123'}"`,
+      `                      x-foo="good-rounded good-border w-full bg-gray-100 px-4 py-2 text-sm" x-bar="321" data-x="aa123">               </textarea>`,
+      `        </div>`,
+      `    </form>`,
+      `</body>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, alignedMultipleExpected, { wrapAttributes: 'aligned-multiple' });
+
+    const forceAlignedExpected = [
+      `<body class="bg-background font-sans text-sm text-gray-900"`,
+      `      class="bg-background font-sans text-sm text-gray-900">`,
+      `    <form action="#"`,
+      `          method="POST"`,
+      `          class="space-y-4 py-6">`,
+      `        ...`,
+      `        <!-- Idea Description -->`,
+      `        <div>`,
+      `            <textarea class="good-rounded good-border w-full bg-gray-100 px-4 py-2 text-sm"`,
+      `                      name="idea_description"`,
+      `                      id="idea-description"`,
+      `                      cols="30"`,
+      `                      rows="4"`,
+      `                      data="{'aa' => '123'}"`,
+      `                      x-foo="good-rounded good-border w-full bg-gray-100 px-4 py-2 text-sm"`,
+      `                      x-bar="321"`,
+      `                      data-x="aa123">               </textarea>`,
+      `        </div>`,
+      `    </form>`,
+      `</body>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, forceAlignedExpected, { wrapAttributes: 'force-aligned' });
+  });
 });
