@@ -3886,4 +3886,10 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, forceAlignedExpected, { wrapAttributes: 'force-aligned' });
   });
+
+  test('arrow identifier in tag', async () => {
+    const content = [`<script src="aaa => 1" >`, `const a = 1;`, `const b  = 2;`, `</script>`].join('\n');
+    const expected = [`<script src="aaa => 1">`, `    const a = 1;`, `    const b = 2;`, `</script>`, ``].join('\n');
+    await util.doubleFormatCheck(content, expected);
+  });
 });

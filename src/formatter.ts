@@ -402,7 +402,7 @@ export default class Formatter {
   }
 
   preserveBladeDirectivesInScripts(content: any) {
-    return _.replace(content, /(?<=<script[^>]*?>)(.*?)(?=<\/script>)/gis, (match: string) => {
+    return _.replace(content, /(?<=<script[^>]*?(?<!=)>)(.*?)(?=<\/script>)/gis, (match: string) => {
       const targetTokens = [...indentStartTokens, ...inlineFunctionTokens];
       if (new RegExp(targetTokens.join('|'), 'gmi').test(match) === false) {
         return match.trim();
@@ -536,7 +536,9 @@ export default class Formatter {
     content = _.replace(
       content,
       new RegExp(
-        `(?<=<.*?>)(${_.without(indentStartTokens, '@php').join('|')})(\\s*)${nestedParenthesisRegex}.*?(?=<.*?>)`,
+        `(?<=<.*?(?<!=)>)(${_.without(indentStartTokens, '@php').join(
+          '|',
+        )})(\\s*)${nestedParenthesisRegex}.*?(?=<.*?>)`,
         'gmis',
       ),
       (match) => {
@@ -547,7 +549,7 @@ export default class Formatter {
     // eslint-disable-next-line
     content = _.replace(
       content,
-      new RegExp(`(?<=<.*?>).*?(${_.without(indentEndTokens, '@endphp').join('|')})(?=<.*?>)`, 'gmis'),
+      new RegExp(`(?<=<.*?(?<!=)>).*?(${_.without(indentEndTokens, '@endphp').join('|')})(?=<.*?>)`, 'gmis'),
       (match) => {
         return `\n${match.trim()}\n`;
       },
@@ -1279,7 +1281,7 @@ export default class Formatter {
       return this.indentBladeDirectiveBlock(indent, this.bladeDirectives[p1]);
     });
 
-    result = _.replace(result, /(?<=<script[^>]*?>)(.*?)(?=<\/script>)/gis, (match: string) => {
+    result = _.replace(result, /(?<=<script[^>]*?(?<!=)>)(.*?)(?=<\/script>)/gis, (match: string) => {
       let formatted: string = match;
 
       // restore begin
