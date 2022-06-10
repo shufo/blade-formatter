@@ -25,7 +25,7 @@
                     <li class="breadcrumb-item active" aria-current="page">{{ $_botton_text }}</li>
                 </ol>
             </container>
-            <div style="margin-top: 20px" ;>
+            <div style="margin-top: 20px";>
                 @if (0 < count($errors))
                     <div class="alert alert-danger" role="alert">error</div>
                 @endif

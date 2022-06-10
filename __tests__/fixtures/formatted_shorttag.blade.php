@@ -441,8 +441,8 @@
         <p>Warning, translations are not visible until they are exported back to the app/lang file, using <code>php
                 artisan translation:export</code> command or publish button.</p>
         <div class="alert alert-success success-import" style="display:none;">
-            <p>Done importing, processed <strong class="counter">N</strong> items! Reload this page to refresh
-                the groups!</p>
+            <p>Done importing, processed <strong class="counter">N</strong> items! Reload this page to refresh the
+                groups!</p>
         </div>
         <div class="alert alert-success success-find" style="display:none;">
             <p>Done searching for translations, found <strong class="counter">N</strong> items!</p>
@@ -503,7 +503,7 @@
                     the migrations and imported the translations.</p>
                 <select name="group" id="group" class="form-control group-select">
                     <?php foreach($groups as $key => $value): ?>
-                    <option value="<?php echo $key; ?>" <?php echo $key == $group ? ' selected' : ''; ?>><?php echo $value; ?></option>
+                    <option value="<?php echo $key; ?>"<?php echo $key == $group ? ' selected' : ''; ?>><?php echo $value; ?></option>
                     <?php endforeach; ?>
                 </select>
             </div>
@@ -520,7 +520,8 @@
             <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
             <div class="form-group">
                 <label>Add new keys to this group</label>
-                <textarea class="form-control" rows="3" name="keys" placeholder="Add 1 key per line, without the group prefix"></textarea>
+                <textarea class="form-control" rows="3" name="keys"
+                    placeholder="Add 1 key per line, without the group prefix"></textarea>
             </div>
             <div class="form-group">
                 <input type="submit" value="Add keys" class="btn btn-primary">
@@ -639,8 +640,8 @@
                             <input type="text" name="new-locale" class="form-control" />
                         </div>
                         <div class="col-sm-2">
-                            <button type="submit" class="btn btn-default btn-block" data-disable-with="Adding..">Add new
-                                locale</button>
+                            <button type="submit" class="btn btn-default btn-block" data-disable-with="Adding..">Add
+                                new locale</button>
                         </div>
                     </div>
                 </div>
@@ -648,8 +649,8 @@
         </fieldset>
         <fieldset>
             <legend>Export all translations</legend>
-            <form class="form-inline form-publish-all" method="POST" action="<?php echo action('\Barryvdh\TranslationManager\Controller@postPublish', '*'); ?>" data-remote="true"
-                role="form"
+            <form class="form-inline form-publish-all" method="POST" action="<?php echo action('\Barryvdh\TranslationManager\Controller@postPublish', '*'); ?>"
+                data-remote="true" role="form"
                 data-confirm="Are you sure you want to publish all translations group? This will overwrite existing language files.">
                 <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                 <button type="submit" class="btn btn-primary" data-disable-with="Publishing..">Publish all</button>
