@@ -3892,4 +3892,29 @@ describe('formatter', () => {
     const expected = [`<script src="aaa => 1">`, `    const a = 1;`, `    const b = 2;`, `</script>`, ``].join('\n');
     await util.doubleFormatCheck(content, expected);
   });
+
+  test('keep html attribute indentation', async () => {
+    const content = [
+      `@component('some.file')`,
+      `    <div>`,
+      `        <input type="text" an-object="{`,
+      `            'Some error': 1,`,
+      `        }" />`,
+      `    </div>`,
+      `@endcomponent`,
+    ].join('\n');
+
+    const expected = [
+      `@component('some.file')`,
+      `    <div>`,
+      `        <input type="text" an-object="{`,
+      `            'Some error': 1,`,
+      `        }" />`,
+      `    </div>`,
+      `@endcomponent`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
 });

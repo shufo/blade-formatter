@@ -40,7 +40,7 @@ export default class Formatter {
 
   bladeDirectives: any;
 
-  classes: any;
+  htmlAttributes: Array<string>;
 
   currentIndentLevel: number;
 
@@ -135,7 +135,7 @@ export default class Formatter {
     this.bladeBraces = [];
     this.rawBladeBraces = [];
     this.scripts = [];
-    this.classes = [];
+    this.htmlAttributes = [];
     this.xData = [];
     this.xInit = [];
     this.htmlTags = [];
@@ -178,12 +178,12 @@ export default class Formatter {
       .then((target) => this.formatXData(target))
       .then((target) => this.preserveComponentAttribute(target))
       .then((target) => this.preserveShorthandBinding(target))
-      .then((target) => this.preserveClass(target))
+      .then((target) => this.preserveHtmlAttributes(target))
       .then((target) => this.preserveHtmlTags(target))
       .then((target) => this.formatAsHtml(target))
       .then((target) => this.formatAsBlade(target))
       .then((target) => this.restoreHtmlTags(target))
-      .then((target) => this.restoreClass(target))
+      .then((target) => this.restoreHtmlAttributes(target))
       .then((target) => this.restoreShorthandBinding(target))
       .then((target) => this.restoreComponentAttribute(target))
       .then((target) => this.restoreXData(target))
@@ -709,11 +709,11 @@ export default class Formatter {
     return _.replace(content, /<script.*?>.*?<\/script>/gis, (match: any) => this.storeScripts(match));
   }
 
-  async preserveClass(content: any) {
+  async preserveHtmlAttributes(content: any) {
     return _.replace(
       content,
-      /(\s*)class="(.*?)"(\s*)/gs,
-      (_match: any, p1: any, p2: any, p3: any) => `${p1}class="${this.storeClass(p2)}"${p3}`,
+      /(?<=<[\w]*?[\s].*?)[\w\-\_]*=(["']).*?(?<!\\)\1(?=.*?(?<!=)>)/gms,
+      (match: string) => `${this.storeHtmlAttribute(match)}`,
     );
   }
 
@@ -840,14 +840,14 @@ export default class Formatter {
     return this.getScriptPlaceholder(index);
   }
 
-  storeClass(value: any) {
-    const index = this.classes.push(value) - 1;
+  storeHtmlAttribute(value: string) {
+    const index = this.htmlAttributes.push(value) - 1;
 
     if (value.length > 0) {
-      return this.getClassPlaceholder(index, value.length);
+      return this.getHtmlAttributePlaceholder(index.toString(), value.length);
     }
 
-    return this.getClassPlaceholder(index, null);
+    return this.getHtmlAttributePlaceholder(index.toString(), 0);
   }
 
   storeShorthandBinding(value: any) {
@@ -978,18 +978,18 @@ export default class Formatter {
     return _.replace('@if (unbalanced___#___)', '#', replace);
   }
 
-  getClassPlaceholder(replace: any, length: any) {
+  getHtmlAttributePlaceholder(replace: string, length: any) {
     if (length && length > 0) {
-      const template = '___class_#___';
+      const template = '___attrs_#___';
       const gap = length - template.length;
-      return _.replace(`___class${_.repeat('_', gap > 0 ? gap : 1)}#___`, '#', replace);
+      return _.replace(`___attrs${_.repeat('_', gap > 0 ? gap : 1)}#___`, '#', replace);
     }
 
     if (_.isNull(length)) {
-      return _.replace('___class_#___', '#', replace);
+      return _.replace('___attrs_#___', '#', replace);
     }
 
-    return _.replace('___class_+?#___', '#', replace);
+    return _.replace('___attrs_+?#___', '#', replace);
   }
 
   getShorthandBindingPlaceholder(replace: string, length: any = 0) {
@@ -1725,12 +1725,12 @@ export default class Formatter {
     );
   }
 
-  restoreClass(content: any) {
+  restoreHtmlAttributes(content: string) {
     return _.replace(
       content,
-      // @ts-expect-error ts-migrate(2554) FIXME: Expected 2 arguments, but got 1.
-      new RegExp(`${this.getClassPlaceholder('(\\d+)')}`, 'gms'),
-      (_match: any, p1: any) => this.classes[p1],
+      // @ts-expect-error ts-migrate(2554) FIXME: Expected 0 arguments, but got 1.
+      new RegExp(`${this.getHtmlAttributePlaceholder('(\\d+)')}`, 'gms'),
+      (_match: string, p1: number) => this.htmlAttributes[p1],
     );
   }
 
