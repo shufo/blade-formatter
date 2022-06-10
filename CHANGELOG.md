@@ -1,5 +1,18 @@
 # Changelog
 
+### [1.26.6](https://www.github.com/shufo/blade-formatter/compare/v1.26.5...v1.26.6) (2022-06-09)
+
+
+### Miscellaneous
+
+* **deps:** bump @prettier/plugin-php from 0.18.6 to 0.18.7 ([8d1fa89](https://www.github.com/shufo/blade-formatter/commit/8d1fa89540aadfd580167c7a1b91aefb74b7710c))
+* **deps:** bump xregexp from 5.1.0 to 5.1.1 ([1e2b1d7](https://www.github.com/shufo/blade-formatter/commit/1e2b1d7decdc501be58fb6f4ce4574fb30e15abd))
+
+
+### Fixes
+
+* 🐛 arrow indentifier sometimes results in unexpected format ([94ac3ad](https://www.github.com/shufo/blade-formatter/commit/94ac3ad7f1f55815477c8a623a01a6fc833ca1f6))
+
 ### [1.26.5](https://www.github.com/shufo/blade-formatter/compare/v1.26.4...v1.26.5) (2022-06-05)
 
 
