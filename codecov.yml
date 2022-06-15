@@ -1,2 +1,4 @@
 codecov: 
   require_ci_to_pass: no
+  github_checks:
+    annotations: false
