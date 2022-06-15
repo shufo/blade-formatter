@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.26.7](https://www.github.com/shufo/blade-formatter/compare/v1.26.6...v1.26.7) (2022-06-15)
+
+
+### Miscellaneous
+
+* **deps:** bump @prettier/plugin-php from 0.18.7 to 0.18.8 ([25fef40](https://www.github.com/shufo/blade-formatter/commit/25fef40f6af6ee4c3b5f3aeb5cfae299bc3de9f9))
+
 ### [1.26.6](https://www.github.com/shufo/blade-formatter/compare/v1.26.5...v1.26.6) (2022-06-09)
 
 
