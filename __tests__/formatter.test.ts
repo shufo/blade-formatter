@@ -3917,4 +3917,11 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
+
+  test('custom directive with raw string parameter should be work', async () => {
+    const content = [`@popper(This should be work)`].join('\n');
+    const expected = [`@popper(This should be work)`, ``].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
 });
