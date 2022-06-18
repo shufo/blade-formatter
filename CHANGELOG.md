@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.26.8](https://www.github.com/shufo/blade-formatter/compare/v1.26.7...v1.26.8) (2022-06-18)
+
+
+### Fixes
+
+* 🐛 raw string in custom directive results syntax error ([abdf82a](https://www.github.com/shufo/blade-formatter/commit/abdf82a057f0ec46a271cbef4d858bdb7cf139ce))
+
 ### [1.26.7](https://www.github.com/shufo/blade-formatter/compare/v1.26.6...v1.26.7) (2022-06-15)
 
 
