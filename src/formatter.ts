@@ -1647,13 +1647,17 @@ export default class Formatter {
         const indent = detectIndent(matchedLine[0]);
 
         const matched = `${this.customDirectives[p1]}`;
-        return _.replace(matched, /(@[a-zA-z0-9\-_]+)(.*)/gis, (_match2: string, p2: string, p3: string) => {
-          const formatted = util
-            .formatRawStringAsPhp(`func${p3}`)
-            .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
-            .trim()
-            .substring(4);
-          return `${p2}${this.indentComponentAttribute(indent.indent, formatted)}`;
+        return _.replace(matched, /(@[a-zA-z0-9\-_]+)(.*)/gis, (match2: string, p2: string, p3: string) => {
+          try {
+            const formatted = util
+              .formatRawStringAsPhp(`func${p3}`)
+              .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
+              .trim()
+              .substring(4);
+            return `${p2}${this.indentComponentAttribute(indent.indent, formatted)}`;
+          } catch (error) {
+            return `${match2}`;
+          }
         });
       },
     );
@@ -1670,13 +1674,17 @@ export default class Formatter {
         const indent = detectIndent(matchedLine[0]);
         const matched = `${this.customDirectives[p1]}`;
 
-        return _.replace(matched, /(@[a-zA-z0-9\-_]+)(.*)/gis, (_match2: string, p3: string, p4: string) => {
-          const formatted = util
-            .formatRawStringAsPhp(`func${p4}`, this.wrapLineLength, false)
-            .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
-            .trim()
-            .substring(4);
-          return `${p3}${this.indentComponentAttribute(indent.indent, formatted)}`;
+        return _.replace(matched, /(@[a-zA-z0-9\-_]+)(.*)/gis, (match2: string, p3: string, p4: string) => {
+          try {
+            const formatted = util
+              .formatRawStringAsPhp(`func${p4}`, this.wrapLineLength, false)
+              .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
+              .trim()
+              .substring(4);
+            return `${p3}${this.indentComponentAttribute(indent.indent, formatted)}`;
+          } catch (error) {
+            return `${match2}`;
+          }
         });
       },
     );
