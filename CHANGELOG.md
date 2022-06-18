@@ -1,5 +1,16 @@
 # Changelog
 
+### [1.26.9](https://www.github.com/shufo/blade-formatter/compare/v1.26.8...v1.26.9) (2022-06-18)
+
+
+### Miscellaneous
+
+* **deps:** update actions/cache action to v3 ([e4c2536](https://www.github.com/shufo/blade-formatter/commit/e4c25369d4ab788e0dcfd640e922e041f75e7e93))
+* **deps:** update actions/checkout action to v3 ([537ed24](https://www.github.com/shufo/blade-formatter/commit/537ed2436c4f3ba35a6270196c33c7d963d99ec3))
+* **deps:** update actions/setup-node action to v3 ([eaf41ab](https://www.github.com/shufo/blade-formatter/commit/eaf41abbbdc4242777907f91c64527cc972089ca))
+* **deps:** update cirrus-actions/rebase action to v1.7 ([0136a9b](https://www.github.com/shufo/blade-formatter/commit/0136a9b316e2c1685875ad6d5c84332e6147dfb1))
+* **deps:** update pozil/auto-assign-issue action to v1.7.0 ([6759bf1](https://www.github.com/shufo/blade-formatter/commit/6759bf14e8709ab29446f68f5a1ed08e5a4d62f7))
+
 ### [1.26.8](https://www.github.com/shufo/blade-formatter/compare/v1.26.7...v1.26.8) (2022-06-18)
 
 
