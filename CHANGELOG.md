@@ -1,5 +1,26 @@
 # Changelog
 
+## [1.26.9](https://github.com/shufo/blade-formatter/compare/v1.26.8...v1.26.9) (2022-06-19)
+
+
+### Miscellaneous
+
+* **deps:** update actions/cache action to v3 ([e4c2536](https://github.com/shufo/blade-formatter/commit/e4c25369d4ab788e0dcfd640e922e041f75e7e93))
+* **deps:** update actions/checkout action to v3 ([537ed24](https://github.com/shufo/blade-formatter/commit/537ed2436c4f3ba35a6270196c33c7d963d99ec3))
+* **deps:** update actions/setup-node action to v3 ([eaf41ab](https://github.com/shufo/blade-formatter/commit/eaf41abbbdc4242777907f91c64527cc972089ca))
+* **deps:** update cirrus-actions/rebase action to v1.7 ([0136a9b](https://github.com/shufo/blade-formatter/commit/0136a9b316e2c1685875ad6d5c84332e6147dfb1))
+* **deps:** update codecov/codecov-action action to v3 ([70f2175](https://github.com/shufo/blade-formatter/commit/70f21752968264484ce1081a6bcc1f5266336783))
+* **deps:** update dependency @types/concat-stream to v2 ([d2c5a2b](https://github.com/shufo/blade-formatter/commit/d2c5a2b9b83a0e0a6835ced64a19cf61d55d5a50))
+* **deps:** update dependency eslint-config-airbnb-typescript to v17 ([a8f8aef](https://github.com/shufo/blade-formatter/commit/a8f8aef53dddea4657f1783aaea71babb0323e49))
+* **deps:** update googlecloudplatform/release-please-action action to v3 ([e9dbb0b](https://github.com/shufo/blade-formatter/commit/e9dbb0b6aac95b47f39f92744f1e3b47299b93ef))
+* **deps:** update jest monorepo to v28 ([cc072c2](https://github.com/shufo/blade-formatter/commit/cc072c23ba340d88f407f431dfc3858d62981635))
+* **deps:** update pozil/auto-assign-issue action to v1.7.0 ([6759bf1](https://github.com/shufo/blade-formatter/commit/6759bf14e8709ab29446f68f5a1ed08e5a4d62f7))
+
+
+### Fixes
+
+* 🐛 script tag attributes are unindented when multi-lined ([45eb369](https://github.com/shufo/blade-formatter/commit/45eb36918b6b1e02ddc76d6fd32b59c69472b16d))
+
 ### [1.26.8](https://www.github.com/shufo/blade-formatter/compare/v1.26.7...v1.26.8) (2022-06-18)
 
 
