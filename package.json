@@ -59,7 +59,7 @@
     "@babel/plugin-transform-modules-commonjs": "^7.16.5",
     "@babel/preset-env": "^7.13.12",
     "@babel/preset-typescript": "^7.16.5",
-    "@types/concat-stream": "^1.6.1",
+    "@types/concat-stream": "^2.0.0",
     "@types/find-config": "^1.0.1",
     "@types/fs-extra": "^9.0.13",
     "@types/glob": "^7.2.0",
