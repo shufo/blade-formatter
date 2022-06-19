@@ -1619,7 +1619,6 @@ export default class Formatter {
             indent_size: util.optional(this.options).indentSize || 4,
             wrap_line_length: util.optional(this.options).wrapLineLength || 120,
             wrap_attributes: util.optional(this.options).wrapAttributes || 'auto',
-            wrap_attributes_indent_size: indent.amount,
             end_with_newline: false,
             templating: ['php'],
           };

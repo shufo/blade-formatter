@@ -3924,4 +3924,11 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
+
+  test('script tag indentation with multiline attribute', async () => {
+    const content = [`<script`, `src="{{ asset('js/chat.js') }}"`, `defer`, `></script>`].join('\n');
+    const expected = [`<script`, `    src="{{ asset('js/chat.js') }}"`, `    defer`, `></script>`, ``].join('\n');
+
+    await util.doubleFormatCheck(content, expected, { wrapAttributes: 'force-expand-multiline' });
+  });
 });
