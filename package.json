@@ -39,7 +39,7 @@
     "@shufo/tailwindcss-class-sorter": "^1.0.3",
     "aigle": "^1.14.1",
     "ajv": "^8.9.0",
-    "chalk": "^4.1.0",
+    "chalk": "^5.0.1",
     "concat-stream": "^2.0.0",
     "detect-indent": "^6.0.0",
     "find-config": "^1.0.0",
