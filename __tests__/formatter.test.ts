@@ -3931,4 +3931,58 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected, { wrapAttributes: 'force-expand-multiline' });
   });
+
+  test('it should not be stuck even if equal character exists https://github.com/shufo/vscode-blade-formatter/issues/474', async () => {
+    const content = [
+      `<div>`,
+      `<table>`,
+      `<tr>`,
+      `@if ($potRR == true)`,
+      `                                <td wire:key='{{ $this->getRandomStr() }}'>`,
+      `                                    -`,
+      `                                </td>`,
+      `                            @else`,
+      `                                @if ($tasks->isNotEmpty())`,
+      `                                @foreach ($tasks->where('id', '=', 1) as $task)`,
+      `                                <p>dd</p>`,
+      `                                @endforeach`,
+      `                                @else`,
+      `                                    <td wire:key='{{ $this->getRandomStr() }}'`,
+      `                                        wire:click='openAssignTaskModal({{ $pot->id }})'>`,
+      `                                        -`,
+      `                                    </td>`,
+      `                                @endif`,
+      `                            @endif`,
+      `</tr>`,
+      `</table>`,
+      `</div>`,
+    ].join('\n');
+
+    const expected = [
+      `<div>`,
+      `    <table>`,
+      `        <tr>`,
+      `            @if ($potRR == true)`,
+      `                <td wire:key='{{ $this->getRandomStr() }}'>`,
+      `                    -`,
+      `                </td>`,
+      `            @else`,
+      `                @if ($tasks->isNotEmpty())`,
+      `                    @foreach ($tasks->where('id', '=', 1) as $task)`,
+      `                        <p>dd</p>`,
+      `                    @endforeach`,
+      `                @else`,
+      `                    <td wire:key='{{ $this->getRandomStr() }}' wire:click='openAssignTaskModal({{ $pot->id }})'>`,
+      `                        -`,
+      `                    </td>`,
+      `                @endif`,
+      `            @endif`,
+      `        </tr>`,
+      `    </table>`,
+      `</div>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
 });
