@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.26.10](https://github.com/shufo/blade-formatter/compare/v1.26.9...v1.26.10) (2022-06-20)
+
+
+### Miscellaneous
+
+* **deps:** bump prettier from 2.6.2 to 2.7.1 ([faa9540](https://github.com/shufo/blade-formatter/commit/faa95409dd4c41e07c8e594ef17d5918b79cf9b1))
+* **deps:** update pozil/auto-assign-issue action to v1.7.1 ([a44338c](https://github.com/shufo/blade-formatter/commit/a44338c2056986dcc784041da2b7cf6c4906dde5))
+
+
+### Fixes
+
+* 🐛 sometimes equal symbols cause formatting to get stuck ([497e361](https://github.com/shufo/blade-formatter/commit/497e3616245a5109a3d2997c94daf110738ebcac))
+
 ## [1.26.9](https://github.com/shufo/blade-formatter/compare/v1.26.8...v1.26.9) (2022-06-19)
 
 
