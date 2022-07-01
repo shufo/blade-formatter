@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.26.11](https://github.com/shufo/blade-formatter/compare/v1.26.10...v1.26.11) (2022-07-01)
+
+
+### Miscellaneous
+
+* **deps:** bump js-beautify from 1.14.3 to 1.14.4 ([837aa40](https://github.com/shufo/blade-formatter/commit/837aa4092aae20c45ba7cea3d3f817ec536ac40a))
+* **deps:** update pozil/auto-assign-issue action to v1.7.3 ([42a4dba](https://github.com/shufo/blade-formatter/commit/42a4dbabb5728f858bc1de2a80dcdaa8fa940e5c))
+
 ## [1.26.10](https://github.com/shufo/blade-formatter/compare/v1.26.9...v1.26.10) (2022-06-20)
 
 
