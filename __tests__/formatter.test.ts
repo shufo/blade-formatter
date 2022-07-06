@@ -3985,4 +3985,65 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
+
+  test('raw blade brace losts indentation https://github.com/shufo/vscode-blade-formatter/issues/474', async () => {
+    const content = [
+      `                        <div class="row">`,
+      `                            <div class="col-12 col-sm-8 mb-2">`,
+      ``,
+      `                            </div>`,
+      `                            <div class="col-12 col-sm-4">`,
+      `                                {!! Form::button(trans('forms.save-changes'), [`,
+      `    'class' => 'btn btn-success btn-block margin-bottom-1 mt-3 mb-2 btn-save',`,
+      `    'type' => 'button',`,
+      `    'data-toggle' => 'modal',`,
+      `    'data-target' => '#confirmSave',`,
+      `    'data-title' => trans('modals.edit_user__modal_text_confirm_title'),`,
+      `    'data-message' => trans('modals.edit_user__modal_text_confirm_message'),`,
+      `]) !!}`,
+      `                            </div>`,
+      `                        </div>`,
+    ].join('\n');
+
+    const expected = [
+      `                        <div class="row">`,
+      `                            <div class="col-12 col-sm-8 mb-2">`,
+      ``,
+      `                            </div>`,
+      `                            <div class="col-12 col-sm-4">`,
+      `                                {!! Form::button(trans('forms.save-changes'), [`,
+      `                                    'class' => 'btn btn-success btn-block margin-bottom-1 mt-3 mb-2 btn-save',`,
+      `                                    'type' => 'button',`,
+      `                                    'data-toggle' => 'modal',`,
+      `                                    'data-target' => '#confirmSave',`,
+      `                                    'data-title' => trans('modals.edit_user__modal_text_confirm_title'),`,
+      `                                    'data-message' => trans('modals.edit_user__modal_text_confirm_message'),`,
+      `                                ]) !!}`,
+      `                            </div>`,
+      `                        </div>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
+
+  test('Long raw blade brace line should be formatted into multiple lines', async () => {
+    const content = [
+      `{!! Form::button(trans('forms.save-changes'), [    'class' => 'btn btn-success btn-block margin-bottom-1 mt-3 mb-2 btn-save',    'type' => 'button',    'data-toggle' => 'modal',    'data-target' => '#confirmSave',    'data-title' => trans('modals.edit_user__modal_text_confirm_title'),    'data-message' => trans('modals.edit_user__modal_text_confirm_message'),]) !!}`,
+    ].join('\n');
+
+    const expected = [
+      `{!! Form::button(trans('forms.save-changes'), [`,
+      `    'class' => 'btn btn-success btn-block margin-bottom-1 mt-3 mb-2 btn-save',`,
+      `    'type' => 'button',`,
+      `    'data-toggle' => 'modal',`,
+      `    'data-target' => '#confirmSave',`,
+      `    'data-title' => trans('modals.edit_user__modal_text_confirm_title'),`,
+      `    'data-message' => trans('modals.edit_user__modal_text_confirm_message'),`,
+      `]) !!}`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
 });
