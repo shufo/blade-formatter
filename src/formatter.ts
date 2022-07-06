@@ -1437,18 +1437,22 @@ export default class Formatter {
         res,
         new RegExp(`${this.getRawBladeBracePlaceholder('(\\d+)')}`, 'gms'),
         (_match: any, p1: any) => {
+          const placeholder = this.getRawBladeBracePlaceholder(p1);
+          const matchedLine = content.match(new RegExp(`^(.*?)${placeholder}`, 'gmi')) ?? [''];
+          const indent = detectIndent(matchedLine[0]);
           const bladeBrace = this.rawBladeBraces[p1];
 
           if (bladeBrace.trim() === '') {
             return `{!!${bladeBrace}!!}`;
           }
 
-          return `{!! ${util
-            .formatRawStringAsPhp(bladeBrace)
-            .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
-            .trim()
-            // @ts-expect-error ts-migrate(2554) FIXME: Expected 0 arguments, but got 1.
-            .trimRight('\n')} !!}`;
+          return this.indentRawPhpBlock(
+            indent,
+            `{!! ${util
+              .formatRawStringAsPhp(bladeBrace, this.wrapLineLength)
+              .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
+              .trim()} !!}`,
+          );
         },
       ),
     );
