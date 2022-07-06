@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.26.12](https://github.com/shufo/blade-formatter/compare/v1.26.11...v1.26.12) (2022-07-06)
+
+
+### Miscellaneous
+
+* **deps:** bump @prettier/plugin-php from 0.18.8 to 0.18.9 ([cf8cd27](https://github.com/shufo/blade-formatter/commit/cf8cd27cee8cf146893483aa67a987f342c425b2))
+
+
+### Fixes
+
+* 🐛 indentation removed when raw blade brace is multi-lined ([42e7c0f](https://github.com/shufo/blade-formatter/commit/42e7c0f53331eece2b91be6cfd2fb67e826ba77e))
+
 ## [1.26.11](https://github.com/shufo/blade-formatter/compare/v1.26.10...v1.26.11) (2022-07-01)
 
 
