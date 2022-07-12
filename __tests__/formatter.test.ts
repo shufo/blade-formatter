@@ -4046,4 +4046,51 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
+
+  test('nested condition', async () => {
+    const content = [
+      `@if (count( auth("     (  )   ")->user()   ->currentXY->shopsXY()) > 1)`,
+      `    <span class="ml-24">Test</span>`,
+      `@else`,
+      `    <span class="ml-16">Test</span>`,
+      `@endif`,
+      `@if (`,
+      ``,
+      ``,
+      `foo(count( auth("     (  )   ")->user()   ->currentXY->shopsXY()) > 1`,
+      ``,
+      ``,
+      `))`,
+      `    <span class="ml-24">Test</span>`,
+      `@else`,
+      `    <span class="ml-16">Test</span>`,
+      `@endif`,
+      `@if (count(auth()->user()->currentXY->shopsXY()) > 1)`,
+      `    <span class="ml-24">Test</span>`,
+      `@else`,
+      `    <span class="ml-16">Test</span>`,
+      `@endif`,
+    ].join('\n');
+
+    const expected = [
+      `@if (count(auth('     (  )   ')->user()->currentXY->shopsXY()) > 1)`,
+      `    <span class="ml-24">Test</span>`,
+      `@else`,
+      `    <span class="ml-16">Test</span>`,
+      `@endif`,
+      `@if (foo(count(auth('     (  )   ')->user()->currentXY->shopsXY()) > 1))`,
+      `    <span class="ml-24">Test</span>`,
+      `@else`,
+      `    <span class="ml-16">Test</span>`,
+      `@endif`,
+      `@if (count(auth()->user()->currentXY->shopsXY()) > 1)`,
+      `    <span class="ml-24">Test</span>`,
+      `@else`,
+      `    <span class="ml-16">Test</span>`,
+      `@endif`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
 });
