@@ -1484,8 +1484,10 @@ export default class Formatter {
         return this.indentComponentAttribute(
           indent.indent,
           util
-            .formatRawStringAsPhp(matched)
+            .formatRawStringAsPhp(matched, this.wrapLineLength, true)
             .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
+            .replace(/(?<!(['"]).*)(?<=\()[\n\s]+?(?=\w)/gms, '')
+            .replace(/,[\n\s]*\)/gs, ')')
             .trimEnd(),
         );
       }),
