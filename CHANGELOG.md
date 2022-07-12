@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.26.13](https://github.com/shufo/blade-formatter/compare/v1.26.12...v1.26.13) (2022-07-12)
+
+
+### Fixes
+
+* 🐛 nested condition inserts unexpected comma ([92d5023](https://github.com/shufo/blade-formatter/commit/92d50236909f87907ff322b6f030c0ab1ed07b95))
+
 ## [1.26.12](https://github.com/shufo/blade-formatter/compare/v1.26.11...v1.26.12) (2022-07-06)
 
 
