@@ -1487,7 +1487,7 @@ export default class Formatter {
             .formatRawStringAsPhp(matched, this.wrapLineLength, true)
             .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
             .replace(/(?<!(['"]).*)(?<=\()[\n\s]+?(?=\w)/gms, '')
-            .replace(/,[\n\s]*\)/gs, ')')
+            .replace(/,[\n\s]*?\)/gs, ')')
             .trimEnd(),
         );
       }),
