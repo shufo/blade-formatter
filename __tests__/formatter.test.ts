@@ -4093,4 +4093,47 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
+
+  test('do not preserve unnecessary spaces in blade braces', async () => {
+    const content = [
+      // escaped brade braces
+      `{{}}`,
+      `{{                      }}`,
+      `{{    `,
+      `      `,
+      `   }}`,
+      `{{`,
+      ``,
+      `auth()->user()->some() }}`,
+      `<p>{{                                                                                                          auth()->user()->some() }}</p>`,
+      // raw blade braces
+      `{!!!!}`,
+      `{!!                      !!}`,
+      `{!!    `,
+      `      `,
+      `   !!}`,
+      `{!!`,
+      ``,
+      `auth()->user()->some() !!}`,
+      `<p>{!!                                                                                                          auth()->user()->some() !!}</p>`,
+    ].join('\n');
+
+    const expected = [
+      // escaped brade braces
+      `{{}}`,
+      `{{ }}`,
+      `{{ }}`,
+      `{{ auth()->user()->some() }}`,
+      `<p>{{ auth()->user()->some() }}</p>`,
+      // raw blade braces
+      `{!!!!}`,
+      `{!! !!}`,
+      `{!! !!}`,
+      `{!! auth()->user()->some() !!}`,
+      `<p>{!! auth()->user()->some() !!}</p>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
 });
