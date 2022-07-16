@@ -20,6 +20,7 @@ export interface RuntimeConfig {
   wrapAttributes?: WrapAttributes;
   endWithNewline?: boolean;
   useTabs?: boolean;
+  noMultipleEmptyLines?: boolean;
 }
 
 const defaultConfigNames = ['.bladeformatterrc.json', '.bladeformatterrc'];
@@ -66,6 +67,7 @@ export async function readRuntimeConfig(filePath: string | null): Promise<Runtim
       },
       endWithNewline: { type: 'boolean', nullable: true },
       useTabs: { type: 'boolean', nullable: true },
+      noMultipleEmptyLines: { type: 'boolean', nullable: true },
     },
     additionalProperties: true,
   };
