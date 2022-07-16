@@ -20,6 +20,7 @@ export interface RuntimeConfig {
   wrapAttributes?: WrapAttributes;
   endWithNewline?: boolean;
   useTabs?: boolean;
+  sortTailwindcssClasses?: boolean;
   noMultipleEmptyLines?: boolean;
 }
 
@@ -67,6 +68,7 @@ export async function readRuntimeConfig(filePath: string | null): Promise<Runtim
       },
       endWithNewline: { type: 'boolean', nullable: true },
       useTabs: { type: 'boolean', nullable: true },
+      sortTailwindcssClasses: { type: 'boolean', nullable: true },
       noMultipleEmptyLines: { type: 'boolean', nullable: true },
     },
     additionalProperties: true,
