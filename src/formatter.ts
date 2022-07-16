@@ -662,11 +662,37 @@ export default class Formatter {
   }
 
   async preserveBladeBrace(content: any) {
-    return _.replace(content, /\{\{(.*?)\}\}/gs, (_match: any, p1: any) => this.storeBladeBrace(p1, p1.length));
+    return _.replace(content, /\{\{(.*?)\}\}/gs, (_match: any, p1: any) => {
+      // if content is blank
+      if (p1 === '') {
+        return this.storeBladeBrace(p1, p1.length);
+      }
+
+      // preserve a space if content contains only space, tab, or new line character
+      if (!/\S/.test(p1)) {
+        return this.storeBladeBrace(' ', ' '.length);
+      }
+
+      // any other content
+      return this.storeBladeBrace(p1.trim(), p1.trim().length);
+    });
   }
 
   async preserveRawBladeBrace(content: any) {
-    return _.replace(content, /\{!!(.*?)!!\}/gs, (_match: any, p1: any) => this.storeRawBladeBrace(p1));
+    return _.replace(content, /\{!!(.*?)!!\}/gs, (_match: any, p1: any) => {
+      // if content is blank
+      if (p1 === '') {
+        return this.storeRawBladeBrace(p1);
+      }
+
+      // preserve a space if content contains only space, tab, or new line character
+      if (!/\S/.test(p1)) {
+        return this.storeRawBladeBrace(' ');
+      }
+
+      // any other content
+      return this.storeRawBladeBrace(p1.trim());
+    });
   }
 
   async preserveConditions(content: any) {
