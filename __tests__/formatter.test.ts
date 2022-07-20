@@ -4136,4 +4136,14 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
+
+  test('@foreach directive with nested method', async () => {
+    const content = [`@foreach (auth()->user()->currentxy->shops() as $shop)`, `foo`, `@endforeach`].join('\n');
+
+    const expected = [`@foreach (auth()->user()->currentxy->shops() as $shop)`, `    foo`, `@endforeach`, ``].join(
+      '\n',
+    );
+
+    await util.doubleFormatCheck(content, expected);
+  });
 });
