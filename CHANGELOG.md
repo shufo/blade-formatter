@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.26.14](https://github.com/shufo/blade-formatter/compare/v1.26.13...v1.26.14) (2022-07-20)
+
+
+### Miscellaneous
+
+* **deps:** update akhilmhdh/contributors-readme-action action to v2.3.5 ([104f60e](https://github.com/shufo/blade-formatter/commit/104f60e2a96b004748f3bea938b0700f4a6e52b7))
+* **deps:** update pozil/auto-assign-issue action to v1.8.0 ([d637e92](https://github.com/shufo/blade-formatter/commit/d637e92953696c60a7fbabfd46570a171f3ff889))
+
+
+### Fixes
+
+* 🐛 as keyword breaks line if calling method ([b14b251](https://github.com/shufo/blade-formatter/commit/b14b251ab43bf0f9dec9b41742332311d224ea8e))
+
 ## [1.26.13](https://github.com/shufo/blade-formatter/compare/v1.26.12...v1.26.13) (2022-07-12)
 
 
