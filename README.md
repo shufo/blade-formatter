@@ -297,6 +297,7 @@ new Formatter(options).formatContent(input).then((formatted) => {
 - [vscode-blade-formatter](https://github.com/shufo/vscode-blade-formatter) - [VSCode](https://code.visualstudio.com/) Extension
 - [coc-blade](https://github.com/yaegassy/coc-blade) - [coc.nvim](https://github.com/neoclide/coc.nvim) Extension by [@yaegassy](https://github.com/yaegassy)
 - [prettier-plugin-blade](https://github.com/shufo/prettier-plugin-blade) - Prettier plugin for Blade
+- [null-ls.nvim](https://github.com/jose-elias-alvarez/null-ls.nvim) - Extension by [@jose-elias-alvarez](https://github.com/jose-elias-alvarez)
 
 ## Troubleshoot
 
