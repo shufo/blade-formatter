@@ -386,6 +386,14 @@ $ yarn run test
         </a>
     </td>
     <td align="center">
+        <a href="https://github.com/gagansday">
+            <img src="https://avatars.githubusercontent.com/u/25811413?v=4" width="100;" alt="gagansday"/>
+            <br />
+            <sub><b>Gagandeep Singh</b></sub>
+        </a>
+    </td></tr>
+<tr>
+    <td align="center">
         <a href="https://github.com/jtanaka">
             <img src="https://avatars.githubusercontent.com/u/1379640?v=4" width="100;" alt="jtanaka"/>
             <br />
