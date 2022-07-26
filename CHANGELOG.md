@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.26.15](https://github.com/shufo/blade-formatter/compare/v1.26.14...v1.26.15) (2022-07-26)
+
+
+### Fixes
+
+* 🐛 unexpected format results when script tag type is not js ([00ca4b3](https://github.com/shufo/blade-formatter/commit/00ca4b3385c02bc4493f76c853dad16c6ba9dcd9))
+
 ## [1.26.14](https://github.com/shufo/blade-formatter/compare/v1.26.13...v1.26.14) (2022-07-20)
 
 
