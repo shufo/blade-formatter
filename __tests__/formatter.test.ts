@@ -4188,6 +4188,7 @@ describe('formatter', () => {
       `        </div>`,
       `    </script>`,
       `@endsection`,
+      ``,
     ].join('\n');
 
     await util.doubleFormatCheck(content, expected);
