@@ -4146,4 +4146,51 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
+
+  test('script tag type with not js code', async () => {
+    const content = [
+      `@section('section')`,
+      `    <script type="text/template" id="test">`,
+      `        <div>`,
+      `            Test`,
+      `        </div>`,
+      `    </script>`,
+      `    <script id="test" type="text/template">`,
+      `        <div>`,
+      `            Test`,
+      `        </div>`,
+      `    </script>`,
+      `    <script id="test"`,
+      `        type="text/template">`,
+      `        <div>`,
+      `            Test`,
+      `        </div>`,
+      `    </script>`,
+      `@endsection`,
+    ].join('\n');
+
+    const expected = [
+      `@section('section')`,
+      `    <script type="text/template" id="test">`,
+      `        <div>`,
+      `            Test`,
+      `        </div>`,
+      `    </script>`,
+      `    <script id="test" type="text/template">`,
+      `        <div>`,
+      `            Test`,
+      `        </div>`,
+      `    </script>`,
+      `    <script id="test"`,
+      `        type="text/template">`,
+      `        <div>`,
+      `            Test`,
+      `        </div>`,
+      `    </script>`,
+      `@endsection`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
 });
