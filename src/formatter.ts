@@ -404,8 +404,13 @@ export default class Formatter {
   preserveBladeDirectivesInScripts(content: any) {
     return _.replace(content, /(?<=<script[^>]*?(?<!=)>)(.*?)(?=<\/script>)/gis, (match: string) => {
       const targetTokens = [...indentStartTokens, ...inlineFunctionTokens];
+
       if (new RegExp(targetTokens.join('|'), 'gmi').test(match) === false) {
-        return match.trim();
+        if (/^[\s\n]+$/.test(match)) {
+          return match.trim();
+        }
+
+        return match;
       }
 
       const inlineFunctionDirectives = inlineFunctionTokens.join('|');
@@ -1643,6 +1648,15 @@ export default class Formatter {
         new RegExp(`${this.getScriptPlaceholder('(\\d+)')}`, 'gim'),
         (_match: any, p1: number) => {
           const script = this.scripts[p1];
+
+          // do nothing if type of script tag is not JS
+          const scriptTagAttrs = script.match(/<script[^>]*?type=(["'])(.*?)\1/);
+          const typeIsNotJavaScript = scriptTagAttrs && scriptTagAttrs[2] !== 'text/javascript';
+
+          if (typeIsNotJavaScript) {
+            return script;
+          }
+
           const placeholder = this.getScriptPlaceholder(p1);
           const matchedLine = content.match(new RegExp(`^(.*?)${placeholder}`, 'gmi')) ?? [''];
           const indent = detectIndent(matchedLine[0]);
