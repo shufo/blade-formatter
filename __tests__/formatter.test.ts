@@ -4193,4 +4193,39 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
+
+  test('escaped quote in raw php directive #669', async () => {
+    const content = [
+      `    @php`,
+      `        if ($condition1) {`,
+      `            $var1 = '...';`,
+      `                         $var2 = '...';`,
+      `        } elseif ($condition2) {`,
+      `            $var1 = '...';`,
+      `            $var2 = 'I have a \\' in me';`,
+      `        } else {`,
+      `            $var1 = '...';`,
+      `            $var2 = '...';`,
+      `        }`,
+      `    @endphp`,
+    ].join('\n');
+
+    const expected = [
+      `    @php`,
+      `        if ($condition1) {`,
+      `            $var1 = '...';`,
+      `            $var2 = '...';`,
+      `        } elseif ($condition2) {`,
+      `            $var1 = '...';`,
+      `            $var2 = 'I have a \\' in me';`,
+      `        } else {`,
+      `            $var1 = '...';`,
+      `            $var2 = '...';`,
+      `        }`,
+      `    @endphp`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
 });
