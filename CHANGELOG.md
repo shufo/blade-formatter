@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.26.16](https://github.com/shufo/blade-formatter/compare/v1.26.15...v1.26.16) (2022-07-28)
+
+
+### Fixes
+
+* 🐛 escaped quote in raw php directive breaks indentation ([55322a0](https://github.com/shufo/blade-formatter/commit/55322a0d5fa88f93c74aeb15b88cd2d04b8c3a57))
+
 ## [1.26.15](https://github.com/shufo/blade-formatter/compare/v1.26.14...v1.26.15) (2022-07-26)
 
 
