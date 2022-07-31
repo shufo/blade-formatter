@@ -4228,4 +4228,10 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
+
+  test('it should throw exception when unclosed parentheses exists', async () => {
+    const content = [`@section("content"`, `  <p>dummy</p>`, `@endsection`].join('\n');
+
+    await expect(new BladeFormatter().format(content)).rejects.toThrow('SyntaxError');
+  });
 });
