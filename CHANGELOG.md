@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.26.17](https://github.com/shufo/blade-formatter/compare/v1.26.16...v1.26.17) (2022-07-31)
+
+
+### Fixes
+
+* 🐛 timeout happen when unclosed directive parentheses exist ([8735039](https://github.com/shufo/blade-formatter/commit/87350390991245fd6a1805f5b485b765c3365997))
+
 ## [1.26.16](https://github.com/shufo/blade-formatter/compare/v1.26.15...v1.26.16) (2022-07-28)
 
 
