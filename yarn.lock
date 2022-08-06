@@ -3927,6 +3927,11 @@ has@^1.0.3:
   dependencies:
     function-bind "^1.1.1"
 
+html-attribute-sorter@^0.3.2:
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/html-attribute-sorter/-/html-attribute-sorter-0.3.2.tgz#d656fb4d9d142594fa00386456ed67474105df34"
+  integrity sha512-LPPwkPccVhu8pGo+hTQTQgqr2v08KhdYruPRj2m0meaWQaUIANnnNYidWngW+BUFKAr31JkQI2Ohf4QNrccgYw==
+
 html-escaper@^2.0.0:
   version "2.0.2"
   resolved "https://registry.npmjs.org/html-escaper/-/html-escaper-2.0.2.tgz"
