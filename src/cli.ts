@@ -60,6 +60,11 @@ export default async function cli() {
       description: 'Sort tailwindcss classes',
       default: false,
     })
+    .option('no-multiple-empty-lines', {
+      type: 'boolean',
+      description: 'Merge multiple blank lines into a single blank line',
+      default: true,
+    })
     .option('progress', {
       alias: 'p',
       type: 'boolean',
