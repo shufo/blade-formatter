@@ -4234,4 +4234,37 @@ describe('formatter', () => {
 
     await expect(new BladeFormatter().format(content)).rejects.toThrow('SyntaxError');
   });
+
+  test('it should use tabs inside script tag if useTabs option passed', async () => {
+    const content = [
+      `<script>`,
+      `    function addCol() {`,
+      `        $.post('budget.ajaxColumn', {`,
+      `            '_token': '{{ csrf_token() }}'`,
+      `        }, function(data) {`,
+      `            $('.budget-lanes').append('test');`,
+      `        }).fail(function(jqXHR, textStatus) {`,
+      `            alert('An error occurred. Please try again.')`,
+      `        })`,
+      `    }`,
+      `</script>`,
+    ].join('\n');
+
+    const expected = [
+      `<script>`,
+      `				function addCol() {`,
+      `								$.post('budget.ajaxColumn', {`,
+      `												'_token': '{{ csrf_token() }}'`,
+      `								}, function(data) {`,
+      `												$('.budget-lanes').append('test');`,
+      `								}).fail(function(jqXHR, textStatus) {`,
+      `												alert('An error occurred. Please try again.')`,
+      `								})`,
+      `				}`,
+      `</script>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected, { useTabs: true });
+  });
 });

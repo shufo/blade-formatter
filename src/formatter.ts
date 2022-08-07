@@ -1660,14 +1660,23 @@ export default class Formatter {
           const placeholder = this.getScriptPlaceholder(p1);
           const matchedLine = content.match(new RegExp(`^(.*?)${placeholder}`, 'gmi')) ?? [''];
           const indent = detectIndent(matchedLine[0]);
+          const useTabs = util.optional(this.options).useTabs || false;
 
           const options = {
             indent_size: util.optional(this.options).indentSize || 4,
             wrap_line_length: util.optional(this.options).wrapLineLength || 120,
             wrap_attributes: util.optional(this.options).wrapAttributes || 'auto',
+            indent_with_tabs: useTabs,
             end_with_newline: false,
             templating: ['php'],
           };
+
+          if (useTabs) {
+            return this.indentScriptBlock(
+              indent,
+              _.replace(beautify.html_beautify(script, options), /\t/g, '\t'.repeat(this.indentSize)),
+            );
+          }
 
           return this.indentScriptBlock(indent, beautify.html_beautify(script, options));
         },
