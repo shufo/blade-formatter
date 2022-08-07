@@ -1590,7 +1590,7 @@ export default class Formatter {
                   .trim();
 
                 if (this.options.useTabs || false) {
-                  inside = _.replace(inside, new RegExp(`(?<=^ *)    `, 'gm'), '\t'.repeat(this.indentSize));
+                  inside = _.replace(inside, /(?<=^ *)    /gm, '\t'.repeat(this.indentSize));
                 }
 
                 if (this.isInline(inside)) {
