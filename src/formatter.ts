@@ -1583,11 +1583,15 @@ export default class Formatter {
                   wrapLength = this.wrapLineLength - `func`.length - p1.length - indent.amount;
                 }
 
-                const inside = util
+                let inside = util
                   .formatRawStringAsPhp(`func(${p4})`, wrapLength, true)
                   .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
                   .replace(/,(\s*?\))/gis, (_match5, p5) => p5)
                   .trim();
+
+                if (this.options.useTabs || false) {
+                  inside = _.replace(inside, /(?<=^ *) {4}/gm, '\t'.repeat(this.indentSize));
+                }
 
                 if (this.isInline(inside)) {
                   return `${this.indentRawPhpBlock(indent, `${inside}`)

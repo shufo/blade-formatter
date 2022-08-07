@@ -4284,4 +4284,57 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected, { sortHtmlAttributes: 'idiomatic' });
   });
+
+  test('it should use tab for indent inside inline directive', async () => {
+    const content = [
+      `<div>`,
+      `    <div>`,
+      `        <div @class([`,
+      `            'some class',`,
+      `            'some other class',`,
+      `            'another class',`,
+      `            'some class',`,
+      `            'some other class',`,
+      `            'another class',`,
+      `        ])></div>`,
+      `    </div>`,
+      `</div>`,
+    ].join('\n');
+
+    const expected = [
+      `<div>`,
+      `	<div>`,
+      `		<div @class([`,
+      `			'some class',`,
+      `			'some other class',`,
+      `			'another class',`,
+      `			'some class',`,
+      `			'some other class',`,
+      `			'another class',`,
+      `		])></div>`,
+      `	</div>`,
+      `</div>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected, { useTabs: true, indentSize: 1 });
+
+    const expected2 = [
+      `<div>`,
+      `		<div>`,
+      `				<div @class([`,
+      `						'some class',`,
+      `						'some other class',`,
+      `						'another class',`,
+      `						'some class',`,
+      `						'some other class',`,
+      `						'another class',`,
+      `				])></div>`,
+      `		</div>`,
+      `</div>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected2, { useTabs: true, indentSize: 2 });
+  });
 });
