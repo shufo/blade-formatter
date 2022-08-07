@@ -63,7 +63,7 @@ export default async function cli() {
     .option('no-multiple-empty-lines', {
       type: 'boolean',
       description: 'Merge multiple blank lines into a single blank line',
-      default: true,
+      default: false,
     })
     .option('progress', {
       alias: 'p',

@@ -178,7 +178,7 @@ $ blade-formatter -c -d resources/**/*.blade.php
 |     `--wrap-line-length`, `--wrap` |                                                                                                     The length of line wrap size |     120 |
 | `--wrap-attributes`, `--wrap-atts` | The way to wrap attributes. `[auto\|force\|force-aligned\|force-expand-multiline\|aligned-multiple\|preserve\|preserve-aligned]` |  `auto` |
 | `--sort-tailwindcss-classes`, `--sort-classes` | Sort Tailwindcss classes automatically. This option respects `tailwind.config.js` and sort classes according to settings. |  false |
-| `--no-multiple-empty-lines` |  Collapses multiple blank lines into a single blank line |  true |
+| `--no-multiple-empty-lines` |  Collapses multiple blank lines into a single blank line | false |
 |         `--end-with-newline`, `-e` |                                                                                                          End output with newline |    true |
 |                          `--stdin` |                                                                                                format code provided on `<STDIN>` |   false |
 |                     `--help`, `-h` |                                                                                                                        Show help |         |
