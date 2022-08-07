@@ -1,16 +1,24 @@
 import yargs from 'yargs';
 import concat from 'concat-stream';
 import { loadWASM } from 'vscode-oniguruma';
+import chalk from 'chalk';
 
 import { promises as fs } from 'fs';
 
 import { hideBin } from 'yargs/helpers';
 import { BladeFormatter } from './main';
+import { name, version } from '../package.json';
 
 export default async function cli() {
   // @ts-ignore
   const parsed = await yargs(hideBin(process.argv))
-    .usage('Usage: $0 [options] [file glob | ...]')
+    .usage(
+      `${chalk.green(
+        `blade-formatter`,
+      )} ${version}\nAn opinionated blade template formatter for Laravel. \n\n ${chalk.yellow(
+        `Usage:`,
+      )} $0 [options] [file glob | ...]`,
+    )
     .example('$0 "resources/views/**/*.blade.php" --write', 'Format all files in views directory')
     .option('check-formatted', {
       alias: 'c',
