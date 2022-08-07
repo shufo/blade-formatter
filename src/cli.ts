@@ -92,7 +92,7 @@ export default async function cli() {
     .help('h')
     .alias('h', 'help')
     .strictOptions()
-    .fail(function (msg, err, yargs) {
+    .fail(function (msg, err) {
       if (err) throw err; // preserve stack
       process.stdout.write(`${chalk.red(`error: `)}${msg}\n\n`);
       process.stdout.write(`${chalk.yellow(`Usage: `)} ${name} [options] [file glob | ...]\n\n`);
