@@ -91,7 +91,7 @@ export default async function cli() {
     })
     .help('h')
     .alias('h', 'help')
-    .epilog('Copyright Shuhei Hayashibara 2019');
+    .epilog(`Copyright Shuhei Hayashibara 2022\nFor more information, see https://github.com/shufo/blade-formatter`);
 
   // @ts-ignore
   // eslint-disable-next-line
