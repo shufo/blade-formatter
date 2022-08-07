@@ -512,6 +512,8 @@ describe('The blade formatter CLI', () => {
     );
 
     expect(cmdResult).toEqual(formatted.toString('utf-8'));
+  });
+
   test.concurrent('unknown option passed', async () => {
     const cmdResult = await cmd.execute(path.resolve('bin', 'blade-formatter'), ['--unknown', 'foo']);
 
