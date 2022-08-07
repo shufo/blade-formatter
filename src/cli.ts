@@ -13,9 +13,7 @@ export default async function cli() {
   // @ts-ignore
   const parsed = await yargs(hideBin(process.argv))
     .usage(
-      `${chalk.green(
-        `blade-formatter`,
-      )} ${version}\nAn opinionated blade template formatter for Laravel. \n\n ${chalk.yellow(
+      `${chalk.green(name)} ${version}\nAn opinionated blade template formatter for Laravel. \n\n ${chalk.yellow(
         `Usage:`,
       )} $0 [options] [file glob | ...]`,
     )
