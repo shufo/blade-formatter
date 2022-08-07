@@ -4191,4 +4191,205 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected, { noMultipleEmptyLines: false });
   });
+  
+  test('@foreach directive with nested method', async () => {
+    const content = [`@foreach (auth()->user()->currentxy->shops() as $shop)`, `foo`, `@endforeach`].join('\n');
+
+    const expected = [`@foreach (auth()->user()->currentxy->shops() as $shop)`, `    foo`, `@endforeach`, ``].join(
+      '\n',
+    );
+
+    await util.doubleFormatCheck(content, expected);
+  });
+
+  test('script tag type with not js code', async () => {
+    const content = [
+      `@section('section')`,
+      `    <script type="text/template" id="test">`,
+      `        <div>`,
+      `            Test`,
+      `        </div>`,
+      `    </script>`,
+      `    <script id="test" type="text/template">`,
+      `        <div>`,
+      `            Test`,
+      `        </div>`,
+      `    </script>`,
+      `    <script id="test"`,
+      `        type="text/template">`,
+      `        <div>`,
+      `            Test`,
+      `        </div>`,
+      `    </script>`,
+      `@endsection`,
+    ].join('\n');
+
+    const expected = [
+      `@section('section')`,
+      `    <script type="text/template" id="test">`,
+      `        <div>`,
+      `            Test`,
+      `        </div>`,
+      `    </script>`,
+      `    <script id="test" type="text/template">`,
+      `        <div>`,
+      `            Test`,
+      `        </div>`,
+      `    </script>`,
+      `    <script id="test"`,
+      `        type="text/template">`,
+      `        <div>`,
+      `            Test`,
+      `        </div>`,
+      `    </script>`,
+      `@endsection`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
+
+  test('escaped quote in raw php directive #669', async () => {
+    const content = [
+      `    @php`,
+      `        if ($condition1) {`,
+      `            $var1 = '...';`,
+      `                         $var2 = '...';`,
+      `        } elseif ($condition2) {`,
+      `            $var1 = '...';`,
+      `            $var2 = 'I have a \\' in me';`,
+      `        } else {`,
+      `            $var1 = '...';`,
+      `            $var2 = '...';`,
+      `        }`,
+      `    @endphp`,
+    ].join('\n');
+
+    const expected = [
+      `    @php`,
+      `        if ($condition1) {`,
+      `            $var1 = '...';`,
+      `            $var2 = '...';`,
+      `        } elseif ($condition2) {`,
+      `            $var1 = '...';`,
+      `            $var2 = 'I have a \\' in me';`,
+      `        } else {`,
+      `            $var1 = '...';`,
+      `            $var2 = '...';`,
+      `        }`,
+      `    @endphp`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
+
+  test('it should throw exception when unclosed parentheses exists', async () => {
+    const content = [`@section("content"`, `  <p>dummy</p>`, `@endsection`].join('\n');
+
+    await expect(new BladeFormatter().format(content)).rejects.toThrow('SyntaxError');
+  });
+
+  test('it should use tabs inside script tag if useTabs option passed', async () => {
+    const content = [
+      `<script>`,
+      `    function addCol() {`,
+      `        $.post('budget.ajaxColumn', {`,
+      `            '_token': '{{ csrf_token() }}'`,
+      `        }, function(data) {`,
+      `            $('.budget-lanes').append('test');`,
+      `        }).fail(function(jqXHR, textStatus) {`,
+      `            alert('An error occurred. Please try again.')`,
+      `        })`,
+      `    }`,
+      `</script>`,
+    ].join('\n');
+
+    const expected = [
+      `<script>`,
+      `				function addCol() {`,
+      `								$.post('budget.ajaxColumn', {`,
+      `												'_token': '{{ csrf_token() }}'`,
+      `								}, function(data) {`,
+      `												$('.budget-lanes').append('test');`,
+      `								}).fail(function(jqXHR, textStatus) {`,
+      `												alert('An error occurred. Please try again.')`,
+      `								})`,
+      `				}`,
+      `</script>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected, { useTabs: true });
+  });
+
+  test('it should order html attributes if --sort-html-attributes option passed', async () => {
+    const content = [
+      `<div name="myname" aria-disabled="true" id="myid" class="myclass" src="other">`,
+      `foo`,
+      `</div>`,
+    ].join('\n');
+
+    const expected = [
+      `<div class="myclass" id="myid" name="myname" aria-disabled="true" src="other">`,
+      `    foo`,
+      `</div>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected, { sortHtmlAttributes: 'idiomatic' });
+  });
+
+  test('it should use tab for indent inside inline directive', async () => {
+    const content = [
+      `<div>`,
+      `    <div>`,
+      `        <div @class([`,
+      `            'some class',`,
+      `            'some other class',`,
+      `            'another class',`,
+      `            'some class',`,
+      `            'some other class',`,
+      `            'another class',`,
+      `        ])></div>`,
+      `    </div>`,
+      `</div>`,
+    ].join('\n');
+
+    const expected = [
+      `<div>`,
+      `	<div>`,
+      `		<div @class([`,
+      `			'some class',`,
+      `			'some other class',`,
+      `			'another class',`,
+      `			'some class',`,
+      `			'some other class',`,
+      `			'another class',`,
+      `		])></div>`,
+      `	</div>`,
+      `</div>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected, { useTabs: true, indentSize: 1 });
+
+    const expected2 = [
+      `<div>`,
+      `		<div>`,
+      `				<div @class([`,
+      `						'some class',`,
+      `						'some other class',`,
+      `						'another class',`,
+      `						'some class',`,
+      `						'some other class',`,
+      `						'another class',`,
+      `				])></div>`,
+      `		</div>`,
+      `</div>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected2, { useTabs: true, indentSize: 2 });
+  });
 });

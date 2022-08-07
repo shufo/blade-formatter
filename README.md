@@ -178,6 +178,7 @@ $ blade-formatter -c -d resources/**/*.blade.php
 |     `--wrap-line-length`, `--wrap` |                                                                                                     The length of line wrap size |     120 |
 | `--wrap-attributes`, `--wrap-atts` | The way to wrap attributes. `[auto\|force\|force-aligned\|force-expand-multiline\|aligned-multiple\|preserve\|preserve-aligned]` |  `auto` |
 | `--sort-tailwindcss-classes`, `--sort-classes` | Sort Tailwindcss classes automatically. This option respects `tailwind.config.js` and sort classes according to settings. |  false |
+| `--sort-html-attributes`, `--sort-attributes` | Sort HTML attributes. `[none\|alphabetical\|code-guide\|idiomatic\|vuejs]` |  `'none'` |
 | `--no-multiple-empty-lines` |  Collapses multiple blank lines into a single blank line | false |
 |         `--end-with-newline`, `-e` |                                                                                                          End output with newline |    true |
 |                          `--stdin` |                                                                                                format code provided on `<STDIN>` |   false |
@@ -198,7 +199,8 @@ e.g.
   "endWithNewLine": true,
   "useTabs": false,
   "sortTailwindcssClasses": true,
-  "noMultipleEmptyLines": true
+  "sortHtmlAttributes": "none",
+  "noMultipleEmptyLines": false
 }
 ```
 
@@ -299,6 +301,7 @@ new Formatter(options).formatContent(input).then((formatted) => {
 - [vscode-blade-formatter](https://github.com/shufo/vscode-blade-formatter) - [VSCode](https://code.visualstudio.com/) Extension
 - [coc-blade](https://github.com/yaegassy/coc-blade) - [coc.nvim](https://github.com/neoclide/coc.nvim) Extension by [@yaegassy](https://github.com/yaegassy)
 - [prettier-plugin-blade](https://github.com/shufo/prettier-plugin-blade) - Prettier plugin for Blade
+- [null-ls.nvim](https://github.com/jose-elias-alvarez/null-ls.nvim) - Extension by [@jose-elias-alvarez](https://github.com/jose-elias-alvarez)
 
 ## Troubleshoot
 
@@ -386,6 +389,14 @@ $ yarn run test
             <sub><b>Schelmo</b></sub>
         </a>
     </td>
+    <td align="center">
+        <a href="https://github.com/gagansday">
+            <img src="https://avatars.githubusercontent.com/u/25811413?v=4" width="100;" alt="gagansday"/>
+            <br />
+            <sub><b>Gagandeep Singh</b></sub>
+        </a>
+    </td></tr>
+<tr>
     <td align="center">
         <a href="https://github.com/jtanaka">
             <img src="https://avatars.githubusercontent.com/u/1379640?v=4" width="100;" alt="jtanaka"/>

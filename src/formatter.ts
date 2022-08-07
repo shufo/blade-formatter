@@ -8,6 +8,7 @@ import detectIndent from 'detect-indent';
 import Aigle from 'aigle';
 import xregexp from 'xregexp';
 import { sortClasses } from '@shufo/tailwindcss-class-sorter';
+import { sortAttributes } from 'html-attribute-sorter';
 import { FormatterOption, CLIOption } from './main';
 import * as vsctm from './vsctm';
 import * as util from './util';
@@ -30,6 +31,7 @@ import {
   cssAtRuleTokens,
 } from './indent';
 import { nestedParenthesisRegex } from './regex';
+import { SortHtmlAttributes } from './runtimeConfig';
 
 export default class Formatter {
   argumentCheck: any;
@@ -178,6 +180,7 @@ export default class Formatter {
       .then((target) => this.formatXData(target))
       .then((target) => this.preserveComponentAttribute(target))
       .then((target) => this.preserveShorthandBinding(target))
+      .then((target) => this.sortHtmlAttributes(target))
       .then((target) => this.preserveHtmlAttributes(target))
       .then((target) => this.preserveHtmlTags(target))
       .then((target) => this.formatAsHtml(target))
@@ -405,8 +408,13 @@ export default class Formatter {
   preserveBladeDirectivesInScripts(content: any) {
     return _.replace(content, /(?<=<script[^>]*?(?<!=)>)(.*?)(?=<\/script>)/gis, (match: string) => {
       const targetTokens = [...indentStartTokens, ...inlineFunctionTokens];
+
       if (new RegExp(targetTokens.join('|'), 'gmi').test(match) === false) {
-        return match.trim();
+        if (/^[\s\n]+$/.test(match)) {
+          return match.trim();
+        }
+
+        return match;
       }
 
       const inlineFunctionDirectives = inlineFunctionTokens.join('|');
@@ -744,6 +752,16 @@ export default class Formatter {
     );
   }
 
+  async sortHtmlAttributes(content: string) {
+    const strategy: SortHtmlAttributes = this.options.sortHtmlAttributes ?? 'none';
+
+    if (strategy !== 'none') {
+      return sortAttributes(content, { order: strategy });
+    }
+
+    return content;
+  }
+
   async preserveShorthandBinding(content: string) {
     return _.replace(
       content,
@@ -777,7 +795,7 @@ export default class Formatter {
   }
 
   preserveStringLiteralInPhp(content: any) {
-    return _.replace(content, /['"].*?['"]/gms, (match: string) => {
+    return _.replace(content, /('(?:[^\\']+|\\.)*'|"(?:[^\\"]+|\\.)*")/g, (match: string) => {
       return `${this.storeStringLiteralInPhp(match)}`;
     });
   }
@@ -1566,11 +1584,15 @@ export default class Formatter {
                   wrapLength = this.wrapLineLength - `func`.length - p1.length - indent.amount;
                 }
 
-                const inside = util
+                let inside = util
                   .formatRawStringAsPhp(`func(${p4})`, wrapLength, true)
                   .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
                   .replace(/,(\s*?\))/gis, (_match5, p5) => p5)
                   .trim();
+
+                if (this.options.useTabs || false) {
+                  inside = _.replace(inside, /(?<=^ *) {4}/gm, '\t'.repeat(this.indentSize));
+                }
 
                 if (this.isInline(inside)) {
                   return `${this.indentRawPhpBlock(indent, `${inside}`)
@@ -1644,17 +1666,35 @@ export default class Formatter {
         new RegExp(`${this.getScriptPlaceholder('(\\d+)')}`, 'gim'),
         (_match: any, p1: number) => {
           const script = this.scripts[p1];
+
+          // do nothing if type of script tag is not JS
+          const scriptTagAttrs = script.match(/<script[^>]*?type=(["'])(.*?)\1/);
+          const typeIsNotJavaScript = scriptTagAttrs && scriptTagAttrs[2] !== 'text/javascript';
+
+          if (typeIsNotJavaScript) {
+            return script;
+          }
+
           const placeholder = this.getScriptPlaceholder(p1);
           const matchedLine = content.match(new RegExp(`^(.*?)${placeholder}`, 'gmi')) ?? [''];
           const indent = detectIndent(matchedLine[0]);
+          const useTabs = util.optional(this.options).useTabs || false;
 
           const options = {
             indent_size: util.optional(this.options).indentSize || 4,
             wrap_line_length: util.optional(this.options).wrapLineLength || 120,
             wrap_attributes: util.optional(this.options).wrapAttributes || 'auto',
+            indent_with_tabs: useTabs,
             end_with_newline: false,
             templating: ['php'],
           };
+
+          if (useTabs) {
+            return this.indentScriptBlock(
+              indent,
+              _.replace(beautify.html_beautify(script, options), /\t/g, '\t'.repeat(this.indentSize)),
+            );
+          }
 
           return this.indentScriptBlock(indent, beautify.html_beautify(script, options));
         },

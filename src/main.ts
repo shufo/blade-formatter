@@ -10,7 +10,13 @@ import _ from 'lodash';
 import findConfig from 'find-config';
 import Formatter from './formatter';
 import * as util from './util';
-import { findRuntimeConfig, readRuntimeConfig, RuntimeConfig, WrapAttributes } from './runtimeConfig';
+import {
+  findRuntimeConfig,
+  readRuntimeConfig,
+  RuntimeConfig,
+  SortHtmlAttributes,
+  WrapAttributes,
+} from './runtimeConfig';
 import FormatError from './errors/formatError';
 
 export interface CLIOption {
@@ -29,6 +35,7 @@ export interface FormatterOption {
   endWithNewline?: boolean;
   useTabs?: boolean;
   sortTailwindcssClasses?: true;
+  sortHtmlAttributes?: SortHtmlAttributes;
   noMultipleEmptyLines?: boolean;
 }
 

@@ -1,5 +1,39 @@
 # Changelog
 
+## [1.26.17](https://github.com/shufo/blade-formatter/compare/v1.26.16...v1.26.17) (2022-07-31)
+
+
+### Fixes
+
+* 🐛 timeout happen when unclosed directive parentheses exist ([8735039](https://github.com/shufo/blade-formatter/commit/87350390991245fd6a1805f5b485b765c3365997))
+
+## [1.26.16](https://github.com/shufo/blade-formatter/compare/v1.26.15...v1.26.16) (2022-07-28)
+
+
+### Fixes
+
+* 🐛 escaped quote in raw php directive breaks indentation ([55322a0](https://github.com/shufo/blade-formatter/commit/55322a0d5fa88f93c74aeb15b88cd2d04b8c3a57))
+
+## [1.26.15](https://github.com/shufo/blade-formatter/compare/v1.26.14...v1.26.15) (2022-07-26)
+
+
+### Fixes
+
+* 🐛 unexpected format results when script tag type is not js ([00ca4b3](https://github.com/shufo/blade-formatter/commit/00ca4b3385c02bc4493f76c853dad16c6ba9dcd9))
+
+## [1.26.14](https://github.com/shufo/blade-formatter/compare/v1.26.13...v1.26.14) (2022-07-20)
+
+
+### Miscellaneous
+
+* **deps:** update akhilmhdh/contributors-readme-action action to v2.3.5 ([104f60e](https://github.com/shufo/blade-formatter/commit/104f60e2a96b004748f3bea938b0700f4a6e52b7))
+* **deps:** update pozil/auto-assign-issue action to v1.8.0 ([d637e92](https://github.com/shufo/blade-formatter/commit/d637e92953696c60a7fbabfd46570a171f3ff889))
+
+
+### Fixes
+
+* 🐛 as keyword breaks line if calling method ([b14b251](https://github.com/shufo/blade-formatter/commit/b14b251ab43bf0f9dec9b41742332311d224ea8e))
+
 ## [1.26.13](https://github.com/shufo/blade-formatter/compare/v1.26.12...v1.26.13) (2022-07-12)
 
 

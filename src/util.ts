@@ -134,7 +134,8 @@ export async function prettifyPhpContentWithUnescapedTags(content: any) {
             /<\?php\s(.*?)(\s*?)\((.*?)\);*\s\?>\n/gs,
             (match2: any, j1: any, j2: any, j3: any) => `@${j1.trim()}${j2}(${j3.trim()})`,
           )
-          .replace(/([\n\s]*)->([\n\s]*)/gs, '->'),
+          .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
+          .replace(/(?:\n\s*)* as(?= (?:&{0,1}\$[\w]+|list|\[\$[\w]+))/g, ' as'),
       ),
     )
     .then((res) => formatStringAsPhp(res));
