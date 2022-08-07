@@ -8,6 +8,7 @@ import detectIndent from 'detect-indent';
 import Aigle from 'aigle';
 import xregexp from 'xregexp';
 import { sortClasses } from '@shufo/tailwindcss-class-sorter';
+import { sortAttributes } from 'html-attribute-sorter';
 import { FormatterOption, CLIOption } from './main';
 import * as vsctm from './vsctm';
 import * as util from './util';
@@ -30,6 +31,7 @@ import {
   cssAtRuleTokens,
 } from './indent';
 import { nestedParenthesisRegex } from './regex';
+import { SortHtmlAttributes } from './runtimeConfig';
 
 export default class Formatter {
   argumentCheck: any;
@@ -178,6 +180,7 @@ export default class Formatter {
       .then((target) => this.formatXData(target))
       .then((target) => this.preserveComponentAttribute(target))
       .then((target) => this.preserveShorthandBinding(target))
+      .then((target) => this.sortHtmlAttributes(target))
       .then((target) => this.preserveHtmlAttributes(target))
       .then((target) => this.preserveHtmlTags(target))
       .then((target) => this.formatAsHtml(target))
@@ -746,6 +749,16 @@ export default class Formatter {
       /(?<=<[\w]*?[\s].*?)[\w\-\_\:]+?=(["']).*?(?<!\\)\1(?=.*?(?<!=)>)/gms,
       (match: string) => `${this.storeHtmlAttribute(match)}`,
     );
+  }
+
+  async sortHtmlAttributes(content: string) {
+    const strategy: SortHtmlAttributes = this.options.sortHtmlAttributes ?? 'none';
+
+    if (strategy !== 'none') {
+      return sortAttributes(content, { order: strategy });
+    }
+
+    return content;
   }
 
   async preserveShorthandBinding(content: string) {
