@@ -4191,7 +4191,7 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected, { noMultipleEmptyLines: false });
   });
-  
+
   test('@foreach directive with nested method', async () => {
     const content = [`@foreach (auth()->user()->currentxy->shops() as $shop)`, `foo`, `@endforeach`].join('\n');
 

@@ -520,7 +520,7 @@ describe('The blade formatter CLI', () => {
         'formatted.disable_no_multiple_empty_lines.blade.php',
       ),
     );
-    
+
     expect(cmdResult).toEqual(formatted.toString('utf-8'));
   });
 
