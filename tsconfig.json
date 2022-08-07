@@ -13,7 +13,8 @@
     "forceConsistentCasingInFileNames": true,
     "types": ["node", "@types/jest"],
     "strict": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "resolveJsonModule": true
   },
   "ts-node": {
     "compilerOptions": {
