@@ -7,6 +7,7 @@ import { spawnSync } from 'child_process';
 import * as cmd from './support/cmd';
 import * as util from './support/util';
 import { assertFormatted, assertNotFormatted } from './support/assertion';
+import { version } from '../package.json';
 
 describe('The blade formatter CLI', () => {
   test.concurrent('should print the help', async function () {
@@ -485,5 +486,44 @@ describe('The blade formatter CLI', () => {
     const input = 'custom_directives.blade.php';
     const target = 'formatted.custom_directives.blade.php';
     await util.checkIfTemplateIsFormattedTwice(input, target);
+  });
+
+  test.concurrent('sort html attributes option', async () => {
+    const cmdResult = await cmd.execute(path.resolve('bin', 'blade-formatter'), [
+      '--sort-html-attributes',
+      'code-guide',
+      path.resolve('__tests__', 'fixtures', 'sort_html_attribute.blade.php'),
+    ]);
+
+    const formatted = fs.readFileSync(path.resolve('__tests__', 'fixtures', 'formatted.sort_html_attribute.blade.php'));
+
+    expect(cmdResult).toEqual(formatted.toString('utf-8'));
+  });
+
+  test.concurrent('sort html attributes runtime config', async () => {
+    const cmdResult = await cmd.execute(path.resolve('bin', 'blade-formatter'), [
+      '--config',
+      path.resolve('__tests__', 'fixtures', 'runtimeConfig', '.bladeformatterrc.sort-html-attributes'),
+      path.resolve('__tests__', 'fixtures', 'sort_html_attribute.blade.php'),
+    ]);
+
+    const formatted = fs.readFileSync(
+      path.resolve('__tests__', 'fixtures', 'formatted.sort_html_attribute.alphabetical.blade.php'),
+    );
+
+    expect(cmdResult).toEqual(formatted.toString('utf-8'));
+  });
+
+  test.concurrent('unknown option passed', async () => {
+    const cmdResult = await cmd.execute(path.resolve('bin', 'blade-formatter'), ['--unknown', 'foo']);
+
+    expect(cmdResult).toContain('error: Unknown argument: unknown');
+    expect(cmdResult).toContain('For more information try --help');
+  });
+
+  test.concurrent('help shows current version', async () => {
+    const cmdResult = await cmd.execute(path.resolve('bin', 'blade-formatter'), ['--help']);
+
+    expect(cmdResult).toContain(version);
   });
 });
