@@ -4267,7 +4267,7 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected, { useTabs: true });
   });
-  
+
   test('it should order html attributes if --sort-html-attributes option passed', async () => {
     const content = [
       `<div name="myname" aria-disabled="true" id="myid" class="myclass" src="other">`,
