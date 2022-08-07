@@ -91,6 +91,14 @@ export default async function cli() {
     })
     .help('h')
     .alias('h', 'help')
+    .strictOptions()
+    .fail(function (msg, err, yargs) {
+      if (err) throw err; // preserve stack
+      process.stdout.write(`${chalk.red(`error: `)}${msg}\n\n`);
+      process.stdout.write(`${chalk.yellow(`Usage: `)} ${name} [options] [file glob | ...]\n\n`);
+      process.stdout.write(`For more information try ${chalk.green(`--help`)}\n`);
+      process.exit(1);
+    })
     .epilog(`Copyright Shuhei Hayashibara 2022\nFor more information, see https://github.com/shufo/blade-formatter`);
 
   // @ts-ignore
