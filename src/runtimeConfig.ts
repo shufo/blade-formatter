@@ -77,7 +77,7 @@ export async function readRuntimeConfig(filePath: string | null): Promise<Runtim
         enum: ['none', 'alphabetical', 'code-guide', 'idiomatic', 'vuejs'],
         nullable: true,
       },
-      noMultipleEmptyLines: { type: 'boolean', nullable: true },)
+      noMultipleEmptyLines: { type: 'boolean', nullable: true },
     },
     additionalProperties: true,
   };
