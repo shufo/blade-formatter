@@ -66,6 +66,14 @@ export default async function cli() {
       description: 'Sort tailwindcss classes',
       default: false,
     })
+    .option('sort-html-attributes', {
+      alias: 'sort-attributes',
+      type: 'string',
+      choices: ['none', 'alphabetical', 'code-guide', 'idiomatic', 'vuejs'],
+      description: 'Sort HTML attributes.',
+      default: 'none',
+      defaultDescription: 'none',
+    })
     .option('progress', {
       alias: 'p',
       type: 'boolean',

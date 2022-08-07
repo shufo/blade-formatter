@@ -4234,4 +4234,21 @@ describe('formatter', () => {
 
     await expect(new BladeFormatter().format(content)).rejects.toThrow('SyntaxError');
   });
+
+  test('it should order html attributes if --sort-html-attributes option passed', async () => {
+    const content = [
+      `<div name="myname" aria-disabled="true" id="myid" class="myclass" src="other">`,
+      `foo`,
+      `</div>`,
+    ].join('\n');
+
+    const expected = [
+      `<div class="myclass" id="myid" name="myname" aria-disabled="true" src="other">`,
+      `    foo`,
+      `</div>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected, { sortHtmlAttributes: 'idiomatic' });
+  });
 });

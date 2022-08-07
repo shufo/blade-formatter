@@ -14,12 +14,16 @@ export type WrapAttributes =
   | 'preserve'
   | 'preserve-aligned';
 
+export type SortHtmlAttributes = 'none' | 'alphabetical' | 'code-guide' | 'idiomatic' | 'vuejs';
+
 export interface RuntimeConfig {
   indentSize?: number;
   wrapLineLength?: number;
   wrapAttributes?: WrapAttributes;
   endWithNewline?: boolean;
   useTabs?: boolean;
+  sortTailwindcssClasses?: true;
+  sortHtmlAttributes?: SortHtmlAttributes;
 }
 
 const defaultConfigNames = ['.bladeformatterrc.json', '.bladeformatterrc'];
@@ -66,6 +70,12 @@ export async function readRuntimeConfig(filePath: string | null): Promise<Runtim
       },
       endWithNewline: { type: 'boolean', nullable: true },
       useTabs: { type: 'boolean', nullable: true },
+      sortTailwindcssClasses: { type: 'boolean', nullable: true },
+      sortHtmlAttributes: {
+        type: 'string',
+        enum: ['none', 'alphabetical', 'code-guide', 'idiomatic', 'vuejs'],
+        nullable: true,
+      },
     },
     additionalProperties: true,
   };
