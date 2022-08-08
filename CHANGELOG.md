@@ -1,5 +1,29 @@
 # Changelog
 
+## [1.27.0](https://github.com/shufo/blade-formatter/compare/v1.26.17...v1.27.0) (2022-08-08)
+
+
+### Features
+
+* 🎸 --sort-html-attributes option ([058a6c8](https://github.com/shufo/blade-formatter/commit/058a6c830133f5e668d31ae3749ca2988fbbdf60))
+* 🎸 strictly check unexpected options ([8286d0e](https://github.com/shufo/blade-formatter/commit/8286d0ea97e5b973749b1671197ea363fa9f7115))
+
+
+### Fixes
+
+* 🐛 tab indent is not used in inline directive ([b212293](https://github.com/shufo/blade-formatter/commit/b212293b52f7af78b66445675b490258fe215b71))
+* 🐛 useTabs option ignored in script tag ([74bd8bf](https://github.com/shufo/blade-formatter/commit/74bd8bfdefc039f776ad8786ac7c8e7ad77786c6))
+
+
+### Miscellaneous
+
+* 🤖 add html-attribute-sorter ([e3ed51a](https://github.com/shufo/blade-formatter/commit/e3ed51ae63dbc0a44151ff119e10163880656245))
+* 🤖 bump html-attribute-sorter to 0.4.0 ([cf1d6f8](https://github.com/shufo/blade-formatter/commit/cf1d6f89da3a4784383be979d3b7e456d3fdd245))
+* 🤖 disable no multiple empty lines option by default ([55fa32e](https://github.com/shufo/blade-formatter/commit/55fa32efad318c076ebade7b6be78c82365f3d63))
+* 🤖 enable resolveJsonModule ([5cda691](https://github.com/shufo/blade-formatter/commit/5cda691a569b83933a99087d56a091660ecd075a))
+* **deps:** update akhilmhdh/contributors-readme-action action to v2.3.6 ([da946b5](https://github.com/shufo/blade-formatter/commit/da946b518747362a18f5093b3ca11e9444af1317))
+* **deps:** update pozil/auto-assign-issue action to v1.9.0 ([f1e1807](https://github.com/shufo/blade-formatter/commit/f1e1807a8bf7cb2e7e0e2d9823d9063e410e8052))
+
 ## [1.26.17](https://github.com/shufo/blade-formatter/compare/v1.26.16...v1.26.17) (2022-07-31)
 
 
