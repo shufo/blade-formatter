@@ -36,6 +36,7 @@ export interface FormatterOption {
   useTabs?: boolean;
   sortTailwindcssClasses?: true;
   sortHtmlAttributes?: SortHtmlAttributes;
+  noMultipleEmptyLines?: boolean;
 }
 
 class BladeFormatter {

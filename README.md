@@ -179,6 +179,7 @@ $ blade-formatter -c -d resources/**/*.blade.php
 | `--wrap-attributes`, `--wrap-atts` | The way to wrap attributes. `[auto\|force\|force-aligned\|force-expand-multiline\|aligned-multiple\|preserve\|preserve-aligned]` |  `auto` |
 | `--sort-tailwindcss-classes`, `--sort-classes` | Sort Tailwindcss classes automatically. This option respects `tailwind.config.js` and sort classes according to settings. |  false |
 | `--sort-html-attributes`, `--sort-attributes` | Sort HTML attributes. `[none\|alphabetical\|code-guide\|idiomatic\|vuejs]` |  `'none'` |
+| `--no-multiple-empty-lines` |  Collapses multiple blank lines into a single blank line | false |
 |         `--end-with-newline`, `-e` |                                                                                                          End output with newline |    true |
 |                          `--stdin` |                                                                                                format code provided on `<STDIN>` |   false |
 |                     `--help`, `-h` |                                                                                                                        Show help |         |
@@ -199,6 +200,7 @@ e.g.
   "useTabs": false,
   "sortTailwindcssClasses": true,
   "sortHtmlAttributes": "none",
+  "noMultipleEmptyLines": false
 }
 ```
 

@@ -4137,6 +4137,61 @@ describe('formatter', () => {
     await util.doubleFormatCheck(content, expected);
   });
 
+  test('no multiple empty lines formatter option', async () => {
+    // prettier-ignore
+    const content = [
+      `foo`,
+      ``,
+      ``,
+      `bar`,
+      ``,
+      ``,
+      ``,
+      `baz`,
+    ].join('\n');
+
+    // prettier-ignore
+    const expected = [
+      `foo`,
+      ``,
+      `bar`,
+      ``,
+      `baz`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected, { noMultipleEmptyLines: true });
+  });
+
+  test('disable no multiple empty lines formatter option', async () => {
+    // prettier-ignore
+    const content = [
+      `foo`,
+      ``,
+      ``,
+      `bar`,
+      ``,
+      ``,
+      ``,
+      `baz`,
+    ].join('\n');
+
+    // prettier-ignore
+    const expected = [
+      `foo`,
+      ``,
+      ``,
+      `bar`,
+      ``,
+      ``,
+      ``,
+      `baz`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected, { noMultipleEmptyLines: false });
+  });
+
   test('@foreach directive with nested method', async () => {
     const content = [`@foreach (auth()->user()->currentxy->shops() as $shop)`, `foo`, `@endforeach`].join('\n');
 

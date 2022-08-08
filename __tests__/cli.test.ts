@@ -488,6 +488,42 @@ describe('The blade formatter CLI', () => {
     await util.checkIfTemplateIsFormattedTwice(input, target);
   });
 
+  test.concurrent('no multiple empty lines option', async () => {
+    const input = 'no_multiple_empty_lines.blade.php';
+    const target = 'formatted.no_multiple_empty_lines.blade.php';
+    await util.checkIfTemplateIsFormattedTwice(input, target, ['--no-multiple-empty-lines']);
+  });
+
+  test.concurrent('disable no multiple empty lines option', async () => {
+    const input = 'no_multiple_empty_lines.blade.php';
+    const target = 'formatted.disable_no_multiple_empty_lines.blade.php';
+    await util.checkIfTemplateIsFormattedTwice(input, target, ['--no-multiple-empty-lines=false']);
+  });
+
+  test.concurrent('runtime config test for no multiple empty lines', async () => {
+    const cmdResult = await cmd.execute(path.resolve('bin', 'blade-formatter'), [
+      path.resolve(
+        '__tests__',
+        'fixtures',
+        'runtimeConfig',
+        'no_multiple_empty_lines',
+        'no_multiple_empty_lines.blade.php',
+      ),
+    ]);
+
+    const formatted = fs.readFileSync(
+      path.resolve(
+        '__tests__',
+        'fixtures',
+        'runtimeConfig',
+        'no_multiple_empty_lines',
+        'formatted.disable_no_multiple_empty_lines.blade.php',
+      ),
+    );
+
+    expect(cmdResult).toEqual(formatted.toString('utf-8'));
+  });
+
   test.concurrent('sort html attributes option', async () => {
     const cmdResult = await cmd.execute(path.resolve('bin', 'blade-formatter'), [
       '--sort-html-attributes',

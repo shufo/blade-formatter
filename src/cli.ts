@@ -2,6 +2,7 @@ import yargs from 'yargs';
 import concat from 'concat-stream';
 import { loadWASM } from 'vscode-oniguruma';
 import chalk from 'chalk';
+import _ from 'lodash';
 
 import { promises as fs } from 'fs';
 
@@ -74,6 +75,17 @@ export default async function cli() {
       default: 'none',
       defaultDescription: 'none',
     })
+    .option('no-multiple-empty-lines', {
+      type: 'boolean',
+      description: 'Merge multiple blank lines into a single blank line',
+      default: false,
+    })
+    .option('multiple-empty-lines', {
+      type: 'boolean',
+      description: 'this is a workaround for combine strict && boolean option',
+      hidden: true,
+      default: true,
+    })
     .option('progress', {
       alias: 'p',
       type: 'boolean',
@@ -114,10 +126,12 @@ export default async function cli() {
   const wasm = await fs.readFile(require.resolve('vscode-oniguruma/release/onig.wasm'));
   await loadWASM(wasm.buffer);
 
+  const options = _.set(parsed.argv, 'noMultipleEmptyLines', !parsed.argv.multipleEmptyLines);
+
   if (parsed.argv.stdin) {
     await process.stdin.pipe(
       concat({ encoding: 'string' }, (text: Buffer) => {
-        return new BladeFormatter(parsed.argv)
+        return new BladeFormatter(options)
           .format(text)
           .then((result: string | undefined) => {
             if (result !== undefined) {
@@ -138,6 +152,6 @@ export default async function cli() {
     return;
   }
 
-  const formatter = new BladeFormatter(parsed.argv, parsed.argv._);
+  const formatter = new BladeFormatter(options, parsed.argv._);
   await formatter.formatFromCLI();
 }

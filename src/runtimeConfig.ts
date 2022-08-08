@@ -22,8 +22,9 @@ export interface RuntimeConfig {
   wrapAttributes?: WrapAttributes;
   endWithNewline?: boolean;
   useTabs?: boolean;
-  sortTailwindcssClasses?: true;
+  sortTailwindcssClasses?: boolean;
   sortHtmlAttributes?: SortHtmlAttributes;
+  noMultipleEmptyLines?: boolean;
 }
 
 const defaultConfigNames = ['.bladeformatterrc.json', '.bladeformatterrc'];
@@ -76,6 +77,7 @@ export async function readRuntimeConfig(filePath: string | null): Promise<Runtim
         enum: ['none', 'alphabetical', 'code-guide', 'idiomatic', 'vuejs'],
         nullable: true,
       },
+      noMultipleEmptyLines: { type: 'boolean', nullable: true },
     },
     additionalProperties: true,
   };
