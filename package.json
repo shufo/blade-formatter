@@ -44,7 +44,7 @@
     "detect-indent": "^6.0.0",
     "find-config": "^1.0.0",
     "glob": "^8.0.1",
-    "html-attribute-sorter": "^0.4.1",
+    "html-attribute-sorter": "^0.4.2",
     "ignore": "^5.1.8",
     "js-beautify": "^1.14.0",
     "lodash": "^4.17.19",

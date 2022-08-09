@@ -3927,10 +3927,10 @@ has@^1.0.3:
   dependencies:
     function-bind "^1.1.1"
 
-html-attribute-sorter@^0.4.1:
-  version "0.4.1"
-  resolved "https://registry.yarnpkg.com/html-attribute-sorter/-/html-attribute-sorter-0.4.1.tgz#6f5b54a77654a2b865ecb036858b279906bc3b58"
-  integrity sha512-7+SzUuTnY9pdLVbe/6U41ZFd9CP4Z5HgRYwZkJNHSOHjNKSYIkZoYtJB2uxPDEXacxf19H6Mz9C/GsXeANLSKg==
+html-attribute-sorter@^0.4.2:
+  version "0.4.2"
+  resolved "https://registry.yarnpkg.com/html-attribute-sorter/-/html-attribute-sorter-0.4.2.tgz#803dfb2fb7c749cbf92fe52e7d3e331990072539"
+  integrity sha512-WjAaUWPuqXxddyQ5M4vqDHG8tcO+ajTnz03GNwmTsTyGdg9dJqoswwHyniK5ygitgXxqBYIE4T88/edWkl7wMQ==
 
 html-escaper@^2.0.0:
   version "2.0.2"
