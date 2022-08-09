@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.27.3](https://github.com/shufo/blade-formatter/compare/v1.27.2...v1.27.3) (2022-08-09)
+
+
+### Fixes
+
+* 🐛 do nothing when sort html attributes option is undefined ([7f0962a](https://github.com/shufo/blade-formatter/commit/7f0962ad9d5ef8d05acbab486b1ffee2f0e8979d))
+
 ## [1.27.2](https://github.com/shufo/blade-formatter/compare/v1.27.1...v1.27.2) (2022-08-09)
 
 
