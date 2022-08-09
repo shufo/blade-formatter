@@ -755,7 +755,7 @@ export default class Formatter {
   async sortHtmlAttributes(content: string) {
     const strategy: SortHtmlAttributes = this.options.sortHtmlAttributes ?? 'none';
 
-    if (strategy !== 'none') {
+    if (!_.isEmpty(strategy) && strategy !== 'none') {
       return sortAttributes(content, { order: strategy });
     }
 
