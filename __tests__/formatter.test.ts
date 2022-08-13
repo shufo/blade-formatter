@@ -4392,4 +4392,21 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected2, { useTabs: true, indentSize: 2 });
   });
+
+  test('unless directive with arrowed method', async () => {
+    const content = [
+      `@unless  (auth()->user()->hasVerifiedEmail())`,
+      `  <p>Please check and verify your email to access the system</p>`,
+      `@endunless`,
+    ].join('\n');
+
+    const expected = [
+      `@unless(auth()->user()->hasVerifiedEmail())`,
+      `    <p>Please check and verify your email to access the system</p>`,
+      `@endunless`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected, { sortHtmlAttributes: 'idiomatic' });
+  });
 });
