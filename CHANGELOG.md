@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.27.4](https://github.com/shufo/blade-formatter/compare/v1.27.3...v1.27.4) (2022-08-13)
+
+
+### Miscellaneous
+
+* **deps:** update dependency esbuild to ^0.15.0 ([925f64e](https://github.com/shufo/blade-formatter/commit/925f64eb91b8b20d5f05474f0be63bbb92a2f093))
+
+
+### Fixes
+
+* 🐛 syntax error on chained method ([22b5f49](https://github.com/shufo/blade-formatter/commit/22b5f496cae565c8e0323ad6c69bbcc3d90f0dd9))
+* **deps:** update dependency php-parser to v3.1.0 ([d667bee](https://github.com/shufo/blade-formatter/commit/d667bee275cda4fd86fcbdc17a9d565f5796df39))
+
 ## [1.27.3](https://github.com/shufo/blade-formatter/compare/v1.27.2...v1.27.3) (2022-08-09)
 
 
