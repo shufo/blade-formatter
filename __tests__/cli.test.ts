@@ -570,6 +570,6 @@ describe('The blade formatter CLI', () => {
     const startTime = performance.now();
     await util.checkIfTemplateIsFormattedTwice(input, target);
     const endTime = performance.now();
-    expect(endTime - startTime).toBeLessThan(3000);
+    expect(endTime - startTime).toBeLessThan(5000);
   });
 });
