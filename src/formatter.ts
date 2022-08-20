@@ -374,18 +374,18 @@ export default class Formatter {
   preserveInlineDirective(content: string): string {
     // preserve inline directives inside html tag
     const regex = new RegExp(
-      `(?<=<[\\w\\-\\_]+?[^>]*?)${directivePrefix}(${indentStartTokensWithoutPrefix.join(
+      `(<[\\w\\-\\_]+?[^>]*?)${directivePrefix}(${indentStartTokensWithoutPrefix.join(
         '|',
-      )})(\\s*?)(\\(.*?\\))(.*?)(@end\\1|@endif)(?=.*?/*>)`,
+      )})(\\s*?)(\\([^)]*?\\))((?:(?!@end\\2).)+)(@end\\2|@endif)(.*?/*>)`,
       'gims',
     );
     const replaced = _.replace(
       content,
       regex,
-      (_match: string, p1: string, p2: string, p3: string, p4: string, p5: string) => {
-        return `${this.storeInlineDirective(
-          `${directivePrefix}${p1.trim()}${p2}${p3.trim()} ${p4.trim()} ${p5.trim()}`,
-        )}`;
+      (_match: string, p1: string, p2: string, p3: string, p4: string, p5: string, p6: string, p7: string) => {
+        return `${p1}${this.storeInlineDirective(
+          `${directivePrefix}${p2.trim()}${p3}${p4.trim()} ${p5.trim()} ${p6.trim()}`,
+        )}${p7}`;
       },
     );
 
