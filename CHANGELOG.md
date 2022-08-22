@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.27.5](https://github.com/shufo/blade-formatter/compare/v1.27.4...v1.27.5) (2022-08-22)
+
+
+### Miscellaneous
+
+* **deps:** update pozil/auto-assign-issue action to v1.10.0 ([b9211bd](https://github.com/shufo/blade-formatter/commit/b9211bdd5460f86bdf74b9ac59dbd9bbe4c9bd68))
+
+
+### Fixes
+
+* 🐛 inenfficient regex in certain template take a long time ([28ac4ed](https://github.com/shufo/blade-formatter/commit/28ac4ed440c7b6081cadaaa388a5ba24c50a76e1))
+
 ## [1.27.4](https://github.com/shufo/blade-formatter/compare/v1.27.3...v1.27.4) (2022-08-13)
 
 
