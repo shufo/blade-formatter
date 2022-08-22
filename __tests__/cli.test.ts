@@ -572,4 +572,13 @@ describe('The blade formatter CLI', () => {
     const endTime = performance.now();
     expect(endTime - startTime).toBeLessThan(5000);
   });
+
+  test.concurrent('data url', async () => {
+    const input = 'data_url.blade.php';
+    const target = 'formatted.data_url.blade.php';
+    const startTime = performance.now();
+    await util.checkIfTemplateIsFormattedTwice(input, target);
+    const endTime = performance.now();
+    expect(endTime - startTime).toBeLessThan(5000);
+  });
 });
