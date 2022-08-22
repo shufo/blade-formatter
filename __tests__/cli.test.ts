@@ -4,6 +4,7 @@ import fs from 'fs';
 import os from 'os';
 import path from 'path';
 import { spawnSync } from 'child_process';
+import { performance } from 'perf_hooks';
 import * as cmd from './support/cmd';
 import * as util from './support/util';
 import { assertFormatted, assertNotFormatted } from './support/assertion';
@@ -561,5 +562,23 @@ describe('The blade formatter CLI', () => {
     const cmdResult = await cmd.execute(path.resolve('bin', 'blade-formatter'), ['--help']);
 
     expect(cmdResult).toContain(version);
+  });
+
+  test.concurrent('large file', async () => {
+    const input = 'largefile.blade.php';
+    const target = 'formatted.largefile.blade.php';
+    const startTime = performance.now();
+    await util.checkIfTemplateIsFormattedTwice(input, target);
+    const endTime = performance.now();
+    expect(endTime - startTime).toBeLessThan(5000);
+  });
+
+  test.concurrent('data url', async () => {
+    const input = 'data_url.blade.php';
+    const target = 'formatted.data_url.blade.php';
+    const startTime = performance.now();
+    await util.checkIfTemplateIsFormattedTwice(input, target);
+    const endTime = performance.now();
+    expect(endTime - startTime).toBeLessThan(5000);
   });
 });
