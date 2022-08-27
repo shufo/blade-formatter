@@ -4409,4 +4409,34 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected, { sortHtmlAttributes: 'idiomatic' });
   });
+
+  test('elseif statement in script tag', async () => {
+    const content = [
+      `<script>`,
+      `@if (session()->has('success'))`,
+      `//do something`,
+      `@elseif (session()->has('error'))`,
+      `//do something`,
+      `@elseif`,
+      `($something)`,
+      `//do something`,
+      `@endif`,
+      `</script>`,
+    ].join('\n');
+
+    const expected = [
+      `<script>`,
+      `    @if (session()->has('success'))`,
+      `        //do something`,
+      `    @elseif (session()->has('error'))`,
+      `        //do something`,
+      `    @elseif ($something)`,
+      `        //do something`,
+      `    @endif`,
+      `</script>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
 });
