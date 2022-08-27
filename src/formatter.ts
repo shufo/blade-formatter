@@ -1344,9 +1344,18 @@ export default class Formatter {
       // restore else
       formatted = _.replace(
         formatted,
-        new RegExp(`} \\/\\* (?:${this.getBladeDirectiveInScriptPlaceholder('(\\d+)')}) \\*\\/ {`, 'gis'),
-        (_match: any, p1: any) => {
-          return `${this.directivesInScript[p1].trim()}`;
+        new RegExp(
+          `} \\/\\* (?:${this.getBladeDirectiveInScriptPlaceholder(
+            '(\\d+)',
+          )}) \\*\\/ {(\\s*?\\(___directive_condition_\\d+___\\))?`,
+          'gim',
+        ),
+        (_match: any, p1: number, p2: string) => {
+          if (_.isUndefined(p2)) {
+            return `${this.directivesInScript[p1].trim()}`;
+          }
+
+          return `${this.directivesInScript[p1].trim()} ${(p2 ?? '').trim()}`;
         },
       );
 
