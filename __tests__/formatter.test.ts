@@ -4439,4 +4439,23 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
+
+  test('inline directive with tailwindcss class sort', async () => {
+    const content = [
+      `<div class="@auth bg-10 @endauth relative h-10 w-10"></div>`,
+      `<div class="relative h-10 w-10 @auth bg-10 @endauth "></div>`,
+      `<div class="@auth @endauth relative h-10 w-10"></div>`,
+      `<div class="@auth     @endauth relative h-10 w-10"></div>`,
+    ].join('\n');
+
+    const expected = [
+      `<div class="@auth bg-10 @endauth relative h-10 w-10"></div>`,
+      `<div class="@auth bg-10 @endauth relative h-10 w-10"></div>`,
+      `<div class="@auth @endauth relative h-10 w-10"></div>`,
+      `<div class="@auth  @endauth relative h-10 w-10"></div>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected, { sortTailwindcssClasses: true });
+  });
 });
