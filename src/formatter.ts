@@ -376,13 +376,27 @@ export default class Formatter {
     const regex = new RegExp(
       `(<[\\w\\-\\_]+?[^>]*?)${directivePrefix}(${indentStartTokensWithoutPrefix.join(
         '|',
-      )})(\\s*?)(\\([^)]*?\\))((?:(?!@end\\2).)+)(@end\\2|@endif)(.*?/*>)`,
+      )})(\\s*?)?(\\([^)]*?\\))?((?:(?!@end\\2).)+)(@end\\2|@endif)(.*?/*>)`,
       'gims',
     );
     const replaced = _.replace(
       content,
       regex,
       (_match: string, p1: string, p2: string, p3: string, p4: string, p5: string, p6: string, p7: string) => {
+        if (p3 === undefined && p4 === undefined) {
+          return `${p1}${this.storeInlineDirective(`${directivePrefix}${p2.trim()}${p5.trim()} ${p6.trim()}`)}${p7}`;
+        }
+        if (p3 === undefined) {
+          return `${p1}${this.storeInlineDirective(
+            `${directivePrefix}${p2.trim()}${p4.trim()}${p5}${p6.trim()}`,
+          )}${p7}`;
+        }
+        if (p4 === undefined) {
+          return `${p1}${this.storeInlineDirective(
+            `${directivePrefix}${p2.trim()}${p3}${p5.trim()} ${p6.trim()}`,
+          )}${p7}`;
+        }
+
         return `${p1}${this.storeInlineDirective(
           `${directivePrefix}${p2.trim()}${p3}${p4.trim()} ${p5.trim()} ${p6.trim()}`,
         )}${p7}`;
