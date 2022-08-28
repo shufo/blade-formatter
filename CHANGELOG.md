@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.27.6](https://github.com/shufo/blade-formatter/compare/v1.27.5...v1.27.6) (2022-08-28)
+
+
+### Fixes
+
+* 🐛 elseif statement in script tag gets unexpected format ([40abf45](https://github.com/shufo/blade-formatter/commit/40abf457659fab24c2ed2212c1ed374a9fb26f9a))
+* 🐛 inline directive issue with tailwind class sorting ([552fadd](https://github.com/shufo/blade-formatter/commit/552faddbd2ec62407b025ad75a12f2ce45d1acdc))
+
 ## [1.27.5](https://github.com/shufo/blade-formatter/compare/v1.27.4...v1.27.5) (2022-08-22)
 
 
