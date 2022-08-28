@@ -4446,6 +4446,7 @@ describe('formatter', () => {
       `<div class="relative h-10 w-10 @auth bg-10 @endauth "></div>`,
       `<div class="@auth @endauth relative h-10 w-10"></div>`,
       `<div class="@auth     @endauth relative h-10 w-10"></div>`,
+      `<div class="@if (true) bg-neutral-100 @endif relative h-10 w-10"></div>`,
     ].join('\n');
 
     const expected = [
@@ -4453,9 +4454,55 @@ describe('formatter', () => {
       `<div class="@auth bg-10 @endauth relative h-10 w-10"></div>`,
       `<div class="@auth @endauth relative h-10 w-10"></div>`,
       `<div class="@auth  @endauth relative h-10 w-10"></div>`,
+      `<div class="@if (true) bg-neutral-100 @endif relative h-10 w-10"></div>`,
       ``,
     ].join('\n');
 
     await util.doubleFormatCheck(content, expected, { sortTailwindcssClasses: true });
+  });
+
+  test('line breaked inline directive with tailwindcss class sort', async () => {
+    const content = [
+      `<input`,
+      `    @unless($hasMask())`,
+      ``,
+      `        {{ $applyStateBindingModifiers('wire:model') }}="{{ $getStatePath() }}"`,
+      `         type="{{ $getType() }}"`,
+      `    @else`,
+      `        x-data="textInputFormComponent({`,
+      `            {{ $hasMask() ? "getMaskOptionsUsing: (IMask) => ({$getJsonMaskConfiguration()})," : null }}`,
+      `            state: $wire.{{ $isLazy()`,
+      `                ? 'entangle(' . $getStatePath() . ').defer'`,
+      `                : $applyStateBindingModifiers('entangle(' . $getStatePath() . ')') }},`,
+      `           })"`,
+      `        type="text"`,
+      `        wire:ignore`,
+      `        @if ($isLazy()) x-on:blur="$wire.$refresh" @endif`,
+      `        {{ $getExtraAlpineAttributeBag() }}`,
+      `    @endunless />`,
+    ].join('\n');
+
+    const expected = [
+      `<input`,
+      `    @unless($hasMask())`,
+      ``,
+      `        {{ $applyStateBindingModifiers('wire:model') }}="{{ $getStatePath() }}"`,
+      `         type="{{ $getType() }}"`,
+      `    @else`,
+      `        x-data="textInputFormComponent({`,
+      `            {{ $hasMask() ? "getMaskOptionsUsing: (IMask) => ({$getJsonMaskConfiguration()})," : null }}`,
+      `            state: $wire.{{ $isLazy()`,
+      `                ? 'entangle(' . $getStatePath() . ').defer'`,
+      `                : $applyStateBindingModifiers('entangle(' . $getStatePath() . ')') }},`,
+      `           })"`,
+      `        type="text"`,
+      `        wire:ignore`,
+      `        @if ($isLazy()) x-on:blur="$wire.$refresh" @endif`,
+      `        {{ $getExtraAlpineAttributeBag() }}`,
+      `    @endunless />`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected, { sortHtmlAttributes: 'alphabetical' });
   });
 });
