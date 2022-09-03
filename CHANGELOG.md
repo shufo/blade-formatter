@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.27.7](https://github.com/shufo/blade-formatter/compare/v1.27.6...v1.27.7) (2022-09-03)
+
+
+### Miscellaneous
+
+* **deps:** update dependency @types/glob to v8 ([2666547](https://github.com/shufo/blade-formatter/commit/26665477852391f1a2d15cb12c804b4c41a09179))
+
+
+### Fixes
+
+* 🐛 invalid quote type when html tag used in php directive ([3b02326](https://github.com/shufo/blade-formatter/commit/3b02326b25a97f89db5fd25d69529bd4be2d2a1a))
+
 ## [1.27.6](https://github.com/shufo/blade-formatter/compare/v1.27.5...v1.27.6) (2022-08-28)
 
 
