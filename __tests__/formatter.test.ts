@@ -4505,4 +4505,25 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected, { sortHtmlAttributes: 'alphabetical' });
   });
+
+  test('html tag in raw php block', async () => {
+    const content = [
+      `@php`,
+      `$icon = "<i class='fa fa-check'></i>";`,
+      `$icon    = "<i class=\\"fa fa-check\\"></i>";`,
+      `$icon       = '<i class="fa fa-check"></i>';`,
+      `@endphp`,
+    ].join('\n');
+
+    const expected = [
+      `@php`,
+      `$icon = "<i class='fa fa-check'></i>";`,
+      `$icon = "<i class=\\"fa fa-check\\"></i>";`,
+      `$icon = '<i class="fa fa-check"></i>';`,
+      `@endphp`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
 });
