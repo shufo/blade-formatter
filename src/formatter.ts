@@ -181,12 +181,14 @@ export default class Formatter {
       .then((target) => this.preserveComponentAttribute(target))
       .then((target) => this.preserveShorthandBinding(target))
       .then((target) => this.sortHtmlAttributes(target))
+      .then((target) => this.preservePhpBlock(target))
       .then((target) => this.preserveHtmlAttributes(target))
       .then((target) => this.preserveHtmlTags(target))
       .then((target) => this.formatAsHtml(target))
       .then((target) => this.formatAsBlade(target))
       .then((target) => this.restoreHtmlTags(target))
       .then((target) => this.restoreHtmlAttributes(target))
+      .then((target) => this.restorePhpBlock(target))
       .then((target) => this.restoreShorthandBinding(target))
       .then((target) => this.restoreComponentAttribute(target))
       .then((target) => this.restoreXData(target))
@@ -221,11 +223,9 @@ export default class Formatter {
     };
 
     const promise = new Promise((resolve) => resolve(data))
-      .then((content) => this.preservePhpBlock(content))
       .then((content) => util.preserveDirectives(content))
       .then((preserved) => beautify.html_beautify(preserved, options))
-      .then((content) => util.revertDirectives(content))
-      .then((content) => this.restorePhpBlock(content));
+      .then((content) => util.revertDirectives(content));
 
     return Promise.resolve(promise);
   }
