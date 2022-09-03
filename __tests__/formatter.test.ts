@@ -4510,7 +4510,7 @@ describe('formatter', () => {
     const content = [
       `@php`,
       `$icon = "<i class='fa fa-check'></i>";`,
-      `$icon    = "<i class=\"fa fa-check\"></i>";`,
+      `$icon    = "<i class=\\"fa fa-check\\"></i>";`,
       `$icon       = '<i class="fa fa-check"></i>';`,
       `@endphp`,
     ].join('\n');
@@ -4518,7 +4518,7 @@ describe('formatter', () => {
     const expected = [
       `@php`,
       `$icon = "<i class='fa fa-check'></i>";`,
-      `$icon = "<i class=\"fa fa-check\"></i>";`,
+      `$icon = "<i class=\\"fa fa-check\\"></i>";`,
       `$icon = '<i class="fa fa-check"></i>';`,
       `@endphp`,
       ``,
