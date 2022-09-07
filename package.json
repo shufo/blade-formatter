@@ -35,7 +35,7 @@
   "author": "Shuhei Hayashibara",
   "license": "MIT",
   "dependencies": {
-    "@prettier/plugin-php": "^0.18.0",
+    "@prettier/plugin-php": "^0.19.0",
     "@shufo/tailwindcss-class-sorter": "^1.0.3",
     "aigle": "^1.14.1",
     "ajv": "^8.9.0",
