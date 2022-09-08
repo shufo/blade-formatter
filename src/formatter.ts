@@ -273,6 +273,11 @@ export default class Formatter {
         .replace(
           /(?:{{--\s*?blade-formatter-disable-next-line\s*?--}}|{{--\s*?prettier-ignore\s*?--}}|<!--\s*?prettier-ignore\s*?-->)[\r\n]+[^\r\n]+/gis,
           (match: any) => this.storeIgnoredLines(match),
+        )        
+        // comment ignore
+        .replace(
+          /(?:^{{--\s)(?:.|[\n\r])*--}}/gis,
+          (match: any) => this.storeIgnoredLines(match),
         )
         .value()
     );
