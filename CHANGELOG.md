@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.28.0](https://github.com/shufo/blade-formatter/compare/v1.27.7...v1.28.0) (2022-09-11)
+
+
+### Features
+
+* drop support for Node 12.x ([41485d0](https://github.com/shufo/blade-formatter/commit/41485d0c14ab5a0f3de7c71c87576ed632e0598e))
+
+
+### Fixes
+
+* **deps:** update dependency @prettier/plugin-php to ^0.19.0 ([35322b7](https://github.com/shufo/blade-formatter/commit/35322b7d251d56b916717b27fdd795fa7e4dc99c))
+
+
+### Miscellaneous
+
+* require Node 14.x as minimum version ([e940e32](https://github.com/shufo/blade-formatter/commit/e940e32c1c60d0527c1e93cfe368192e182e96fb))
+
 ## [1.27.7](https://github.com/shufo/blade-formatter/compare/v1.27.6...v1.27.7) (2022-09-03)
 
 
