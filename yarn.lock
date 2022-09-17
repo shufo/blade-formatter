@@ -1613,10 +1613,10 @@
     mem "^8.0.0"
     php-parser "3.1.0"
 
-"@shufo/tailwindcss-class-sorter@^1.0.3":
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/@shufo/tailwindcss-class-sorter/-/tailwindcss-class-sorter-1.0.4.tgz#0ebcc809b8a43a400eb8cbc56c62b1d38aa0d72d"
-  integrity sha512-/unffzgX9m/4BuguzWFADf1prucwaj90nB4N6exa3TwQI3/IJ3OAugHS5ZwRjXYD/imL8NNKNt6IE5ehtLYJkw==
+"@shufo/tailwindcss-class-sorter@^1.0.5":
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/@shufo/tailwindcss-class-sorter/-/tailwindcss-class-sorter-1.0.5.tgz#de8b8d2cce7b67bf839203522d7a4e9d9f73685f"
+  integrity sha512-jmiMA6X+n2qc01HYi/05k9CUydTgQKpOfdpfHVb5fPKEMwjM7K6ywCnHCv1LlJEngYYHAmjI+0p+zMGddpsiBw==
   dependencies:
     escalade "^3.1.1"
     object-hash "^3.0.0"
