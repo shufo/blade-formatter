@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.29.1](https://github.com/shufo/blade-formatter/compare/v1.29.0...v1.29.1) (2022-09-18)
+
+
+### Fixes
+
+* 🐛 disable lookup tailwind config on format function ([73c9597](https://github.com/shufo/blade-formatter/commit/73c959790ec51ed7412b8f16d5b355e3c1b4922f))
+
 ## [1.29.0](https://github.com/shufo/blade-formatter/compare/v1.28.0...v1.29.0) (2022-09-18)
 
 
