@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.29.2](https://github.com/shufo/blade-formatter/compare/v1.29.1...v1.29.2) (2022-09-18)
+
+
+### Fixes
+
+* 🐛 tailwindcss config does not respect correctly ([55bd09c](https://github.com/shufo/blade-formatter/commit/55bd09c0943674dfce58e5d7a233f2b102b21993))
+
 ## [1.29.1](https://github.com/shufo/blade-formatter/compare/v1.29.0...v1.29.1) (2022-09-18)
 
 
