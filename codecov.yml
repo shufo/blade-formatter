@@ -8,3 +8,4 @@ codecov:
         target: auto
         threshold: 3%
         base: auto
+        if_ci_failed: success
