@@ -170,7 +170,7 @@ $ blade-formatter -c -d resources/**/*.blade.php
 ## Options
 
 |                             option |                                                                                                                      description | default |
-| ---------------------------------: | -------------------------------------------------------------------------------------------------------------------------------: | ------: |
+| ---------------------------------: | :------------------------------------------------------------------------------------------------------------------------------- | :------ |
 |          `--check-formatted`, `-c` |                                          Only check files are formatted or not. Exit with exit code 1 if files are not formatted |   false |
 |                   `--write`, `--w` |                                                                                                                    Write to file |   false |
 |                     `--diff`, `-d` |                                                                                                                 Show differences |   false |
