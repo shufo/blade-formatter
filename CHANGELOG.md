@@ -1,5 +1,30 @@
 # Changelog
 
+## [1.29.0](https://github.com/shufo/blade-formatter/compare/v1.28.0...v1.29.0) (2022-09-18)
+
+
+### Features
+
+* 🎸 add `--tailwindcss-config-path` to CLI option ([5dc7804](https://github.com/shufo/blade-formatter/commit/5dc78049b2a79c28e0c7b95ed45b1e1ee9c5f088))
+* 🎸 add option to specify tailwindcss configuration ([f21b892](https://github.com/shufo/blade-formatter/commit/f21b892b00a4410880db853fc81bde24e496091f))
+
+
+### Fixes
+
+* 🐛 can not resolve relative path from base directory ([9605ec3](https://github.com/shufo/blade-formatter/commit/9605ec31a4c229b38ee2b951c446a8ede8840dc0))
+* **deps:** update dependency php-parser to v3.1.1 ([c01928b](https://github.com/shufo/blade-formatter/commit/c01928bd2fcd39beeae910a1274970fd10cb64c3))
+* multi-line blade comment trims line break ([a0ce4f9](https://github.com/shufo/blade-formatter/commit/a0ce4f99bb2a50be75fdb0f1aa6f2888a2ddc364))
+
+
+### Miscellaneous
+
+* 🤖 add tailwindcss to dependencies ([aedabcb](https://github.com/shufo/blade-formatter/commit/aedabcbdf222d7d6153454a137e7d13b6528e717))
+* 🤖 bump @shufo/tailwindcss-class-sorter to 1.0.7 ([7aeca2f](https://github.com/shufo/blade-formatter/commit/7aeca2f0c63f7d05415eaeaeecac970b39695e05))
+* 🤖 bump @shufo/tailwindcss-class-sorter to 1.0.8 ([84a4ca2](https://github.com/shufo/blade-formatter/commit/84a4ca2a5a07dc9393e5b61032b830946397eba7))
+* 🤖 bump bump tailwindcss-class-sorter to 1.0.6 ([7f51450](https://github.com/shufo/blade-formatter/commit/7f51450ddde057908904b08d583461bbcba93081))
+* 🤖 bump tailwindcss-class-sorter to 1.0.5 ([e33fc6b](https://github.com/shufo/blade-formatter/commit/e33fc6b8a3d507599f3ccc0310224d6271328cb7))
+* 🤖 revert changes ([886a8e3](https://github.com/shufo/blade-formatter/commit/886a8e34ce5e10c5ed3d8408639ef5727d8e9bbd))
+
 ## [1.28.0](https://github.com/shufo/blade-formatter/compare/v1.27.7...v1.28.0) (2022-09-11)
 
 
