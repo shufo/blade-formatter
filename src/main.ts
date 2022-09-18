@@ -88,7 +88,6 @@ class BladeFormatter {
   async format(content: any, opts = {}) {
     const options = this.options || opts;
     await this.readIgnoreFile(process.cwd());
-    await this.findTailwindConfig(process.cwd());
     await this.readRuntimeConfig(process.cwd());
     return new Formatter(options).formatContent(content).catch((err) => {
       throw new FormatError(err);
