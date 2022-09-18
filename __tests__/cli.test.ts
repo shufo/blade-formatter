@@ -570,7 +570,7 @@ describe('The blade formatter CLI', () => {
     const startTime = performance.now();
     await util.checkIfTemplateIsFormattedTwice(input, target);
     const endTime = performance.now();
-    expect(endTime - startTime).toBeLessThan(5000);
+    expect(endTime - startTime).toBeLessThan(7500);
   });
 
   test.concurrent('data url', async () => {
@@ -579,7 +579,7 @@ describe('The blade formatter CLI', () => {
     const startTime = performance.now();
     await util.checkIfTemplateIsFormattedTwice(input, target);
     const endTime = performance.now();
-    expect(endTime - startTime).toBeLessThan(5000);
+    expect(endTime - startTime).toBeLessThan(7500);
   });
 
   test.concurrent('respect tailwind.config.js automatically', async () => {
