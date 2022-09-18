@@ -4565,4 +4565,12 @@ describe('formatter', () => {
     const config = require(path.resolve('__tests__', 'fixtures', 'tailwind', 'tailwind.config.example.js'));
     await util.doubleFormatCheck(content, expected, { sortTailwindcssClasses: true, tailwindcssConfig: config });
   });
+
+  test('preserve line break of multi-line comment', async () => {
+    const content = [`{{-- `, `foo`, `--}}`, ``, `bar`, ``, `{{--`, `baz`, `--}}`].join('\n');
+
+    const expected = [`{{-- `, `foo`, `--}}`, ``, `bar`, ``, `{{--`, `baz`, `--}}`, ``].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
 });

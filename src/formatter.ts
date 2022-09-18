@@ -691,7 +691,7 @@ export default class Formatter {
   }
 
   async preserveBladeComment(content: any) {
-    return _.replace(content, /\{\{--(.*?)--\}\}/gs, (_match: any, p1: any) => this.storeBladeComment(p1));
+    return _.replace(content, /\{\{--(.*?)--\}\}/gs, (match: string) => this.storeBladeComment(match));
   }
 
   async preserveBladeBrace(content: any) {
@@ -1454,11 +1454,9 @@ export default class Formatter {
 
   restoreBladeComment(content: any) {
     return new Promise((resolve) => resolve(content)).then((res: any) =>
-      _.replace(
-        res,
-        new RegExp(`${this.getBladeCommentPlaceholder('(\\d+)')}`, 'gms'),
-        (_match: any, p1: any) => `{{-- ${this.bladeComments[p1].trim()} --}}`,
-      ),
+      _.replace(res, new RegExp(`${this.getBladeCommentPlaceholder('(\\d+)')}`, 'gms'), (_match: any, p1: any) => {
+        return this.bladeComments[p1].replace(/{{--(?=\S)/g, '{{-- ').replace(/(?<=\S)--}}/g, ' --}}');
+      }),
     );
   }
 
