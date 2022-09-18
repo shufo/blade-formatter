@@ -8,9 +8,9 @@ import glob from 'glob';
 import nodeutil from 'util';
 import _ from 'lodash';
 import findConfig from 'find-config';
+import { Config as TailwindConfig } from 'tailwindcss/types/config';
 import Formatter from './formatter';
 import * as util from './util';
-import { Config as TailwindConfig } from 'tailwindcss/types/config';
 import {
   findRuntimeConfig,
   readRuntimeConfig,
