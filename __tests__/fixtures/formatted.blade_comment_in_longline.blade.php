@@ -50,8 +50,10 @@
                                             </td>
                                         </tr>
                                     @endforeach
-                                    {{-- @foreach ($downloadOptions as $d => $dO)
-                                        <td> {{ $dO['description'] }}</td> --}}
+                                    {{--
+                                    @foreach ($downloadOptions as $d => $dO)
+                                        <td> {{ $dO['description'] }}</td>
+                                        --}}
 
                                     @foreach ($downloadOptions as $d => $dO)
                                         <tr>

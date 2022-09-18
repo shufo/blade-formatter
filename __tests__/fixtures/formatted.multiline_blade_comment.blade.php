@@ -1,5 +1,7 @@
-{{-- see issues
-this images is example --}}
+{{--
+see issues
+this images is example
+--}}
 <style>
     .original-image {
         overflow: hidden;
