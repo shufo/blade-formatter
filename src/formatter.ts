@@ -273,11 +273,6 @@ export default class Formatter {
         .replace(
           /(?:{{--\s*?blade-formatter-disable-next-line\s*?--}}|{{--\s*?prettier-ignore\s*?--}}|<!--\s*?prettier-ignore\s*?-->)[\r\n]+[^\r\n]+/gis,
           (match: any) => this.storeIgnoredLines(match),
-        )        
-        // comment ignore
-        .replace(
-          /(?:^{{--\s)(?:.|[\n\r])*--}}/gis,
-          (match: any) => this.storeIgnoredLines(match),
         )
         .value()
     );
@@ -1459,15 +1454,9 @@ export default class Formatter {
 
   restoreBladeComment(content: any) {
     return new Promise((resolve) => resolve(content)).then((res: any) =>
-      _.replace(
-        res,
-        new RegExp(`${this.getBladeCommentPlaceholder('(\\d+)')}`, 'gms'),
-        (_match: any, p1: any) => {
-          return this.bladeComments[p1]
-            .replace(/{{--(?=\S)/g, '{{-- ')
-            .replace(/(?<=\S)--}}/g, ' --}}');
-        },
-      ),
+      _.replace(res, new RegExp(`${this.getBladeCommentPlaceholder('(\\d+)')}`, 'gms'), (_match: any, p1: any) => {
+        return this.bladeComments[p1].replace(/{{--(?=\S)/g, '{{-- ').replace(/(?<=\S)--}}/g, ' --}}');
+      }),
     );
   }
 
