@@ -570,7 +570,7 @@ describe('The blade formatter CLI', () => {
     const startTime = performance.now();
     await util.checkIfTemplateIsFormattedTwice(input, target);
     const endTime = performance.now();
-    expect(endTime - startTime).toBeLessThan(7500);
+    expect(endTime - startTime).toBeLessThan(10000);
   });
 
   test.concurrent('data url', async () => {
