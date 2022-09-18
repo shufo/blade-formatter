@@ -67,6 +67,12 @@ export default async function cli() {
       description: 'Sort tailwindcss classes',
       default: false,
     })
+    .option('tailwindcss-config-path', {
+      alias: ['tailwindcssConfigPath'],
+      type: 'string',
+      description: 'Specify path of tailwind config',
+      default: null,
+    })
     .option('sort-html-attributes', {
       alias: 'sort-attributes',
       type: 'string',

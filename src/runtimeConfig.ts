@@ -23,6 +23,7 @@ export interface RuntimeConfig {
   endWithNewline?: boolean;
   useTabs?: boolean;
   sortTailwindcssClasses?: boolean;
+  tailwindcssConfigPath?: string;
   sortHtmlAttributes?: SortHtmlAttributes;
   noMultipleEmptyLines?: boolean;
 }
@@ -72,6 +73,7 @@ export async function readRuntimeConfig(filePath: string | null): Promise<Runtim
       endWithNewline: { type: 'boolean', nullable: true },
       useTabs: { type: 'boolean', nullable: true },
       sortTailwindcssClasses: { type: 'boolean', nullable: true },
+      tailwindcssConfigPath: { type: 'string', nullable: true },
       sortHtmlAttributes: {
         type: 'string',
         enum: ['none', 'alphabetical', 'code-guide', 'idiomatic', 'vuejs'],
