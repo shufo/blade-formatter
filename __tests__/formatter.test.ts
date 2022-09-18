@@ -4526,4 +4526,43 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
+
+  test('tailwind config path option', async () => {
+    const content = [
+      `<div class="xxxl:col-end-8 col-start-2 col-end-11 md:col-end-12 xl:col-end-10">`,
+      `    <h1 class="text-white">Random Stuff</h1>`,
+      `</div>`,
+    ].join('\n');
+
+    const expected = [
+      `<div class="col-start-2 col-end-11 md:col-end-12 xl:col-end-10 xxxl:col-end-8">`,
+      `    <h1 class="text-white">Random Stuff</h1>`,
+      `</div>`,
+      ``,
+    ].join('\n');
+
+    const configPath = path.resolve('__tests__', 'fixtures', 'tailwind', 'tailwind.config.example.js');
+    await util.doubleFormatCheck(content, expected, {
+      sortTailwindcssClasses: true,
+      tailwindcssConfigPath: configPath,
+    });
+  });
+
+  test('tailwind config object option', async () => {
+    const content = [
+      `<div class="xxxl:col-end-8 col-start-2 col-end-11 md:col-end-12 xl:col-end-10">`,
+      `    <h1 class="text-white">Random Stuff</h1>`,
+      `</div>`,
+    ].join('\n');
+
+    const expected = [
+      `<div class="col-start-2 col-end-11 md:col-end-12 xl:col-end-10 xxxl:col-end-8">`,
+      `    <h1 class="text-white">Random Stuff</h1>`,
+      `</div>`,
+      ``,
+    ].join('\n');
+
+    const config = require(path.resolve('__tests__', 'fixtures', 'tailwind', 'tailwind.config.example.js'));
+    await util.doubleFormatCheck(content, expected, { sortTailwindcssClasses: true, tailwindcssConfig: config });
+  });
 });

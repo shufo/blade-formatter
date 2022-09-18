@@ -581,4 +581,65 @@ describe('The blade formatter CLI', () => {
     const endTime = performance.now();
     expect(endTime - startTime).toBeLessThan(5000);
   });
+
+  test.concurrent('respect tailwind.config.js automatically', async () => {
+    const cmdResult = await cmd.execute(path.resolve('bin', 'blade-formatter'), [
+      path.resolve('__tests__', 'fixtures', 'tailwind', 'index.blade.php'),
+      '--sort-tailwindcss-classes',
+    ]);
+
+    const formatted = fs.readFileSync(path.resolve('__tests__', 'fixtures', 'tailwind', 'formatted.index.blade.php'));
+
+    expect(cmdResult).toEqual(formatted.toString('utf-8'));
+  });
+
+  test.concurrent('specify tailwind.config.js path (absolute path)', async () => {
+    const cmdResult = await cmd.execute(path.resolve('bin', 'blade-formatter'), [
+      path.resolve('__tests__', 'fixtures', 'tailwind', 'index.blade.php'),
+      '--sort-tailwindcss-classes',
+      '--tailwindcss-config-path',
+      path.resolve('__tests__', 'fixtures', 'tailwind', 'tailwind.config.example.js'),
+    ]);
+
+    const formatted = fs.readFileSync(path.resolve('__tests__', 'fixtures', 'tailwind', 'formatted.index.blade.php'));
+
+    expect(cmdResult).toEqual(formatted.toString('utf-8'));
+  });
+
+  test.concurrent('specify tailwind.config.js path (relative path)', async () => {
+    const cmdResult = await cmd.execute(path.resolve('bin', 'blade-formatter'), [
+      path.resolve('__tests__', 'fixtures', 'tailwind', 'index.blade.php'),
+      '--sort-tailwindcss-classes',
+      '--tailwindcss-config-path',
+      '__tests__/fixtures/tailwind/tailwind.config.example.js',
+    ]);
+
+    const formatted = fs.readFileSync(path.resolve('__tests__', 'fixtures', 'tailwind', 'formatted.index.blade.php'));
+
+    expect(cmdResult).toEqual(formatted.toString('utf-8'));
+  });
+
+  test.concurrent('unresolvable tailwind config', async () => {
+    const cmdResult = await cmd.execute(path.resolve('bin', 'blade-formatter'), [
+      path.resolve('__tests__', 'fixtures', 'tailwind', 'index.blade.php'),
+      '--sort-tailwindcss-classes',
+      '--tailwindcss-config-path',
+      '__tests__/fixtures/tailwind/tailwind.config.unresolvable.js',
+    ]);
+
+    expect(cmdResult).toContain("Cannot find module 'tailwindcss/unresolvable");
+  });
+
+  test.concurrent('runtime config test (tailwind)', async () => {
+    // automatically recognize tailwind config from .bladeformatter.json
+    const cmdResult = await cmd.execute(path.resolve('bin', 'blade-formatter'), [
+      path.resolve('__tests__', 'fixtures', 'runtimeConfig', 'tailwind', 'index.blade.php'),
+    ]);
+
+    const formatted = fs.readFileSync(
+      path.resolve('__tests__', 'fixtures', 'runtimeConfig', 'tailwind', 'formatted.index.blade.php'),
+    );
+
+    expect(cmdResult).toEqual(formatted.toString('utf-8'));
+  });
 });
