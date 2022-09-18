@@ -1,4 +1,10 @@
-codecov: 
+codecov:
   require_ci_to_pass: no
   github_checks:
     annotations: false
+  status:
+    project:
+      default:
+        target: auto
+        threshold: 3%
+        base: auto
