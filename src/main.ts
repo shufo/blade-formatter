@@ -10,6 +10,7 @@ import _ from 'lodash';
 import findConfig from 'find-config';
 import Formatter from './formatter';
 import * as util from './util';
+import { Config as TailwindConfig } from 'tailwindcss/types/config';
 import {
   findRuntimeConfig,
   readRuntimeConfig,
@@ -35,6 +36,8 @@ export interface FormatterOption {
   endWithNewline?: boolean;
   useTabs?: boolean;
   sortTailwindcssClasses?: true;
+  tailwindcssConfigPath?: string;
+  tailwindcssConfig?: TailwindConfig;
   sortHtmlAttributes?: SortHtmlAttributes;
   noMultipleEmptyLines?: boolean;
 }
@@ -82,6 +85,7 @@ class BladeFormatter {
   async format(content: any, opts = {}) {
     const options = this.options || opts;
     await this.readIgnoreFile(process.cwd());
+    await this.findTailwindConfig(process.cwd());
     await this.readRuntimeConfig(process.cwd());
     return new Formatter(options).formatContent(content).catch((err) => {
       throw new FormatError(err);
@@ -130,6 +134,30 @@ class BladeFormatter {
     }
   }
 
+  async findTailwindConfig(filePath: string) {
+    if (!this.options.sortTailwindcssClasses) {
+      return;
+    }
+
+    const configFilename = 'tailwind.config.js';
+
+    let configFilePath: string | null | undefined;
+
+    if (this.options.tailwindcssConfigPath) {
+      configFilePath = nodepath.resolve(this.options.tailwindcssConfigPath);
+    } else {
+      // lookup tailwind config
+      const workingDir = nodepath.dirname(filePath);
+      configFilePath = findConfig(configFilename, { cwd: workingDir });
+    }
+
+    if (!configFilePath) {
+      return;
+    }
+
+    this.options.tailwindcssConfigPath = configFilePath;
+  }
+
   async readRuntimeConfig(filePath: string): Promise<RuntimeConfig | undefined> {
     if (_.isEmpty(this.runtimeConfigCache)) {
       this.options = _.merge(this.options, this.runtimeConfigCache);
@@ -151,6 +179,10 @@ class BladeFormatter {
       const options = await readRuntimeConfig(configFile);
       this.options = _.merge(this.options, options);
       this.runtimeConfigCache = this.options;
+
+      if (this.options.sortTailwindcssClasses) {
+        await this.findTailwindConfig(filePath);
+      }
     } catch (error: any) {
       if (error instanceof SyntaxError) {
         process.stdout.write(chalk.red.bold('\nBlade Formatter JSON Syntax Error: \n\n'));
@@ -213,6 +245,7 @@ class BladeFormatter {
   }
 
   async formatFile(path: any) {
+    await this.findTailwindConfig(path);
     await this.readRuntimeConfig(path);
 
     await util

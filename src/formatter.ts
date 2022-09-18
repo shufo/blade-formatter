@@ -240,6 +240,16 @@ export default class Formatter {
         return p2;
       }
 
+      if (this.options.tailwindcssConfigPath) {
+        const options = { tailwindConfigPath: this.options.tailwindcssConfigPath };
+        return sortClasses(p2, options);
+      }
+
+      if (this.options.tailwindcssConfig) {
+        const options = { tailwindConfig: this.options.tailwindcssConfig };
+        return sortClasses(p2, options);
+      }
+
       return sortClasses(p2);
     });
   }
