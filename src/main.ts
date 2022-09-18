@@ -65,6 +65,8 @@ class BladeFormatter {
 
   static targetFiles: any;
 
+  runtimeConfigPath: string | null;
+
   runtimeConfigCache: RuntimeConfig;
 
   constructor(options: FormatterOption & CLIOption = {}, paths: any = []) {
@@ -79,6 +81,7 @@ class BladeFormatter {
     this.ignoreFile = '';
     this.fulFillFiles = [];
     this.targetFiles = [];
+    this.runtimeConfigPath = options.runtimeConfigPath ?? null;
     this.runtimeConfigCache = {};
   }
 
@@ -144,7 +147,14 @@ class BladeFormatter {
     let configFilePath: string | null | undefined;
 
     if (this.options.tailwindcssConfigPath) {
-      configFilePath = nodepath.resolve(this.options.tailwindcssConfigPath);
+      if (this.runtimeConfigPath) {
+        const workingDir = nodepath.dirname(this.runtimeConfigPath);
+        configFilePath = nodepath.resolve(workingDir, this.options.tailwindcssConfigPath);
+      } else if (nodepath.isAbsolute(this.options.tailwindcssConfigPath)) {
+        configFilePath = nodepath.resolve(this.options.tailwindcssConfigPath);
+      } else {
+        configFilePath = nodepath.resolve(this.options.tailwindcssConfigPath);
+      }
     } else {
       // lookup tailwind config
       const workingDir = nodepath.dirname(filePath);
@@ -174,6 +184,8 @@ class BladeFormatter {
     if (_.isNull(configFile)) {
       return;
     }
+
+    this.runtimeConfigPath = configFile;
 
     try {
       const options = await readRuntimeConfig(configFile);
