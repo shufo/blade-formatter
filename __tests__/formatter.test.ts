@@ -4592,4 +4592,31 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
+
+  test('inline @json directive', async () => {
+    const content = [
+      `@section('footer')`,
+      `    <script>`,
+      `        Object.assign(lang, @json([`,
+      `            'name' => __('name'),`,
+      `            'current' => __('current'),`,
+      `        ]));`,
+      `    </script>`,
+      `@endsection`,
+    ].join('\n');
+
+    const expected = [
+      `@section('footer')`,
+      `    <script>`,
+      `        Object.assign(lang, @json([`,
+      `            'name' => __('name'),`,
+      `            'current' => __('current'),`,
+      `        ]));`,
+      `    </script>`,
+      `@endsection`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
 });
