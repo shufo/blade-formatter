@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.29.7](https://github.com/shufo/blade-formatter/compare/v1.29.6...v1.29.7) (2022-09-24)
+
+
+### Miscellaneous
+
+* **deps:** update dependency eslint-import-resolver-typescript to v3 ([83bd446](https://github.com/shufo/blade-formatter/commit/83bd446ca65a7acf3d52d1f881149bbd05106da4))
+* **deps:** update dependency husky to v8 ([6e0effb](https://github.com/shufo/blade-formatter/commit/6e0effbbef18441c488ce1ec3994848e894bffe6))
+* **deps:** update dependency source-map-loader to v4 ([b6143bf](https://github.com/shufo/blade-formatter/commit/b6143bf281e14e89375bf289637fd29c0a1bd7ec))
+* **deps:** update jest monorepo to v29 ([bc7c521](https://github.com/shufo/blade-formatter/commit/bc7c52125d770b5080922d467031c1fdc960f8c4))
+
+
+### Fixes
+
+* 🐛 json directive is not indented when it is multi-line ([3933eb4](https://github.com/shufo/blade-formatter/commit/3933eb4e23a358a965784b57ff79488b2d91f005))
+* 🐛 timeout occur when unclosed quote exists in php block ([6aa4e61](https://github.com/shufo/blade-formatter/commit/6aa4e6120e71ed55c5e843ceca2e7a7aad4c028b))
+
 ## [1.29.6](https://github.com/shufo/blade-formatter/compare/v1.29.5...v1.29.6) (2022-09-21)
 
 
