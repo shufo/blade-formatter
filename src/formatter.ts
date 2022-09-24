@@ -819,7 +819,7 @@ export default class Formatter {
   }
 
   preserveStringLiteralInPhp(content: any) {
-    return _.replace(content, /('(?:[^\\']+|\\.)*'|"(?:[^\\"]+|\\.)*")/g, (match: string) => {
+    return _.replace(content, /(\'([^\\']|\\.)*?\'|\"([^\\']|\\.)*?\")/gm, (match: string) => {
       return `${this.storeStringLiteralInPhp(match)}`;
     });
   }

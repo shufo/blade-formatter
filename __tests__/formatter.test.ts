@@ -4573,4 +4573,23 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
+
+  test('it should not timeout even if there is a quote in php expression', async () => {
+    const content = [
+      `@php`,
+      `// if breadcrumbs aren't defined in the CrudController, use the default breadcrumbs`,
+      `$breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;`,
+      `@endphp`,
+    ].join('\n');
+
+    const expected = [
+      `@php`,
+      `// if breadcrumbs aren't defined in the CrudController, use the default breadcrumbs`,
+      `$breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;`,
+      `@endphp`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
 });
