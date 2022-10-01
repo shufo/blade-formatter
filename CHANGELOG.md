@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.29.8](https://github.com/shufo/blade-formatter/compare/v1.29.7...v1.29.8) (2022-10-01)
+
+
+### Miscellaneous
+
+* **deps:** update dependency @types/mocha to v10 ([9989fc1](https://github.com/shufo/blade-formatter/commit/9989fc111aee3e0f083b2d9dcdbdae652d0f564d))
+
+
+### Fixes
+
+* non-native type script tag throws an error if it contains directive ([#725](https://github.com/shufo/blade-formatter/issues/725)) ([cbdf6d1](https://github.com/shufo/blade-formatter/commit/cbdf6d1bf3e50d3f58488eaaa49c72d10e7d38ec))
+
 ## [1.29.7](https://github.com/shufo/blade-formatter/compare/v1.29.6...v1.29.7) (2022-09-24)
 
 
