@@ -773,7 +773,7 @@ export default class Formatter {
   async preserveNonnativeScripts(content: string) {
     return _.replace(
       content,
-      /<script[^>]*?type=(["'])text\/(?!javascript)[^\1]*?\1[^>]*?>.*?<\/script>/gis,
+      /<script[^>]*?type=(["'])(?!text\/javascript)[^\1]*?\1[^>]*?>.*?<\/script>/gis,
       (match: string) => this.storeNonnativeScripts(match),
     );
   }
