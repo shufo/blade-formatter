@@ -78,6 +78,8 @@ export default class Formatter {
 
   result: any;
 
+  nonnativeScripts: Array<string>;
+
   scripts: any;
 
   xData: any;
@@ -136,6 +138,7 @@ export default class Formatter {
     this.bladeComments = [];
     this.bladeBraces = [];
     this.rawBladeBraces = [];
+    this.nonnativeScripts = [];
     this.scripts = [];
     this.htmlAttributes = [];
     this.xData = [];
@@ -156,6 +159,7 @@ export default class Formatter {
   formatContent(content: any) {
     return new Promise((resolve) => resolve(content))
       .then((target) => this.preserveIgnoredLines(target))
+      .then((target) => this.preserveNonnativeScripts(target))
       .then((target) => this.preserveCurlyBraceForJS(target))
       .then((target) => this.preserveRawPhpTags(target))
       .then((target) => this.preserveEscapedBladeDirective(target))
@@ -206,6 +210,7 @@ export default class Formatter {
       .then((target) => this.restoreEscapedBladeDirective(target))
       .then((target) => this.restoreRawPhpTags(target))
       .then((target) => this.restoreCurlyBraceForJS(target))
+      .then((target) => this.restoreNonnativeScripts(target))
       .then((target) => this.restoreIgnoredLines(target))
       .then((formattedResult) => util.checkResult(formattedResult));
   }
@@ -764,6 +769,14 @@ export default class Formatter {
     return _.replace(content, /<\?php(.*?)\?>/gms, (match: any) => this.storeRawPhpTags(match));
   }
 
+  async preserveNonnativeScripts(content: string) {
+    return _.replace(
+      content,
+      /<script[^>]*?type=(["'])text\/(?!javascript)[^\1]*?\1[^>]*?>.*?<\/script>/gis,
+      (match: string) => this.storeNonnativeScripts(match),
+    );
+  }
+
   async preserveScripts(content: any) {
     return _.replace(content, /<script.*?>.*?<\/script>/gis, (match: any) => this.storeScripts(match));
   }
@@ -904,6 +917,11 @@ export default class Formatter {
     return this.getRawPhpTagPlaceholder(index);
   }
 
+  storeNonnativeScripts(value: string) {
+    const index = this.nonnativeScripts.push(value) - 1;
+    return this.getNonnativeScriptPlaceholder(index.toString());
+  }
+
   storeScripts(value: any) {
     const index = this.scripts.push(value) - 1;
     return this.getScriptPlaceholder(index);
@@ -1017,6 +1035,10 @@ export default class Formatter {
 
   getRawPhpTagPlaceholder(replace: any) {
     return _.replace('___raw_php_tag_#___', '#', replace);
+  }
+
+  getNonnativeScriptPlaceholder(replace: string) {
+    return _.replace('<blade ___non_native_scripts_#___ />', '#', replace);
   }
 
   getScriptPlaceholder(replace: any) {
@@ -1686,6 +1708,16 @@ export default class Formatter {
           }
         },
       ),
+    );
+  }
+
+  restoreNonnativeScripts(content: string) {
+    return _.replace(
+      content,
+      new RegExp(`${this.getNonnativeScriptPlaceholder('(\\d+)')}`, 'gmi'),
+      (_match: any, p1: number) => {
+        return `${this.nonnativeScripts[p1]}`;
+      },
     );
   }
 

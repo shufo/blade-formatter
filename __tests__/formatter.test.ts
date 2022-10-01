@@ -4592,4 +4592,30 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
+
+  test('it should not throws error if non-native script type ontains directive', async () => {
+    const content = [
+      `<script type="text/template">`,
+      `@if(true)`,
+      `    <div class="true"></div>`,
+      `@else`,
+      `    <div class="false"></div>`,
+      `@endif`,
+      `</script>`,
+    ].join('\n');
+
+    const expected = [
+      `<script type="text/template">`,
+      `@if(true)`,
+      `    <div class="true"></div>`,
+      `@else`,
+      `    <div class="false"></div>`,
+      `@endif`,
+      `</script>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+    await expect(new BladeFormatter().format(content)).resolves.not.toThrow("Can't format blade");
+  });
 });
