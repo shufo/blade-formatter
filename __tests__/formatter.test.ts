@@ -4602,6 +4602,9 @@ describe('formatter', () => {
       `    <div class="false"></div>`,
       `@endif`,
       `</script>`,
+      `<script id="data" type="application/json">`,
+      `{"org": 10, "items":["one","two"]}`,
+      `</script>`,
     ].join('\n');
 
     const expected = [
@@ -4611,6 +4614,9 @@ describe('formatter', () => {
       `@else`,
       `    <div class="false"></div>`,
       `@endif`,
+      `</script>`,
+      `<script id="data" type="application/json">`,
+      `{"org": 10, "items":["one","two"]}`,
       `</script>`,
       ``,
     ].join('\n');
