@@ -4619,4 +4619,62 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
+
+  test('it should not throws error if non-native script type ontains directive', async () => {
+    const content = [
+      `<script type="text/template">`,
+      `@if(true)`,
+      `    <div class="true"></div>`,
+      `@else`,
+      `    <div class="false"></div>`,
+      `@endif`,
+      `</script>`,
+      `<script id="data" type="application/json">`,
+      `{"org": 10, "items":["one","two"]}`,
+      `</script>`,
+      `<script id="data" type="application/json">`,
+      `    <?php echo json_encode($users); ?>`,
+      `</script>`,
+      `<script id="data" type="application/json">`,
+      `    @json($users)`,
+      `</script>`,
+      `<script id="data" type="text/template">`,
+      `    <div>`,
+      `        @if ($users)`,
+      `            <p>@json($users)</p>`,
+      `        @endif`,
+      `    </div>`,
+      `</script>`,
+    ].join('\n');
+
+    const expected = [
+      `<script type="text/template">`,
+      `@if(true)`,
+      `    <div class="true"></div>`,
+      `@else`,
+      `    <div class="false"></div>`,
+      `@endif`,
+      `</script>`,
+      `<script id="data" type="application/json">`,
+      `{"org": 10, "items":["one","two"]}`,
+      `</script>`,
+      `<script id="data" type="application/json">`,
+      `    <?php echo json_encode($users); ?>`,
+      `</script>`,
+      `<script id="data" type="application/json">`,
+      `    @json($users)`,
+      `</script>`,
+      `<script id="data" type="text/template">`,
+      `    <div>`,
+      `        @if ($users)`,
+      `            <p>@json($users)</p>`,
+      `        @endif`,
+      `    </div>`,
+      `</script>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+    await expect(new BladeFormatter().format(content)).resolves.not.toThrow("Can't format blade");
+  });
 });
