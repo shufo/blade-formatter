@@ -29,6 +29,7 @@ import {
   indentStartTokensWithoutPrefix,
   unbalancedStartTokens,
   cssAtRuleTokens,
+  inlinePhpDirectives,
 } from './indent';
 import { nestedParenthesisRegex } from './regex';
 import { SortHtmlAttributes } from './runtimeConfig';
@@ -1622,10 +1623,13 @@ export default class Formatter {
               .trimRight('\n')}`;
           }
 
-          if (/(@button|@class|@include|@disabled|@checked)/gi.test(matched)) {
+          if (new RegExp(inlinePhpDirectives.join('|'), 'gi').test(matched)) {
             const formatted = _.replace(
               matched,
-              /(?<=@(button|class|include|disabled|checked).*?\()(.*)(?=\))/gis,
+              new RegExp(
+                `(?<=@(${_.map(inlinePhpDirectives, (token) => token.substring(1)).join('|')}).*?\\()(.*)(?=\\))`,
+                'gis',
+              ),
               (match2: any, p3: any, p4: any) => {
                 let wrapLength = this.wrapLineLength;
 

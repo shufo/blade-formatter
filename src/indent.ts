@@ -116,6 +116,8 @@ export const phpKeywordStartTokens = ['@forelse', '@if', '@for', '@foreach', '@w
 
 export const phpKeywordEndTokens = ['@endforelse', '@endif', '@endforeach', '@endfor', '@endwhile', '@break'];
 
+export const inlinePhpDirectives = ['@button', '@class', '@include', '@disabled', '@checked', '@json'];
+
 export const inlineFunctionTokens = [
   '@set',
   '@json',
