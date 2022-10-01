@@ -4592,7 +4592,7 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
-  
+
   test('inline @json directive', async () => {
     const content = [
       `@section('footer')`,
@@ -4619,7 +4619,7 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
-  
+
   test('it should not throws error if non-native script type ontains directive', async () => {
     const content = [
       `<script type="text/template">`,
@@ -4647,8 +4647,8 @@ describe('formatter', () => {
       `</script>`,
       ``,
     ].join('\n');
-   
-   await util.doubleFormatCheck(content, expected);
-   await expect(new BladeFormatter().format(content)).resolves.not.toThrow("Can't format blade"); 
+
+    await util.doubleFormatCheck(content, expected);
+    await expect(new BladeFormatter().format(content)).resolves.not.toThrow("Can't format blade");
   });
 });
