@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.30.0](https://github.com/shufo/blade-formatter/compare/v1.29.8...v1.30.0) (2022-10-09)
+
+
+### Features
+
+* 🎸 add option `--no-php-syntax-check` ([b7c29bd](https://github.com/shufo/blade-formatter/commit/b7c29bd86b5e8eb9d2054c04255b950ad730e18c))
+
+
+### Miscellaneous
+
+* **deps:** update pozil/auto-assign-issue action to v1.10.1 ([7c34f58](https://github.com/shufo/blade-formatter/commit/7c34f58b427f34330a1957a79ff1a3bff6f26021))
+
 ## [1.29.8](https://github.com/shufo/blade-formatter/compare/v1.29.7...v1.29.8) (2022-10-01)
 
 
