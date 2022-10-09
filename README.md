@@ -170,30 +170,29 @@ $ blade-formatter -c -d resources/**/*.blade.php
 ## Options
 
 ```bash
-Options:
-      --version                                           Show version number  [boolean]
-  -c, --check-formatted                                   Only checks files are formatted or not  [boolean] [default: false]
-  -w, --write                                             Write to file  [boolean] [default: false]
-  -d, --diff                                              Show diffs  [boolean] [default: false]
-  -e, --end-with-newline                                  End output with newline  [boolean] [default: true]
-  -i, --indent-size                                       Indentation size  [default: 4]
-      --wrap-line-length, --wrap                          The length of line wrap size  [default: 120]
-      --wrap-attributes, --wrap-atts                      The way to wrap attributes.
-                                                          [auto|force|force-aligned|force-expand-multiline|aligned-multiple|preserve|preserve-aligned]  [string] [default: "auto"]
-      --sort-tailwindcss-classes, --sort-classes          Sort tailwindcss classes  [boolean] [default: false]
-      --tailwindcss-config-path, --tailwindcssConfigPath  Specify path of tailwind config  [string] [default: null]
-      --sort-html-attributes, --sort-attributes           Sort HTML attributes.  [string] [choices: "none", "alphabetical", "code-guide", "idiomatic", "vuejs"] [default: none]
-      --no-multiple-empty-lines                           Merge multiple blank lines into a single blank line  [boolean] [default: false]
-      --no-php-syntax-check                               Disable PHP sytnax checking  [boolean] [default: false]
-  -p, --progress                                          Print progress  [boolean] [default: false]
-      --stdin                                             format code provided on <STDIN>  [boolean] [default: false]
-      --config, --runtimeConfigPath                       Use this configuration, overriding .bladeformatterrc config options if present  [string] [default: null]
-      --ignore-path, --ignoreFilePath                     Specify path of ignore file  [string] [default: null]
-  -h, --help                                              Show help  [boolean]
+  Options:
+      --version                       Show version number  [boolean]
+  -c, --check-formatted               Only checks files are formatted or not  [boolean] [default: false]
+  -w, --write                         Write to file  [boolean] [default: false]
+  -d, --diff                          Show diffs  [boolean] [default: false]
+  -e, --end-with-newline              End output with newline  [boolean] [default: true]
+  -i, --indent-size                   Indentation size  [default: 4]
+      --wrap-line-length, --wrap      The length of line wrap size  [default: 120]
+      --wrap-attributes, --wrap-atts  The way to wrap attributes.
+                                      [auto|force|force-aligned|force-expand-multiline|aligned-multiple|preserve|preserve-aligned]  [string] [default: "auto"]
+      --sort-tailwindcss-classes      Sort tailwindcss classes  [boolean] [default: false]
+      --tailwindcss-config-path       Specify path of tailwind config  [string] [default: null]
+      --sort-html-attributes          Sort HTML attributes.  [string] [choices: "none", "alphabetical", "code-guide", "idiomatic", "vuejs"] [default: none]
+      --no-multiple-empty-lines       Merge multiple blank lines into a single blank line  [boolean] [default: false]
+      --no-php-syntax-check           Disable PHP sytnax checking  [boolean] [default: false]
+  -p, --progress                      Print progress  [boolean] [default: false]
+      --stdin                         format code provided on <STDIN>  [boolean] [default: false]
+      --config                        Use this configuration, overriding .bladeformatterrc config options if present  [string] [default: null]
+      --ignore-path                   Specify path of ignore file  [string] [default: null]
+  -h, --help                          Show help  [boolean]
 
 Examples:
   blade-formatter "resources/views/**/*.blade.php" --write  Format all files in views directory
-
 ```
 
 ## Configuring blade-formatter
