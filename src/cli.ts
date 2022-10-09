@@ -92,6 +92,17 @@ export default async function cli() {
       hidden: true,
       default: true,
     })
+    .option('no-php-syntax-check', {
+      type: 'boolean',
+      description: 'Disable PHP sytnax checking',
+      default: false,
+    })
+    .option('php-syntax-check', {
+      type: 'boolean',
+      description: 'this is a workaround for combine strict && boolean option',
+      hidden: true,
+      default: true,
+    })
     .option('progress', {
       alias: 'p',
       type: 'boolean',
@@ -132,7 +143,10 @@ export default async function cli() {
   const wasm = await fs.readFile(require.resolve('vscode-oniguruma/release/onig.wasm'));
   await loadWASM(wasm.buffer);
 
-  const options = _.set(parsed.argv, 'noMultipleEmptyLines', !parsed.argv.multipleEmptyLines);
+  const options = _.chain(parsed.argv)
+    .set('noMultipleEmptyLines', !parsed.argv.multipleEmptyLines)
+    .set('noPhpSyntaxCheck', !parsed.argv.phpSyntaxCheck)
+    .value();
 
   if (parsed.argv.stdin) {
     await process.stdin.pipe(

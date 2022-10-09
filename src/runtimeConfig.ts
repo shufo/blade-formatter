@@ -26,6 +26,7 @@ export interface RuntimeConfig {
   tailwindcssConfigPath?: string;
   sortHtmlAttributes?: SortHtmlAttributes;
   noMultipleEmptyLines?: boolean;
+  noPhpSyntaxCheck?: boolean;
 }
 
 const defaultConfigNames = ['.bladeformatterrc.json', '.bladeformatterrc'];
@@ -80,6 +81,7 @@ export async function readRuntimeConfig(filePath: string | null): Promise<Runtim
         nullable: true,
       },
       noMultipleEmptyLines: { type: 'boolean', nullable: true },
+      noPhpSyntaxCheck: { type: 'boolean', nullable: true },
     },
     additionalProperties: true,
   };
