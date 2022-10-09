@@ -94,7 +94,7 @@ export default async function cli() {
     })
     .option('no-php-syntax-check', {
       type: 'boolean',
-      description: 'Disable PHP sytnax check',
+      description: 'Disable PHP sytnax checking',
       default: false,
     })
     .option('php-syntax-check', {
