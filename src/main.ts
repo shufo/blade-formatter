@@ -40,6 +40,7 @@ export type FormatterOption = {
   tailwindcssConfig?: TailwindConfig;
   sortHtmlAttributes?: SortHtmlAttributes;
   noMultipleEmptyLines?: boolean;
+  noPhpSyntaxCheck?: boolean;
 };
 
 export type BladeFormatterOption = CLIOption & FormatterOption;

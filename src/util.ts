@@ -37,29 +37,73 @@ export function splitByLines(content: any) {
   return content.split(/\r\n|\n|\r/);
 }
 
-export function formatStringAsPhp(content: any) {
-  return prettier.format(content.replace(/\n$/, ''), {
-    parser: 'php',
-    printWidth: 1000,
-    singleQuote: true,
-    // @ts-ignore
-    phpVersion: '8.0',
-    plugins: [phpPlugin],
-  });
+export type FormatPhpOption = {
+  noPhpSyntaxCheck?: boolean;
+  printWidth?: number;
+  trailingCommaPHP?: boolean;
+  phpVersion?: string;
+  singleQuote?: boolean;
+};
+
+export const printWidthForInline = 1000;
+
+const defaultFormatPhpOption = {
+  noPhpSyntaxCheck: false,
+  printWidth: printWidthForInline,
+  trailingCommaPHP: true,
+  phpVersion: '8.1',
+  singleQuote: true,
+};
+
+export function formatStringAsPhp(content: any, options: FormatPhpOption = {}) {
+  options = {
+    ...defaultFormatPhpOption,
+    ...options,
+  };
+
+  try {
+    return prettier.format(content.replace(/\n$/, ''), {
+      parser: 'php',
+      printWidth: 1000,
+      singleQuote: options.singleQuote,
+      // @ts-ignore
+      phpVersion: options.phpVersion,
+      trailingCommaPHP: options.trailingCommaPHP,
+      plugins: [phpPlugin],
+    });
+  } catch (error) {
+    if (options.noPhpSyntaxCheck === false) {
+      throw error;
+    }
+    return content;
+  }
 }
 
-export function formatRawStringAsPhp(content: any, printWidth = 1000, trailingCommaPHP = true) {
-  return prettier
-    .format(`<?php echo ${content} ?>`, {
-      parser: 'php',
-      printWidth,
-      singleQuote: true,
-      // @ts-ignore
-      phpVersion: '8.0',
-      trailingCommaPHP,
-      plugins: [phpPlugin],
-    })
-    .replace(/<\?php echo (.*)?\?>/gs, (match: any, p1: any) => p1.trim().replace(/;\s*$/, ''));
+export function formatRawStringAsPhp(content: string, options: FormatPhpOption = {}) {
+  options = {
+    ...defaultFormatPhpOption,
+    ...options,
+  };
+
+  try {
+    return prettier
+      .format(`<?php echo ${content} ?>`, {
+        parser: 'php',
+        printWidth: options.printWidth,
+        singleQuote: options.singleQuote,
+        // @ts-ignore
+        phpVersion: options.phpVersion,
+        trailingCommaPHP: options.trailingCommaPHP,
+        plugins: [phpPlugin],
+      })
+      .replace(/<\?php echo (.*)?\?>/gs, (match: any, p1: any) => p1.trim().replace(/;\s*$/, ''));
+  } catch (error) {
+    if (options.noPhpSyntaxCheck === false) {
+      throw error;
+    }
+
+    return content;
+  }
 }
 
 export function getArgumentsCount(expression: any) {

@@ -9,7 +9,7 @@ import Aigle from 'aigle';
 import xregexp from 'xregexp';
 import { sortClasses } from '@shufo/tailwindcss-class-sorter';
 import { sortAttributes } from 'html-attribute-sorter';
-import { FormatterOption, CLIOption } from './main';
+import { FormatterOption, CLIOption, BladeFormatterOption } from './main';
 import * as vsctm from './vsctm';
 import * as util from './util';
 import {
@@ -115,8 +115,15 @@ export default class Formatter {
 
   wrapLineLength: any;
 
-  constructor(options: any) {
-    this.options = options;
+  defaultPhpFormatOption: util.FormatPhpOption;
+
+  constructor(options: BladeFormatterOption) {
+    this.options = {
+      ...{
+        noPhpSyntaxCheck: false,
+      },
+      ...options,
+    };
     this.vsctm = util.optional(this.options).vsctm || vscodeTmModule;
     this.oniguruma = util.optional(this.options).oniguruma;
     this.indentCharacter = util.optional(this.options).useTabs ? '\t' : ' ';
@@ -155,6 +162,7 @@ export default class Formatter {
     this.escapedBladeDirectives = [];
     this.result = [];
     this.diffs = [];
+    this.defaultPhpFormatOption = { noPhpSyntaxCheck: this.options.noPhpSyntaxCheck, printWidth: this.wrapLineLength };
   }
 
   formatContent(content: any) {
@@ -458,7 +466,9 @@ export default class Formatter {
       let formatted: string = match;
 
       formatted = _.replace(formatted, inlineFunctionRegex, (matched: any) =>
-        this.storeBladeDirective(util.formatRawStringAsPhp(matched)),
+        this.storeBladeDirective(
+          util.formatRawStringAsPhp(matched, { ...this.defaultPhpFormatOption, printWidth: util.printWidthForInline }),
+        ),
       );
 
       formatted = _.replace(
@@ -1163,12 +1173,9 @@ export default class Formatter {
       const indent = detectIndent(matchedLine[0]);
 
       if (this.isInline(rawBlock) && this.isMultilineStatement(rawBlock)) {
-        rawBlock = util.formatStringAsPhp(`<?php\n${rawBlock}\n?>`).trim();
+        rawBlock = util.formatStringAsPhp(`<?php\n${rawBlock}\n?>`, this.defaultPhpFormatOption).trim();
       } else if (rawBlock.split('\n').length > 1) {
-        rawBlock = util
-          .formatStringAsPhp(`<?php${rawBlock}?>`)
-          // @ts-expect-error ts-migrate(2554) FIXME: Expected 0 arguments, but got 1.
-          .trimRight('\n');
+        rawBlock = util.formatStringAsPhp(`<?php${rawBlock}?>`, this.defaultPhpFormatOption).trimRight('\n');
       } else {
         rawBlock = `<?php${rawBlock}?>`;
       }
@@ -1192,7 +1199,13 @@ export default class Formatter {
     return _.replace(
       content,
       new RegExp(regex, 'gms'),
-      (_match: any, p1: any) => `@props(${util.formatRawStringAsPhp(this.rawPropsBlocks[p1]).trimRight()})`,
+      (_match: any, p1: any) =>
+        `@props(${util
+          .formatRawStringAsPhp(this.rawPropsBlocks[p1], {
+            ...this.defaultPhpFormatOption,
+            printWidth: util.printWidthForInline,
+          })
+          .trimRight()})`,
     );
   }
 
@@ -1201,7 +1214,7 @@ export default class Formatter {
   }
 
   isMultilineStatement(rawBlock: any) {
-    return util.formatStringAsPhp(`<?php${rawBlock}?>`).trimRight().split('\n').length > 1;
+    return util.formatStringAsPhp(`<?php${rawBlock}?>`, this.defaultPhpFormatOption).trimRight().split('\n').length > 1;
   }
 
   indentRawBlock(indent: detectIndent.Indent, content: any) {
@@ -1427,9 +1440,9 @@ export default class Formatter {
           const indent = detectIndent(matchedLine[0]);
 
           if (this.isInline(rawBlock) && this.isMultilineStatement(rawBlock)) {
-            rawBlock = util.formatStringAsPhp(`<?php\n${rawBlock}\n?>`).trim();
+            rawBlock = util.formatStringAsPhp(`<?php\n${rawBlock}\n?>`, this.defaultPhpFormatOption).trim();
           } else if (rawBlock.split('\n').length > 1) {
-            rawBlock = util.formatStringAsPhp(`<?php${rawBlock}?>`).trim();
+            rawBlock = util.formatStringAsPhp(`<?php${rawBlock}?>`, this.defaultPhpFormatOption).trim();
           } else {
             rawBlock = `<?php${rawBlock}?>`;
           }
@@ -1507,7 +1520,11 @@ export default class Formatter {
 
         if (this.isInline(bladeBrace)) {
           return `{{ ${util
-            .formatRawStringAsPhp(bladeBrace, 1000, false)
+            .formatRawStringAsPhp(bladeBrace, {
+              ...this.defaultPhpFormatOption,
+              trailingCommaPHP: false,
+              printWidth: util.printWidthForInline,
+            })
             .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
             .split('\n')
             .map((line) => line.trim())
@@ -1519,7 +1536,7 @@ export default class Formatter {
         return `{{ ${this.indentRawPhpBlock(
           indent,
           util
-            .formatRawStringAsPhp(bladeBrace, this.wrapLineLength, true)
+            .formatRawStringAsPhp(bladeBrace, this.defaultPhpFormatOption)
             .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
             .trim()
             // @ts-expect-error ts-migrate(2554) FIXME: Expected 0 arguments, but got 1.
@@ -1548,7 +1565,7 @@ export default class Formatter {
           return this.indentRawPhpBlock(
             indent,
             `{!! ${util
-              .formatRawStringAsPhp(bladeBrace, this.wrapLineLength)
+              .formatRawStringAsPhp(bladeBrace, this.defaultPhpFormatOption)
               .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
               .trim()} !!}`,
           );
@@ -1583,7 +1600,7 @@ export default class Formatter {
         return this.indentComponentAttribute(
           indent.indent,
           util
-            .formatRawStringAsPhp(matched, this.wrapLineLength, true)
+            .formatRawStringAsPhp(matched, this.defaultPhpFormatOption)
             .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
             .replace(/(?<!(['"]).*)(?<=\()[\n\s]+?(?=\w)/gms, '')
             .replace(/,[\n\s]*?\)/gs, ')')
@@ -1616,7 +1633,7 @@ export default class Formatter {
 
           if (matched.includes('@php')) {
             return `${util
-              .formatRawStringAsPhp(matched)
+              .formatRawStringAsPhp(matched, { ...this.defaultPhpFormatOption, printWidth: util.printWidthForInline })
               .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
               .trim()
               // @ts-expect-error ts-migrate(2554) FIXME: Expected 0 arguments, but got 1.
@@ -1642,7 +1659,7 @@ export default class Formatter {
                 }
 
                 let inside = util
-                  .formatRawStringAsPhp(`func(${p4})`, wrapLength, true)
+                  .formatRawStringAsPhp(`func(${p4})`, { ...this.defaultPhpFormatOption, printWidth: wrapLength })
                   .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
                   .replace(/,(\s*?\))/gis, (_match5, p5) => p5)
                   .trim();
@@ -1666,7 +1683,9 @@ export default class Formatter {
             return formatted;
           }
 
-          return `${util.formatRawStringAsPhp(matched).trimEnd()}`;
+          return `${util
+            .formatRawStringAsPhp(matched, { ...this.defaultPhpFormatOption, printWidth: util.printWidthForInline })
+            .trimEnd()}`;
         },
       ),
     );
@@ -1693,9 +1712,8 @@ export default class Formatter {
             }
 
             const result = util
-              .formatStringAsPhp(this.rawPhpTags[p1])
+              .formatStringAsPhp(this.rawPhpTags[p1], this.defaultPhpFormatOption)
               .trim()
-              // @ts-expect-error ts-migrate(2554) FIXME: Expected 0 arguments, but got 1.
               .trimRight('\n');
 
             if (this.isInline(result)) {
@@ -1781,7 +1799,10 @@ export default class Formatter {
         return _.replace(matched, /(@[a-zA-z0-9\-_]+)(.*)/gis, (match2: string, p2: string, p3: string) => {
           try {
             const formatted = util
-              .formatRawStringAsPhp(`func${p3}`)
+              .formatRawStringAsPhp(`func${p3}`, {
+                ...this.defaultPhpFormatOption,
+                printWidth: util.printWidthForInline,
+              })
               .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
               .trim()
               .substring(4);
@@ -1808,7 +1829,7 @@ export default class Formatter {
         return _.replace(matched, /(@[a-zA-z0-9\-_]+)(.*)/gis, (match2: string, p3: string, p4: string) => {
           try {
             const formatted = util
-              .formatRawStringAsPhp(`func${p4}`, this.wrapLineLength, false)
+              .formatRawStringAsPhp(`func${p4}`, { ...this.defaultPhpFormatOption, trailingCommaPHP: false })
               .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
               .trim()
               .substring(4);
@@ -1954,13 +1975,23 @@ export default class Formatter {
 
             if (this.isInline(p4)) {
               try {
-                return `${p2}${p3}${util.formatRawStringAsPhp(p4, this.wrapLineLength - indent.amount).trimEnd()}`;
+                return `${p2}${p3}${util
+                  .formatRawStringAsPhp(p4, {
+                    ...this.defaultPhpFormatOption,
+                    printWidth: this.wrapLineLength - indent.amount,
+                  })
+                  .trimEnd()}`;
               } catch (error) {
                 return `${p2}${p3}${p4}`;
               }
             }
 
-            return `${p2}${p3}${util.formatRawStringAsPhp(p4, this.wrapLineLength - indent.amount).trimEnd()}`;
+            return `${p2}${p3}${util
+              .formatRawStringAsPhp(p4, {
+                ...this.defaultPhpFormatOption,
+                printWidth: this.wrapLineLength - indent.amount,
+              })
+              .trimEnd()}`;
           },
         );
 
