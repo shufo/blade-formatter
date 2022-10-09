@@ -20,16 +20,16 @@ import {
 } from './runtimeConfig';
 import FormatError from './errors/formatError';
 
-export interface CLIOption {
+export type CLIOption = {
   write?: boolean;
   diff?: boolean;
   checkFormatted?: boolean;
   progress?: boolean;
   ignoreFilePath?: string;
   runtimeConfigPath?: string;
-}
+};
 
-export interface FormatterOption {
+export type FormatterOption = {
   indentSize?: number;
   wrapLineLength?: number;
   wrapAttributes?: WrapAttributes;
@@ -40,7 +40,9 @@ export interface FormatterOption {
   tailwindcssConfig?: TailwindConfig;
   sortHtmlAttributes?: SortHtmlAttributes;
   noMultipleEmptyLines?: boolean;
-}
+};
+
+export type BladeFormatterOption = CLIOption & FormatterOption;
 
 class BladeFormatter {
   diffs: any;
@@ -69,7 +71,7 @@ class BladeFormatter {
 
   runtimeConfigCache: RuntimeConfig;
 
-  constructor(options: FormatterOption & CLIOption = {}, paths: any = []) {
+  constructor(options: BladeFormatterOption = {}, paths: any = []) {
     this.currentTargetPath = '.';
     this.paths = paths;
     this.options = options;
@@ -85,7 +87,7 @@ class BladeFormatter {
     this.runtimeConfigCache = {};
   }
 
-  async format(content: any, opts = {}) {
+  async format(content: any, opts: BladeFormatterOption = {}) {
     this.options = this.options || opts;
     const target = nodepath.resolve(process.cwd(), 'target');
     await this.readIgnoreFile(target);
