@@ -642,4 +642,28 @@ describe('The blade formatter CLI', () => {
 
     expect(cmdResult).toEqual(formatted.toString('utf-8'));
   });
+
+  test.concurrent('no php syntax check option from CLI', async () => {
+    // automatically recognize tailwind config from .bladeformatter.json
+    const cmdResult = await cmd.execute(path.resolve('bin', 'blade-formatter'), [
+      path.resolve('__tests__', 'fixtures', 'no_php_syntax_check.blade.php'),
+      '--no-php-syntax-check',
+    ]);
+
+    const formatted = fs.readFileSync(path.resolve('__tests__', 'fixtures', 'formatted.no_php_syntax_check.blade.php'));
+
+    expect(cmdResult).toEqual(formatted.toString('utf-8'));
+  });
+
+  test.concurrent('runtime config test (no_php_syntax_check)', async () => {
+    const cmdResult = await cmd.execute(path.resolve('bin', 'blade-formatter'), [
+      path.resolve('__tests__', 'fixtures', 'runtimeConfig', 'noPhpSyntaxCheck', 'index.blade.php'),
+    ]);
+
+    const formatted = fs.readFileSync(
+      path.resolve('__tests__', 'fixtures', 'runtimeConfig', 'noPhpSyntaxCheck', 'formatted.index.blade.php'),
+    );
+
+    expect(cmdResult).toEqual(formatted.toString('utf-8'));
+  });
 });

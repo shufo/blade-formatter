@@ -4677,4 +4677,14 @@ describe('formatter', () => {
     await util.doubleFormatCheck(content, expected);
     await expect(new BladeFormatter().format(content)).resolves.not.toThrow("Can't format blade");
   });
+
+  test('no php syntax check option', async () => {
+    const content = [`{{ 'john' |ucfirst | substr:0,1 }}`, `@if (foo)`, `foo`, `@endif`].join('\n');
+
+    const expected = [`{{ 'john' |ucfirst | substr:0,1 }}`, `@if (foo)`, `    foo`, `@endif`, ``].join('\n');
+
+    const options = { noPhpSyntaxCheck: true };
+    await util.doubleFormatCheck(content, expected, options);
+    await expect(new BladeFormatter(options).format(content)).resolves.not.toThrow('SyntaxError');
+  });
 });
