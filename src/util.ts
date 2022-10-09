@@ -55,10 +55,10 @@ const defaultFormatPhpOption = {
   singleQuote: true,
 };
 
-export function formatStringAsPhp(content: any, options: FormatPhpOption = {}) {
-  options = {
+export function formatStringAsPhp(content: any, params: FormatPhpOption = {}) {
+  const options = {
     ...defaultFormatPhpOption,
-    ...options,
+    ...params,
   };
 
   try {
@@ -79,10 +79,10 @@ export function formatStringAsPhp(content: any, options: FormatPhpOption = {}) {
   }
 }
 
-export function formatRawStringAsPhp(content: string, options: FormatPhpOption = {}) {
-  options = {
+export function formatRawStringAsPhp(content: string, params: FormatPhpOption = {}) {
+  const options = {
     ...defaultFormatPhpOption,
-    ...options,
+    ...params,
   };
 
   try {
