@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.30.1](https://github.com/shufo/blade-formatter/compare/v1.30.0...v1.30.1) (2022-10-10)
+
+
+### Fixes
+
+* 🐛 unexpected indentation when --no-php-syntax-check option ([51326c4](https://github.com/shufo/blade-formatter/commit/51326c480f28c97e8d1d9b2c5228494cfe150429))
+
 ## [1.30.0](https://github.com/shufo/blade-formatter/compare/v1.29.8...v1.30.0) (2022-10-09)
 
 
