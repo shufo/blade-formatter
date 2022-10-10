@@ -1659,16 +1659,16 @@ export default class Formatter {
                 }
 
                 const formatTarget = `func(${p4})`;
-                const formatted = util.formatRawStringAsPhp(formatTarget, {
+                const formattedExpression = util.formatRawStringAsPhp(formatTarget, {
                   ...this.defaultPhpFormatOption,
                   printWidth: wrapLength,
                 });
 
-                if (formatted === formatTarget) {
+                if (formattedExpression === formatTarget) {
                   return p4;
                 }
 
-                let inside = formatted
+                let inside = formattedExpression
                   .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
                   .replace(/,(\s*?\))/gis, (_match5, p5) => p5)
                   .trim();
