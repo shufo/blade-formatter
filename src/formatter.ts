@@ -1658,8 +1658,17 @@ export default class Formatter {
                   wrapLength = this.wrapLineLength - `func`.length - p1.length - indent.amount;
                 }
 
-                let inside = util
-                  .formatRawStringAsPhp(`func(${p4})`, { ...this.defaultPhpFormatOption, printWidth: wrapLength })
+                const formatTarget = `func(${p4})`;
+                const formatted = util.formatRawStringAsPhp(formatTarget, {
+                  ...this.defaultPhpFormatOption,
+                  printWidth: wrapLength,
+                });
+
+                if (formatted === formatTarget) {
+                  return p4;
+                }
+
+                let inside = formatted
                   .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
                   .replace(/,(\s*?\))/gis, (_match5, p5) => p5)
                   .trim();

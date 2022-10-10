@@ -4687,4 +4687,30 @@ describe('formatter', () => {
     await util.doubleFormatCheck(content, expected, options);
     await expect(new BladeFormatter(options).format(content)).resolves.not.toThrow('SyntaxError');
   });
+
+  test('no php syntax check option with multi-lined inline directive', async () => {
+    const content = [
+      `@include('components.artwork_grid_item', [`,
+      `    'item' => $item,`,
+      `    'isotope_item_selector_class' => 'item',`,
+      `    'class_names' => 'col-xs-6 px-5',`,
+      `    'hide_dating' => true`,
+      `    'hide_zoom' => true,`,
+      `])`,
+    ].join('\n');
+
+    const expected = [
+      `@include('components.artwork_grid_item', [`,
+      `    'item' => $item,`,
+      `    'isotope_item_selector_class' => 'item',`,
+      `    'class_names' => 'col-xs-6 px-5',`,
+      `    'hide_dating' => true`,
+      `    'hide_zoom' => true,`,
+      `])`,
+      ``,
+    ].join('\n');
+
+    const options = { noPhpSyntaxCheck: true };
+    await util.doubleFormatCheck(content, expected, options);
+  });
 });
