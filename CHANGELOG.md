@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.30.2](https://github.com/shufo/blade-formatter/compare/v1.30.1...v1.30.2) (2022-10-16)
+
+
+### Miscellaneous
+
+* **deps:** update pozil/auto-assign-issue action to v1.11.0 ([773e940](https://github.com/shufo/blade-formatter/commit/773e9408fdd3c1e592e6b2ad0597774f7670ae77))
+
+
+### Fixes
+
+* 🐛 indent on top level `[@php](https://github.com/php)` directive ([2c644a1](https://github.com/shufo/blade-formatter/commit/2c644a1f65310007149e31bea4d106d6f1bdf5e4))
+
 ## [1.30.1](https://github.com/shufo/blade-formatter/compare/v1.30.0...v1.30.1) (2022-10-10)
 
 
