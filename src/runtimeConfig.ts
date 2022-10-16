@@ -14,7 +14,7 @@ export type WrapAttributes =
   | 'preserve'
   | 'preserve-aligned';
 
-export type SortHtmlAttributes = 'none' | 'alphabetical' | 'code-guide' | 'idiomatic' | 'vuejs';
+export type SortHtmlAttributes = 'none' | 'alphabetical' | 'code-guide' | 'idiomatic' | 'vuejs' | 'custom';
 
 export interface RuntimeConfig {
   indentSize?: number;
@@ -25,6 +25,7 @@ export interface RuntimeConfig {
   sortTailwindcssClasses?: boolean;
   tailwindcssConfigPath?: string;
   sortHtmlAttributes?: SortHtmlAttributes;
+  customHtmlAttributesOrder?: string[] | string;
   noMultipleEmptyLines?: boolean;
   noPhpSyntaxCheck?: boolean;
 }
@@ -77,9 +78,10 @@ export async function readRuntimeConfig(filePath: string | null): Promise<Runtim
       tailwindcssConfigPath: { type: 'string', nullable: true },
       sortHtmlAttributes: {
         type: 'string',
-        enum: ['none', 'alphabetical', 'code-guide', 'idiomatic', 'vuejs'],
+        enum: ['none', 'alphabetical', 'code-guide', 'idiomatic', 'vuejs', 'custom'],
         nullable: true,
       },
+      customHtmlAttributesOrder: { type: 'array', nullable: true, items: { type: 'string' }, default: [] },
       noMultipleEmptyLines: { type: 'boolean', nullable: true },
       noPhpSyntaxCheck: { type: 'boolean', nullable: true },
     },

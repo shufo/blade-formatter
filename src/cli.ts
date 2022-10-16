@@ -76,10 +76,16 @@ export default async function cli() {
     .option('sort-html-attributes', {
       alias: 'sort-attributes',
       type: 'string',
-      choices: ['none', 'alphabetical', 'code-guide', 'idiomatic', 'vuejs'],
+      choices: ['none', 'alphabetical', 'code-guide', 'idiomatic', 'vuejs', 'custom'],
       description: 'Sort HTML attributes.',
       default: 'none',
       defaultDescription: 'none',
+    })
+    .option('custom-html-attributes-order', {
+      type: 'string',
+      description:
+        'Comma separated custom HTML attributes order. To enable this you must specify sort html attributes as `custom`',
+      default: null,
     })
     .option('no-multiple-empty-lines', {
       type: 'boolean',
