@@ -843,7 +843,7 @@ export default class Formatter {
   }
 
   preserveStringLiteralInPhp(content: any) {
-    return _.replace(content, /(\'([^\\']|\\.)*?\'|\"([^\\']|\\.)*?\")/gm, (match: string) => {
+    return _.replace(content, /(\"([^\\]|\\.)*?\"|\'([^\\]|\\.)*?\')/gm, (match: string) => {
       return `${this.storeStringLiteralInPhp(match)}`;
     });
   }
@@ -1218,10 +1218,6 @@ export default class Formatter {
   }
 
   indentRawBlock(indent: detectIndent.Indent, content: any) {
-    if (_.isEmpty(indent.indent)) {
-      return content;
-    }
-
     if (this.isInline(content)) {
       return `${indent.indent}${content}`;
     }
