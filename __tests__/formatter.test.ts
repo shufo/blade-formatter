@@ -4713,4 +4713,57 @@ describe('formatter', () => {
     const options = { noPhpSyntaxCheck: true };
     await util.doubleFormatCheck(content, expected, options);
   });
+
+  test('indent inside @php directive', async () => {
+    const content = [
+      `@php`,
+      `$a = 1;`,
+      `$b = 2;`,
+      `@endphp`,
+      `<div>`,
+      `@php`,
+      `$a = 1;`,
+      `$b = 2;`,
+      `@endphp`,
+      `@php`,
+      `$icon = "<i class='fa fa-check'></i>";`,
+      `$icon = "<i class=\\"fa fa-check\\"></i>";`,
+      `$icon = '<i class="fa fa-check"></i>';`,
+      `@endphp`,
+      `</div>`,
+      `<script>`,
+      `@php`,
+      `$a = 1;`,
+      `$b = 2;`,
+      `@endphp`,
+      `</script>`,
+    ].join('\n');
+
+    const expected = [
+      `@php`,
+      `    $a = 1;`,
+      `    $b = 2;`,
+      `@endphp`,
+      `<div>`,
+      `    @php`,
+      `        $a = 1;`,
+      `        $b = 2;`,
+      `    @endphp`,
+      `    @php`,
+      `        $icon = "<i class='fa fa-check'></i>";`,
+      `        $icon = "<i class=\\"fa fa-check\\"></i>";`,
+      `        $icon = '<i class="fa fa-check"></i>';`,
+      `    @endphp`,
+      `</div>`,
+      `<script>`,
+      `    @php`,
+      `        $a = 1;`,
+      `        $b = 2;`,
+      `    @endphp`,
+      `</script>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
 });
