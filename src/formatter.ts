@@ -813,7 +813,7 @@ export default class Formatter {
       // when option is string
       const customRegexes = _.chain(regexes).split(',').map(_.trim).value();
 
-      return sortAttributes(content, { order: strategy, customRegexes: customRegexes });
+      return sortAttributes(content, { order: strategy, customRegexes });
     }
 
     return content;
