@@ -666,4 +666,48 @@ describe('The blade formatter CLI', () => {
 
     expect(cmdResult).toEqual(formatted.toString('utf-8'));
   });
+
+  test.concurrent('custom html attributes order option', async () => {
+    const cmdResult = await cmd.execute(path.resolve('bin', 'blade-formatter'), [
+      path.resolve('__tests__', 'fixtures', 'custom_html_attributes_order.blade.php'),
+      '--sort-html-attributes',
+      'custom',
+      '--custom-html-attributes-order',
+      'id,aria-.+,src,class',
+    ]);
+
+    const formatted = fs.readFileSync(
+      path.resolve('__tests__', 'fixtures', 'formatted.custom_html_attributes_order.blade.php'),
+    );
+
+    expect(cmdResult).toEqual(formatted.toString('utf-8'));
+  });
+
+  test.concurrent('custom html attributes order option (with space)', async () => {
+    const cmdResult = await cmd.execute(path.resolve('bin', 'blade-formatter'), [
+      path.resolve('__tests__', 'fixtures', 'custom_html_attributes_order.blade.php'),
+      '--sort-html-attributes',
+      'custom',
+      '--custom-html-attributes-order',
+      'id, aria-.+, src, class',
+    ]);
+
+    const formatted = fs.readFileSync(
+      path.resolve('__tests__', 'fixtures', 'formatted.custom_html_attributes_order.blade.php'),
+    );
+
+    expect(cmdResult).toEqual(formatted.toString('utf-8'));
+  });
+
+  test.concurrent('custom html attributes order option (runtimeConfig)', async () => {
+    const cmdResult = await cmd.execute(path.resolve('bin', 'blade-formatter'), [
+      path.resolve('__tests__', 'fixtures', 'runtimeConfig', 'customHtmlAttributesOrder', 'index.blade.php'),
+    ]);
+
+    const formatted = fs.readFileSync(
+      path.resolve('__tests__', 'fixtures', 'runtimeConfig', 'customHtmlAttributesOrder', 'formatted.index.blade.php'),
+    );
+
+    expect(cmdResult).toEqual(formatted.toString('utf-8'));
+  });
 });
