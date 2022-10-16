@@ -18,6 +18,7 @@ export default async function cli() {
         `Usage:`,
       )} $0 [options] [file glob | ...]`,
     )
+    .wrap(null)
     .example('$0 "resources/views/**/*.blade.php" --write', 'Format all files in views directory')
     .option('check-formatted', {
       alias: 'c',
@@ -84,7 +85,7 @@ export default async function cli() {
     .option('custom-html-attributes-order', {
       type: 'string',
       description:
-        'Comma separated custom HTML attributes order. To enable this you must specify sort html attributes as `custom`',
+        'Comma separated custom HTML attributes order. To enable this you must specify sort html attributes as `custom`. You can use regex for attribute names.',
       default: null,
     })
     .option('no-multiple-empty-lines', {
