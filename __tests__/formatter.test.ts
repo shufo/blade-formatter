@@ -4517,9 +4517,9 @@ describe('formatter', () => {
 
     const expected = [
       `@php`,
-      `$icon = "<i class='fa fa-check'></i>";`,
-      `$icon = "<i class=\\"fa fa-check\\"></i>";`,
-      `$icon = '<i class="fa fa-check"></i>';`,
+      `    $icon = "<i class='fa fa-check'></i>";`,
+      `    $icon = "<i class=\\"fa fa-check\\"></i>";`,
+      `    $icon = '<i class="fa fa-check"></i>';`,
       `@endphp`,
       ``,
     ].join('\n');
@@ -4584,8 +4584,8 @@ describe('formatter', () => {
 
     const expected = [
       `@php`,
-      `// if breadcrumbs aren't defined in the CrudController, use the default breadcrumbs`,
-      `$breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;`,
+      `    // if breadcrumbs aren't defined in the CrudController, use the default breadcrumbs`,
+      `    $breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;`,
       `@endphp`,
       ``,
     ].join('\n');
