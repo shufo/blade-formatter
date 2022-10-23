@@ -109,6 +109,8 @@ export default class Formatter {
 
   escapedBladeDirectives: Array<string>;
 
+  phpComments: Array<string>;
+
   vsctm: any;
 
   wrapAttributes: any;
@@ -144,6 +146,7 @@ export default class Formatter {
     this.rawPropsBlocks = [];
     this.bladeDirectives = [];
     this.bladeComments = [];
+    this.phpComments = [];
     this.bladeBraces = [];
     this.rawBladeBraces = [];
     this.nonnativeScripts = [];
@@ -710,6 +713,10 @@ export default class Formatter {
     return _.replace(content, /\{\{--(.*?)--\}\}/gs, (match: string) => this.storeBladeComment(match));
   }
 
+  preservePhpComment(content: string) {
+    return _.replace(content, /\/\*+([^\*]*?)\*\//gi, (match: string) => this.storePhpComment(match));
+  }
+
   async preserveBladeBrace(content: any) {
     return _.replace(content, /\{\{(.*?)\}\}/gs, (_match: any, p1: any) => {
       // if content is blank
@@ -888,6 +895,10 @@ export default class Formatter {
     return this.getBladeCommentPlaceholder(this.bladeComments.push(value) - 1);
   }
 
+  storePhpComment(value: string) {
+    return this.getPhpCommentPlaceholder((this.phpComments.push(value) - 1).toString());
+  }
+
   storeHtmlTag(value: string) {
     return this.getHtmlTagPlaceholder((this.htmlTags.push(value) - 1).toString());
   }
@@ -1028,6 +1039,10 @@ export default class Formatter {
 
   getBladeCommentPlaceholder(replace: any) {
     return _.replace('___blade_comment_#___', '#', replace);
+  }
+
+  getPhpCommentPlaceholder(replace: string) {
+    return _.replace('___php_comment_#___', '#', replace);
   }
 
   getBladeBracePlaceholder(replace: any, length = 0) {
@@ -1492,6 +1507,14 @@ export default class Formatter {
     );
   }
 
+  restorePhpComment(content: string) {
+    return _.replace(
+      content,
+      new RegExp(`${this.getPhpCommentPlaceholder('(\\d+)')}`, 'gms'),
+      (_match: string, p1: number) => this.phpComments[p1],
+    );
+  }
+
   async restoreEscapedBladeDirective(content: any) {
     return new Promise((resolve) => resolve(content)).then((res: any) =>
       _.replace(
@@ -1725,11 +1748,15 @@ export default class Formatter {
               return result;
             }
 
+            let preserved = this.preservePhpComment(result);
+
             if (indent.indent) {
-              return this.indentRawPhpBlock(indent, result);
+              preserved = this.indentRawPhpBlock(indent, preserved);
             }
 
-            return result;
+            const restored = this.restorePhpComment(preserved);
+
+            return restored;
           } catch (e) {
             return `${this.rawPhpTags[p1]}`;
           }

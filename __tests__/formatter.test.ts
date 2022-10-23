@@ -4766,4 +4766,23 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
+
+  test('multi-line comment in raw php tag', async () => {
+    const content = [`<div>`, `    <div <?php /**`, `    foo`, `    bar`, `    */`, `    ?>></div>`, `</div>`].join(
+      '\n',
+    );
+
+    const expected = [
+      `<div>`,
+      `    <div <?php /**`,
+      `    foo`,
+      `    bar`,
+      `    */`,
+      `    ?>></div>`,
+      `</div>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
 });
