@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.30.3](https://github.com/shufo/blade-formatter/compare/v1.30.2...v1.30.3) (2022-10-23)
+
+
+### Fixes
+
+* 🐛 inconsistent multi-line comment indent in raw php tag ([0830640](https://github.com/shufo/blade-formatter/commit/08306402e98ff0545b28b94959c459febef42f65))
+
 ## [1.30.2](https://github.com/shufo/blade-formatter/compare/v1.30.1...v1.30.2) (2022-10-16)
 
 
