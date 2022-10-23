@@ -373,6 +373,13 @@ $ yarn run test
         </a>
     </td>
     <td align="center">
+        <a href="https://github.com/wheesnoza">
+            <img src="https://avatars.githubusercontent.com/u/45123151?v=4" width="100;" alt="wheesnoza"/>
+            <br />
+            <sub><b>Null</b></sub>
+        </a>
+    </td>
+    <td align="center">
         <a href="https://github.com/slovenianGooner">
             <img src="https://avatars.githubusercontent.com/u/1257629?v=4" width="100;" alt="slovenianGooner"/>
             <br />
@@ -399,15 +406,15 @@ $ yarn run test
             <br />
             <sub><b>Schelmo</b></sub>
         </a>
-    </td>
+    </td></tr>
+<tr>
     <td align="center">
         <a href="https://github.com/Dave-iFour">
             <img src="https://avatars.githubusercontent.com/u/110526667?v=4" width="100;" alt="Dave-iFour"/>
             <br />
             <sub><b>Dave</b></sub>
         </a>
-    </td></tr>
-<tr>
+    </td>
     <td align="center">
         <a href="https://github.com/gagansday">
             <img src="https://avatars.githubusercontent.com/u/25811413?v=4" width="100;" alt="gagansday"/>
