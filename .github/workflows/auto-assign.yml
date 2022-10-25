@@ -13,3 +13,4 @@ jobs:
         uses: pozil/auto-assign-issue@v1.11.0
         with:
           assignees: shufo
+          repo-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
