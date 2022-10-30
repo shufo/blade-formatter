@@ -85,7 +85,7 @@ export default async function cli() {
     .option('custom-html-attributes-order', {
       type: 'string',
       description:
-        'Comma separated custom HTML attributes order. To enable this you must specify sort html attributes as `custom`. You can use regex for attribute names.',
+        'Comma separated custom HTML attributes order. To enable this you must specify sort html attributes option as `custom`. You can use regex for attribute names.',
       default: null,
     })
     .option('no-multiple-empty-lines', {
