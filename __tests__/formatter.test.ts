@@ -4517,9 +4517,9 @@ describe('formatter', () => {
 
     const expected = [
       `@php`,
-      `$icon = "<i class='fa fa-check'></i>";`,
-      `$icon = "<i class=\\"fa fa-check\\"></i>";`,
-      `$icon = '<i class="fa fa-check"></i>';`,
+      `    $icon = "<i class='fa fa-check'></i>";`,
+      `    $icon = "<i class=\\"fa fa-check\\"></i>";`,
+      `    $icon = '<i class="fa fa-check"></i>';`,
       `@endphp`,
       ``,
     ].join('\n');
@@ -4584,8 +4584,8 @@ describe('formatter', () => {
 
     const expected = [
       `@php`,
-      `// if breadcrumbs aren't defined in the CrudController, use the default breadcrumbs`,
-      `$breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;`,
+      `    // if breadcrumbs aren't defined in the CrudController, use the default breadcrumbs`,
+      `    $breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;`,
       `@endphp`,
       ``,
     ].join('\n');
@@ -4724,13 +4724,82 @@ describe('formatter', () => {
     const expected = [
       `<div id="myid" aria-disabled="true" src="other" class="myclass" name="myname">`,
       `    foo`,
-      `</div>`,
-      ``,
-    ].join('\n');
-
+      
     await util.doubleFormatCheck(content, expected, {
       sortHtmlAttributes: 'custom',
       customHtmlAttributesOrder: ['id', 'aria-.+', 'src', 'class'],
     });
+  });
+    
+  test('indent inside @php directive', async () => {
+    const content = [
+      `@php`,
+      `$a = 1;`,
+      `$b = 2;`,
+      `@endphp`,
+      `<div>`,
+      `@php`,
+      `$a = 1;`,
+      `$b = 2;`,
+      `@endphp`,
+      `@php`,
+      `$icon = "<i class='fa fa-check'></i>";`,
+      `$icon = "<i class=\\"fa fa-check\\"></i>";`,
+      `$icon = '<i class="fa fa-check"></i>';`,
+      `@endphp`,
+      `</div>`,
+      `<script>`,
+      `@php`,
+      `$a = 1;`,
+      `$b = 2;`,
+      `@endphp`,
+      `</script>`,
+    ].join('\n');
+
+    const expected = [
+      `@php`,
+      `    $a = 1;`,
+      `    $b = 2;`,
+      `@endphp`,
+      `<div>`,
+      `    @php`,
+      `        $a = 1;`,
+      `        $b = 2;`,
+      `    @endphp`,
+      `    @php`,
+      `        $icon = "<i class='fa fa-check'></i>";`,
+      `        $icon = "<i class=\\"fa fa-check\\"></i>";`,
+      `        $icon = '<i class="fa fa-check"></i>';`,
+      `    @endphp`,
+      `</div>`,
+      `<script>`,
+      `    @php`,
+      `        $a = 1;`,
+      `        $b = 2;`,
+      `    @endphp`,
+      `</script>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
+
+  test('multi-line comment in raw php tag', async () => {
+    const content = [`<div>`, `    <div <?php /**`, `    foo`, `    bar`, `    */`, `    ?>></div>`, `</div>`].join(
+      '\n',
+    );
+
+    const expected = [
+      `<div>`,
+      `    <div <?php /**`,
+      `    foo`,
+      `    bar`,
+      `    */`,
+      `    ?>></div>`,
+      `</div>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
   });
 });
