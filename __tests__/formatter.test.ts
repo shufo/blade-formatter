@@ -4714,6 +4714,26 @@ describe('formatter', () => {
     await util.doubleFormatCheck(content, expected, options);
   });
 
+  test('customs html attributes order option', async () => {
+    const content = [
+      `<div name="myname" aria-disabled="true" id="myid" class="myclass" src="other">`,
+      `foo`,
+      `</div>`,
+    ].join('\n');
+
+    const expected = [
+      `<div id="myid" aria-disabled="true" src="other" class="myclass" name="myname">`,
+      `    foo`,
+      `</div>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected, {
+      sortHtmlAttributes: 'custom',
+      customHtmlAttributesOrder: ['id', 'aria-.+', 'src', 'class'],
+    });
+  });
+
   test('indent inside @php directive', async () => {
     const content = [
       `@php`,

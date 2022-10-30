@@ -811,7 +811,16 @@ export default class Formatter {
     const strategy: SortHtmlAttributes = this.options.sortHtmlAttributes ?? 'none';
 
     if (!_.isEmpty(strategy) && strategy !== 'none') {
-      return sortAttributes(content, { order: strategy });
+      const regexes = this.options.customHtmlAttributesOrder;
+
+      if (_.isArray(regexes)) {
+        return sortAttributes(content, { order: strategy, customRegexes: regexes });
+      }
+
+      // when option is string
+      const customRegexes = _.chain(regexes).split(',').map(_.trim).value();
+
+      return sortAttributes(content, { order: strategy, customRegexes });
     }
 
     return content;

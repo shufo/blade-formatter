@@ -18,6 +18,7 @@ export default async function cli() {
         `Usage:`,
       )} $0 [options] [file glob | ...]`,
     )
+    .wrap(null)
     .example('$0 "resources/views/**/*.blade.php" --write', 'Format all files in views directory')
     .option('check-formatted', {
       alias: 'c',
@@ -76,10 +77,16 @@ export default async function cli() {
     .option('sort-html-attributes', {
       alias: 'sort-attributes',
       type: 'string',
-      choices: ['none', 'alphabetical', 'code-guide', 'idiomatic', 'vuejs'],
+      choices: ['none', 'alphabetical', 'code-guide', 'idiomatic', 'vuejs', 'custom'],
       description: 'Sort HTML attributes.',
       default: 'none',
       defaultDescription: 'none',
+    })
+    .option('custom-html-attributes-order', {
+      type: 'string',
+      description:
+        'Comma separated custom HTML attributes order. To enable this you must specify sort html attributes option as `custom`. You can use regex for attribute names.',
+      default: null,
     })
     .option('no-multiple-empty-lines', {
       type: 'boolean',

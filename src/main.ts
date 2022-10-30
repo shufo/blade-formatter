@@ -39,6 +39,7 @@ export type FormatterOption = {
   tailwindcssConfigPath?: string;
   tailwindcssConfig?: TailwindConfig;
   sortHtmlAttributes?: SortHtmlAttributes;
+  customHtmlAttributesOrder?: string[] | string;
   noMultipleEmptyLines?: boolean;
   noPhpSyntaxCheck?: boolean;
 };
