@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.31.0](https://github.com/shufo/blade-formatter/compare/v1.30.3...v1.31.0) (2022-10-30)
+
+
+### Features
+
+* custom html attributes order ([#733](https://github.com/shufo/blade-formatter/issues/733)) ([c2e1c4b](https://github.com/shufo/blade-formatter/commit/c2e1c4b34db243bc2c269384356b29ea9a5ba18a))
+
+
+### Miscellaneous
+
+* **deps:** update dependency @types/node to v18 ([be9994f](https://github.com/shufo/blade-formatter/commit/be9994ffbcd16f7d549275fcfd71a1c8ba332671))
+
 ## [1.30.3](https://github.com/shufo/blade-formatter/compare/v1.30.2...v1.30.3) (2022-10-23)
 
 
