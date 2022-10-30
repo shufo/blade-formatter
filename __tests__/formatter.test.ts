@@ -4721,7 +4721,11 @@ describe('formatter', () => {
       `</div>`,
     ].join('\n');
 
-    const expected = [`<div id="myid" aria-disabled="true" src="other" class="myclass" name="myname">`, `    foo`];
+    const expected = [
+      `<div id="myid" aria-disabled="true" src="other" class="myclass" name="myname">`,
+      `    foo`,
+      `</div>`,
+    ];
 
     await util.doubleFormatCheck(content, expected, {
       sortHtmlAttributes: 'custom',
