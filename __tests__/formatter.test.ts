@@ -4721,16 +4721,14 @@ describe('formatter', () => {
       `</div>`,
     ].join('\n');
 
-    const expected = [
-      `<div id="myid" aria-disabled="true" src="other" class="myclass" name="myname">`,
-      `    foo`,
-      
+    const expected = [`<div id="myid" aria-disabled="true" src="other" class="myclass" name="myname">`, `    foo`];
+
     await util.doubleFormatCheck(content, expected, {
       sortHtmlAttributes: 'custom',
       customHtmlAttributesOrder: ['id', 'aria-.+', 'src', 'class'],
     });
   });
-    
+
   test('indent inside @php directive', async () => {
     const content = [
       `@php`,
