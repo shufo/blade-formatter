@@ -4726,7 +4726,7 @@ describe('formatter', () => {
       `    foo`,
       `</div>`,
       ``,
-    ];
+    ].join('\n');
 
     await util.doubleFormatCheck(content, expected, {
       sortHtmlAttributes: 'custom',
