@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.31.1](https://github.com/shufo/blade-formatter/compare/v1.31.0...v1.31.1) (2022-11-01)
+
+
+### Fixes
+
+* **deps:** update dependency php-parser to v3.1.2 ([bddb7d0](https://github.com/shufo/blade-formatter/commit/bddb7d0c6a1832e28d99004232a46f4df60d742b))
+
 ## [1.31.0](https://github.com/shufo/blade-formatter/compare/v1.30.3...v1.31.0) (2022-10-30)
 
 
