@@ -119,6 +119,8 @@ export default class Formatter {
 
   defaultPhpFormatOption: util.FormatPhpOption;
 
+  endOfLine: string;
+
   constructor(options: BladeFormatterOption) {
     this.options = {
       ...{
@@ -166,6 +168,7 @@ export default class Formatter {
     this.result = [];
     this.diffs = [];
     this.defaultPhpFormatOption = { noPhpSyntaxCheck: this.options.noPhpSyntaxCheck, printWidth: this.wrapLineLength };
+    this.endOfLine = util.getEndOfLine(util.optional(this.options).endOfLine);
   }
 
   formatContent(content: any) {
@@ -237,6 +240,7 @@ export default class Formatter {
       css: {
         end_with_newline: false,
       },
+      eol: this.endOfLine,
     };
 
     const promise = new Promise((resolve) => resolve(data))
@@ -2112,7 +2116,7 @@ export default class Formatter {
       this.processLine(tokenizeLineResult, originalLine);
     }
 
-    return this.result.join(os.EOL);
+    return this.result.join(this.endOfLine);
   }
 
   processLine(tokenizeLineResult: any, originalLine: any) {

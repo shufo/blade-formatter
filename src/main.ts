@@ -14,6 +14,7 @@ import * as util from './util';
 import {
   findRuntimeConfig,
   readRuntimeConfig,
+  EndOfLine,
   RuntimeConfig,
   SortHtmlAttributes,
   WrapAttributes,
@@ -34,6 +35,7 @@ export type FormatterOption = {
   wrapLineLength?: number;
   wrapAttributes?: WrapAttributes;
   endWithNewline?: boolean;
+  endOfLine?: EndOfLine;
   useTabs?: boolean;
   sortTailwindcssClasses?: true;
   tailwindcssConfigPath?: string;
@@ -398,7 +400,7 @@ class BladeFormatter {
       if (this.options.checkFormatted) {
         process.stdout.write(
           '\nAbove file(s) are formattable. Forgot to run formatter? ' +
-            `Use ${chalk.bold('--write')} option to overwrite.\n`,
+          `Use ${chalk.bold('--write')} option to overwrite.\n`,
         );
       }
 

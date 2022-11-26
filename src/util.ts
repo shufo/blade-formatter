@@ -1,6 +1,7 @@
 /* eslint-disable max-len */
 import _ from 'lodash';
 import fs from 'fs';
+import os from 'os';
 import chalk from 'chalk';
 import prettier from 'prettier/standalone';
 // @ts-ignore
@@ -8,6 +9,7 @@ import phpPlugin from '@prettier/plugin-php/standalone';
 import detectIndent from 'detect-indent';
 import { indentStartTokens, phpKeywordStartTokens, phpKeywordEndTokens } from './indent';
 import { nestedParenthesisRegex } from './regex';
+import { EndOfLine } from './runtimeConfig';
 
 export const optional = (obj: any) => {
   const chain = {
@@ -379,4 +381,15 @@ export function debugLog(...content: any) {
   });
 
   return content;
+}
+
+export function getEndOfLine(endOfLine?: EndOfLine): string {
+  switch (endOfLine) {
+    case 'LF':
+      return '\n';
+    case 'CRLF':
+      return '\r\n';
+    default:
+      return os.EOL;
+  }
 }
