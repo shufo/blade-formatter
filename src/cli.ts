@@ -4,6 +4,7 @@ import { loadWASM } from 'vscode-oniguruma';
 import chalk from 'chalk';
 import _ from 'lodash';
 
+import os from "os";
 import { promises as fs } from 'fs';
 
 import { hideBin } from 'yargs/helpers';
@@ -43,6 +44,11 @@ export default async function cli() {
       type: 'boolean',
       description: 'End output with newline',
       default: true,
+    })
+    .option('end-of-line', {
+      type: 'string',
+      description: 'End of line character(s). [LF|CRLF]',
+      default: os.EOL === '\r\n' ? 'CRLF' : 'LF',
     })
     .option('indent-size', {
       alias: 'i',

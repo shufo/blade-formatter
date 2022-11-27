@@ -16,11 +16,14 @@ export type WrapAttributes =
 
 export type SortHtmlAttributes = 'none' | 'alphabetical' | 'code-guide' | 'idiomatic' | 'vuejs' | 'custom';
 
+export type EndOfLine = 'LF' | 'CRLF';
+
 export interface RuntimeConfig {
   indentSize?: number;
   wrapLineLength?: number;
   wrapAttributes?: WrapAttributes;
   endWithNewline?: boolean;
+  endOfLine?: EndOfLine;
   useTabs?: boolean;
   sortTailwindcssClasses?: boolean;
   tailwindcssConfigPath?: string;
@@ -73,6 +76,7 @@ export async function readRuntimeConfig(filePath: string | null): Promise<Runtim
         nullable: true,
       },
       endWithNewline: { type: 'boolean', nullable: true },
+      endOfLine: { type: 'string', enum: ['LF', 'CRLF'], nullable: true },
       useTabs: { type: 'boolean', nullable: true },
       sortTailwindcssClasses: { type: 'boolean', nullable: true },
       tailwindcssConfigPath: { type: 'string', nullable: true },

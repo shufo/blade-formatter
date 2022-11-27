@@ -176,6 +176,7 @@ $ blade-formatter -c -d resources/**/*.blade.php
   -w, --write                         Write to file  [boolean] [default: false]
   -d, --diff                          Show diffs  [boolean] [default: false]
   -e, --end-with-newline              End output with newline  [boolean] [default: true]
+      --end-of-line                   End of line character(s). [string] [choices: "LF", "CRLF"]
   -i, --indent-size                   Indentation size  [default: 4]
       --wrap-line-length, --wrap      The length of line wrap size  [default: 120]
       --wrap-attributes, --wrap-atts  The way to wrap attributes.
@@ -208,6 +209,7 @@ e.g.
   "wrapAttributes": "auto",
   "wrapLineLength": 120,
   "endWithNewLine": true,
+  "endOfLine": "LF",
   "useTabs": false,
   "sortTailwindcssClasses": true,
   "sortHtmlAttributes": "none",
