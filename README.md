@@ -426,6 +426,13 @@ $ yarn run test
         </a>
     </td>
     <td align="center">
+        <a href="https://github.com/joshuachp">
+            <img src="https://avatars.githubusercontent.com/u/43700905?v=4" width="100;" alt="joshuachp"/>
+            <br />
+            <sub><b>Joshua Chapman</b></sub>
+        </a>
+    </td>
+    <td align="center">
         <a href="https://github.com/jtanaka">
             <img src="https://avatars.githubusercontent.com/u/1379640?v=4" width="100;" alt="jtanaka"/>
             <br />
