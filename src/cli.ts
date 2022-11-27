@@ -4,7 +4,7 @@ import { loadWASM } from 'vscode-oniguruma';
 import chalk from 'chalk';
 import _ from 'lodash';
 
-import os from "os";
+import os from 'os';
 import { promises as fs } from 'fs';
 
 import { hideBin } from 'yargs/helpers';
