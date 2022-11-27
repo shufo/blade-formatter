@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.32.0](https://github.com/shufo/blade-formatter/compare/v1.31.1...v1.32.0) (2022-11-27)
+
+
+### Features
+
+* add option for end of line character(s) ([2dfcba7](https://github.com/shufo/blade-formatter/commit/2dfcba7d1b840e4199105ab949a5eb232ed7f6c2))
+
+
+### Fixes
+
+* **deps:** update dependency vscode-oniguruma to v1.7.0 ([7d3018b](https://github.com/shufo/blade-formatter/commit/7d3018bdba60616617a2bc114f17069d4debf0db))
+
 ## [1.31.1](https://github.com/shufo/blade-formatter/compare/v1.31.0...v1.31.1) (2022-11-01)
 
 
