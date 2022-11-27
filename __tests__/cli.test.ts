@@ -710,4 +710,28 @@ describe('The blade formatter CLI', () => {
 
     expect(cmdResult).toEqual(formatted.toString('utf-8'));
   });
+
+  test.concurrent('--end-of-line option', async () => {
+    const cmdResult = await cmd.execute(path.resolve('bin', 'blade-formatter'), [
+      '--end-of-line',
+      'CRLF',
+      path.resolve('__tests__', 'fixtures', 'end_of_line.blade.php'),
+    ]);
+
+    const formatted = fs.readFileSync(path.resolve('__tests__', 'fixtures', 'formatted.end_of_line.blade.php'));
+
+    expect(cmdResult).toEqual(formatted.toString('utf-8'));
+  });
+
+  test.concurrent('endOfLine option (runtime config)', async () => {
+    const cmdResult = await cmd.execute(path.resolve('bin', 'blade-formatter'), [
+      path.resolve('__tests__', 'fixtures', 'runtimeConfig', 'endOfLine', 'end_of_line.blade.php'),
+    ]);
+
+    const formatted = fs.readFileSync(
+      path.resolve('__tests__', 'fixtures', 'runtimeConfig', 'endOfLine', 'formatted.end_of_line.blade.php'),
+    );
+
+    expect(cmdResult).toEqual(formatted.toString('utf-8'));
+  });
 });

@@ -4805,4 +4805,23 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
+
+  test('--end-of-line option', async () => {
+    const content = [
+      `<div name="myname" aria-disabled="true" id="myid" class="myclass" src="other">`,
+      `foo`,
+      `</div>`,
+    ].join('\n');
+
+    const expected = [
+      `<div name="myname" aria-disabled="true" id="myid" class="myclass" src="other">`,
+      `    foo`,
+      `</div>`,
+      ``,
+    ].join('\r\n');
+
+    await util.doubleFormatCheck(content, expected, {
+      endOfLine: 'CRLF',
+    });
+  });
 });
