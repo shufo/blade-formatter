@@ -32,6 +32,7 @@ import {
 } from './indent';
 import { nestedParenthesisRegex } from './regex';
 import { SortHtmlAttributes } from './runtimeConfig';
+import { formatPhpComment } from './comment';
 
 export default class Formatter {
   argumentCheck: any;
@@ -717,7 +718,9 @@ export default class Formatter {
   }
 
   preservePhpComment(content: string) {
-    return _.replace(content, /\/\*+([^\*]*?)\*\//gi, (match: string) => this.storePhpComment(match));
+    return _.replace(content, /\/\*(?:[^*]|[\r\n]|(?:\*+(?:[^*\/]|[\r\n])))*\*+\//gi, (match: string) =>
+      this.storePhpComment(match),
+    );
   }
 
   async preserveBladeBrace(content: any) {
@@ -1212,8 +1215,10 @@ export default class Formatter {
           return `@php${q2}@endphp`;
         }
 
-        const preserved = this.preserveStringLiteralInPhp(q2);
-        const indented = this.indentRawBlock(indent, preserved);
+        let preserved = this.preserveStringLiteralInPhp(q2);
+        preserved = this.preservePhpComment(preserved);
+        let indented = this.indentRawBlock(indent, preserved);
+        indented = this.restorePhpComment(indented);
         const restored = this.restoreStringLiteralInPhp(indented);
 
         return `@php${restored}@endphp`;
@@ -1268,7 +1273,8 @@ export default class Formatter {
 
         return prefix + line;
       })
-      .join('\n');
+      .join('\n')
+      .value();
   }
 
   indentBladeDirectiveBlock(indent: detectIndent.Indent, content: any) {
@@ -1397,6 +1403,43 @@ export default class Formatter {
       .join('\n');
   }
 
+  indentPhpComment(indent: detectIndent.Indent, content: string) {
+    if (_.isEmpty(indent.indent)) {
+      return content;
+    }
+
+    if (this.isInline(content)) {
+      return `${content}`;
+    }
+
+    const leftIndentAmount = indent.amount;
+    const indentLevel = leftIndentAmount / this.indentSize;
+    const prefixSpaces = this.indentCharacter.repeat(indentLevel < 0 ? 0 : indentLevel * this.indentSize);
+
+    const lines = content.split('\n');
+    let withoutCommentLine = false;
+
+    return _.chain(lines)
+      .map((line: string, index: number) => {
+        if (index === 0) {
+          return line.trim();
+        }
+
+        if (!line.trim().startsWith('*')) {
+          withoutCommentLine = true;
+          return line;
+        }
+
+        if (line.trim().endsWith('*/') && withoutCommentLine) {
+          return line;
+        }
+
+        return prefixSpaces + line;
+      })
+      .join('\n')
+      .value();
+  }
+
   restoreBladeDirectivesInScripts(content: any) {
     const regex = new RegExp(`${this.getBladeDirectivePlaceholder('(\\d+)')}`, 'gm');
 
@@ -1522,8 +1565,15 @@ export default class Formatter {
   restorePhpComment(content: string) {
     return _.replace(
       content,
-      new RegExp(`${this.getPhpCommentPlaceholder('(\\d+)')}`, 'gms'),
-      (_match: string, p1: number) => this.phpComments[p1],
+      new RegExp(`${this.getPhpCommentPlaceholder('(\\d+)')};{0,1}`, 'gms'),
+      (_match: string, p1: number) => {
+        const placeholder = this.getPhpCommentPlaceholder(p1.toString());
+        const matchedLine = content.match(new RegExp(`^(.*?)${placeholder}`, 'gmi')) ?? [''];
+        const indent = detectIndent(matchedLine[0]);
+        const formatted = formatPhpComment(this.phpComments[p1]);
+
+        return this.indentPhpComment(indent, formatted);
+      },
     );
   }
 
