@@ -52,3 +52,7 @@ export function formatPhpComment(comment: string): string {
 
   return mapped.join('\n');
 }
+
+export default {
+  formatPhpComment,
+};
