@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.32.1](https://github.com/shufo/blade-formatter/compare/v1.32.0...v1.32.1) (2022-12-18)
+
+
+### Miscellaneous
+
+* **deps:** bump decode-uri-component from 0.2.0 to 0.2.2 ([6fe4319](https://github.com/shufo/blade-formatter/commit/6fe43193cd4e543a19cd671eb593d690f561f98b))
+* **deps:** update cirrus-actions/rebase action to v1.8 ([3c4fb84](https://github.com/shufo/blade-formatter/commit/3c4fb84d1040998d8370c80c287eceb41b972606))
+* **deps:** update dependency esbuild to ^0.16.0 ([779c5a2](https://github.com/shufo/blade-formatter/commit/779c5a235857cc7026b72964c7b0e73d236fad69))
+
+
+### Fixes
+
+* 🐛 unexpected indent on raw php comment block ([f896cc8](https://github.com/shufo/blade-formatter/commit/f896cc8c3625de12b1edf8df0ef008e2b86b856b))
+
 ## [1.32.0](https://github.com/shufo/blade-formatter/compare/v1.31.1...v1.32.0) (2022-11-27)
 
 
