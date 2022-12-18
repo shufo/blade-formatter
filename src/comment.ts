@@ -1,3 +1,21 @@
+function splitByLines(content: string): Array<string> {
+  return content.split('\n');
+}
+
+function isCommentedLine(line: string): boolean {
+  return line.trim().startsWith('*');
+}
+
+function isMultiline(lines: Array<string>): boolean {
+  return lines.length > 1;
+}
+
+function addPrefixToLine(line: string): string {
+  const prefix = ' ';
+
+  return `${prefix}${line}`;
+}
+
 /**
  * Formats php comment
  *
@@ -33,22 +51,4 @@ export function formatPhpComment(comment: string): string {
   });
 
   return mapped.join('\n');
-}
-
-function splitByLines(content: string): Array<string> {
-  return content.split('\n');
-}
-
-function isCommentedLine(line: string): boolean {
-  return line.trim().startsWith('*');
-}
-
-function isMultiline(lines: Array<string>): boolean {
-  return lines.length > 1;
-}
-
-function addPrefixToLine(line: string): string {
-  const prefix = ' ';
-
-  return `${prefix}${line}`;
 }
