@@ -4824,4 +4824,171 @@ describe('formatter', () => {
       endOfLine: 'CRLF',
     });
   });
+
+  test('fix shufo/prettier-plugin-blade#166', async () => {
+    const content = [
+      `@php`,
+      `    /**`,
+      `     * @var \App\Models\User $user`,
+      `     * @var \App\Models\Post $post`,
+      `     */`,
+      `@endphp`,
+      `<span>{{ $post->title }} by {{ $user->name }}</span>`,
+    ].join('\n');
+
+    const expected = [
+      `@php`,
+      `    /**`,
+      `     * @var \App\Models\User $user`,
+      `     * @var \App\Models\Post $post`,
+      `     */`,
+      `@endphp`,
+      `<span>{{ $post->title }} by {{ $user->name }}</span>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
+
+  test('raw php comment block', async () => {
+    const content = [
+      `<div>`,
+      `    <?php`,
+      `            /**`,
+      `                * @var \App\Models\User $user`,
+      `            * @var \App\Models\Post $post`,
+      `          */`,
+      `    ?>`,
+      `    <?php`,
+      `    /**`,
+      `            * @var \App\Models\User $user`,
+      `                * @var \App\Models\Post $post`,
+      `           */`,
+      `        /**`,
+      `     * @var \App\Models\User $user`,
+      `                * @var \App\Models\Post $post`,
+      `     */ echo 1;`,
+      `    ?>`,
+      `    <?php`,
+      `        /**`,
+      `     * @var \App\Models\User $user`,
+      `            * @var \App\Models\Post $post`,
+      `     */`,
+      `    ?>`,
+      `    <?php`,
+      `        /**`,
+      `              \App\Models\User $user`,
+      `                 \App\Models\Post $post`,
+      `     */`,
+      `    ?>`,
+      `</div>`,
+    ].join('\n');
+
+    const expected = [
+      `<div>`,
+      `    <?php`,
+      `    /**`,
+      `     * @var \App\Models\User $user`,
+      `     * @var \App\Models\Post $post`,
+      `     */`,
+      `    ?>`,
+      `    <?php`,
+      `    /**`,
+      `     * @var \App\Models\User $user`,
+      `     * @var \App\Models\Post $post`,
+      `     */`,
+      `    /**`,
+      `     * @var \App\Models\User $user`,
+      `     * @var \App\Models\Post $post`,
+      `     */ echo 1;`,
+      `    ?>`,
+      `    <?php`,
+      `    /**`,
+      `     * @var \App\Models\User $user`,
+      `     * @var \App\Models\Post $post`,
+      `     */`,
+      `    ?>`,
+      `    <?php`,
+      `    /**`,
+      `              \App\Models\User $user`,
+      `                 \App\Models\Post $post`,
+      `     */`,
+      `    ?>`,
+      `</div>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
+
+  test('php directive comment block', async () => {
+    const content = [
+      `<div>`,
+      `    @php`,
+      `            /**`,
+      `                * @var \App\Models\User $user`,
+      `            * @var \App\Models\Post $post`,
+      `          */`,
+      `    @endphp`,
+      `    @php`,
+      `    /**`,
+      `            * @var \App\Models\User $user`,
+      `                * @var \App\Models\Post $post`,
+      `           */`,
+      `        /**`,
+      `     * @var \App\Models\User $user`,
+      `                * @var \App\Models\Post $post`,
+      `     */ echo 1;`,
+      `    @endphp`,
+      `    @php`,
+      `        /**`,
+      `     * @var \App\Models\User $user`,
+      `            * @var \App\Models\Post $post`,
+      `     */`,
+      `    @endphp`,
+      `    @php`,
+      `    /**`,
+      `              \App\Models\User $user`,
+      `                 \App\Models\Post $post`,
+      `                          */`,
+      `    @endphp`,
+      `</div>`,
+    ].join('\n');
+
+    const expected = [
+      `<div>`,
+      `    @php`,
+      `        /**`,
+      `         * @var \App\Models\User $user`,
+      `         * @var \App\Models\Post $post`,
+      `         */`,
+      `    @endphp`,
+      `    @php`,
+      `        /**`,
+      `         * @var \App\Models\User $user`,
+      `         * @var \App\Models\Post $post`,
+      `         */`,
+      `        /**`,
+      `         * @var \App\Models\User $user`,
+      `         * @var \App\Models\Post $post`,
+      `         */ echo 1;`,
+      `    @endphp`,
+      `    @php`,
+      `        /**`,
+      `         * @var \App\Models\User $user`,
+      `         * @var \App\Models\Post $post`,
+      `         */`,
+      `    @endphp`,
+      `    @php`,
+      `        /**`,
+      `              \App\Models\User $user`,
+      `                 \App\Models\Post $post`,
+      `                          */`,
+      `    @endphp`,
+      `</div>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
 });
