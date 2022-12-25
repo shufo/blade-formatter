@@ -4013,10 +4013,10 @@ has@^1.0.3:
   dependencies:
     function-bind "^1.1.1"
 
-html-attribute-sorter@^0.4.2:
-  version "0.4.2"
-  resolved "https://registry.yarnpkg.com/html-attribute-sorter/-/html-attribute-sorter-0.4.2.tgz#803dfb2fb7c749cbf92fe52e7d3e331990072539"
-  integrity sha512-WjAaUWPuqXxddyQ5M4vqDHG8tcO+ajTnz03GNwmTsTyGdg9dJqoswwHyniK5ygitgXxqBYIE4T88/edWkl7wMQ==
+html-attribute-sorter@^0.4.3:
+  version "0.4.3"
+  resolved "https://registry.yarnpkg.com/html-attribute-sorter/-/html-attribute-sorter-0.4.3.tgz#7f1aa9c496c827101125a2714f82296319d6c061"
+  integrity sha512-HWSvaXJki44tg0uR1t+j5pRdUVpNiZcJaoB/PFhss/YoAw9cxUDLCpIBbLWQmKjBQfWk91P6LaRnredEyabrDw==
 
 html-escaper@^2.0.0:
   version "2.0.2"
