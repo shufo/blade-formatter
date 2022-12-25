@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.32.2](https://github.com/shufo/blade-formatter/compare/v1.32.1...v1.32.2) (2022-12-25)
+
+
+### Miscellaneous
+
+* 🤖 bump @shufo/html-attribute-sorter to 0.4.3 ([1fd209a](https://github.com/shufo/blade-formatter/commit/1fd209a285d87c7769eac9f066464fc15d42b0ac))
+* **deps:** update actions/stale action to v7 ([3ca85ff](https://github.com/shufo/blade-formatter/commit/3ca85ffc242285d520995b723e1713a91c998dae))
+
 ## [1.32.1](https://github.com/shufo/blade-formatter/compare/v1.32.0...v1.32.1) (2022-12-18)
 
 
