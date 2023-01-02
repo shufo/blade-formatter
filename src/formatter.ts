@@ -1901,6 +1901,7 @@ export default class Formatter {
                 printWidth: util.printWidthForInline,
               })
               .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
+              .replace(/,(\s*?\))$/gm, (_m, p4) => p4)
               .trim()
               .substring(4);
             return `${p2}${this.indentComponentAttribute(indent.indent, formatted)}`;
