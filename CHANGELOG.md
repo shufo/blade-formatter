@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.32.3](https://github.com/shufo/blade-formatter/compare/v1.32.2...v1.32.3) (2023-01-02)
+
+
+### Fixes
+
+* 🐛 body of formField directive does not indent ([d9bb918](https://github.com/shufo/blade-formatter/commit/d9bb918e49e16641103894325fb923fee43da245))
+* 🐛 unexpected comma is inserted before closing parentheses ([0e228ae](https://github.com/shufo/blade-formatter/commit/0e228ae3163ab42d54e7cbbb7b93e406e3aaa3af))
+
 ## [1.32.2](https://github.com/shufo/blade-formatter/compare/v1.32.1...v1.32.2) (2022-12-25)
 
 
