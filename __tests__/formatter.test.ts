@@ -4992,3 +4992,39 @@ describe('formatter', () => {
     await util.doubleFormatCheck(content, expected);
   });
 });
+test('comma should not inserted for lastline of inline custom directive ', async () => {
+  const content = [
+    `@livewire(`,
+    `    $block['path'],`,
+    `    [`,
+    `        'componentSettings' => $block['properties'],`,
+    `        'componentKey' => $block['key'],`,
+    `        'site' => $site ?? null,`,
+    `        'post' => $post ?? null,`,
+    `        'theme' => $theme,`,
+    `        'editing' => false,`,
+    `        'preview' => $preview,`,
+    `    ],`,
+    `    key($key)`,
+    `)`,
+  ].join('\n');
+
+  const expected = [
+    `@livewire(`,
+    `    $block['path'],`,
+    `    [`,
+    `        'componentSettings' => $block['properties'],`,
+    `        'componentKey' => $block['key'],`,
+    `        'site' => $site ?? null,`,
+    `        'post' => $post ?? null,`,
+    `        'theme' => $theme,`,
+    `        'editing' => false,`,
+    `        'preview' => $preview,`,
+    `    ],`,
+    `    key($key)`,
+    `)`,
+    ``,
+  ].join('\n');
+
+  await util.doubleFormatCheck(content, expected);
+});

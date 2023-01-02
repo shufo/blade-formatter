@@ -1898,6 +1898,7 @@ export default class Formatter {
                 printWidth: util.printWidthForInline,
               })
               .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
+              .replace(/,(\s*?\))/gis, (_m, p2) => p2)
               .trim()
               .substring(4);
             return `${p2}${this.indentComponentAttribute(indent.indent, formatted)}`;
