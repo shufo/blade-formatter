@@ -4991,4 +4991,25 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
+
+  test('@formField directive', async () => {
+    const content = [
+      `@formField('input', [`,
+      `'name' => 'page_title',`,
+      `'label' => 'Page title',`,
+      `'maxlength' => 200`,
+      `])`,
+    ].join('\n');
+
+    const expected = [
+      `@formField('input', [`,
+      `    'name' => 'page_title',`,
+      `    'label' => 'Page title',`,
+      `    'maxlength' => 200,`,
+      `])`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
 });

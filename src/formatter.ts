@@ -340,16 +340,19 @@ export default class Formatter {
       ...['@unless\\(.*?\\)'],
     ].join('|');
 
-    const inlineNegativeLookAhead = [
-      ..._.without(indentStartTokens, '@unless'),
+    const inlineNegativeLookAhead = _.chain([
+      ..._.without(indentStartTokens, '@unless', '@for'),
       ...indentEndTokens,
       ...indentElseTokens,
       ...inlineFunctionTokens,
-      ...phpKeywordStartTokens,
-      ...['@unless[a-z]*\\(.*?\\)'],
+      ..._.without(phpKeywordStartTokens, '@for'),
+      ...['@unless[a-z]*\\(.*?\\)', '@for\\(.*?\\)'],
       ...unbalancedStartTokens,
       ...cssAtRuleTokens,
-    ].join('|');
+    ])
+      .uniq()
+      .join('|')
+      .value();
 
     const inlineRegex = new RegExp(
       `(?!(${inlineNegativeLookAhead}))(@([a-zA-Z1-9_\\-]+))(?!.*?@end\\3)${nestedParenthesisRegex}.*?(?<!@end\\5)`,
