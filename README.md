@@ -1,5 +1,5 @@
 [![npm version](https://badge.fury.io/js/blade-formatter.svg)](https://badge.fury.io/js/blade-formatter)
-[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/shufo/blade-formatter/Node%20CI)](https://github.com/shufo/blade-formatter/actions?query=workflow%3A%22Node+CI%22)
+[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/shufo/blade-formatter/node.yml)](https://github.com/shufo/blade-formatter/actions?query=workflow%3A%22Node+CI%22)
 [![npm](https://img.shields.io/npm/dt/blade-formatter)](https://www.npmjs.com/package/blade-formatter)
 ![NPM](https://img.shields.io/npm/l/blade-formatter)
 [![codecov](https://codecov.io/gh/shufo/blade-formatter/branch/master/graph/badge.svg?token=VC1YYO4T4F)](https://codecov.io/gh/shufo/blade-formatter)
