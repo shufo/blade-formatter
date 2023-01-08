@@ -1681,15 +1681,7 @@ export default class Formatter {
 
         const matched = this.conditions[p1];
 
-        return this.indentComponentAttribute(
-          indent.indent,
-          util
-            .formatRawStringAsPhp(matched, this.defaultPhpFormatOption)
-            .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
-            .replace(/(?<!(['"]).*)(?<=\()[\n\s]+?(?=\w)/gms, '')
-            .replace(/,[\n\s]*?\)/gs, ')')
-            .trimEnd(),
-        );
+        return this.formatExpressionInsideBladeDirective(matched, indent);
       }),
     );
   }
