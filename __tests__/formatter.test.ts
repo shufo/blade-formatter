@@ -2748,8 +2748,10 @@ describe('formatter', () => {
       `    ])`,
       `</div>`,
       `<div>`,
-      `    @includeFirst(['custom.admin', 'admin'],`,
-      `        ['status' => 'complete', 'foo' => $user, 'bar' => $bbb, 'baz' => $myVariable])`,
+      `    @includeFirst(`,
+      `        ['custom.admin', 'admin'],`,
+      `        ['status' => 'complete', 'foo' => $user, 'bar' => $bbb, 'baz' => $myVariable]`,
+      `    )`,
       `</div>`,
       ``,
     ].join('\n');
