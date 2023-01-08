@@ -1761,13 +1761,7 @@ export default class Formatter {
                   inside = _.replace(inside, /(?<=^ *) {4}/gm, '\t'.repeat(this.indentSize));
                 }
 
-                if (this.isInline(inside)) {
-                  return `${this.indentRawPhpBlock(indent, `${inside}`)
-                    .replace(/func\((.*)\)/gis, (match: string, p5: string) => p5)
-                    .trim()}`;
-                }
-
-                return this.indentRawPhpBlock(indent, `${inside}`)
+                return this.indentRawPhpBlock(indent, inside)
                   .replace(/func\((.*)\)/gis, (match: string, p5: string) => p5)
                   .trim();
               },
