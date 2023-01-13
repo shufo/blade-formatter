@@ -1681,15 +1681,7 @@ export default class Formatter {
 
         const matched = this.conditions[p1];
 
-        return this.indentComponentAttribute(
-          indent.indent,
-          util
-            .formatRawStringAsPhp(matched, this.defaultPhpFormatOption)
-            .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
-            .replace(/(?<!(['"]).*)(?<=\()[\n\s]+?(?=\w)/gms, '')
-            .replace(/,[\n\s]*?\)/gs, ')')
-            .trimEnd(),
-        );
+        return this.formatExpressionInsideBladeDirective(matched, indent);
       }),
     );
   }
@@ -1742,34 +1734,7 @@ export default class Formatter {
                   wrapLength = this.wrapLineLength - `func`.length - p1.length - indent.amount;
                 }
 
-                const formatTarget = `func(${p4})`;
-                const formattedExpression = util.formatRawStringAsPhp(formatTarget, {
-                  ...this.defaultPhpFormatOption,
-                  printWidth: wrapLength,
-                });
-
-                if (formattedExpression === formatTarget) {
-                  return p4;
-                }
-
-                let inside = formattedExpression
-                  .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
-                  .replace(/,(\s*?\))/gis, (_match5, p5) => p5)
-                  .trim();
-
-                if (this.options.useTabs || false) {
-                  inside = _.replace(inside, /(?<=^ *) {4}/gm, '\t'.repeat(this.indentSize));
-                }
-
-                if (this.isInline(inside)) {
-                  return `${this.indentRawPhpBlock(indent, `${inside}`)
-                    .replace(/func\((.*)\)/gis, (match: string, p5: string) => p5)
-                    .trim()}`;
-                }
-
-                return this.indentRawPhpBlock(indent, `${inside}`)
-                  .replace(/func\((.*)\)/gis, (match: string, p5: string) => p5)
-                  .trim();
+                return this.formatExpressionInsideBladeDirective(p4, indent, wrapLength);
               },
             );
 
@@ -2352,6 +2317,38 @@ export default class Formatter {
 
   decrementIndentLevel(level = 1) {
     this.currentIndentLevel -= level;
+  }
+
+  formatExpressionInsideBladeDirective(
+    matchedExpression: string,
+    indent: detectIndent.Indent,
+    wrapLength: number | undefined = undefined,
+  ) {
+    const formatTarget = `func(${matchedExpression})`;
+    const formattedExpression = util.formatRawStringAsPhp(formatTarget, {
+      ...this.defaultPhpFormatOption,
+      printWidth: wrapLength ?? this.defaultPhpFormatOption.printWidth,
+    });
+
+    if (formattedExpression === formatTarget) {
+      return matchedExpression;
+    }
+
+    let inside = formattedExpression
+      .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
+      .replace(/,(\s*?\))$/gm, (match, p1) => p1)
+      .trim();
+
+    if (this.options.useTabs || false) {
+      inside = _.replace(inside, /(?<=^ *) {4}/gm, '\t'.repeat(this.indentSize));
+    }
+
+    inside = inside.replace(/func\((.*)\)/gis, (match: string, p1: string) => p1);
+    if (this.isInline(inside.trim())) {
+      inside = inside.trim();
+    }
+
+    return this.indentRawPhpBlock(indent, inside);
   }
 
   formatJS(jsCode: string): string {
