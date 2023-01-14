@@ -2337,7 +2337,7 @@ export default class Formatter {
     let inside = formattedExpression
       .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
       .replace(/(?<!(['"]).*)(?<=\()[\n\s]+?(?=\w)/gm, '')
-      .replace(/([^/]*)],[\n\s]*?\)$/gm, (match: string, p1: string) => `${p1}]\n)`)
+      .replace(/([^]*)],[\n\s]*?\)$/gm, (match: string, p1: string) => `${p1}]\n)`)
       .replace(/,[\n\s]*?\)/gs, ')')
       .replace(/,(\s*?\))$/gm, (match, p1) => p1)
       .trim();
