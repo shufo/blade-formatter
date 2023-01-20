@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.32.4](https://github.com/shufo/blade-formatter/compare/v1.32.3...v1.32.4) (2023-01-14)
+
+
+### Fixes
+
+* consistent formatting for `[@component](https://github.com/component)` ([#772](https://github.com/shufo/blade-formatter/issues/772)) ([a3d3aaa](https://github.com/shufo/blade-formatter/commit/a3d3aaace14d2d9f1cead0300f869b1f06bc5536))
+* **deps:** update dependency php-parser to v3.1.3 ([6697e42](https://github.com/shufo/blade-formatter/commit/6697e42f6f526f0c0c69f8f6d5dff3fcc104af5f))
+
+
+### Miscellaneous
+
+* **deps:** update dependency esbuild to ^0.17.0 ([7dd8adb](https://github.com/shufo/blade-formatter/commit/7dd8adbb1b94112cc0b36ba28e66f99c252bc7fd))
+* **deps:** update dependency fs-extra to v11 ([0a33f65](https://github.com/shufo/blade-formatter/commit/0a33f65a14f52d684411b976ccd6e40d4cd88b9f))
+
 ## [1.32.3](https://github.com/shufo/blade-formatter/compare/v1.32.2...v1.32.3) (2023-01-02)
 
 
