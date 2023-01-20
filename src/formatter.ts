@@ -267,7 +267,7 @@ export default class Formatter {
       }
 
       if (this.options.tailwindcssConfig) {
-        const options = { tailwindConfig: this.options.tailwindcssConfig };
+        const options: any = { tailwindConfig: this.options.tailwindcssConfig };
         return sortClasses(p2, options);
       }
 
