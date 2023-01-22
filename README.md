@@ -10,9 +10,9 @@ An opinionated blade template formatter for Laravel that respects readability
 
 ![blade-formatter](https://user-images.githubusercontent.com/1641039/90263225-51f3b280-de8a-11ea-940c-54c3554174d2.png)
 
-This project aims to provide formatter for blade template because there is no official blade template formatter.
+This project aims to provide a formatter for blade templates, as there is no official blade template formatter.
 
-[Try it out on Online Demo](https://online-blade-formatter.vercel.app/)
+[Try the online demo](https://online-blade-formatter.vercel.app/)
 
 ## Features
 
@@ -199,7 +199,7 @@ Examples:
 
 ## Configuring blade-formatter
 
-To configuring project wide settings, put `.bladeformatterrc.json` or `.bladeformatterrc` to your repository root will blade-formatter treat it as setting files.
+To configure project wide settings, put `.bladeformatterrc.json` or `.bladeformatterrc` in your repository root, blade-formatter will treat them as settings files.
 
 e.g.
 
@@ -218,11 +218,11 @@ e.g.
 }
 ```
 
-blade-formatter will searches up the directory structure until reaching root directory.
+blade-formatter will search up the directory structure until it reaches the root directory.
 
 ## Ignore Files
 
-To ignore specific file, put `.bladeignore` to your repository root will blade-formatter treat it as ignored files.
+To ignore a specific file, put a `.bladeignore' in the root of your repository and the blade formatter will treat it as an ignored file.
 
 e.g.
 
@@ -243,14 +243,14 @@ To disable formatting in your file, you can use blade comments in the following 
 {{-- blade-formatter-enable --}}
 ```
 
-To disable format on a specific line, you can use comment in the following format:
+To disable formatiing on a specific line, you can use comment in the following format:
 
 ```blade
 {{-- blade-formatter-disable-next-line --}}
     {{ $foo }}
 ```
 
-To disable format in an entire file, put a `{{-- blade-formatter-disable --}}` comment at the top of the file:
+To disable formatting for an entire file, put a `{{-- blade-formatter-disable --}}` comment at the beginning of the file:
 
 ```blade
 {{-- blade-formatter-disable --}}
@@ -260,7 +260,7 @@ To disable format in an entire file, put a `{{-- blade-formatter-disable --}}` c
 
 ## API
 
-You can use blade formatter by API as well.
+You can also use the blade formatter via API.
 
 ```js
 const { BladeFormatter } = require('blade-formatter');
@@ -319,7 +319,7 @@ new Formatter(options).formatContent(input).then((formatted) => {
 
 ## Troubleshoot
 
-- If you encounter the error until installation like below
+- If you encounter the following error during installation
 
 ```
 $ npm install -g blade-formatter
@@ -328,7 +328,7 @@ current user ("nobody") does not have permission to access the dev dir
 ~~
 ```
 
-Try set global user as root
+Try setting the global user as root
 
 ```
 $ npm -g config set user root
