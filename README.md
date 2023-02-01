@@ -445,6 +445,13 @@ $ yarn run test
             <br />
             <sub><b>Jumpei Tanaka</b></sub>
         </a>
+    </td>
+    <td align="center">
+        <a href="https://github.com/chibicco">
+            <img src="https://avatars.githubusercontent.com/u/3061562?v=4" width="100;" alt="chibicco"/>
+            <br />
+            <sub><b>Chibicco</b></sub>
+        </a>
     </td></tr>
 </table>
 <!-- readme: collaborators,contributors -end -->
