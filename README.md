@@ -114,20 +114,20 @@ $ npm install --save-dev blade-formatter
 $ node_modules/.bin/blade-formatter -h
 ```
 
-yarn
+### yarn
 
 ```bash
 $ yarn add --dev blade-formatter
 ```
 
-global
+### global
 
 ```bash
 $ npm install -g blade-formatter
 $ yarn global add blade-formatter
 ```
 
-docker
+### docker
 
 ```bash
 $ docker run -it -v $(pwd):/app -w /app shufo/blade-formatter resources/**/*.blade.php
@@ -348,11 +348,32 @@ $ yarn install
 $ yarn run watch # watch changes
 ```
 
+### docker
+
+You can use local docker image for development.
+It might help if the host OS is not an amd64 architecture.
+
+```bash
+$ make build
+$ make run example.php
+```
+
+
 ## Testing
 
 ```bash
 $ yarn install
 $ yarn run test
+```
+
+### docker
+
+You can use local docker image for testing.
+
+```bash
+$ make build
+$ make test
+$ make debug # attach
 ```
 
 ## Contributing
