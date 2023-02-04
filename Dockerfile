@@ -10,4 +10,4 @@ COPY --from=builder /app/dist /app/dist
 RUN yarn install --production
 RUN ln -s $(pwd)/bin/blade-formatter /usr/local/bin/blade-formatter
 
-CMD ["blade-formatter"]
+ENTRYPOINT ["blade-formatter"]
