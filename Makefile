@@ -1,4 +1,4 @@
-DOCKER_IMAGE_NAME ?= shufo/blade-formatter
+DOCKER_IMAGE_NAME ?= local/blade-formatter
 # Please specify the directory and file name where the target file exists.
 TARGET_DIRECTORY ?= $(PWD)
 TARGET_FILE_NAME ?= sample.php
