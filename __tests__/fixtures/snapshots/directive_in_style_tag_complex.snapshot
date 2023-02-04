@@ -1,0 +1,107 @@
+------------------------------------options----------------------------------------
+{}
+------------------------------------content----------------------------------------
+<head>
+    <style type="text/css">
+  @yield('template_fastload_css')
+
+@if (   Auth::User() &&   Auth::User()->profile && Auth::User()->profile->avatar_status == 0)
+      .user-avatar-nav {
+          background: url({{ Gravatar::get(Auth::user()->email) }}) 50% 50% no-repeat;
+          background-size: auto 10%;
+      }
+  @if ($user)
+   .user-avatar-nav-2 {
+   background-size: auto 100%;
+        }
+@endif
+        @elseif($user)
+      .user-avatar-nav {
+  background: url({{ Gravatar::get(Auth::user()->email) }}) 50% 50% no-repeat;
+          background-size: auto 10%;
+      }
+        @else
+      .user-avatar-nav {
+  background: url({{ Gravatar::get(Auth::user()->email) }}) 50% 50% no-repeat;
+          background-size: auto 1%;
+      }
+        @endif
+
+   @media(105px) {
+            background-size: auto 100%;
+   }
+
+        .user-avatar-nav-2 {
+            background-size: auto 100%;
+   }
+        @disk('aaa')
+        .user-avatar-nav-2 {
+   background-size: auto 100%;
+        }
+  @if ($user)
+   .user-avatar-nav-2 {
+   background-size: auto 100%;
+        }
+@endif
+        @elsedisk('s3')
+
+.user-avatar-nav-2 {
+   background-size: auto 100%;
+   }
+@enddisk
+    </style>
+</head>
+------------------------------------expected----------------------------------------
+<head>
+    <style type="text/css">
+        @yield('template_fastload_css')
+
+        @if (Auth::User() && Auth::User()->profile && Auth::User()->profile->avatar_status == 0)
+            .user-avatar-nav {
+                background: url({{ Gravatar::get(Auth::user()->email) }}) 50% 50% no-repeat;
+                background-size: auto 10%;
+            }
+
+            @if ($user)
+                .user-avatar-nav-2 {
+                    background-size: auto 100%;
+                }
+            @endif
+        @elseif($user)
+            .user-avatar-nav {
+                background: url({{ Gravatar::get(Auth::user()->email) }}) 50% 50% no-repeat;
+                background-size: auto 10%;
+            }
+        @else
+            .user-avatar-nav {
+                background: url({{ Gravatar::get(Auth::user()->email) }}) 50% 50% no-repeat;
+                background-size: auto 1%;
+            }
+        @endif
+
+        @media(105px) {
+            background-size: auto 100%;
+        }
+
+        .user-avatar-nav-2 {
+            background-size: auto 100%;
+        }
+
+        @disk('aaa')
+            .user-avatar-nav-2 {
+                background-size: auto 100%;
+            }
+
+            @if ($user)
+                .user-avatar-nav-2 {
+                    background-size: auto 100%;
+                }
+            @endif
+        @elsedisk('s3')
+
+            .user-avatar-nav-2 {
+                background-size: auto 100%;
+            }
+        @enddisk
+    </style>
+</head>
