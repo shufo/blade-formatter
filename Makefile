@@ -1,7 +1,10 @@
 DOCKER_IMAGE_NAME ?= local/blade-formatter
-# Please specify the directory and file name where the target file exists.
 TARGET_DIRECTORY ?= $(PWD)
-TARGET_FILE_NAME ?= sample.php
+
+ifeq (run,$(firstword $(MAKECMDGOALS)))
+  TARGET_FILE_NAME := $(wordlist 2,2,$(MAKECMDGOALS))
+  $(eval $(TARGET_FILE_NAME):;@:)
+endif
 
 .PHONY: build
 build:
