@@ -1,9 +1,13 @@
-FROM node:lts-alpine as builder
+FROM node:18-alpine3.17 as builder
+WORKDIR /app
+ADD . /app
+RUN yarn install && yarn run build
 
-WORKDIR /blade-formatter
-ADD . .
-RUN apk add --update --no-cache git python3 gcc g++ make
-RUN yarn install && yarn build
+FROM node:18-alpine3.17
+WORKDIR /app
+ADD . /app
+COPY --from=builder /app/dist /app/dist
+RUN yarn install --production
 RUN ln -s $(pwd)/bin/blade-formatter /usr/local/bin/blade-formatter
 
-ENTRYPOINT ["blade-formatter"]
+CMD ["blade-formatter"]
