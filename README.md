@@ -145,9 +145,8 @@ $ make build
 You want to format the file.
 
 ```bash
-$ make run
-$ TARGET_FILE_NAME=sample.php make run
-$ TARGET_DIRECTORY=/your_dir TARGET_FILE_NAME=sample.php make run
+$ make run sample.php
+$ TARGET_DIRECTORY=/your_dir make run sample.php
 ```
 
 You want to run tests.
