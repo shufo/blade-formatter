@@ -133,34 +133,6 @@ $ yarn global add blade-formatter
 $ docker run -it -v $(pwd):/app -w /app shufo/blade-formatter resources/**/*.blade.php
 ```
 
-### make
-
-Build a local image.
-May help if the host OS is not amd64 architecture.
-
-```bash
-$ make build
-```
-
-You want to format the file.
-
-```bash
-$ make run sample.php
-$ TARGET_DIRECTORY=/your_dir make run sample.php
-```
-
-You want to run tests.
-
-```bash
-$ make test
-```
-
-You want to enter the container and debug.
-
-```bash
-$ make debug
-```
-
 ## Usage
 
 - Basic
@@ -376,11 +348,32 @@ $ yarn install
 $ yarn run watch # watch changes
 ```
 
+### docker
+
+You can use local docker image for development.
+It might help if the host OS is not an amd64 architecture.
+
+```bash
+$ make build
+$ make run example.php
+```
+
+
 ## Testing
 
 ```bash
 $ yarn install
 $ yarn run test
+```
+
+### docker
+
+You can use local docker image for testing.
+
+```bash
+$ make build
+$ make test
+$ make debug # attach
 ```
 
 ## Contributing
