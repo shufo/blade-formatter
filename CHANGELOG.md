@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.32.6](https://github.com/shufo/blade-formatter/compare/v1.32.5...v1.32.6) (2023-02-05)
+
+
+### Fixes
+
+* 🐛 directives in style tag are not formatted ([84fd8a5](https://github.com/shufo/blade-formatter/commit/84fd8a5a31f9d5905b897894829be66ec92f46f7))
+
+### Miscellaneous
+
+* 🤖 revert esbuild to ^0.16.0 to enable watch option ([5999d71](https://github.com/shufo/blade-formatter/commit/5999d7117093a7499a3844780700f329a0d1700a))
+* add utility command by Makefile ([6e71f42](https://github.com/shufo/blade-formatter/commit/6e71f4213f6fec2ab7ffdb759271e0ae1972acab))
+
 ## [1.32.5](https://github.com/shufo/blade-formatter/compare/v1.32.4...v1.32.5) (2023-01-20)
 
 
