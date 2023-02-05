@@ -348,8 +348,6 @@ $ yarn install
 $ yarn run watch # watch changes
 ```
 
-### docker
-
 You can use local docker image for development.
 It might help if the host OS is not an amd64 architecture.
 
@@ -366,9 +364,8 @@ $ yarn install
 $ yarn run test
 ```
 
-### docker
-
 You can use local docker image for testing.
+It might help if the host OS is not an amd64 architecture.
 
 ```bash
 $ make build
