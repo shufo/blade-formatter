@@ -6,16 +6,11 @@
 ### Fixes
 
 * 🐛 directives in style tag are not formatted ([84fd8a5](https://github.com/shufo/blade-formatter/commit/84fd8a5a31f9d5905b897894829be66ec92f46f7))
-* docker commands for backward compatibility ([a2c5f29](https://github.com/shufo/blade-formatter/commit/a2c5f29bc1c9ba9bbdc6e0a64f8bf5deee953e7a))
-* make run args ([30456a8](https://github.com/shufo/blade-formatter/commit/30456a88dfc19f54ff231866b48614191c580a13))
-* rename the name of local image used in Makefile ([0445ed2](https://github.com/shufo/blade-formatter/commit/0445ed2b2ec78878be11b084efd8c91534674b2a))
-
 
 ### Miscellaneous
 
 * 🤖 revert esbuild to ^0.16.0 to enable watch option ([5999d71](https://github.com/shufo/blade-formatter/commit/5999d7117093a7499a3844780700f329a0d1700a))
 * add utility command by Makefile ([6e71f42](https://github.com/shufo/blade-formatter/commit/6e71f4213f6fec2ab7ffdb759271e0ae1972acab))
-* easy execution using Makefile ([01a1239](https://github.com/shufo/blade-formatter/commit/01a1239a3a5682388020c26913344545f3d861f3))
 
 ## [1.32.5](https://github.com/shufo/blade-formatter/compare/v1.32.4...v1.32.5) (2023-01-20)
 
