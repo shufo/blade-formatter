@@ -114,23 +114,51 @@ $ npm install --save-dev blade-formatter
 $ node_modules/.bin/blade-formatter -h
 ```
 
-yarn
+### yarn
 
 ```bash
 $ yarn add --dev blade-formatter
 ```
 
-global
+### global
 
 ```bash
 $ npm install -g blade-formatter
 $ yarn global add blade-formatter
 ```
 
-docker
+### docker
 
 ```bash
 $ docker run -it -v $(pwd):/app -w /app shufo/blade-formatter resources/**/*.blade.php
+```
+
+### make
+
+Build a local image.
+May help if the host OS is not amd64 architecture.
+
+```bash
+$ make build
+```
+
+You want to format the file.
+
+```bash
+$ make run sample.php
+$ TARGET_DIRECTORY=/your_dir make run sample.php
+```
+
+You want to run tests.
+
+```bash
+$ make test
+```
+
+You want to enter the container and debug.
+
+```bash
+$ make debug
 ```
 
 ## Usage
