@@ -1,0 +1,124 @@
+------------------------------------options----------------------------------------
+{}
+------------------------------------content----------------------------------------
+<script>
+    function appendCalculationRow() {
+        let row =
+            @if (!empty($data))
+                `<tr>
+                   <td width="10%"> <input type="text" name="item_name[]" class="form-control item_name" value="{{ $data?->item_name }} required autocomplete="off"> </td>
+
+                   <td width="70%">
+                       <select class="form-control unit_id" name="unit_id[]" required>
+                           <option value="">Select Unit</option>
+                               @foreach ($units as $unit)
+                                   <option value="{{ $unit->id }}" {{ $data?->unit_id == $unit?->id ? 'selected' : '' }}>{{ $unit?->name }}</option>
+                               @endforeach
+                       </select>
+                   </td>
+
+                   <td width="10%">
+                       <input type="text" name="specification[]" class="form-control specification" required autocomplete="off" value="{{ $data?->specification }}">
+                   </td>
+                   <td width="10%">
+                       <input type="number" name="unit_price[]" class="form-control unit_price" autocomplete="off" value="{{ $data?->unit_price }}">
+                   </td>
+                   <td width="10%">
+                       <input type="text" name="remarks[]" class="form-control remarks" required autocomplete="off" value="{{ $data?->remarks }}">
+                   </td>
+                   <td> <i class="btn btn-danger btn-sm fa fa-minus remove-calculation-row"></i> </td>
+                 </tr>`;
+            @else
+                `<tr>
+                    <td width="10%"> <input type="text" name="item_name[]" class="form-control item_name" required autocomplete="off"> </td>
+                    <td width="70%">
+                        <select class="form-control unit_id" name="unit_id[]" required>
+                             <option value="">Select Unit</option>
+                                @foreach ($units as $unit)
+                                    <option value="{{ $unit->id }}">{{ $unit->name }}</option>
+                                @endforeach
+                        </select>
+                    </td>
+                    <td width="10%"> <input type="text" name="specification[]" class="form-control specification" required autocomplete="off"> </td>
+                    <td width="10%"> <input type="number" name="unit_price[]" class="form-control unit_price" autocomplete="off"> </td>
+                    <td width="10%"> <input type="text" name="remarks[]" class="form-control remarks" required autocomplete="off"> </td>
+                    <td> <i class="btn btn-danger btn-sm fa fa-minus remove-calculation-row"></i> </td>
+                </tr>`;
+            @endif ;
+
+        $('#material_specification_table tbody').append(row);
+    }
+
+    $("#material_specification_table")
+        .on('click', '.add-specification-row', () => {
+            appendCalculationRow();
+        })
+        .on('click', '.remove-calculation-row', function() {
+            $(this).closest('tr').remove();
+        });
+
+    $(document).ready(function() {
+        $('.select2').select2();
+    });
+</script>
+------------------------------------expected----------------------------------------
+<script>
+    function appendCalculationRow() {
+        let row =
+            @if (!empty($data))
+                `<tr>
+                   <td width="10%"> <input type="text" name="item_name[]" class="form-control item_name" value="{{ $data?->item_name }} required autocomplete="off"> </td>
+
+                   <td width="70%">
+                       <select class="form-control unit_id" name="unit_id[]" required>
+                           <option value="">Select Unit</option>
+                               @foreach ($units as $unit)
+                                   <option value="{{ $unit->id }}" {{ $data?->unit_id == $unit?->id ? 'selected' : '' }}>{{ $unit?->name }}</option>
+                               @endforeach
+                       </select>
+                   </td>
+
+                   <td width="10%">
+                       <input type="text" name="specification[]" class="form-control specification" required autocomplete="off" value="{{ $data?->specification }}">
+                   </td>
+                   <td width="10%">
+                       <input type="number" name="unit_price[]" class="form-control unit_price" autocomplete="off" value="{{ $data?->unit_price }}">
+                   </td>
+                   <td width="10%">
+                       <input type="text" name="remarks[]" class="form-control remarks" required autocomplete="off" value="{{ $data?->remarks }}">
+                   </td>
+                   <td> <i class="btn btn-danger btn-sm fa fa-minus remove-calculation-row"></i> </td>
+                 </tr>`;
+            @else
+                `<tr>
+                    <td width="10%"> <input type="text" name="item_name[]" class="form-control item_name" required autocomplete="off"> </td>
+                    <td width="70%">
+                        <select class="form-control unit_id" name="unit_id[]" required>
+                             <option value="">Select Unit</option>
+                                @foreach ($units as $unit)
+                                    <option value="{{ $unit->id }}">{{ $unit->name }}</option>
+                                @endforeach
+                        </select>
+                    </td>
+                    <td width="10%"> <input type="text" name="specification[]" class="form-control specification" required autocomplete="off"> </td>
+                    <td width="10%"> <input type="number" name="unit_price[]" class="form-control unit_price" autocomplete="off"> </td>
+                    <td width="10%"> <input type="text" name="remarks[]" class="form-control remarks" required autocomplete="off"> </td>
+                    <td> <i class="btn btn-danger btn-sm fa fa-minus remove-calculation-row"></i> </td>
+                </tr>`;
+            @endif ;
+
+        $('#material_specification_table tbody').append(row);
+    }
+
+    $("#material_specification_table")
+        .on('click', '.add-specification-row', () => {
+            appendCalculationRow();
+        })
+        .on('click', '.remove-calculation-row', function() {
+            $(this).closest('tr').remove();
+        });
+
+    $(document).ready(function() {
+        $('.select2').select2();
+    });
+</script>

@@ -1634,9 +1634,16 @@ export default class Formatter {
       // delete place holder
       formatted = _.replace(
         formatted,
-        /(?<=[\S]+)\s*?\/\*\*\*script_placeholder\*\*\*\/(\s)/gim,
-        (_match: any, p1: string) => {
-          return p1;
+        /(?<=[\S]+)(\s*?)\/\*\*\*script_placeholder\*\*\*\/(\s)?/gim,
+        (_match: any, p1: string, p2: string) => {
+          if (p2 !== undefined) {
+            return p2;
+          }
+
+          const group1 = p1 ?? '';
+          const group2 = p2 ?? '';
+
+          return group1 + group2;
         },
       );
 
