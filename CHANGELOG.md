@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.32.8](https://github.com/shufo/blade-formatter/compare/v1.32.7...v1.32.8) (2023-02-22)
+
+
+### Fixes
+
+* 🐛 error on script tag with sort html attribute option ([3fae4eb](https://github.com/shufo/blade-formatter/commit/3fae4eb6ab1a5c204aa565d7687e8ee5d94d1a00))
+
 ## [1.32.7](https://github.com/shufo/blade-formatter/compare/v1.32.6...v1.32.7) (2023-02-12)
 
 
