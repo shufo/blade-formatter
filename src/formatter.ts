@@ -1918,11 +1918,11 @@ export default class Formatter {
       _.replace(
         // @ts-expect-error ts-migrate(2345) FIXME: Argument of type 'unknown' is not assignable to pa... Remove this comment to see the full error message
         res,
-        /<blade ___scripts_(\d)+___ ?\/>/gim,
+        new RegExp(`${this.getScriptPlaceholder('(\\d+)')}`, 'gim'),
         (_match: any, p1: number) => {
           const script = this.scripts[p1];
 
-          const placeholder = `<blade ___scripts_${p1}___ ?/>`;
+          const placeholder = this.getScriptPlaceholder(p1);
           const matchedLine = content.match(new RegExp(`^(.*?)${placeholder}`, 'gmi')) ?? [''];
           const indent = detectIndent(matchedLine[0]);
           const useTabs = util.optional(this.options).useTabs || false;
