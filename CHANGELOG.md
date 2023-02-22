@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.32.7](https://github.com/shufo/blade-formatter/compare/v1.32.6...v1.32.7) (2023-02-12)
+
+
+### Fixes
+
+* 🐛 syntax error on nested directives in script tag ([6403399](https://github.com/shufo/blade-formatter/commit/6403399de5bb6836ad547fd630ad24e7be41c669))
+
 ## [1.32.6](https://github.com/shufo/blade-formatter/compare/v1.32.5...v1.32.6) (2023-02-05)
 
 
