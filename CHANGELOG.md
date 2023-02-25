@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.32.9](https://github.com/shufo/blade-formatter/compare/v1.32.8...v1.32.9) (2023-02-25)
+
+
+### Fixes
+
+* revert to v1.32.7 ([1bedb07](https://github.com/shufo/blade-formatter/commit/1bedb0734911e7a529e5527afb33803b9a3af555))
+
 ## [1.32.8](https://github.com/shufo/blade-formatter/compare/v1.32.7...v1.32.8) (2023-02-22)
 
 
