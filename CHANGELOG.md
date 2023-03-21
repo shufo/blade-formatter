@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.32.10](https://github.com/shufo/blade-formatter/compare/v1.32.9...v1.32.10) (2023-03-21)
+
+
+### Miscellaneous
+
+* **deps:** update dependency typescript to v5 ([b4c0756](https://github.com/shufo/blade-formatter/commit/b4c07567f2d36266c6e2675a825a6082f96fc5fd))
+
+
+### Fixes
+
+* **deps:** update dependency php-parser to v3.1.4 ([34101ab](https://github.com/shufo/blade-formatter/commit/34101abf2a44e50a28f8efb43fea60c01bde2c2e))
+
 ## [1.32.9](https://github.com/shufo/blade-formatter/compare/v1.32.8...v1.32.9) (2023-02-25)
 
 
