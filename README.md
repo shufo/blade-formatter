@@ -401,13 +401,6 @@ $ make debug # attach
         </a>
     </td>
     <td align="center">
-        <a href="https://github.com/chibicco">
-            <img src="https://avatars.githubusercontent.com/u/3061562?v=4" width="100;" alt="chibicco"/>
-            <br />
-            <sub><b>Chibicco</b></sub>
-        </a>
-    </td>
-    <td align="center">
         <a href="https://github.com/slovenianGooner">
             <img src="https://avatars.githubusercontent.com/u/1257629?v=4" width="100;" alt="slovenianGooner"/>
             <br />
@@ -427,15 +420,15 @@ $ make debug # attach
             <br />
             <sub><b>Schelmo</b></sub>
         </a>
-    </td></tr>
-<tr>
+    </td>
     <td align="center">
         <a href="https://github.com/Dave-iFour">
             <img src="https://avatars.githubusercontent.com/u/110526667?v=4" width="100;" alt="Dave-iFour"/>
             <br />
             <sub><b>Dave</b></sub>
         </a>
-    </td>
+    </td></tr>
+<tr>
     <td align="center">
         <a href="https://github.com/dianfishekqi">
             <img src="https://avatars.githubusercontent.com/u/4225509?v=4" width="100;" alt="dianfishekqi"/>
