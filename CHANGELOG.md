@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.32.11](https://github.com/shufo/blade-formatter/compare/v1.32.10...v1.32.11) (2023-04-02)
+
+
+### Miscellaneous
+
+* **deps:** update actions/stale action to v8 ([4779dd0](https://github.com/shufo/blade-formatter/commit/4779dd05c92222b537a99f22d11309ac899d3766))
+
+
+### Fixes
+
+* 🐛 unless directive has not space between parenthesis ([324bff8](https://github.com/shufo/blade-formatter/commit/324bff870e9c01a1405775f64cba1bbea42ff0a3))
+
 ## [1.32.10](https://github.com/shufo/blade-formatter/compare/v1.32.9...v1.32.10) (2023-03-21)
 
 
