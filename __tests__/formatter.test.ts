@@ -146,7 +146,6 @@ describe('formatter', () => {
     'push',
     'section',
     'slot',
-    'unless',
     'verbatim',
     'prepend',
     'error',
@@ -3704,7 +3703,7 @@ describe('formatter', () => {
     const expected = [
       `<x-panel class="bg-gray-50">`,
       `    <x-content>`,
-      `        @unless(isset($primaryTicketingLinkData) && $primaryTicketingLinkData['isSoldOut'] && $ticketCount <= 0)`,
+      `        @unless (isset($primaryTicketingLinkData) && $primaryTicketingLinkData['isSoldOut'] && $ticketCount <= 0)`,
       `            @include('events.partials.wanted-tickets-button')`,
       `        @endunless`,
       `    </x-content>`,
@@ -4398,7 +4397,7 @@ describe('formatter', () => {
     ].join('\n');
 
     const expected = [
-      `@unless(auth()->user()->hasVerifiedEmail())`,
+      `@unless (auth()->user()->hasVerifiedEmail())`,
       `    <p>Please check and verify your email to access the system</p>`,
       `@endunless`,
       ``,
@@ -4481,7 +4480,7 @@ describe('formatter', () => {
 
     const expected = [
       `<input`,
-      `    @unless($hasMask())`,
+      `    @unless ($hasMask())`,
       ``,
       `        {{ $applyStateBindingModifiers('wire:model') }}="{{ $getStatePath() }}"`,
       `         type="{{ $getType() }}"`,
