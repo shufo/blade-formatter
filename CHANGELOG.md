@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.32.12](https://github.com/shufo/blade-formatter/compare/v1.32.11...v1.32.12) (2023-04-02)
+
+
+### Fixes
+
+* 🐛 ambiguous regex ([9ee111e](https://github.com/shufo/blade-formatter/commit/9ee111ed08724720717bc7d583993088467181c6))
+
 ## [1.32.11](https://github.com/shufo/blade-formatter/compare/v1.32.10...v1.32.11) (2023-04-02)
 
 
