@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { nestedParenthesisRegex } from './regex';
 
 /**
  * Adjust spaces in blade directives
@@ -11,9 +12,9 @@ export function adjustSpaces(content: string): string {
 
   return _.replace(
     content,
-    new RegExp(`(?<!@)(${directivesRequiredSpace.join('|')})\\s*\\(`, 'gi'),
-    (matched: string, p1: string) => {
-      return `${p1} (`;
+    new RegExp(`(?<!@)(${directivesRequiredSpace.join('|')})\\s*${nestedParenthesisRegex}`, 'gi'),
+    (_matched: string, p1: string, p2: string) => {
+      return `${p1} (${p2})`;
     },
   );
 }
