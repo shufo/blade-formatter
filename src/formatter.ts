@@ -33,6 +33,7 @@ import {
 import { nestedParenthesisRegex } from './regex';
 import { SortHtmlAttributes } from './runtimeConfig';
 import { formatPhpComment } from './comment';
+import { adjustSpaces } from './space';
 
 export default class Formatter {
   argumentCheck: any;
@@ -232,6 +233,7 @@ export default class Formatter {
       .then((target) => this.restoreCurlyBraceForJS(target))
       .then((target) => this.restoreNonnativeScripts(target))
       .then((target) => this.restoreIgnoredLines(target))
+      .then((target) => adjustSpaces(target))
       .then((formattedResult) => util.checkResult(formattedResult));
   }
 
