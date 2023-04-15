@@ -43,7 +43,7 @@
     "concat-stream": "^2.0.0",
     "detect-indent": "^6.0.0",
     "find-config": "^1.0.0",
-    "glob": "^8.0.1",
+    "glob": "^10.0.0",
     "html-attribute-sorter": "^0.4.3",
     "ignore": "^5.1.8",
     "js-beautify": "^1.14.0",
