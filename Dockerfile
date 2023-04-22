@@ -1,9 +1,9 @@
-FROM node:18-alpine3.17 as builder
+FROM node:20-alpine3.17 as builder
 WORKDIR /app
 ADD . /app
 RUN yarn install && yarn run build
 
-FROM node:18-alpine3.17
+FROM node:20-alpine3.17
 WORKDIR /app
 ADD . /app
 COPY --from=builder /app/dist /app/dist
