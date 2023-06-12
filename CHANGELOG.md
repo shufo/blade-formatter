@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.32.13](https://github.com/shufo/blade-formatter/compare/v1.32.12...v1.32.13) (2023-06-12)
+
+
+### Fixes
+
+* **deps:** update dependency php-parser to v3.1.5 ([a3f437b](https://github.com/shufo/blade-formatter/commit/a3f437b7972cbc58a810edbe34f6db8511a41381))
+
+
+### Miscellaneous
+
+* **deps:** update dependency esbuild to ^0.18.0 ([b139fb4](https://github.com/shufo/blade-formatter/commit/b139fb489f0cbfd26ee801ccbe13672bcb6f8539))
+* **deps:** update node.js to v20 ([b11ecfc](https://github.com/shufo/blade-formatter/commit/b11ecfcb09c80262115c4a1066e625659bd7eeff))
+
 ## [1.32.12](https://github.com/shufo/blade-formatter/compare/v1.32.11...v1.32.12) (2023-04-02)
 
 
