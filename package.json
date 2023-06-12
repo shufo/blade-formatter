@@ -77,7 +77,7 @@
     "babel-jest": "^29.0.0",
     "codecov": "^3.8.3",
     "cross-env": "^7.0.3",
-    "esbuild": "^0.16.0",
+    "esbuild": "^0.18.0",
     "esbuild-node-externals": "^1.4.1",
     "eslint": "^8.5.0",
     "eslint-config-airbnb-base": "^15.0.0",
