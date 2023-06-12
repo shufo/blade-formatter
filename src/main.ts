@@ -4,7 +4,7 @@ import nodepath from 'path';
 import fs from 'fs';
 import process from 'process';
 import chalk from 'chalk';
-import glob from 'glob';
+import { glob } from 'glob';
 import nodeutil from 'util';
 import _ from 'lodash';
 import findConfig from 'find-config';
@@ -230,10 +230,8 @@ class BladeFormatter {
       .then((paths) => this.formatFiles(paths));
   }
 
-  static globFiles(path: any) {
-    return new Promise((resolve, reject) => {
-      glob(path, (error: any, matches: any) => (error ? reject(error) : resolve(matches)));
-    });
+  static globFiles(path: string) {
+    return glob(path);
   }
 
   async filterFiles(paths: any) {
