@@ -290,8 +290,7 @@ new BladeFormatter(options).format(input).then((formatted) => {
 ### ESModule
 
 ```js
-import BladeFormatter from "blade-formatter";
-const { Formatter } = BladeFormatter;
+import { Formatter } from "blade-formatter";
 
 const input = `
 <html>
