@@ -5,6 +5,7 @@ import os from 'os';
 import chalk from 'chalk';
 import prettier from 'prettier/standalone.js';
 // @ts-ignore
+// eslint-disable-next-line
 import phpPlugin from '@prettier/plugin-php/standalone.js';
 import detectIndent from 'detect-indent';
 import { indentStartTokens, phpKeywordStartTokens, phpKeywordEndTokens } from './indent';
