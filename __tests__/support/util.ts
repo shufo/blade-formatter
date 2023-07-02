@@ -8,7 +8,7 @@ export function populateFixtures(targetDir: any) {
 }
 
 export async function checkIfTemplateIsFormattedTwice(input: any, target: any, options: string[] = []) {
-  const cmdResult = await cmd.execute(path.resolve('bin', 'blade-formatter'), [
+  const cmdResult = await cmd.execute(path.resolve('bin', 'blade-formatter.js'), [
     ...options,
     path.resolve('__tests__', 'fixtures', input),
   ]);
@@ -17,7 +17,7 @@ export async function checkIfTemplateIsFormattedTwice(input: any, target: any, o
 
   expect(cmdResult).toEqual(formatted.toString('utf-8'));
 
-  const cmdResult2 = await cmd.execute(path.resolve('bin', 'blade-formatter'), [
+  const cmdResult2 = await cmd.execute(path.resolve('bin', 'blade-formatter.js'), [
     ...options,
     path.resolve('__tests__', 'fixtures', target),
   ]);

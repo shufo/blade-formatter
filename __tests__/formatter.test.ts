@@ -1,7 +1,7 @@
 import assert from 'assert';
 import path from 'path';
 import fs from 'fs';
-import { BladeFormatter, Formatter } from '../src/main';
+import { BladeFormatter, Formatter } from '../src/main.js';
 import * as cmd from './support/cmd';
 import * as util from './support/util';
 
@@ -1057,7 +1057,7 @@ describe('formatter', () => {
   });
 
   test('should consider directive in html tag', async () => {
-    const cmdResult = await cmd.execute(path.resolve('bin', 'blade-formatter'), [
+    const cmdResult = await cmd.execute(path.resolve('bin', 'blade-formatter.js'), [
       path.resolve('__tests__', 'fixtures', 'inline_php_tag.blade.php'),
     ]);
 
@@ -2445,11 +2445,11 @@ describe('formatter', () => {
 
   test('sort tailwindcss classs option can work', function () {
     const content = [
-      `<div class="justify-center z-50 z-10 z-20 container text-left foo md:text-center">`,
+      `<div class="justify-center z-10 z-20 z-50 container text-left foo md:text-center">`,
       `</div>`,
     ].join('\n');
     const expected = [
-      `<div class="foo container z-50 z-10 z-20 justify-center text-left md:text-center">`,
+      `<div class="foo container z-10 z-20 z-50 justify-center text-left md:text-center">`,
       `</div>`,
       ``,
     ].join('\n');
@@ -2475,7 +2475,7 @@ describe('formatter', () => {
     ].join('\n');
 
     const expected = [
-      `<div class="foo container z-50 z-10 z-20 justify-center text-left md:text-center">`,
+      `<div class="foo container z-10 z-20 z-50 justify-center text-left md:text-center">`,
       `</div>`,
       ``,
     ].join('\n');
@@ -2494,7 +2494,7 @@ describe('formatter', () => {
     ].join('\n');
 
     const expected = [
-      `<div class="foo container z-50 z-10 z-20 justify-center text-left md:text-center">`,
+      `<div class="foo container z-10 z-20 z-50 justify-center text-left md:text-center">`,
       `</div>`,
       ``,
     ].join('\n');

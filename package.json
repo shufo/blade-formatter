@@ -10,28 +10,31 @@
   ],
   "version": "1.32.13",
   "description": "An opinionated blade template formatter for Laravel",
-  "main": "./dist/bundle.js",
+  "main": "./dist/bundle.cjs",
   "types": "./dist/types/main.d.ts",
   "type": "module",
   "exports": {
     ".": {
+      "import": "./dist/bundle.js",
+      "require": "./dist/bundle.cjs",
       "default": "./dist/bundle.js"
-    }
+    },
+    "./*": "./*"
   },
   "scripts": {
-    "build": "cross-env NODE_ENV=production node esbuild.ts",
+    "build": "cross-env NODE_ENV=production node esbuild.js && cross-env NODE_ENV=production ESM_BUILD=true node esbuild.js",
     "prepublish": "tsc src/main.ts --declaration --emitDeclarationOnly --outDir ./dist/types || true",
-    "watch": "node esbuild.ts",
+    "watch": "node esbuild.js",
     "test": "yarn run build && node --experimental-vm-modules node_modules/.bin/jest",
     "lint": "eslint src -c .eslintrc.js --ext ts",
     "fix": "prettier {src,__tests__}/**/*.ts --write",
     "check_formatted": "prettier **/*.ts -c",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0",
     "prepare": "husky install",
-    "bin": "cross-env ./bin/blade-formatter"
+    "bin": "cross-env ./bin/blade-formatter.cjs"
   },
   "bin": {
-    "blade-formatter": "bin/blade-formatter"
+    "blade-formatter": "bin/blade-formatter.cjs"
   },
   "author": "Shuhei Hayashibara",
   "license": "MIT",

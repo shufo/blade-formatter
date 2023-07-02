@@ -10,16 +10,16 @@ import * as util from './support/util';
 import { assertFormatted, assertNotFormatted } from './support/assertion';
 import { version } from '../package.json';
 
+const binPath = path.resolve('bin', 'blade-formatter.js');
+
 describe('The blade formatter CLI', () => {
   test.concurrent('should print the help', async function () {
-    const response = await cmd.execute(path.resolve('bin', 'blade-formatter'), ['-h']);
+    const response = await cmd.execute(binPath, ['-h']);
     expect(response).toMatch('help');
   });
 
   test.concurrent('should print a formatted file', async () => {
-    const response = await cmd.execute(path.resolve('bin', 'blade-formatter'), [
-      path.resolve('__tests__', 'fixtures', 'index.blade.php'),
-    ]);
+    const response = await cmd.execute(binPath, [path.resolve('__tests__', 'fixtures', 'index.blade.php')]);
 
     return fs.readFile(path.resolve('__tests__', 'fixtures', 'formatted.index.blade.php'), (err: any, data: any) => {
       expect(response).toMatch(data.toString('utf-8'));
@@ -27,7 +27,7 @@ describe('The blade formatter CLI', () => {
   });
 
   test.concurrent('should print multiple formatted files', async () => {
-    const response = await cmd.execute(path.resolve('bin', 'blade-formatter'), [
+    const response = await cmd.execute(binPath, [
       path.resolve('__tests__', 'fixtures', 'index.blade.php'),
       path.resolve('__tests__', 'fixtures', 'edit.blade.php'),
     ]);
@@ -44,10 +44,7 @@ describe('The blade formatter CLI', () => {
   });
 
   test.concurrent('should exit with exit code 1 if check option enabled and not formatted', async () => {
-    const response = cmd.executeSync(path.resolve('bin', 'blade-formatter'), [
-      path.resolve('__tests__', 'fixtures', 'index.blade.php'),
-      '-c',
-    ]);
+    const response = cmd.executeSync(binPath, [path.resolve('__tests__', 'fixtures', 'index.blade.php'), '-c']);
 
     const output = response.output.join('\n');
     const exitCode = response.status;
@@ -58,10 +55,7 @@ describe('The blade formatter CLI', () => {
   });
 
   test.concurrent('should exit with exit code 0 if check option enabled and formatted', async () => {
-    const response = cmd.executeSync(path.resolve('bin', 'blade-formatter'), [
-      `${__dirname}/fixtures/formatted.index.blade.php`,
-      '-c',
-    ]);
+    const response = cmd.executeSync(binPath, [`${__dirname}/fixtures/formatted.index.blade.php`, '-c']);
 
     const output = response.output.join('\n');
     const exitCode = response.status;
@@ -79,10 +73,7 @@ describe('The blade formatter CLI', () => {
     assertNotFormatted(path.resolve(tmpDir, 'index.blade.php'));
 
     // format unformatted file
-    const response = cmd.executeSync(path.resolve('bin', 'blade-formatter'), [
-      path.resolve(tmpDir, 'index.blade.php'),
-      '--write',
-    ]);
+    const response = cmd.executeSync(binPath, [path.resolve(tmpDir, 'index.blade.php'), '--write']);
 
     const output = response.output.join('\n');
     const exitCode = response.status;
@@ -95,10 +86,7 @@ describe('The blade formatter CLI', () => {
   });
 
   test.concurrent('should show diffs if diff option enabled', async () => {
-    const response = await cmd.execute(path.resolve('bin', 'blade-formatter'), [
-      path.resolve('__tests__', 'fixtures', 'index.blade.php'),
-      '--diff',
-    ]);
+    const response = await cmd.execute(binPath, [path.resolve('__tests__', 'fixtures', 'index.blade.php'), '--diff']);
 
     expect(response).toMatch('Differences');
     expect(response).toMatch('--<section id="content">');
@@ -106,13 +94,13 @@ describe('The blade formatter CLI', () => {
   });
 
   test.concurrent('should indent correctly if indent option passed', async () => {
-    const shortHandResponse = await cmd.execute(path.resolve('bin', 'blade-formatter'), [
+    const shortHandResponse = await cmd.execute(binPath, [
       path.resolve('__tests__', 'fixtures', 'index.blade.php'),
       '-i',
       '2',
     ]);
 
-    const longNameResponse = await cmd.execute(path.resolve('bin', 'blade-formatter'), [
+    const longNameResponse = await cmd.execute(binPath, [
       path.resolve('__tests__', 'fixtures', 'index.blade.php'),
       '--indent-size',
       '2',
@@ -127,9 +115,7 @@ describe('The blade formatter CLI', () => {
   });
 
   test.concurrent('should ignore commented lines #8', async () => {
-    const formatted = await cmd.execute(path.resolve('bin', 'blade-formatter'), [
-      path.resolve('__tests__', 'fixtures', 'commented.blade.php'),
-    ]);
+    const formatted = await cmd.execute(binPath, [path.resolve('__tests__', 'fixtures', 'commented.blade.php')]);
 
     const expectedTarget = path.resolve('__tests__', 'fixtures', 'formatted.commented.blade.php');
 
@@ -139,9 +125,7 @@ describe('The blade formatter CLI', () => {
   });
 
   test.concurrent('it can format php tag mixed file', async () => {
-    const cmdResult = await cmd.execute(path.resolve('bin', 'blade-formatter'), [
-      path.resolve('__tests__', 'fixtures', 'shorttag.blade.php'),
-    ]);
+    const cmdResult = await cmd.execute(binPath, [path.resolve('__tests__', 'fixtures', 'shorttag.blade.php')]);
 
     const formatted = fs.readFileSync(path.resolve('__tests__', 'fixtures', 'formatted_shorttag.blade.php'));
 
@@ -149,7 +133,7 @@ describe('The blade formatter CLI', () => {
   });
 
   test.concurrent('should consider longline line wrap', async () => {
-    const cmdResult = await cmd.execute(path.resolve('bin', 'blade-formatter'), [
+    const cmdResult = await cmd.execute(binPath, [
       path.resolve('__tests__', 'fixtures', 'blade_comment_in_longline.blade.php'),
     ]);
 
@@ -161,9 +145,7 @@ describe('The blade formatter CLI', () => {
   });
 
   test.concurrent('should properly formatted even if directive nested', async () => {
-    const cmdResult = await cmd.execute(path.resolve('bin', 'blade-formatter'), [
-      path.resolve('__tests__', 'fixtures', 'if_nest.blade.php'),
-    ]);
+    const cmdResult = await cmd.execute(binPath, [path.resolve('__tests__', 'fixtures', 'if_nest.blade.php')]);
 
     const formatted = fs.readFileSync(path.resolve('__tests__', 'fixtures', 'formatted.if_nest.blade.php'));
 
@@ -171,9 +153,7 @@ describe('The blade formatter CLI', () => {
   });
 
   test.concurrent('should properly formatted with raw php block', async () => {
-    const cmdResult = await cmd.execute(path.resolve('bin', 'blade-formatter'), [
-      path.resolve('__tests__', 'fixtures', 'raw_php_block.blade.php'),
-    ]);
+    const cmdResult = await cmd.execute(binPath, [path.resolve('__tests__', 'fixtures', 'raw_php_block.blade.php')]);
 
     const formatted = fs.readFileSync(path.resolve('__tests__', 'fixtures', 'formatted.raw_php_block.blade.php'));
 
@@ -181,11 +161,10 @@ describe('The blade formatter CLI', () => {
   });
 
   test.concurrent('stdin option', async () => {
-    const cmdResult = await spawnSync(
-      '/bin/cat',
-      ['__tests__/fixtures/index.blade.php', '|', './bin/blade-formatter', '--stdin'],
-      { stdio: 'pipe', shell: true },
-    ).stdout.toString();
+    const cmdResult = await spawnSync('/bin/cat', ['__tests__/fixtures/index.blade.php', '|', binPath, '--stdin'], {
+      stdio: 'pipe',
+      shell: true,
+    }).stdout.toString();
 
     const formatted = fs.readFileSync(path.resolve('__tests__', 'fixtures', 'formatted.index.blade.php'));
 
@@ -198,7 +177,7 @@ describe('The blade formatter CLI', () => {
       [
         path.resolve('__tests__/fixtures/runtimeConfig/indentSize/index.blade.php'),
         '|',
-        path.resolve('./bin/blade-formatter'),
+        path.resolve(binPath),
         '--stdin',
       ],
       { stdio: 'pipe', shell: true, cwd: path.resolve('__tests__', 'fixtures', 'runtimeConfig', 'indentSize') },
@@ -214,7 +193,7 @@ describe('The blade formatter CLI', () => {
   test.concurrent('error with stdin option', async () => {
     const cmdResult = await spawnSync(
       '/bin/cat',
-      ['__tests__/fixtures/syntax.error.blade.php', '|', './bin/blade-formatter', '--stdin'],
+      ['__tests__/fixtures/syntax.error.blade.php', '|', binPath, '--stdin'],
       { stdio: 'pipe', shell: true },
     );
 
@@ -230,7 +209,7 @@ describe('The blade formatter CLI', () => {
   test.concurrent('show not error even if line return exists after unescaped blade brace', async () => {
     const cmdResult = await spawnSync(
       '/bin/cat',
-      ['__tests__/fixtures/escaped_bug.blade.php', '|', './bin/blade-formatter', '--stdin'],
+      ['__tests__/fixtures/escaped_bug.blade.php', '|', binPath, '--stdin'],
       { stdio: 'pipe', shell: true },
     ).stdout.toString();
 
@@ -242,11 +221,7 @@ describe('The blade formatter CLI', () => {
   test.concurrent('Do nothing if something goes wrong #128', async () => {
     const originalContent = fs.readFileSync(path.resolve('__tests__', 'fixtures', 'escaped_bug.blade.php'));
 
-    await cmd.execute(
-      path.resolve('bin', 'blade-formatter'),
-      [path.resolve('__tests__', 'fixtures', 'escaped_bug.blade.php')],
-      '-w',
-    );
+    await cmd.execute(binPath, [path.resolve('__tests__', 'fixtures', 'escaped_bug.blade.php')], '-w');
 
     const result = fs.readFileSync(path.resolve('__tests__', 'fixtures', 'escaped_bug.blade.php'));
 
@@ -256,10 +231,7 @@ describe('The blade formatter CLI', () => {
   test.concurrent('Do nothing if path is included in ignore file', async () => {
     expect(fs.existsSync('.bladeignore')).toBe(true);
     expect(fs.readFileSync('.bladeignore').toString()).toContain('__tests__/**/ignore_target_file.blade.php');
-    const response = cmd.executeSync(path.resolve('bin', 'blade-formatter'), [
-      `${__dirname}/fixtures/ignore_target_file.blade.php`,
-      '-c',
-    ]);
+    const response = cmd.executeSync(binPath, [`${__dirname}/fixtures/ignore_target_file.blade.php`, '-c']);
     const output = response.output.join('\n');
 
     expect(output).not.toContain('ignore_target_file.blade.php');
@@ -267,7 +239,7 @@ describe('The blade formatter CLI', () => {
   });
 
   test.concurrent('multiline blade comment', async () => {
-    const cmdResult = await cmd.execute(path.resolve('bin', 'blade-formatter'), [
+    const cmdResult = await cmd.execute(binPath, [
       path.resolve('__tests__', 'fixtures', 'multiline_blade_comment.blade.php'),
     ]);
 
@@ -279,7 +251,7 @@ describe('The blade formatter CLI', () => {
   });
 
   test.concurrent('blade brace without space', async () => {
-    const cmdResult = await cmd.execute(path.resolve('bin', 'blade-formatter'), [
+    const cmdResult = await cmd.execute(binPath, [
       path.resolve('__tests__', 'fixtures', 'blade_brace_without_space.blade.php'),
     ]);
 
@@ -291,7 +263,7 @@ describe('The blade formatter CLI', () => {
   });
 
   test.concurrent('unescape blade brace', async () => {
-    const cmdResult = await cmd.execute(path.resolve('bin', 'blade-formatter'), [
+    const cmdResult = await cmd.execute(binPath, [
       path.resolve('__tests__', 'fixtures', 'escaped_blade_tag.blade.php'),
     ]);
 
@@ -301,9 +273,7 @@ describe('The blade formatter CLI', () => {
   });
 
   test.concurrent('@props directive', async () => {
-    const cmdResult = await cmd.execute(path.resolve('bin', 'blade-formatter'), [
-      path.resolve('__tests__', 'fixtures', 'props.blade.php'),
-    ]);
+    const cmdResult = await cmd.execute(binPath, [path.resolve('__tests__', 'fixtures', 'props.blade.php')]);
 
     const formatted = fs.readFileSync(path.resolve('__tests__', 'fixtures', 'formatted.props.blade.php'));
 
@@ -311,7 +281,7 @@ describe('The blade formatter CLI', () => {
   });
 
   test.concurrent('directive in script tag', async () => {
-    const cmdResult = await cmd.execute(path.resolve('bin', 'blade-formatter'), [
+    const cmdResult = await cmd.execute(binPath, [
       path.resolve('__tests__', 'fixtures', 'directive_in_scripts.blade.php'),
     ]);
 
@@ -323,7 +293,7 @@ describe('The blade formatter CLI', () => {
   });
 
   test.concurrent('can fomrat alpine attributes', async () => {
-    const cmdResult = await cmd.execute(path.resolve('bin', 'blade-formatter'), [
+    const cmdResult = await cmd.execute(binPath, [
       path.resolve('__tests__', 'fixtures', 'alpine_attributes.blade.php'),
     ]);
 
@@ -333,7 +303,7 @@ describe('The blade formatter CLI', () => {
   });
 
   test.concurrent('complicated directive in script tag', async () => {
-    const cmdResult = await cmd.execute(path.resolve('bin', 'blade-formatter'), [
+    const cmdResult = await cmd.execute(binPath, [
       path.resolve('__tests__', 'fixtures', 'directive_in_scripts_complex.blade.php'),
     ]);
 
@@ -345,9 +315,7 @@ describe('The blade formatter CLI', () => {
   });
 
   test.concurrent('case directive should be indented', async () => {
-    const cmdResult = await cmd.execute(path.resolve('bin', 'blade-formatter'), [
-      path.resolve('__tests__', 'fixtures', 'case_directive.blade.php'),
-    ]);
+    const cmdResult = await cmd.execute(binPath, [path.resolve('__tests__', 'fixtures', 'case_directive.blade.php')]);
 
     const formatted = fs.readFileSync(path.resolve('__tests__', 'fixtures', 'formatted.case_directive.blade.php'));
 
@@ -355,7 +323,7 @@ describe('The blade formatter CLI', () => {
   });
 
   test.concurrent('should not indent twice on multiline templating string in script tag #279', async () => {
-    const cmdResult = await cmd.execute(path.resolve('bin', 'blade-formatter'), [
+    const cmdResult = await cmd.execute(binPath, [
       path.resolve('__tests__', 'fixtures', 'multiline_templating_string_in_script_tag.blade.php'),
     ]);
 
@@ -365,7 +333,7 @@ describe('The blade formatter CLI', () => {
 
     expect(cmdResult).toEqual(formatted.toString('utf-8'));
 
-    const cmdResult2 = await cmd.execute(path.resolve('bin', 'blade-formatter'), [
+    const cmdResult2 = await cmd.execute(binPath, [
       path.resolve('__tests__', 'fixtures', 'formatted.multiline_templating_string_in_script_tag.blade.php'),
     ]);
     expect(cmdResult2).toEqual(formatted.toString('utf-8'));
@@ -435,7 +403,7 @@ describe('The blade formatter CLI', () => {
   });
 
   test.concurrent('specify wrap attributes config by rc file', async () => {
-    const cmdResult = await cmd.execute(path.resolve('bin', 'blade-formatter'), [
+    const cmdResult = await cmd.execute(binPath, [
       '--config',
       path.resolve('__tests__', 'fixtures', 'runtimeConfig', '.bladeformatterrc.force-aligned'),
       path.resolve('__tests__', 'fixtures', 'runtimeConfig', 'index.blade.php'),
@@ -445,7 +413,7 @@ describe('The blade formatter CLI', () => {
   });
 
   test.concurrent('specify sort tailwindcss classes config by rc file', async () => {
-    const cmdResult = await cmd.execute(path.resolve('bin', 'blade-formatter'), [
+    const cmdResult = await cmd.execute(binPath, [
       '--config',
       path.resolve('__tests__', 'fixtures', 'runtimeConfig', '.bladeformatterrc.sort-tailwind-classes'),
       path.resolve('__tests__', 'fixtures', 'tailwindcss.blade.php'),
@@ -457,7 +425,7 @@ describe('The blade formatter CLI', () => {
   });
 
   test.concurrent('runtime config syntax error', async () => {
-    const cmdResult = await cmd.execute(path.resolve('bin', 'blade-formatter'), [
+    const cmdResult = await cmd.execute(binPath, [
       '--config',
       path.resolve('__tests__', 'fixtures', 'runtimeConfig', '.bladeformatterrc.syntax.error'),
       path.resolve('__tests__', 'fixtures', 'runtimeConfig', 'index.blade.php'),
@@ -467,7 +435,7 @@ describe('The blade formatter CLI', () => {
   });
 
   test.concurrent('runtime config type error', async () => {
-    const cmdResult = await cmd.execute(path.resolve('bin', 'blade-formatter'), [
+    const cmdResult = await cmd.execute(binPath, [
       '--config',
       path.resolve('__tests__', 'fixtures', 'runtimeConfig', '.bladeformatterrc.type.error'),
       path.resolve('__tests__', 'fixtures', 'runtimeConfig', 'index.blade.php'),
@@ -502,7 +470,7 @@ describe('The blade formatter CLI', () => {
   });
 
   test.concurrent('runtime config test for no multiple empty lines', async () => {
-    const cmdResult = await cmd.execute(path.resolve('bin', 'blade-formatter'), [
+    const cmdResult = await cmd.execute(binPath, [
       path.resolve(
         '__tests__',
         'fixtures',
@@ -526,7 +494,7 @@ describe('The blade formatter CLI', () => {
   });
 
   test.concurrent('sort html attributes option', async () => {
-    const cmdResult = await cmd.execute(path.resolve('bin', 'blade-formatter'), [
+    const cmdResult = await cmd.execute(binPath, [
       '--sort-html-attributes',
       'code-guide',
       path.resolve('__tests__', 'fixtures', 'sort_html_attribute.blade.php'),
@@ -538,7 +506,7 @@ describe('The blade formatter CLI', () => {
   });
 
   test.concurrent('sort html attributes runtime config', async () => {
-    const cmdResult = await cmd.execute(path.resolve('bin', 'blade-formatter'), [
+    const cmdResult = await cmd.execute(binPath, [
       '--config',
       path.resolve('__tests__', 'fixtures', 'runtimeConfig', '.bladeformatterrc.sort-html-attributes'),
       path.resolve('__tests__', 'fixtures', 'sort_html_attribute.blade.php'),
@@ -552,14 +520,14 @@ describe('The blade formatter CLI', () => {
   });
 
   test.concurrent('unknown option passed', async () => {
-    const cmdResult = await cmd.execute(path.resolve('bin', 'blade-formatter'), ['--unknown', 'foo']);
+    const cmdResult = await cmd.execute(binPath, ['--unknown', 'foo']);
 
     expect(cmdResult).toContain('error: Unknown argument: unknown');
     expect(cmdResult).toContain('For more information try --help');
   });
 
   test.concurrent('help shows current version', async () => {
-    const cmdResult = await cmd.execute(path.resolve('bin', 'blade-formatter'), ['--help']);
+    const cmdResult = await cmd.execute(binPath, ['--help']);
 
     expect(cmdResult).toContain(version);
   });
@@ -583,7 +551,7 @@ describe('The blade formatter CLI', () => {
   });
 
   test.concurrent('respect tailwind.config.js automatically', async () => {
-    const cmdResult = await cmd.execute(path.resolve('bin', 'blade-formatter'), [
+    const cmdResult = await cmd.execute(binPath, [
       path.resolve('__tests__', 'fixtures', 'tailwind', 'index.blade.php'),
       '--sort-tailwindcss-classes',
     ]);
@@ -594,7 +562,7 @@ describe('The blade formatter CLI', () => {
   });
 
   test.concurrent('specify tailwind.config.js path (absolute path)', async () => {
-    const cmdResult = await cmd.execute(path.resolve('bin', 'blade-formatter'), [
+    const cmdResult = await cmd.execute(binPath, [
       path.resolve('__tests__', 'fixtures', 'tailwind', 'index.blade.php'),
       '--sort-tailwindcss-classes',
       '--tailwindcss-config-path',
@@ -607,7 +575,7 @@ describe('The blade formatter CLI', () => {
   });
 
   test.concurrent('specify tailwind.config.js path (relative path)', async () => {
-    const cmdResult = await cmd.execute(path.resolve('bin', 'blade-formatter'), [
+    const cmdResult = await cmd.execute(binPath, [
       path.resolve('__tests__', 'fixtures', 'tailwind', 'index.blade.php'),
       '--sort-tailwindcss-classes',
       '--tailwindcss-config-path',
@@ -620,7 +588,7 @@ describe('The blade formatter CLI', () => {
   });
 
   test.concurrent('unresolvable tailwind config', async () => {
-    const cmdResult = await cmd.execute(path.resolve('bin', 'blade-formatter'), [
+    const cmdResult = await cmd.execute(binPath, [
       path.resolve('__tests__', 'fixtures', 'tailwind', 'index.blade.php'),
       '--sort-tailwindcss-classes',
       '--tailwindcss-config-path',
@@ -632,7 +600,7 @@ describe('The blade formatter CLI', () => {
 
   test.concurrent('runtime config test (tailwind)', async () => {
     // automatically recognize tailwind config from .bladeformatter.json
-    const cmdResult = await cmd.execute(path.resolve('bin', 'blade-formatter'), [
+    const cmdResult = await cmd.execute(binPath, [
       path.resolve('__tests__', 'fixtures', 'runtimeConfig', 'tailwind', 'index.blade.php'),
     ]);
 
@@ -645,7 +613,7 @@ describe('The blade formatter CLI', () => {
 
   test.concurrent('no php syntax check option from CLI', async () => {
     // automatically recognize tailwind config from .bladeformatter.json
-    const cmdResult = await cmd.execute(path.resolve('bin', 'blade-formatter'), [
+    const cmdResult = await cmd.execute(binPath, [
       path.resolve('__tests__', 'fixtures', 'no_php_syntax_check.blade.php'),
       '--no-php-syntax-check',
     ]);
@@ -656,7 +624,7 @@ describe('The blade formatter CLI', () => {
   });
 
   test.concurrent('runtime config test (no_php_syntax_check)', async () => {
-    const cmdResult = await cmd.execute(path.resolve('bin', 'blade-formatter'), [
+    const cmdResult = await cmd.execute(binPath, [
       path.resolve('__tests__', 'fixtures', 'runtimeConfig', 'noPhpSyntaxCheck', 'index.blade.php'),
     ]);
 
@@ -668,7 +636,7 @@ describe('The blade formatter CLI', () => {
   });
 
   test.concurrent('custom html attributes order option', async () => {
-    const cmdResult = await cmd.execute(path.resolve('bin', 'blade-formatter'), [
+    const cmdResult = await cmd.execute(binPath, [
       path.resolve('__tests__', 'fixtures', 'custom_html_attributes_order.blade.php'),
       '--sort-html-attributes',
       'custom',
@@ -684,7 +652,7 @@ describe('The blade formatter CLI', () => {
   });
 
   test.concurrent('custom html attributes order option (with space)', async () => {
-    const cmdResult = await cmd.execute(path.resolve('bin', 'blade-formatter'), [
+    const cmdResult = await cmd.execute(binPath, [
       path.resolve('__tests__', 'fixtures', 'custom_html_attributes_order.blade.php'),
       '--sort-html-attributes',
       'custom',
@@ -700,7 +668,7 @@ describe('The blade formatter CLI', () => {
   });
 
   test.concurrent('custom html attributes order option (runtimeConfig)', async () => {
-    const cmdResult = await cmd.execute(path.resolve('bin', 'blade-formatter'), [
+    const cmdResult = await cmd.execute(binPath, [
       path.resolve('__tests__', 'fixtures', 'runtimeConfig', 'customHtmlAttributesOrder', 'index.blade.php'),
     ]);
 
@@ -712,7 +680,7 @@ describe('The blade formatter CLI', () => {
   });
 
   test.concurrent('--end-of-line option', async () => {
-    const cmdResult = await cmd.execute(path.resolve('bin', 'blade-formatter'), [
+    const cmdResult = await cmd.execute(binPath, [
       '--end-of-line',
       'CRLF',
       path.resolve('__tests__', 'fixtures', 'end_of_line.blade.php'),
@@ -724,7 +692,7 @@ describe('The blade formatter CLI', () => {
   });
 
   test.concurrent('endOfLine option (runtime config)', async () => {
-    const cmdResult = await cmd.execute(path.resolve('bin', 'blade-formatter'), [
+    const cmdResult = await cmd.execute(binPath, [
       path.resolve('__tests__', 'fixtures', 'runtimeConfig', 'endOfLine', 'end_of_line.blade.php'),
     ]);
 
