@@ -12,6 +12,7 @@
   "description": "An opinionated blade template formatter for Laravel",
   "main": "./dist/bundle.js",
   "types": "./dist/types/main.d.ts",
+  "type": "module",
   "exports": {
     ".": {
       "default": "./dist/bundle.js"
