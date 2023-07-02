@@ -3,7 +3,7 @@ import path from 'path';
 import * as cmd from './cmd';
 
 export function assertFormatted(file: any) {
-  const response = cmd.executeSync(path.resolve('bin', 'blade-formatter'), [file, '-c']);
+  const response = cmd.executeSync(path.resolve('bin', 'blade-formatter.js'), [file, '-c']);
 
   const output = response.output.join('\n');
   const exitCode = response.status;
@@ -21,7 +21,7 @@ export function assertNotFormatted(file: any) {
     }
   });
 
-  const response = cmd.executeSync(path.resolve('bin', 'blade-formatter'), [file, '-c']);
+  const response = cmd.executeSync(path.resolve('bin', 'blade-formatter.js'), [file, '-c']);
 
   const output = response.output.join('\n');
   const exitCode = response.status;

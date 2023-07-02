@@ -18,7 +18,7 @@ export class VscodeTextmate {
     return (async () => {
       this.vsctm = vsctm.default ?? vsctm;
       // @ts-ignore
-      this.oniguruma = oniguruma || vscodeOniguruma.default || vscodeOniguruma;
+      this.oniguruma = oniguruma || vscodeOniguruma?.default || vscodeOniguruma;
       await this.loadWasm();
       return this;
     })();

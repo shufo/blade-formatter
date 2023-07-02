@@ -3,9 +3,10 @@ import _ from 'lodash';
 import fs from 'fs';
 import os from 'os';
 import chalk from 'chalk';
-import prettier from 'prettier/standalone';
+import prettier from 'prettier/standalone.js';
 // @ts-ignore
-import phpPlugin from '@prettier/plugin-php/standalone';
+// eslint-disable-next-line
+import phpPlugin from '@prettier/plugin-php/standalone.js';
 import detectIndent from 'detect-indent';
 import { indentStartTokens, phpKeywordStartTokens, phpKeywordEndTokens } from './indent';
 import { nestedParenthesisRegex } from './regex';

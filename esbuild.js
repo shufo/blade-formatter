@@ -1,19 +1,32 @@
 #!/usr/bin/env node
 
-const esbuild = require('esbuild');
+import esbuild from 'esbuild';
 
 // Automatically exclude all node_modules from the bundled version
-const { nodeExternalsPlugin } = require('esbuild-node-externals');
+import { nodeExternalsPlugin } from 'esbuild-node-externals';
 
 const build = async () => {
   const bundleCtx = await esbuild.context({
     entryPoints: ['./src/main.ts'],
-    outfile: 'dist/bundle.js',
+    outfile: process.env.ESM_BUILD ? 'dist/bundle.js' : 'dist/bundle.cjs',
     bundle: true,
     platform: 'node',
     sourcemap: true,
     target: 'node12',
+    format: process.env.ESM_BUILD ? 'esm' : 'cjs',
     minify: true,
+    banner: {
+      js: process.env.ESM_BUILD
+        ? `
+        import path from 'path';
+        import { fileURLToPath } from 'url';
+        import { createRequire as topLevelCreateRequire } from 'module';
+        const require = topLevelCreateRequire(import.meta.url);
+        const __filename = fileURLToPath(import.meta.url);
+        const __dirname = path.dirname(__filename);
+        `
+        : ``,
+    },
     plugins: [
       nodeExternalsPlugin(),
       {
@@ -36,12 +49,25 @@ const build = async () => {
 
   const cliCtx = await esbuild.context({
     entryPoints: ['./src/cli.ts'],
-    outfile: 'dist/cli-bundle.js',
+    outfile: process.env.ESM_BUILD ? 'dist/cli-bundle.js' : 'dist/cli-bundle.cjs',
     bundle: true,
     platform: 'node',
     sourcemap: true,
     target: 'node12',
+    format: process.env.ESM_BUILD ? 'esm' : 'cjs',
     minify: true,
+    banner: {
+      js: process.env.ESM_BUILD
+        ? `
+        import path from 'path';
+        import { fileURLToPath } from 'url';
+        import { createRequire as topLevelCreateRequire } from 'module';
+        const require = topLevelCreateRequire(import.meta.url);
+        const __filename = fileURLToPath(import.meta.url);
+        const __dirname = path.dirname(__filename);
+        `
+        : ``,
+    },
     plugins: [
       nodeExternalsPlugin(),
       {

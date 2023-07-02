@@ -9,9 +9,9 @@ const config: Config.InitialOptions = {
       tsconfig: './tsconfig.json',
     },
   },
-  testMatch: ['**/__tests__/**/?(*.)+(spec|test).[jt]s?(x)'],
+  testMatch: ['**/__tests__/**/?(*.)+(spec|test).([jt]s?(x)|cjs)'],
   transform: {
-    '^.+\\.(js|jsx)$': 'babel-jest',
+    '^.+\\.(js|jsx|cjs)$': 'babel-jest',
     '^.+\\.(ts|tsx)$': 'ts-jest',
     'node_modules/variables/.+\\.(j|t)sx?$': 'ts-jest',
   },
