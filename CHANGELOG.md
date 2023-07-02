@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.33.0](https://github.com/shufo/blade-formatter/compare/v1.32.13...v1.33.0) (2023-07-02)
+
+
+### Features
+
+* 🎸 ESM support ([c8f6953](https://github.com/shufo/blade-formatter/commit/c8f6953064e02ad4d8f7c07e30a15827052df8e2))
+
+
+### Miscellaneous
+
+* 🤖 bump eslint to 8.44.0 ([0cbb454](https://github.com/shufo/blade-formatter/commit/0cbb454578006d58acffa2e030d1c3e745d09af3))
+* 🤖 bump tailwindcss-class-sorter to 3.0.0 ([41f9b58](https://github.com/shufo/blade-formatter/commit/41f9b58aaa19af379576bb6a2cc08806485ef96d))
+* 🤖 change module system to ES Module ([721fd6e](https://github.com/shufo/blade-formatter/commit/721fd6e8c275e71ca0302076c4edce292eb6d928))
+* 🤖 update build script to use es module ([6dc0836](https://github.com/shufo/blade-formatter/commit/6dc08364a37af0ef680887ce30bf4a761d97da35))
+
 ## [1.32.13](https://github.com/shufo/blade-formatter/compare/v1.32.12...v1.32.13) (2023-06-12)
 
 
