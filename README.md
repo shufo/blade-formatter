@@ -333,6 +333,45 @@ Try setting the global user as root
 $ npm -g config set user root
 ```
 
+- If you encounter the following message like below when sorting TailwindCss class sorting enabled
+
+```
+  message: 'module is not defined in ES module scope\n' +
+// or
+export default {
+^^^^^^
+SyntaxError: Unexpected token 'export'
+```
+
+then you should check your nodejs module type is matched with `tailwindcss.config.js`.
+
+### ESM 
+
+`package.json`
+
+```json
+"type": "module"
+```
+
+`tailwind.config.js`
+
+```js
+export default {
+  ~~~
+}
+```
+
+### CommonJS 
+
+`tailwind.config.js`
+
+```js
+module.exports = {
+  ~~~
+}
+
+```
+
 ## TODO
 
 - [x] custom directives
