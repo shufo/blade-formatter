@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.33.1](https://github.com/shufo/blade-formatter/compare/v1.33.0...v1.33.1) (2023-07-06)
+
+
+### Miscellaneous
+
+* 🤖 bump @shufo/tailwindcss-class-sorter to 3.0.1 ([2588d30](https://github.com/shufo/blade-formatter/commit/2588d306560bf848bc6abd9024c173b6617448d0))
+
 ## [1.33.0](https://github.com/shufo/blade-formatter/compare/v1.32.13...v1.33.0) (2023-07-02)
 
 
