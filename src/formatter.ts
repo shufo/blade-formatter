@@ -137,7 +137,7 @@ export default class Formatter {
     this.oniguruma = util.optional(this.options).oniguruma;
     this.indentCharacter = util.optional(this.options).useTabs ? '\t' : ' ';
     this.indentSize = util.optional(this.options).indentSize || 4;
-    this.wrapLineLength = util.optional(this.options).wrapLineLength || 120;
+    this.wrapLineLength = util.optional(this.options).wrapLineLength || constants.defaultPrintWidth;
     this.wrapAttributes = util.optional(this.options).wrapAttributes || 'auto';
     this.currentIndentLevel = 0;
     this.shouldBeIndent = false;
