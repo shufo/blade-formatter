@@ -702,4 +702,27 @@ describe('The blade formatter CLI', () => {
 
     expect(cmdResult).toEqual(formatted.toString('utf-8'));
   });
+
+  test.concurrent('runtime config test (no single quote)', async () => {
+    const cmdResult = await cmd.execute(binPath, [
+      path.resolve('__tests__', 'fixtures', 'runtimeConfig', 'singleQuote', 'index.blade.php'),
+    ]);
+
+    const formatted = fs.readFileSync(
+      path.resolve('__tests__', 'fixtures', 'runtimeConfig', 'singleQuote', 'formatted.index.blade.php'),
+    );
+
+    expect(cmdResult).toEqual(formatted.toString('utf-8'));
+  });
+
+  test.concurrent('cli argument test (no single quote)', async () => {
+    const cmdResult = await cmd.execute(binPath, [
+      '--no-single-quote',
+      path.resolve('__tests__', 'fixtures', 'index.blade.php'),
+    ]);
+
+    const formatted = fs.readFileSync(path.resolve('__tests__', 'fixtures', 'formatted.single_quote_index.blade.php'));
+
+    expect(cmdResult).toEqual(formatted.toString('utf-8'));
+  });
 });
