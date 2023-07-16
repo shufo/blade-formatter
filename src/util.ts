@@ -45,7 +45,7 @@ export type FormatPhpOption = {
   printWidth?: number;
   trailingCommaPHP?: boolean;
   phpVersion?: string;
-  singleQuote?: boolean;
+  noSingleQuote?: boolean;
 };
 
 export const printWidthForInline = 1000;
@@ -55,7 +55,7 @@ const defaultFormatPhpOption = {
   printWidth: printWidthForInline,
   trailingCommaPHP: true,
   phpVersion: '8.1',
-  singleQuote: true,
+  noSingleQuote: false,
 };
 
 export function formatStringAsPhp(content: any, params: FormatPhpOption = {}) {
@@ -68,7 +68,7 @@ export function formatStringAsPhp(content: any, params: FormatPhpOption = {}) {
     return prettier.format(content.replace(/\n$/, ''), {
       parser: 'php',
       printWidth: 1000,
-      singleQuote: options.singleQuote,
+      singleQuote: !options.noSingleQuote,
       // @ts-ignore
       phpVersion: options.phpVersion,
       trailingCommaPHP: options.trailingCommaPHP,
@@ -93,7 +93,7 @@ export function formatRawStringAsPhp(content: string, params: FormatPhpOption = 
       .format(`<?php echo ${content} ?>`, {
         parser: 'php',
         printWidth: options.printWidth,
-        singleQuote: options.singleQuote,
+        singleQuote: !options.noSingleQuote,
         // @ts-ignore
         phpVersion: options.phpVersion,
         trailingCommaPHP: options.trailingCommaPHP,
@@ -164,7 +164,7 @@ export function generateDiff(path: any, originalLines: any, formattedLines: any)
   return _.without(diff, null);
 }
 
-export async function prettifyPhpContentWithUnescapedTags(content: any) {
+export async function prettifyPhpContentWithUnescapedTags(content: string, options: FormatPhpOption) {
   const directives = _.without(indentStartTokens, '@switch', '@forelse', '@php').join('|');
 
   const directiveRegexes = new RegExp(
@@ -176,7 +176,7 @@ export async function prettifyPhpContentWithUnescapedTags(content: any) {
   return new Promise((resolve) => resolve(content))
     .then((res: any) =>
       _.replace(res, directiveRegexes, (match: any, p1: any, p2: any, p3: any) =>
-        formatStringAsPhp(`<?php ${p1.substr('1')}${p2}(${p3}) ?>`)
+        formatStringAsPhp(`<?php ${p1.substr('1')}${p2}(${p3}) ?>`, options)
           .replace(
             /<\?php\s(.*?)(\s*?)\((.*?)\);*\s\?>\n/gs,
             (match2: any, j1: any, j2: any, j3: any) => `@${j1.trim()}${j2}(${j3.trim()})`,
@@ -186,14 +186,14 @@ export async function prettifyPhpContentWithUnescapedTags(content: any) {
           .replace(/(?:\n\s*)* as(?= (?:&{0,1}\$[\w]+|list|\[\$[\w]+))/g, ' as'),
       ),
     )
-    .then((res) => formatStringAsPhp(res));
+    .then((res) => formatStringAsPhp(res, options));
 }
 
-export async function prettifyPhpContentWithEscapedTags(content: any) {
+export async function prettifyPhpContentWithEscapedTags(content: string, options: FormatPhpOption) {
   return new Promise((resolve) => resolve(content))
     .then((res: any) => _.replace(res, /{!!/g, '<?php /*escaped*/'))
     .then((res) => _.replace(res, /!!}/g, '/*escaped*/ ?>\n'))
-    .then((res) => formatStringAsPhp(res))
+    .then((res) => formatStringAsPhp(res, options))
     .then((res) => _.replace(res, /<\?php\s\/\*escaped\*\//g, '{!! '))
     .then((res) => _.replace(res, /\/\*escaped\*\/\s\?>\n/g, ' !!}'));
 }
@@ -209,8 +209,8 @@ export async function removeSemicolon(content: any) {
     .then((res) => _.replace(res, /; --}}/g, ' --}}'));
 }
 
-export async function formatAsPhp(content: any) {
-  return prettifyPhpContentWithUnescapedTags(content);
+export async function formatAsPhp(content: string, options: FormatPhpOption) {
+  return prettifyPhpContentWithUnescapedTags(content, options);
 }
 
 export async function preserveOriginalPhpTagInHtml(content: any) {

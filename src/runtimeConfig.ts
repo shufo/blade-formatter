@@ -31,6 +31,7 @@ export interface RuntimeConfig {
   customHtmlAttributesOrder?: string[] | string;
   noMultipleEmptyLines?: boolean;
   noPhpSyntaxCheck?: boolean;
+  noSingleQuote?: boolean;
 }
 
 const defaultConfigNames = ['.bladeformatterrc.json', '.bladeformatterrc'];
@@ -88,6 +89,7 @@ export async function readRuntimeConfig(filePath: string | null): Promise<Runtim
       customHtmlAttributesOrder: { type: 'array', nullable: true, items: { type: 'string' }, default: [] },
       noMultipleEmptyLines: { type: 'boolean', nullable: true },
       noPhpSyntaxCheck: { type: 'boolean', nullable: true },
+      noSingleQuote: { type: 'boolean', nullable: true },
     },
     additionalProperties: true,
   };

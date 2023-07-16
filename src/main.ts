@@ -44,6 +44,7 @@ export type FormatterOption = {
   customHtmlAttributesOrder?: string[] | string;
   noMultipleEmptyLines?: boolean;
   noPhpSyntaxCheck?: boolean;
+  noSingleQuote?: boolean;
 };
 
 export type BladeFormatterOption = CLIOption & FormatterOption;

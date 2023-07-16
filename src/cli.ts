@@ -94,6 +94,17 @@ export default async function cli() {
         'Comma separated custom HTML attributes order. To enable this you must specify sort html attributes option as `custom`. You can use regex for attribute names.',
       default: null,
     })
+    .option('no-single-quote', {
+      type: 'boolean',
+      description: 'Use double quotes instead of single quotes for php expression.',
+      default: false,
+    })
+    .option('single-quote', {
+      type: 'boolean',
+      description: 'this is a workaround for combine strict && boolean option',
+      hidden: true,
+      default: true,
+    })
     .option('no-multiple-empty-lines', {
       type: 'boolean',
       description: 'Merge multiple blank lines into a single blank line',
@@ -159,6 +170,7 @@ export default async function cli() {
   const options = _.chain(parsed.argv)
     .set('noMultipleEmptyLines', !parsed.argv.multipleEmptyLines)
     .set('noPhpSyntaxCheck', !parsed.argv.phpSyntaxCheck)
+    .set('noSingleQuote', !parsed.argv.singleQuote)
     .value();
 
   if (parsed.argv.stdin) {
