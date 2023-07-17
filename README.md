@@ -215,7 +215,8 @@ e.g.
   "sortTailwindcssClasses": true,
   "sortHtmlAttributes": "none",
   "noMultipleEmptyLines": false,
-  "noPhpSyntaxCheck": false
+  "noPhpSyntaxCheck": false,
+  "noSingleQuote": false
 }
 ```
 
