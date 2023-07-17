@@ -34,6 +34,7 @@ import { nestedParenthesisRegex } from './regex';
 import { SortHtmlAttributes } from './runtimeConfig';
 import { formatPhpComment } from './comment';
 import { adjustSpaces } from './space';
+import constants from './constants';
 
 export default class Formatter {
   argumentCheck: any;
@@ -128,6 +129,7 @@ export default class Formatter {
     this.options = {
       ...{
         noPhpSyntaxCheck: false,
+        printWidth: constants.defaultPrintWidth,
       },
       ...options,
     };
@@ -135,7 +137,7 @@ export default class Formatter {
     this.oniguruma = util.optional(this.options).oniguruma;
     this.indentCharacter = util.optional(this.options).useTabs ? '\t' : ' ';
     this.indentSize = util.optional(this.options).indentSize || 4;
-    this.wrapLineLength = util.optional(this.options).wrapLineLength || 120;
+    this.wrapLineLength = util.optional(this.options).wrapLineLength || constants.defaultPrintWidth;
     this.wrapAttributes = util.optional(this.options).wrapAttributes || 'auto';
     this.currentIndentLevel = 0;
     this.shouldBeIndent = false;
@@ -182,7 +184,7 @@ export default class Formatter {
       .then((target) => this.preserveCurlyBraceForJS(target))
       .then((target) => this.preserveRawPhpTags(target))
       .then((target) => this.preserveEscapedBladeDirective(target))
-      .then((target) => util.formatAsPhp(target))
+      .then((target) => util.formatAsPhp(target, this.options))
       .then((target) => this.preserveBladeComment(target))
       .then((target) => this.preserveBladeBrace(target))
       .then((target) => this.preserveRawBladeBrace(target))
@@ -484,7 +486,7 @@ export default class Formatter {
 
       formatted = _.replace(formatted, inlineFunctionRegex, (matched: any) =>
         this.storeBladeDirective(
-          util.formatRawStringAsPhp(matched, { ...this.defaultPhpFormatOption, printWidth: util.printWidthForInline }),
+          util.formatRawStringAsPhp(matched, { ...this.options, printWidth: util.printWidthForInline }),
         ),
       );
 
@@ -1268,9 +1270,9 @@ export default class Formatter {
       const indent = detectIndent(matchedLine[0]);
 
       if (this.isInline(rawBlock) && this.isMultilineStatement(rawBlock)) {
-        rawBlock = util.formatStringAsPhp(`<?php\n${rawBlock}\n?>`, this.defaultPhpFormatOption).trim();
+        rawBlock = util.formatStringAsPhp(`<?php\n${rawBlock}\n?>`, this.options).trim();
       } else if (rawBlock.split('\n').length > 1) {
-        rawBlock = util.formatStringAsPhp(`<?php${rawBlock}?>`, this.defaultPhpFormatOption).trimRight('\n');
+        rawBlock = util.formatStringAsPhp(`<?php${rawBlock}?>`, this.options).trimRight('\n');
       } else {
         rawBlock = `<?php${rawBlock}?>`;
       }
@@ -1299,7 +1301,7 @@ export default class Formatter {
       (_match: any, p1: any) =>
         `@props(${util
           .formatRawStringAsPhp(this.rawPropsBlocks[p1], {
-            ...this.defaultPhpFormatOption,
+            ...this.options,
             printWidth: util.printWidthForInline,
           })
           .trimRight()})`,
@@ -1311,7 +1313,7 @@ export default class Formatter {
   }
 
   isMultilineStatement(rawBlock: any) {
-    return util.formatStringAsPhp(`<?php${rawBlock}?>`, this.defaultPhpFormatOption).trimRight().split('\n').length > 1;
+    return util.formatStringAsPhp(`<?php${rawBlock}?>`, this.options).trimRight().split('\n').length > 1;
   }
 
   indentRawBlock(indent: detectIndent.Indent, content: any) {
@@ -1612,9 +1614,9 @@ export default class Formatter {
           const indent = detectIndent(matchedLine[0]);
 
           if (this.isInline(rawBlock) && this.isMultilineStatement(rawBlock)) {
-            rawBlock = util.formatStringAsPhp(`<?php\n${rawBlock}\n?>`, this.defaultPhpFormatOption).trim();
+            rawBlock = util.formatStringAsPhp(`<?php\n${rawBlock}\n?>`, this.options).trim();
           } else if (rawBlock.split('\n').length > 1) {
-            rawBlock = util.formatStringAsPhp(`<?php${rawBlock}?>`, this.defaultPhpFormatOption).trim();
+            rawBlock = util.formatStringAsPhp(`<?php${rawBlock}?>`, this.options).trim();
           } else {
             rawBlock = `<?php${rawBlock}?>`;
           }
@@ -1715,7 +1717,7 @@ export default class Formatter {
         if (this.isInline(bladeBrace)) {
           return `{{ ${util
             .formatRawStringAsPhp(bladeBrace, {
-              ...this.defaultPhpFormatOption,
+              ...this.options,
               trailingCommaPHP: false,
               printWidth: util.printWidthForInline,
             })
@@ -1730,7 +1732,7 @@ export default class Formatter {
         return `{{ ${this.indentRawPhpBlock(
           indent,
           util
-            .formatRawStringAsPhp(bladeBrace, this.defaultPhpFormatOption)
+            .formatRawStringAsPhp(bladeBrace, this.options)
             .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
             .trim()
             // @ts-expect-error ts-migrate(2554) FIXME: Expected 0 arguments, but got 1.
@@ -1759,7 +1761,7 @@ export default class Formatter {
           return this.indentRawPhpBlock(
             indent,
             `{!! ${util
-              .formatRawStringAsPhp(bladeBrace, this.defaultPhpFormatOption)
+              .formatRawStringAsPhp(bladeBrace, this.options)
               .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
               .trim()} !!}`,
           );
@@ -1819,7 +1821,7 @@ export default class Formatter {
 
           if (matched.includes('@php')) {
             return `${util
-              .formatRawStringAsPhp(matched, { ...this.defaultPhpFormatOption, printWidth: util.printWidthForInline })
+              .formatRawStringAsPhp(matched, { ...this.options, printWidth: util.printWidthForInline })
               .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
               .trim()
               // @ts-expect-error ts-migrate(2554) FIXME: Expected 0 arguments, but got 1.
@@ -1852,7 +1854,7 @@ export default class Formatter {
           }
 
           return `${util
-            .formatRawStringAsPhp(matched, { ...this.defaultPhpFormatOption, printWidth: util.printWidthForInline })
+            .formatRawStringAsPhp(matched, { ...this.options, printWidth: util.printWidthForInline })
             .trimEnd()}`;
         },
       ),
@@ -1879,10 +1881,7 @@ export default class Formatter {
               return matched;
             }
 
-            const result = util
-              .formatStringAsPhp(this.rawPhpTags[p1], this.defaultPhpFormatOption)
-              .trim()
-              .trimRight('\n');
+            const result = util.formatStringAsPhp(this.rawPhpTags[p1], this.options).trim().trimRight('\n');
 
             if (this.isInline(result)) {
               return result;
@@ -1972,7 +1971,7 @@ export default class Formatter {
           try {
             const formatted = util
               .formatRawStringAsPhp(`func${p3}`, {
-                ...this.defaultPhpFormatOption,
+                ...this.options,
                 printWidth: util.printWidthForInline,
               })
               .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
@@ -2002,7 +2001,7 @@ export default class Formatter {
         return _.replace(matched, /(@[a-zA-z0-9\-_]+)(.*)/gis, (match2: string, p3: string, p4: string) => {
           try {
             const formatted = util
-              .formatRawStringAsPhp(`func${p4}`, { ...this.defaultPhpFormatOption, trailingCommaPHP: false })
+              .formatRawStringAsPhp(`func${p4}`, { ...this.options, trailingCommaPHP: false })
               .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
               .trim()
               .substring(4);
@@ -2150,7 +2149,7 @@ export default class Formatter {
               try {
                 return `${p2}${p3}${util
                   .formatRawStringAsPhp(p4, {
-                    ...this.defaultPhpFormatOption,
+                    ...this.options,
                     printWidth: this.wrapLineLength - indent.amount,
                   })
                   .trimEnd()}`;
@@ -2161,7 +2160,7 @@ export default class Formatter {
 
             return `${p2}${p3}${util
               .formatRawStringAsPhp(p4, {
-                ...this.defaultPhpFormatOption,
+                ...this.options,
                 printWidth: this.wrapLineLength - indent.amount,
               })
               .trimEnd()}`;
@@ -2436,7 +2435,7 @@ export default class Formatter {
   ) {
     const formatTarget = `func(${matchedExpression})`;
     const formattedExpression = util.formatRawStringAsPhp(formatTarget, {
-      ...this.defaultPhpFormatOption,
+      ...this.options,
       printWidth: wrapLength ?? this.defaultPhpFormatOption.printWidth,
     });
 
