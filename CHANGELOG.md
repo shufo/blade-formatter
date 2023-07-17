@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.34.0](https://github.com/shufo/blade-formatter/compare/v1.33.1...v1.34.0) (2023-07-17)
+
+
+### Features
+
+* 🎸 `--no-single-quote` option ([c0505c2](https://github.com/shufo/blade-formatter/commit/c0505c2bc0c77dc096cda8393fc023a63ed3e0ba))
+
 ## [1.33.1](https://github.com/shufo/blade-formatter/compare/v1.33.0...v1.33.1) (2023-07-06)
 
 
