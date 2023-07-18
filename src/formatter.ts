@@ -129,7 +129,7 @@ export default class Formatter {
     this.options = {
       ...{
         noPhpSyntaxCheck: false,
-        printWidth: constants.defaultPrintWidth,
+        printWidth: options.wrapLineLength || constants.defaultPrintWidth,
       },
       ...options,
     };

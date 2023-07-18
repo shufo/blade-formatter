@@ -725,4 +725,30 @@ describe('The blade formatter CLI', () => {
 
     expect(cmdResult).toEqual(formatted.toString('utf-8'));
   });
+
+  test.concurrent('runtime config test (wrap line length)', async () => {
+    const cmdResult = await cmd.execute(binPath, [
+      path.resolve('__tests__', 'fixtures', 'runtimeConfig', 'wrapLineLength', 'index.blade.php'),
+    ]);
+
+    const formatted = fs.readFileSync(
+      path.resolve('__tests__', 'fixtures', 'runtimeConfig', 'wrapLineLength', 'formatted.index.blade.php'),
+    );
+
+    expect(cmdResult).toEqual(formatted.toString('utf-8'));
+  });
+
+  test.concurrent('cli argument test (wrap line length)', async () => {
+    const cmdResult = await cmd.execute(binPath, [
+      '--wrap-line-length',
+      '40',
+      path.resolve('__tests__', 'fixtures', 'runtimeConfig', 'wrapLineLength', 'index.blade.php'),
+    ]);
+
+    const formatted = fs.readFileSync(
+      path.resolve('__tests__', 'fixtures', 'runtimeConfig', 'wrapLineLength', 'formatted.index.blade.php'),
+    );
+
+    expect(cmdResult).toEqual(formatted.toString('utf-8'));
+  });
 });
