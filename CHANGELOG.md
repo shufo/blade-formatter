@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.34.1](https://github.com/shufo/blade-formatter/compare/v1.34.0...v1.34.1) (2023-07-18)
+
+
+### Fixes
+
+* 🐛 wrap line length option does not affect formatting ([bf52e7a](https://github.com/shufo/blade-formatter/commit/bf52e7aeb0a2c7f46527bb9b514172bfa0a016b0))
+
 ## [1.34.0](https://github.com/shufo/blade-formatter/compare/v1.33.1...v1.34.0) (2023-07-17)
 
 
