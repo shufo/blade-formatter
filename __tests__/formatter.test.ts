@@ -2127,8 +2127,8 @@ describe('formatter', () => {
       `    outlined></password-input>`,
       `<password-input name="password_confirmation" type="password"`,
       `    @if ('password') error error-message="{{ $message }}" @endif`,
-      `    @if ('password') error error-message="{{ $message }}" @endif placeholder="パスワード" outlined>`,
-      `</password-input>`,
+      `    @if ('password') error error-message="{{ $message }}" @endif placeholder="パスワード"`,
+      `    outlined></password-input>`,
       ``,
     ].join('\n');
 

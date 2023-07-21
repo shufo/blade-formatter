@@ -37,10 +37,11 @@ describe('The blade formatter CLI', () => {
       path.resolve('__tests__', 'fixtures', 'formatted.edit.blade.php'),
     ];
 
-    formattedFiles.forEach((formattedFile) => {
-      const data = fs.readFileSync(formattedFile);
-      expect(response).toMatch(data.toString('utf-8'));
-    });
+    let data: string = '';
+    for (let i = 0; i < formattedFiles.length; i++) {
+      data += fs.readFileSync(formattedFiles[i]).toString('utf-8') + '\n';
+    }
+    expect(response).toMatch(data);
   });
 
   test.concurrent('should exit with exit code 1 if check option enabled and not formatted', async () => {

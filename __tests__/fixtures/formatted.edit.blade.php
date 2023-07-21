@@ -20,8 +20,8 @@
                     <p>{!! Form::label('parent_id', __('user.parent')) !!}</p>
                     <div class="mod-width">
                         <user-auto-complete name="parent_user_name"
-                            user_name="{{ \Illuminate\Support\Arr::first($parents)['name'] }}" dusk="user-auto-complete">
-                        </user-auto-complete>
+                            user_name="{{ \Illuminate\Support\Arr::first($parents)['name'] }}"
+                            dusk="user-auto-complete"></user-auto-complete>
                     </div>
                 </li>
                 <li>
