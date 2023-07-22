@@ -37,11 +37,10 @@ describe('The blade formatter CLI', () => {
       path.resolve('__tests__', 'fixtures', 'formatted.edit.blade.php'),
     ];
 
-    let data: string = '';
-    for (let i = 0; i < formattedFiles.length; i++) {
-      data += fs.readFileSync(formattedFiles[i]).toString('utf-8') + '\n';
-    }
-    expect(response).toMatch(data);
+    formattedFiles.forEach((file) => {
+      const data = `${fs.readFileSync(file).toString('utf-8')}\n`;
+      expect(response).toContain(data);
+    });
   });
 
   test.concurrent('should exit with exit code 1 if check option enabled and not formatted', async () => {
@@ -743,11 +742,39 @@ describe('The blade formatter CLI', () => {
     const cmdResult = await cmd.execute(binPath, [
       '--wrap-line-length',
       '40',
-      path.resolve('__tests__', 'fixtures', 'runtimeConfig', 'wrapLineLength', 'index.blade.php'),
+      path.resolve('__tests__', 'fixtures', 'index.blade.php'),
     ]);
 
     const formatted = fs.readFileSync(
       path.resolve('__tests__', 'fixtures', 'runtimeConfig', 'wrapLineLength', 'formatted.index.blade.php'),
+    );
+
+    expect(cmdResult).toEqual(formatted.toString('utf-8'));
+  });
+
+  test.concurrent('runtime config test (wrap attributes min attrs)', async () => {
+    const cmdResult = await cmd.execute(binPath, [
+      path.resolve('__tests__', 'fixtures', 'runtimeConfig', 'wrapAttributesMinAttrs', 'index.blade.php'),
+    ]);
+
+    const formatted = fs.readFileSync(
+      path.resolve('__tests__', 'fixtures', 'runtimeConfig', 'wrapAttributesMinAttrs', 'formatted.index.blade.php'),
+    );
+
+    expect(cmdResult).toEqual(formatted.toString('utf-8'));
+  });
+
+  test.concurrent('cli argument test (wrap attributes min attrs)', async () => {
+    const cmdResult = await cmd.execute(binPath, [
+      '--wrap-attributes-min-attrs',
+      '0',
+      '--wrap-attributes',
+      'force-expand-multiline',
+      path.resolve('__tests__', 'fixtures', 'index.blade.php'),
+    ]);
+
+    const formatted = fs.readFileSync(
+      path.resolve('__tests__', 'fixtures', 'runtimeConfig', 'wrapAttributesMinAttrs', 'formatted.index.blade.php'),
     );
 
     expect(cmdResult).toEqual(formatted.toString('utf-8'));
