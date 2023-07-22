@@ -210,6 +210,7 @@ e.g.
   "indentSize": 4,
   "wrapAttributes": "auto",
   "wrapLineLength": 120,
+  "wrapAttributesMinAttrs": 2,
   "endWithNewLine": true,
   "endOfLine": "LF",
   "useTabs": false,
