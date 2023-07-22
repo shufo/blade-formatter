@@ -244,6 +244,7 @@ export default class Formatter {
       indent_size: util.optional(this.options).indentSize || 4,
       wrap_line_length: util.optional(this.options).wrapLineLength || 120,
       wrap_attributes: util.optional(this.options).wrapAttributes || 'auto',
+      wrap_attributes_min_attrs: util.optional(this.options).wrapAttributesMinAttrs,
       end_with_newline: util.optional(this.options).endWithNewline || true,
       max_preserve_newlines: util.optional(this.options).noMultipleEmptyLines ? 1 : undefined,
       css: {
@@ -1932,6 +1933,7 @@ export default class Formatter {
             indent_size: util.optional(this.options).indentSize || 4,
             wrap_line_length: util.optional(this.options).wrapLineLength || 120,
             wrap_attributes: util.optional(this.options).wrapAttributes || 'auto',
+            wrap_attributes_min_attrs: util.optional(this.options).wrapAttributesMinAttrs,
             indent_with_tabs: useTabs,
             end_with_newline: false,
             templating: ['php'],
@@ -2039,6 +2041,7 @@ export default class Formatter {
           indent_size: util.optional(this.options).indentSize || 4,
           wrap_line_length: util.optional(this.options).wrapLineLength || 120,
           wrap_attributes: util.optional(this.options).wrapAttributes || 'auto',
+          wrap_attributes_min_attrs: util.optional(this.options).wrapAttributesMinAttrs,
           end_with_newline: false,
           templating: ['php'],
         };

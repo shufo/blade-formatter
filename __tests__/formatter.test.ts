@@ -5045,4 +5045,30 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
+
+  test('wrapAttributesMinAttrs option', async () => {
+    const content = [
+      `<div name="myname" aria-disabled="true" id="myid" class="myclass" src="other">`,
+      `foo`,
+      `</div>`,
+    ].join('\n');
+
+    const expected = [
+      `<div`,
+      `    name="myname"`,
+      `    aria-disabled="true"`,
+      `    id="myid"`,
+      `    class="myclass"`,
+      `    src="other"`,
+      `>`,
+      `    foo`,
+      `</div>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected, {
+      wrapAttributesMinAttrs: 0,
+      wrapAttributes: 'force-expand-multiline',
+    });
+  });
 });

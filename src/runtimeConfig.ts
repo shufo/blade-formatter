@@ -22,6 +22,7 @@ export interface RuntimeConfig {
   indentSize?: number;
   wrapLineLength?: number;
   wrapAttributes?: WrapAttributes;
+  wrapAttributesMinAttrs?: number;
   endWithNewline?: boolean;
   endOfLine?: EndOfLine;
   useTabs?: boolean;
@@ -76,6 +77,7 @@ export async function readRuntimeConfig(filePath: string | null): Promise<Runtim
         ],
         nullable: true,
       },
+      wrapAttributesMinAttrs: { type: 'integer', nullable: true, default: 2 },
       endWithNewline: { type: 'boolean', nullable: true },
       endOfLine: { type: 'string', enum: ['LF', 'CRLF'], nullable: true },
       useTabs: { type: 'boolean', nullable: true },
