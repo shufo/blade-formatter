@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.35.0](https://github.com/shufo/blade-formatter/compare/v1.34.1...v1.35.0) (2023-07-22)
+
+
+### Features
+
+* 🎸 add option `--wrap-attributes-min-attrs` ([9a370a7](https://github.com/shufo/blade-formatter/commit/9a370a7f0f64463549cf8877c8bbe7ceb7cd5833))
+
+
+### Miscellaneous
+
+* 🤖 bump js-beautify to 1.14.8 ([4611f9a](https://github.com/shufo/blade-formatter/commit/4611f9a57a5c5a32d1ae985f126cfee8e492e19b))
+
 ## [1.34.1](https://github.com/shufo/blade-formatter/compare/v1.34.0...v1.34.1) (2023-07-18)
 
 
