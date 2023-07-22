@@ -34,6 +34,7 @@ export type FormatterOption = {
   indentSize?: number;
   wrapLineLength?: number;
   wrapAttributes?: WrapAttributes;
+  wrapAttributesMinAttrs?: number;
   endWithNewline?: boolean;
   endOfLine?: EndOfLine;
   useTabs?: boolean;

@@ -68,6 +68,12 @@ export default async function cli() {
       description: `The way to wrap attributes.\n[auto|force|force-aligned|force-expand-multiline|aligned-multiple|preserve|preserve-aligned]`,
       default: 'auto',
     })
+    .option('wrap-attributes-min-attrs', {
+      type: 'integer',
+      alias: 'M',
+      description: `Minimum number of html tag attributes for force wrap attribute options. Wrap the first attribute only if 'force-expand-multiline' is specified in wrap attributes`,
+      default: '2',
+    })
     .option('sort-tailwindcss-classes', {
       alias: 'sort-classes',
       type: 'boolean',
