@@ -4245,6 +4245,75 @@ describe('formatter', () => {
     await util.doubleFormatCheck(content, expected);
   });
 
+  test('script tag with module type', async () => {
+    const content = [
+      `@push('scripts')`,
+      `    <script type="module">`,
+      `    $("#table-kategori").DataTable({`,
+      `    processing: true,`,
+      `    serverSide: true,ajax: "{{ route('kategori.list') }}",`,
+      `    columns: [{data: "DT_RowIndex",`,
+      `       name: "DT_RowIndex",orderable: false,searchable: false`,
+      `     },`,
+      `        {    data: "nama",name: "nama"`,
+      `      },`,
+      `         {`,
+      `         data: "jumlah_barang",`,
+      `         name: "jumlah_barang"`,
+      `       },`,
+      `       {`,
+      `       data: "created_at",`,
+      `       name: "created_at"`,
+      `       },`,
+      `       {`,
+      `       data: "action",`,
+      `       name: "action"`,
+      `       },`,
+      `       ],`,
+      `        });`,
+      `    </script>`,
+      `@endpush`,
+    ].join('\n');
+
+    const expected = [
+      `@push('scripts')`,
+      `    <script type="module">`,
+      `        $("#table-kategori").DataTable({`,
+      `            processing: true,`,
+      `            serverSide: true,`,
+      `            ajax: "{{ route('kategori.list') }}",`,
+      `            columns: [{`,
+      `                    data: "DT_RowIndex",`,
+      `                    name: "DT_RowIndex",`,
+      `                    orderable: false,`,
+      `                    searchable: false`,
+      `                },`,
+      `                {`,
+      `                    data: "nama",`,
+      `                    name: "nama"`,
+      `                },`,
+      `                {`,
+      `                    data: "jumlah_barang",`,
+      `                    name: "jumlah_barang"`,
+      `                },`,
+      `                {`,
+      `                    data: "created_at",`,
+      `                    name: "created_at"`,
+      `                },`,
+      `                {`,
+      `                    data: "action",`,
+      `                    name: "action"`,
+      `                },`,
+      `            ],`,
+      `        });`,
+      `    </script>`,
+      `@endpush`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
+
   test('escaped quote in raw php directive #669', async () => {
     const content = [
       `    @php`,
