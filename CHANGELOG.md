@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.35.1](https://github.com/shufo/blade-formatter/compare/v1.35.0...v1.35.1) (2023-07-23)
+
+
+### Fixes
+
+* 🐛 script does not format when type is module ([044fcd2](https://github.com/shufo/blade-formatter/commit/044fcd2bcfd5bc14a7c8fd1df0399b4289618372))
+* 🐛 unexpected result when wrap attributes min attrs option ([a7480c4](https://github.com/shufo/blade-formatter/commit/a7480c46fb786f7101ba53eccfa565470772b593))
+
 ## [1.35.0](https://github.com/shufo/blade-formatter/compare/v1.34.1...v1.35.0) (2023-07-22)
 
 
