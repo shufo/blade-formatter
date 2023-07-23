@@ -1147,15 +1147,15 @@ export default class Formatter {
   }
 
   getNonnativeScriptPlaceholder(replace: string) {
-    return _.replace('<blade ___non_native_scripts_#___ />', '#', replace);
+    return _.replace('<blade___non_native_scripts_#___ />', '#', replace);
   }
 
   getScriptPlaceholder(replace: any) {
-    return _.replace('<blade ___scripts_#___ />', '#', replace);
+    return _.replace('<blade___scripts_#___ />', '#', replace);
   }
 
   getHtmlTagPlaceholder(replace: string) {
-    return _.replace('<blade ___html_tags_#___ />', '#', replace);
+    return _.replace('<blade___html_tags_#___ />', '#', replace);
   }
 
   getInlineCustomDirectivePlaceholder(replace: string) {
