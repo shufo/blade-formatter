@@ -5140,4 +5140,63 @@ describe('formatter', () => {
       wrapAttributes: 'force-expand-multiline',
     });
   });
+
+  test('script tag with wrapAttributesMinAttrs option', async () => {
+    const content = [
+      `@push('scripts')`,
+      `    <script>`,
+      `        $("#table-kategori").DataTable({});`,
+      `    </script>`,
+      `@endpush`,
+    ].join('\n');
+
+    const expected = [
+      `@push('scripts')`,
+      `    <script>`,
+      `        $("#table-kategori").DataTable({});`,
+      `    </script>`,
+      `@endpush`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected, {
+      wrapAttributesMinAttrs: 0,
+      wrapAttributes: 'force-expand-multiline',
+    });
+  });
+
+  test('nonnative script tag with wrapAttributesMinAttrs option', async () => {
+    const content = [
+      `@push('scripts')`,
+      `    <script type="template">`,
+      `        <div></div>`,
+      `    </script>`,
+      `@endpush`,
+    ].join('\n');
+
+    const expected = [
+      `@push('scripts')`,
+      `    <script type="template">`,
+      `        <div></div>`,
+      `    </script>`,
+      `@endpush`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected, {
+      wrapAttributesMinAttrs: 0,
+      wrapAttributes: 'force-expand-multiline',
+    });
+  });
+
+  test('content sensitive html tag with wrapAttributesMinAttrs option', async () => {
+    const content = [`<textarea>`, `foo`, `</textarea>`, `<pre>`, `bar`, `</pre>`].join('\n');
+
+    const expected = [`<textarea>`, `foo`, `</textarea>`, `<pre>`, `bar`, `</pre>`, ``].join('\n');
+
+    await util.doubleFormatCheck(content, expected, {
+      wrapAttributesMinAttrs: 0,
+      wrapAttributes: 'force-expand-multiline',
+    });
+  });
 });
