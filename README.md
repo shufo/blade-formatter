@@ -182,6 +182,7 @@ $ blade-formatter -c -d resources/**/*.blade.php
       --wrap-attributes, --wrap-atts  The way to wrap attributes.
                                       [auto|force|force-aligned|force-expand-multiline|aligned-multiple|preserve|preserve-aligned]  [string] [default: "auto"]
   -M, --wrap-attributes-min-attrs     Minimum number of html tag attributes for force wrap attribute options. Wrap the first attribute only if 'force-expand-multiline' is specified in wrap attributes  [default: "2"]
+  -I, --indent-inner-html             Indent <head> and <body> sections in html.  [boolean] [default: false]
       --sort-tailwindcss-classes      Sort tailwindcss classes  [boolean] [default: false]
       --tailwindcss-config-path       Specify path of tailwind config  [string] [default: null]
       --sort-html-attributes          Sort HTML attributes.  [string] [choices: "none", "alphabetical", "code-guide", "idiomatic", "vuejs", "custom"] [default: none]
@@ -211,6 +212,7 @@ e.g.
   "wrapAttributes": "auto",
   "wrapLineLength": 120,
   "wrapAttributesMinAttrs": 2,
+  "indentInnerHtml": true,
   "endWithNewLine": true,
   "endOfLine": "LF",
   "useTabs": false,
