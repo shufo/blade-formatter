@@ -74,6 +74,12 @@ export default async function cli() {
       description: `Minimum number of html tag attributes for force wrap attribute options. Wrap the first attribute only if 'force-expand-multiline' is specified in wrap attributes`,
       default: '2',
     })
+    .option('indent-inner-html', {
+      alias: 'I',
+      type: 'boolean',
+      description: 'Indent <head> and <body> sections in html.',
+      default: false,
+    })
     .option('sort-tailwindcss-classes', {
       alias: 'sort-classes',
       type: 'boolean',
