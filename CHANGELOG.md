@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.36.0](https://github.com/shufo/blade-formatter/compare/v1.35.1...v1.36.0) (2023-07-25)
+
+
+### Features
+
+* 🎸 add option `--indent-inner-html` ([8b2a3c5](https://github.com/shufo/blade-formatter/commit/8b2a3c539a08a86895b7371983d3a2f93992dec6))
+
 ## [1.35.1](https://github.com/shufo/blade-formatter/compare/v1.35.0...v1.35.1) (2023-07-23)
 
 
