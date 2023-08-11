@@ -805,4 +805,30 @@ describe('The blade formatter CLI', () => {
 
     expect(cmdResult).toEqual(formatted.toString('utf-8'));
   });
+
+  test.concurrent('runtime config test (extra liners)', async () => {
+    const cmdResult = await cmd.execute(binPath, [
+      path.resolve('__tests__', 'fixtures', 'runtimeConfig', 'extraLiners', 'index.blade.php'),
+    ]);
+
+    const formatted = fs.readFileSync(
+      path.resolve('__tests__', 'fixtures', 'runtimeConfig', 'extraLiners', 'formatted.index.blade.php'),
+    );
+
+    expect(cmdResult).toEqual(formatted.toString('utf-8'));
+  });
+
+  test.concurrent('cli argument test (extra liners)', async () => {
+    const cmdResult = await cmd.execute(binPath, [
+      '--extra-liners',
+      '""',
+      path.resolve('__tests__', 'fixtures', 'argumentTest', 'extraLiners', 'index.blade.php'),
+    ]);
+
+    const formatted = fs.readFileSync(
+      path.resolve('__tests__', 'fixtures', 'argumentTest', 'extraLiners', 'formatted.index.blade.php'),
+    );
+
+    expect(cmdResult).toEqual(formatted.toString('utf-8'));
+  });
 });

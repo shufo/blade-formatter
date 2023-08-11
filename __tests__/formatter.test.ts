@@ -5199,4 +5199,45 @@ describe('formatter', () => {
       wrapAttributes: 'force-expand-multiline',
     });
   });
+
+  test('extra liners option', async () => {
+    const content = [
+      `<html>`,
+      `<head>`,
+      `@section('header')`,
+      `<title>`,
+      `foo`,
+      `</title>`,
+      `@endsection`,
+      `</head>`,
+      `<body>`,
+      `<button className="prettier-class" id="prettier-id" onClick={this.handleClick}>`,
+      `Click Here`,
+      `</button>`,
+      `</body>`,
+      `</html>`,
+    ].join('\n');
+
+    const expected = [
+      `<html>`,
+      `<head>`,
+      `    @section('header')`,
+      `        <title>`,
+      `            foo`,
+      `        </title>`,
+      `    @endsection`,
+      `</head>`,
+      `<body>`,
+      `    <button className="prettier-class" id="prettier-id" onClick={this.handleClick}>`,
+      `        Click Here`,
+      `    </button>`,
+      `</body>`,
+      `</html>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected, {
+      extraLiners: [],
+    });
+  });
 });
