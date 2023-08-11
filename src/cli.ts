@@ -118,6 +118,7 @@ export default async function cli() {
       default: true,
     })
     .option('extra-liners', {
+      alias: 'E',
       type: 'string',
       description:
         'Comma separated list of tags that should have an extra newline before them (defaults to [head,body,/html]).',
