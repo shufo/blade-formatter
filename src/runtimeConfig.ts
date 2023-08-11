@@ -95,7 +95,7 @@ export async function readRuntimeConfig(filePath: string | null): Promise<Runtim
       noMultipleEmptyLines: { type: 'boolean', nullable: true },
       noPhpSyntaxCheck: { type: 'boolean', nullable: true },
       noSingleQuote: { type: 'boolean', nullable: true },
-      extraLiners: { type: 'array', nullable: true, items: { type: 'string' }, default: [] },
+      extraLiners: { type: 'array', nullable: true, items: { type: 'string' }, default: ['head', 'body', '/html'] },
     },
     additionalProperties: true,
   };

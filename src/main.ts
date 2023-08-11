@@ -200,7 +200,15 @@ class BladeFormatter {
 
     try {
       const options = await readRuntimeConfig(configFile);
-      this.options = _.merge(this.options, options);
+
+      this.options = _.mergeWith(this.options, options, (obj, src) => {
+        if (!_.isNil(src)) {
+          return src;
+        }
+
+        return obj;
+      });
+
       this.runtimeConfigCache = this.options;
 
       if (this.options.sortTailwindcssClasses) {

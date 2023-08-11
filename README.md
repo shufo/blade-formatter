@@ -188,7 +188,7 @@ $ blade-formatter -c -d resources/**/*.blade.php
       --sort-html-attributes          Sort HTML attributes.  [string] [choices: "none", "alphabetical", "code-guide", "idiomatic", "vuejs", "custom"] [default: none]
       --custom-html-attributes-order  Comma separated custom HTML attributes order. To enable this you must specify sort html attributes option as `custom`. You can use regex for attribute names. [string] [default: null]
       --no-single-quote               Use double quotes instead of single quotes for php expression.  [boolean] [default: false]
-      --extra-liners                  Comma separated list of tags that should have an extra newline before them.  [string] (default: ['head', 'body', '/html'])
+  -E, --extra-liners                  Comma separated list of tags that should have an extra newline before them.  [string] [default: "head,body,/html"]
       --no-multiple-empty-lines       Merge multiple blank lines into a single blank line  [boolean] [default: false]
       --no-php-syntax-check           Disable PHP sytnax checking  [boolean] [default: false]
   -p, --progress                      Print progress  [boolean] [default: false]

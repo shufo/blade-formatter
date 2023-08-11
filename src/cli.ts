@@ -120,9 +120,13 @@ export default async function cli() {
     .option('extra-liners', {
       alias: 'E',
       type: 'string',
-      description:
-        'Comma separated list of tags that should have an extra newline before them (defaults to [head,body,/html]).',
-      default: null,
+      description: 'Comma separated list of tags that should have an extra newline before them.',
+      default: 'head,body,/html',
+      nullable: true,
+      coerce(formats) {
+        // Make sure we support comma-separated syntax: --extra-liners head,body
+        return _.flatten(_.flatten([formats]).map((format) => format.split(',')));
+      },
     })
     .option('no-multiple-empty-lines', {
       type: 'boolean',
