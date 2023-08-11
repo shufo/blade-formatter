@@ -476,10 +476,10 @@ $ make debug # attach
     </td></tr>
 <tr>
     <td align="center">
-        <a href="https://github.com/dianfishekqi">
-            <img src="https://avatars.githubusercontent.com/u/4225509?v=4" width="100;" alt="dianfishekqi"/>
+        <a href="https://github.com/notdian">
+            <img src="https://avatars.githubusercontent.com/u/4225509?v=4" width="100;" alt="notdian"/>
             <br />
-            <sub><b>Dian Fishekqi</b></sub>
+            <sub><b>Null</b></sub>
         </a>
     </td>
     <td align="center">
@@ -508,6 +508,13 @@ $ make debug # attach
             <img src="https://avatars.githubusercontent.com/u/1379640?v=4" width="100;" alt="jtanaka"/>
             <br />
             <sub><b>Jumpei Tanaka</b></sub>
+        </a>
+    </td>
+    <td align="center">
+        <a href="https://github.com/ldommer">
+            <img src="https://avatars.githubusercontent.com/u/65616313?v=4" width="100;" alt="ldommer"/>
+            <br />
+            <sub><b>Lennart Dommer</b></sub>
         </a>
     </td></tr>
 </table>
