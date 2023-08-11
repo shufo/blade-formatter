@@ -1,40 +1,40 @@
 /* eslint-disable class-methods-use-this */
 
+import { sortClasses } from '@shufo/tailwindcss-class-sorter';
+import Aigle from 'aigle';
+import detectIndent from 'detect-indent';
+import { sortAttributes } from 'html-attribute-sorter';
 import beautify, { JSBeautifyOptions } from 'js-beautify';
 import _ from 'lodash';
 import * as vscodeTmModule from 'vscode-textmate';
-import detectIndent from 'detect-indent';
-import Aigle from 'aigle';
 import xregexp from 'xregexp';
-import { sortClasses } from '@shufo/tailwindcss-class-sorter';
-import { sortAttributes } from 'html-attribute-sorter';
-import { FormatterOption, CLIOption, BladeFormatterOption } from './main';
-import * as vsctm from './vsctm';
-import * as util from './util';
+import { formatPhpComment } from './comment';
+import constants from './constants';
 import {
-  indentStartTokens,
-  indentEndTokens,
-  indentElseTokens,
-  indentStartOrElseTokens,
-  tokenForIndentStartOrElseTokens,
-  hasStartAndEndToken,
-  phpKeywordStartTokens,
-  phpKeywordEndTokens,
-  indentStartAndEndTokens,
-  inlineFunctionTokens,
-  optionalStartWithoutEndTokens,
   conditionalTokens,
-  directivePrefix,
-  indentStartTokensWithoutPrefix,
-  unbalancedStartTokens,
   cssAtRuleTokens,
+  directivePrefix,
+  hasStartAndEndToken,
+  indentElseTokens,
+  indentEndTokens,
+  indentStartAndEndTokens,
+  indentStartOrElseTokens,
+  indentStartTokens,
+  indentStartTokensWithoutPrefix,
+  inlineFunctionTokens,
   inlinePhpDirectives,
+  optionalStartWithoutEndTokens,
+  phpKeywordEndTokens,
+  phpKeywordStartTokens,
+  tokenForIndentStartOrElseTokens,
+  unbalancedStartTokens,
 } from './indent';
+import { BladeFormatterOption, CLIOption, FormatterOption } from './main';
 import { nestedParenthesisRegex } from './regex';
 import { SortHtmlAttributes } from './runtimeConfig';
-import { formatPhpComment } from './comment';
 import { adjustSpaces } from './space';
-import constants from './constants';
+import * as util from './util';
+import * as vsctm from './vsctm';
 
 export default class Formatter {
   argumentCheck: any;
@@ -248,6 +248,7 @@ export default class Formatter {
       indent_inner_html: util.optional(this.options).indentInnerHtml || false,
       end_with_newline: util.optional(this.options).endWithNewline || true,
       max_preserve_newlines: util.optional(this.options).noMultipleEmptyLines ? 1 : undefined,
+      extra_liners: util.optional(this.options).extraLiners || ['head', 'body', '/html'],
       css: {
         end_with_newline: false,
       },

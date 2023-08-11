@@ -1,7 +1,7 @@
-import path from 'path';
-import fs from 'fs';
 import Ajv, { JSONSchemaType } from 'ajv';
 import findConfig from 'find-config';
+import fs from 'fs';
+import path from 'path';
 
 const ajv = new Ajv();
 
@@ -34,6 +34,7 @@ export interface RuntimeConfig {
   noMultipleEmptyLines?: boolean;
   noPhpSyntaxCheck?: boolean;
   noSingleQuote?: boolean;
+  extraLiners?: string[];
 }
 
 const defaultConfigNames = ['.bladeformatterrc.json', '.bladeformatterrc'];
@@ -94,6 +95,7 @@ export async function readRuntimeConfig(filePath: string | null): Promise<Runtim
       noMultipleEmptyLines: { type: 'boolean', nullable: true },
       noPhpSyntaxCheck: { type: 'boolean', nullable: true },
       noSingleQuote: { type: 'boolean', nullable: true },
+      extraLiners: { type: 'array', nullable: true, items: { type: 'string' }, default: [] },
     },
     additionalProperties: true,
   };

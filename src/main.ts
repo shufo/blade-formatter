@@ -1,25 +1,25 @@
 import ignore from 'ignore';
 
-import nodepath from 'path';
-import fs from 'fs';
-import process from 'process';
 import chalk from 'chalk';
-import glob from 'glob';
-import nodeutil from 'util';
-import _ from 'lodash';
 import findConfig from 'find-config';
+import fs from 'fs';
+import glob from 'glob';
+import _ from 'lodash';
+import nodepath from 'path';
+import process from 'process';
 import { Config as TailwindConfig } from 'tailwindcss/types/config';
+import nodeutil from 'util';
+import FormatError from './errors/formatError';
 import Formatter from './formatter';
-import * as util from './util';
 import {
-  findRuntimeConfig,
-  readRuntimeConfig,
   EndOfLine,
   RuntimeConfig,
   SortHtmlAttributes,
   WrapAttributes,
+  findRuntimeConfig,
+  readRuntimeConfig,
 } from './runtimeConfig';
-import FormatError from './errors/formatError';
+import * as util from './util';
 
 export type CLIOption = {
   write?: boolean;
@@ -47,6 +47,7 @@ export type FormatterOption = {
   noMultipleEmptyLines?: boolean;
   noPhpSyntaxCheck?: boolean;
   noSingleQuote?: boolean;
+  extraLiners?: string[];
 };
 
 export type BladeFormatterOption = CLIOption & FormatterOption;

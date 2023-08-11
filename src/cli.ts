@@ -1,15 +1,15 @@
-import yargs from 'yargs';
-import concat from 'concat-stream';
-import { loadWASM } from 'vscode-oniguruma';
 import chalk from 'chalk';
+import concat from 'concat-stream';
 import _ from 'lodash';
+import { loadWASM } from 'vscode-oniguruma';
+import yargs from 'yargs';
 
-import os from 'os';
 import { promises as fs } from 'fs';
+import os from 'os';
 
 import { hideBin } from 'yargs/helpers';
-import { BladeFormatter } from './main';
 import { name, version } from '../package.json';
+import { BladeFormatter } from './main';
 
 export default async function cli() {
   // @ts-ignore
@@ -116,6 +116,11 @@ export default async function cli() {
       description: 'this is a workaround for combine strict && boolean option',
       hidden: true,
       default: true,
+    })
+    .option('extra-liners', {
+      type: 'string',
+      description: 'Comma separated list of tags that should have an extra newline before them (defaults to [head,body,/html]).',
+      default: null,
     })
     .option('no-multiple-empty-lines', {
       type: 'boolean',
