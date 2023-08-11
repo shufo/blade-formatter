@@ -165,7 +165,7 @@ export default async function cli() {
     .help('h')
     .alias('h', 'help')
     .strictOptions()
-    .fail(function (msg, err) {
+    .fail((msg, err) => {
       if (err) throw err; // preserve stack
       process.stdout.write(`${chalk.red(`error: `)}${msg}\n\n`);
       process.stdout.write(`${chalk.yellow(`Usage: `)} ${name} [options] [file glob | ...]\n\n`);
@@ -187,8 +187,8 @@ export default async function cli() {
 
   if (parsed.argv.stdin) {
     await process.stdin.pipe(
-      concat({ encoding: 'string' }, (text: Buffer) => {
-        return new BladeFormatter(options)
+      concat({ encoding: 'string' }, (text: Buffer) =>
+        new BladeFormatter(options)
           .format(text)
           .then((result: string | undefined) => {
             if (result !== undefined) {
@@ -198,8 +198,8 @@ export default async function cli() {
           .catch((error) => {
             process.stdout.write(`${error.toString()}\n`);
             process.exit(1);
-          });
-      }),
+          }),
+      ),
     );
     return;
   }
