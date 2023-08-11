@@ -13,8 +13,6 @@ export function adjustSpaces(content: string): string {
   return _.replace(
     content,
     new RegExp(`(?<!@)(${directivesRequiredSpace.join('|')})\\s*${nestedParenthesisRegex}`, 'gi'),
-    (_matched: string, p1: string, p2: string) => {
-      return `${p1} (${p2})`;
-    },
+    (_matched: string, p1: string, p2: string) => `${p1} (${p2})`,
   );
 }
