@@ -1,5 +1,23 @@
 # Changelog
 
+## [1.37.0](https://github.com/shufo/blade-formatter/compare/v1.36.0...v1.37.0) (2023-08-11)
+
+
+### Features
+
+* add option `--extra-liners` ([1562785](https://github.com/shufo/blade-formatter/commit/1562785ad22715a911e63aeeced2480929e67c61))
+
+
+### Fixes
+
+* 🐛 error when --extra-liners option passed at 1st argument ([de46752](https://github.com/shufo/blade-formatter/commit/de46752d18056671d32e8e83347affccc252c025))
+
+
+### Miscellaneous
+
+* **deps:** update dependency eslint-config-prettier to v9 ([aa48af5](https://github.com/shufo/blade-formatter/commit/aa48af59f66d423af53bf60e5fd2ea6f4a967f2b))
+* **deps:** update pozil/auto-assign-issue action to v1.12.0 ([4e314bd](https://github.com/shufo/blade-formatter/commit/4e314bdf06f232be705c1e5e233921f6121f91a0))
+
 ## [1.36.0](https://github.com/shufo/blade-formatter/compare/v1.35.1...v1.36.0) (2023-07-25)
 
 
