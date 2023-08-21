@@ -1686,7 +1686,7 @@ export default class Formatter {
   restoreXslot(content: string) {
     return _.replace(content, /x-slot\s*--___(\d+)___--/gms, (_match: string, p1: number) => this.xSlot[p1]).replace(
       /(?<=<x-slot:[\w\_\-]*)\s+(?=\/?>)/gm,
-      (_match: string) => '',
+      () => '',
     );
   }
 
