@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.37.1](https://github.com/shufo/blade-formatter/compare/v1.37.0...v1.37.1) (2023-08-21)
+
+
+### Fixes
+
+* 🐛 unbalanced x-slot tag behaviour ([04c823f](https://github.com/shufo/blade-formatter/commit/04c823fdfe12f6a2a64d63eec6b2af4a6e8d083c))
+
 ## [1.37.0](https://github.com/shufo/blade-formatter/compare/v1.36.0...v1.37.0) (2023-08-11)
 
 
