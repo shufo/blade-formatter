@@ -1,0 +1,49 @@
+------------------------------------options----------------------------------------
+{
+  "wrapAttributes": "force-expand-multiline",
+  "wrapAttributesMinAttrs": 1
+}
+------------------------------------content----------------------------------------
+<x-alert>
+    <x-slot:title name="f>oo"
+value="bar">
+        Foo bar
+    </x-slot>
+          <x-slot name="foo">
+           Foo bar
+    </x-slot:title>
+          <x-slot:title>
+        Foo bar
+    </x-slot:title>
+        <x-slot:foo>
+        Foo bar
+              <x-slot:bar>
+            Foo bar
+            </x-slot>
+            Foo bar
+        </x-slot>
+      </x-alert>
+------------------------------------expected----------------------------------------
+<x-alert>
+    <x-slot:title
+        name="f>oo"
+        value="bar"
+    >
+        Foo bar
+    </x-slot>
+    <x-slot
+        name="foo"
+    >
+        Foo bar
+    </x-slot:title>
+    <x-slot:title>
+        Foo bar
+    </x-slot:title>
+    <x-slot:foo>
+        Foo bar
+        <x-slot:bar>
+            Foo bar
+        </x-slot>
+        Foo bar
+    </x-slot>
+</x-alert>

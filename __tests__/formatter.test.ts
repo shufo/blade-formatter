@@ -5240,4 +5240,52 @@ describe('formatter', () => {
       extraLiners: [],
     });
   });
+
+  test('unmatched x-slot close tag', async () => {
+    const content = [
+      `<x-alert>`,
+      `    <x-slot:title name="f>oo"`,
+      `value="bar">`,
+      `        Foo bar`,
+      `    </x-slot>`,
+      `          <x-slot name="foo">`,
+      `           Foo bar`,
+      `    </x-slot:title>`,
+      `          <x-slot:title>`,
+      `        Foo bar`,
+      `    </x-slot:title>`,
+      `        <x-slot:foo>`,
+      `        Foo bar`,
+      `              <x-slot:bar>`,
+      `            Foo bar`,
+      `            </x-slot>`,
+      `            Foo bar`,
+      `        </x-slot>`,
+      `      </x-alert>`,
+    ].join('\n');
+
+    const expected = [
+      `<x-alert>`,
+      `    <x-slot:title name="f>oo" value="bar">`,
+      `        Foo bar`,
+      `    </x-slot>`,
+      `    <x-slot name="foo">`,
+      `        Foo bar`,
+      `    </x-slot:title>`,
+      `    <x-slot:title>`,
+      `        Foo bar`,
+      `    </x-slot:title>`,
+      `    <x-slot:foo>`,
+      `        Foo bar`,
+      `        <x-slot:bar>`,
+      `            Foo bar`,
+      `        </x-slot>`,
+      `        Foo bar`,
+      `    </x-slot>`,
+      `</x-alert>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
 });
