@@ -85,9 +85,11 @@ export default class Formatter {
 
   scripts: any;
 
-  xData: any;
+  xData: Array<string>;
 
-  xInit: any;
+  xInit: Array<string>;
+
+  xSlot: Array<string>;
 
   htmlTags: Array<string>;
 
@@ -171,6 +173,7 @@ export default class Formatter {
     this.directivesInScript = [];
     this.unbalancedDirectives = [];
     this.escapedBladeDirectives = [];
+    this.xSlot = [];
     this.result = [];
     this.diffs = [];
     this.defaultPhpFormatOption = { noPhpSyntaxCheck: this.options.noPhpSyntaxCheck, printWidth: this.wrapLineLength };
@@ -209,10 +212,12 @@ export default class Formatter {
       .then((target) => this.sortHtmlAttributes(target))
       .then((target) => this.preservePhpBlock(target))
       .then((target) => this.preserveHtmlAttributes(target))
+      .then((target) => this.preserveXslot(target))
       .then((target) => this.preserveHtmlTags(target))
       .then((target) => this.formatAsHtml(target))
       .then((target) => this.formatAsBlade(target))
       .then((target) => this.restoreHtmlTags(target))
+      .then((target) => this.restoreXslot(target))
       .then((target) => this.restoreHtmlAttributes(target))
       .then((target) => this.restorePhpBlock(target))
       .then((target) => this.restoreShorthandBinding(target))
@@ -771,6 +776,12 @@ export default class Formatter {
     return _.replace(content, /@@\w*/gim, (match: string) => this.storeEscapedBladeDirective(match));
   }
 
+  async preserveXslot(content: string) {
+    return _.replace(content, /(?<=<\/?)(x-slot:[\w_\\-]+)(?=(?:[^>]*?[^?])?>)/gm, (match: string) =>
+      this.storeXslot(match),
+    );
+  }
+
   async preserveBladeComment(content: any) {
     return _.replace(content, /\{\{--(.*?)--\}\}/gs, (match: string) => this.storeBladeComment(match));
   }
@@ -972,6 +983,10 @@ export default class Formatter {
     return this.getEscapedBladeDirectivePlaceholder((this.escapedBladeDirectives.push(value) - 1).toString());
   }
 
+  storeXslot(value: string) {
+    return this.getXslotPlaceholder((this.xSlot.push(value) - 1).toString());
+  }
+
   storeBladeComment(value: any) {
     return this.getBladeCommentPlaceholder(this.bladeComments.push(value) - 1);
   }
@@ -1120,6 +1135,10 @@ export default class Formatter {
 
   getEscapedBladeDirectivePlaceholder(replace: string) {
     return _.replace('___escaped_directive_#___', '#', replace);
+  }
+
+  getXslotPlaceholder(replace: string) {
+    return _.replace('x-slot --___#___--', '#', replace);
   }
 
   getBladeCommentPlaceholder(replace: any) {
@@ -1661,6 +1680,13 @@ export default class Formatter {
       _.replace(res, new RegExp(`${this.getBladeCommentPlaceholder('(\\d+)')}`, 'gms'), (_match: any, p1: any) =>
         this.bladeComments[p1].replace(/{{--(?=\S)/g, '{{-- ').replace(/(?<=\S)--}}/g, ' --}}'),
       ),
+    );
+  }
+
+  restoreXslot(content: string) {
+    return _.replace(content, /x-slot\s*--___(\d+)___--/gms, (_match: string, p1: number) => this.xSlot[p1]).replace(
+      /(?<=<x-slot:[\w\_\-]*)\s+(?=\/?>)/gm,
+      (_match: string) => '',
     );
   }
 
