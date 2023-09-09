@@ -12,7 +12,7 @@ jobs:
         with:
           release-type: node
           changelog-types: '[{"type":"feat","section":"Features","hidden":false},{"type":"fix","section":"Fixes","hidden":false},{"type":"chore","section":"Miscellaneous","hidden":false}]'
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         if: ${{ steps.release.outputs.release_created }}
       - name: Set up Node.js
         if: ${{ steps.release.outputs.release_created }}
