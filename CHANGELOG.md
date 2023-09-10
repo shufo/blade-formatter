@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.38.1](https://github.com/shufo/blade-formatter/compare/v1.38.0...v1.38.1) (2023-09-10)
+
+
+### Fixes
+
+* **deps:** revert update dependency @prettier/plugin-php to ^0.20.0 ([#859](https://github.com/shufo/blade-formatter/issues/859)) ([87c74c6](https://github.com/shufo/blade-formatter/commit/87c74c6562f6ea0b2684dab004c39209bec420e7))
+
 ## [1.38.0](https://github.com/shufo/blade-formatter/compare/v1.37.1...v1.38.0) (2023-09-10)
 
 
