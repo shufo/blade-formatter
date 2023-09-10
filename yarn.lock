@@ -1792,14 +1792,14 @@
     tiny-glob "^0.2.9"
     tslib "^2.4.0"
 
-"@prettier/plugin-php@^0.20.0":
-  version "0.20.0"
-  resolved "https://registry.yarnpkg.com/@prettier/plugin-php/-/plugin-php-0.20.0.tgz#f169363be6f493cce43a6105aa491f6ff5d074ab"
-  integrity sha512-bdnK9VKeMD/SoIdSxCUwuiiy/86BOF7sCWrCLVrMHj2dL8FFBgsvVxGzQbd7hxweh0eaFKmr7GszIlVpNyHgzw==
+"@prettier/plugin-php@^0.19.0":
+  version "0.19.0"
+  resolved "https://registry.yarnpkg.com/@prettier/plugin-php/-/plugin-php-0.19.0.tgz#b70bbfac172d6e76acf8a2376c8c8cdde70f0b75"
+  integrity sha512-WWFd0KDcF1EHsLpxU7DvgHjxdyZSal3ykDaCL9DzJSyIBo9qfk11spJR2svrEc/38CZioYy/OtbdyoQ5YEGASA==
   dependencies:
     linguist-languages "^7.21.0"
     mem "^8.0.0"
-    php-parser "^3.1.5"
+    php-parser "3.1.0"
 
 "@shufo/tailwindcss-class-sorter@3.0.1":
   version "3.0.1"
@@ -5778,7 +5778,12 @@ path-type@^4.0.0:
   resolved "https://registry.npmjs.org/path-type/-/path-type-4.0.0.tgz"
   integrity sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==
 
-php-parser@3.1.5, php-parser@^3.1.5:
+php-parser@3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/php-parser/-/php-parser-3.1.0.tgz#5ca8e0bac9846e85233a26e3162fdfc4fb9a0a58"
+  integrity sha512-EwtoPSCqggAgTcPbV4YXsvUjYRQCZCxsQzxa7z8RX8rJ8bWAglMMi1tFNxdzwf5uNPFWFjHYhXA3REuWKzgMuw==
+
+php-parser@3.1.5:
   version "3.1.5"
   resolved "https://registry.yarnpkg.com/php-parser/-/php-parser-3.1.5.tgz#84500e5b5c6a0907e32c38b931bb4e7d3f275026"
   integrity sha512-jEY2DcbgCm5aclzBdfW86GM6VEIWcSlhTBSHN1qhJguVePlYe28GhwS0yoeLYXpM2K8y6wzLwrbq814n2PHSoQ==
