@@ -831,4 +831,29 @@ describe('The blade formatter CLI', () => {
 
     expect(cmdResult).toEqual(formatted.toString('utf-8'));
   });
+
+  test.concurrent('runtime config test (trailing comma php)', async () => {
+    const cmdResult = await cmd.execute(binPath, [
+      path.resolve('__tests__', 'fixtures', 'runtimeConfig', 'trailingCommaPhp', 'index.blade.php'),
+    ]);
+
+    const formatted = fs.readFileSync(
+      path.resolve('__tests__', 'fixtures', 'runtimeConfig', 'trailingCommaPhp', 'formatted.index.blade.php'),
+    );
+
+    expect(cmdResult).toEqual(formatted.toString('utf-8'));
+  });
+
+  test.concurrent('cli argument test (trailing comma php)', async () => {
+    const cmdResult = await cmd.execute(binPath, [
+      '--no-trailing-comma-php',
+      path.resolve('__tests__', 'fixtures', 'argumentTest', 'trailingCommaPhp', 'index.blade.php'),
+    ]);
+
+    const formatted = fs.readFileSync(
+      path.resolve('__tests__', 'fixtures', 'argumentTest', 'trailingCommaPhp', 'formatted.index.blade.php'),
+    );
+
+    expect(cmdResult).toEqual(formatted.toString('utf-8'));
+  });
 });

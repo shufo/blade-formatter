@@ -150,6 +150,17 @@ export default async function cli() {
       hidden: true,
       default: true,
     })
+    .option('no-trailing-comma-php', {
+      type: 'boolean',
+      description: 'If set to true, no trailing commas are printed for php expression.',
+      default: false,
+    })
+    .option('trailing-comma-php', {
+      type: 'boolean',
+      description: 'this is a workaround for combine strict && boolean option',
+      hidden: true,
+      default: true,
+    })
     .option('progress', {
       alias: 'p',
       type: 'boolean',
@@ -194,6 +205,7 @@ export default async function cli() {
     .set('noMultipleEmptyLines', !parsed.argv.multipleEmptyLines)
     .set('noPhpSyntaxCheck', !parsed.argv.phpSyntaxCheck)
     .set('noSingleQuote', !parsed.argv.singleQuote)
+    .set('noTrailingCommaPhp', !parsed.argv.trailingCommaPhp)
     .value();
 
   if (parsed.argv.stdin) {
