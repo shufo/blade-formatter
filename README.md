@@ -191,6 +191,7 @@ $ blade-formatter -c -d resources/**/*.blade.php
   -E, --extra-liners                  Comma separated list of tags that should have an extra newline before them.  [string] [default: "head,body,/html"]
       --no-multiple-empty-lines       Merge multiple blank lines into a single blank line  [boolean] [default: false]
       --no-php-syntax-check           Disable PHP sytnax checking  [boolean] [default: false]
+      --no-trailing-comma-php         If set to true, no trailing commas are printed for php expression.  [boolean] [default: false]
   -p, --progress                      Print progress  [boolean] [default: false]
       --stdin                         format code provided on <STDIN>  [boolean] [default: false]
       --config                        Use this configuration, overriding .bladeformatterrc config options if present  [string] [default: null]
@@ -222,6 +223,7 @@ e.g.
   "noMultipleEmptyLines": false,
   "noPhpSyntaxCheck": false,
   "noSingleQuote": false,
+  "noTrailingCommaPhp": false,
   "extraLiners": []
 }
 ```
