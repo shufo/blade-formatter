@@ -131,6 +131,7 @@ export default class Formatter {
     this.options = {
       ...{
         noPhpSyntaxCheck: false,
+        trailingCommaPHP: !options.noTrailingCommaPhp,
         printWidth: options.wrapLineLength || constants.defaultPrintWidth,
       },
       ...options,

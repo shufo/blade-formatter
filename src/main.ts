@@ -47,6 +47,7 @@ export type FormatterOption = {
   noMultipleEmptyLines?: boolean;
   noPhpSyntaxCheck?: boolean;
   noSingleQuote?: boolean;
+  noTrailingCommaPhp?: boolean;
   extraLiners?: string[];
 };
 
