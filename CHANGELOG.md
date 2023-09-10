@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.38.0](https://github.com/shufo/blade-formatter/compare/v1.37.1...v1.38.0) (2023-09-10)
+
+
+### Features
+
+* 🎸 add option `--no-trailing-comma-php` ([#858](https://github.com/shufo/blade-formatter/issues/858)) ([9338973](https://github.com/shufo/blade-formatter/commit/9338973770a9634393ba2cff6ecb79e03574f9e9))
+
+
+### Fixes
+
+* **deps:** update dependency vscode-oniguruma to v2 ([662b5fd](https://github.com/shufo/blade-formatter/commit/662b5fd8f4eda45949052cd808a3d92a3d9e7ef8))
+
+
+### Miscellaneous
+
+* **deps:** update actions/checkout action to v4 ([db6c3d6](https://github.com/shufo/blade-formatter/commit/db6c3d6a154f7e90d819faba3d873094a40b199f))
+
 ## [1.37.1](https://github.com/shufo/blade-formatter/compare/v1.37.0...v1.37.1) (2023-08-21)
 
 
