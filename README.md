@@ -485,6 +485,13 @@ $ make debug # attach
         </a>
     </td>
     <td align="center">
+        <a href="https://github.com/garrettboone">
+            <img src="https://avatars.githubusercontent.com/u/47018474?v=4" width="100;" alt="garrettboone"/>
+            <br />
+            <sub><b>Garrett Boone</b></sub>
+        </a>
+    </td>
+    <td align="center">
         <a href="https://github.com/gagansday">
             <img src="https://avatars.githubusercontent.com/u/25811413?v=4" width="100;" alt="gagansday"/>
             <br />
@@ -511,7 +518,8 @@ $ make debug # attach
             <br />
             <sub><b>Jumpei Tanaka</b></sub>
         </a>
-    </td>
+    </td></tr>
+<tr>
     <td align="center">
         <a href="https://github.com/ldommer">
             <img src="https://avatars.githubusercontent.com/u/65616313?v=4" width="100;" alt="ldommer"/>
