@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.38.3](https://github.com/shufo/blade-formatter/compare/v1.38.2...v1.38.3) (2023-10-09)
+
+
+### Fixes
+
+* 🐛 unnecessary indent in raw php directive ([4a45806](https://github.com/shufo/blade-formatter/commit/4a4580645092d7807393c56471a90c84142ab53f))
+
 ## [1.38.2](https://github.com/shufo/blade-formatter/compare/v1.38.1...v1.38.2) (2023-10-09)
 
 
