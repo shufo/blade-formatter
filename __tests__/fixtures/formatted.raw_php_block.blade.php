@@ -4,7 +4,7 @@
     @foreach ($users as $user)
         @php
             $users = $_GET;
-            
+
             foreach ($users as $key1 => $value) {
                 if (is_array($value)) {
                     foreach ($value as $key2 => $value2) {
