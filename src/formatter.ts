@@ -880,7 +880,7 @@ export default class Formatter {
   async preserveHtmlAttributes(content: any) {
     return _.replace(
       content,
-      /(?<=<[\w\-\.\:\_]+[^]*\s)(?!x-bind)([^\s\:][^\s]+\s*=\s*(["'])(?<!\\)[^\2]+?(?<!\\)\2)(?=[^]*(?<!=)\/?>)/gms,
+      /(?<=<[\w\-\.\:\_]+[^]*\s)(?!x-bind)([^\s\:][^\s]+\s*=\s*(["'])(?<!\\)[^\2]*?(?<!\\)\2)(?=[^]*(?<!=)\/?>)/gms,
       (match: string) => `${this.storeHtmlAttribute(match)}`,
     );
   }
