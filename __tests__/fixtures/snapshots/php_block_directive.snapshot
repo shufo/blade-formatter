@@ -1,0 +1,26 @@
+------------------------------------options----------------------------------------
+{}
+------------------------------------content----------------------------------------
+@php
+    use Eagle\Utilities\Dates\TimeZone;
+    // assert blank line will not be indented
+
+    $timezone_options =
+        ['' => ''] +
+        TimeZone::create()
+            ->format('tz-label')
+            ->countryCodePriority('US')
+            ->get();
+@endphp
+------------------------------------expected----------------------------------------
+@php
+    use Eagle\Utilities\Dates\TimeZone;
+    // assert blank line will not be indented
+
+    $timezone_options =
+        ['' => ''] +
+        TimeZone::create()
+            ->format('tz-label')
+            ->countryCodePriority('US')
+            ->get();
+@endphp
