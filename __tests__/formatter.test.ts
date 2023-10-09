@@ -2115,10 +2115,12 @@ describe('formatter', () => {
 
     const expected = [
       `<password-input name="password_confirmation" type="password"`,
-      `    @if ('password') error error-message="{{ $message }}" @endif placeholder="password: " outlined>`,
+      `    @if ('password') error error-message="{{ $message }}" @endif placeholder="password: "`,
+      `    outlined>`,
       `</password-input>`,
       `<password-input name="password_confirmation" type="password"`,
-      `    @if ('password') error error-message="{{ $message }}" @endif placeholder="password: " outlined>`,
+      `    @if ('password') error error-message="{{ $message }}" @endif placeholder="password: "`,
+      `    outlined>`,
       `</password-input>`,
       `<password-input name="password_confirmation" type="password"`,
       `    @if ('password') error error-message="{{ $message }}" @endif placeholder="password: "`,
