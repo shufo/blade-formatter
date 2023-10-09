@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.38.2](https://github.com/shufo/blade-formatter/compare/v1.38.1...v1.38.2) (2023-10-09)
+
+
+### Fixes
+
+* 🐛 component attribute is formatted as js ([8df6f33](https://github.com/shufo/blade-formatter/commit/8df6f3341ef777f0e5c4268a3c6fd0479f5f960a))
+
+
+### Miscellaneous
+
+* 🤖 bump @prettier/plugin-php to 0.19.7 ([5d058e6](https://github.com/shufo/blade-formatter/commit/5d058e6f86f5c9bf25c4a9018db7df8c709a44fd))
+* 🤖 revert vscode-oniguruma to 1.7.0 ([428076a](https://github.com/shufo/blade-formatter/commit/428076ae5cd703ad5332776f7376c742bd0aa664))
+* **deps:** update docker/build-push-action action to v5 ([6f43979](https://github.com/shufo/blade-formatter/commit/6f439799939421170c77f3c5f6f52900ec667d20))
+* **deps:** update docker/login-action action to v3 ([db37937](https://github.com/shufo/blade-formatter/commit/db37937f6c5ebfc6d0d53c5763b1c83574184fda))
+* **deps:** update docker/setup-buildx-action action to v3 ([2e62746](https://github.com/shufo/blade-formatter/commit/2e62746f26f985ef09fdbf7afab94c2012b8c913))
+* **deps:** update docker/setup-qemu-action action to v3 ([184a725](https://github.com/shufo/blade-formatter/commit/184a725a35f63799ffdc75057da0bd6ba1c2d30d))
+
 ## [1.38.1](https://github.com/shufo/blade-formatter/compare/v1.38.0...v1.38.1) (2023-09-10)
 
 
