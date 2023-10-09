@@ -1357,6 +1357,10 @@ export default class Formatter {
           return prefixForEnd + line;
         }
 
+        if (line.length === 0) {
+          return line;
+        }
+
         return prefix + line;
       })
       .join('\n')
