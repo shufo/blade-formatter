@@ -208,21 +208,21 @@ export default class Formatter {
       .then((target) => this.sortTailwindcssClasses(target))
       .then((target) => this.formatXInit(target))
       .then((target) => this.formatXData(target))
+      .then((target) => this.preservePhpBlock(target))
+      .then((target) => this.sortHtmlAttributes(target))
+      .then((target) => this.preserveHtmlAttributes(target))
       .then((target) => this.preserveComponentAttribute(target))
       .then((target) => this.preserveShorthandBinding(target))
-      .then((target) => this.sortHtmlAttributes(target))
-      .then((target) => this.preservePhpBlock(target))
-      .then((target) => this.preserveHtmlAttributes(target))
       .then((target) => this.preserveXslot(target))
       .then((target) => this.preserveHtmlTags(target))
       .then((target) => this.formatAsHtml(target))
       .then((target) => this.formatAsBlade(target))
       .then((target) => this.restoreHtmlTags(target))
       .then((target) => this.restoreXslot(target))
-      .then((target) => this.restoreHtmlAttributes(target))
-      .then((target) => this.restorePhpBlock(target))
       .then((target) => this.restoreShorthandBinding(target))
       .then((target) => this.restoreComponentAttribute(target))
+      .then((target) => this.restoreHtmlAttributes(target))
+      .then((target) => this.restorePhpBlock(target))
       .then((target) => this.restoreXData(target))
       .then((target) => this.restoreXInit(target))
       .then((target) => this.restoreScripts(target))
@@ -880,7 +880,7 @@ export default class Formatter {
   async preserveHtmlAttributes(content: any) {
     return _.replace(
       content,
-      /(?<=<[\w]*?[\s].*?)[\w\-\_\:]+?=(["']).*?(?<!\\)\1(?=.*?(?<!=)>)/gms,
+      /(?<=<[\w\-\.\:\_]+[^]*\s)(?!x-bind)([^\s\:][^\s]+\s*=\s*(["'])(?<!\\)[^\2]*?(?<!\\)\2)(?=[^]*(?<!=)\/?>)/gms,
       (match: string) => `${this.storeHtmlAttribute(match)}`,
     );
   }
@@ -907,7 +907,7 @@ export default class Formatter {
   async preserveShorthandBinding(content: string) {
     return _.replace(
       content,
-      /(?<=<(?!livewire:)[^<]*?(\s|x-bind)):{1}(?<!=>)[\w\-_.]*?=(["'])(?!=>)[^]*?\2(?=[^>]*?\/*?>)/gim,
+      /(?<=<(?!livewire:)[^<]*?(\s|x-bind)):{1}(?<!=>)[\w\-_.]*?=(["'])(?!=>)[^\2]*?\2(?=[^>]*?\/*?>)/gim,
       (match: any) => `${this.storeShorthandBinding(match)}`,
     );
   }
@@ -915,7 +915,7 @@ export default class Formatter {
   async preserveComponentAttribute(content: string) {
     return _.replace(
       content,
-      /(?<=<(x-|livewire:)[^<]*?\s):{1,2}(?<!=>)[\w\-_.]*?=(["'])(?!=>)[^]*?\2(?=[^>]*?\/*?>)/gim,
+      /(?<=<(x-|livewire:)[^<]*?\s):{1,2}(?<!=>)[\w\-_.]*?=(["'])(?!=>)[^\2]*?\2(?=[^>]*?\/*?>)/gim,
       (match: any) => `${this.storeComponentAttribute(match)}`,
     );
   }
@@ -2216,13 +2216,13 @@ export default class Formatter {
 
             if (this.isInline(p4)) {
               try {
-                return `${p2}${p3}${beautify.js_beautify(p4, beautifyOpts).trimEnd()}`;
+                return `${p2}${p3}${beautify.js_beautify(p4.trim(), beautifyOpts).trim()}`;
               } catch (error) {
-                return `${p2}${p3}${p4}`;
+                return `${p2}${p3}${p4.trim()}`;
               }
             }
 
-            return `${p2}${p3}${beautify.js_beautify(p4, beautifyOpts).trimEnd()}`;
+            return `${p2}${p3}${beautify.js_beautify(p4.trim(), beautifyOpts).trim()}`;
           },
         );
 

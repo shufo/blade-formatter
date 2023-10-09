@@ -358,6 +358,7 @@ const escapeTags = [
   '@elsecustomdirective',
   '@endcustomdirective',
   'x-slot --___\\d+___--',
+  '___attrs_+\\d+___',
 ];
 
 export function checkResult(formatted: any) {

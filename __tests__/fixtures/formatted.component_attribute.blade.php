@@ -1,6 +1,6 @@
 @section('body')
-    <x-forms.radios legend="Meeting Schedule" name="meeting_type" value="single" v-model="form.meeting_type"
-        :inline="true" :options="[
+    <x-forms.radios legend="Meeting Schedule" name="meeting_type" value="single" v-model="form.meeting_type" :inline="true"
+        :options="[
             'single' => ['label' => 'Default'],
             'series' => ['label' => 'Recurring meeting'],
             'scheduler' => ['label' => 'Find a meeting date'],

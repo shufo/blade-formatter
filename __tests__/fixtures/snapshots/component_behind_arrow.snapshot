@@ -1,0 +1,16 @@
+------------------------------------options----------------------------------------
+{
+  "wrapAttributes": "force-expand-multiline"
+}
+------------------------------------content----------------------------------------
+<x-input
+    type="text"
+    name="filter[date][<=]"
+    :value="format_datetime($request->filter('date.<='))"
+/>
+------------------------------------expected----------------------------------------
+<x-input
+    type="text"
+    name="filter[date][<=]"
+    :value="format_datetime($request->filter('date.<='))"
+/>
