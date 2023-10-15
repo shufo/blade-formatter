@@ -193,6 +193,7 @@ export default class Formatter {
       .then((target) => this.preserveBladeBrace(target))
       .then((target) => this.preserveRawBladeBrace(target))
       .then((target) => this.preserveConditions(target))
+      .then((target) => this.preservePropsBlock(target))
       .then((target) => this.preserveInlineDirective(target))
       .then((target) => this.preserveInlinePhpDirective(target))
       .then((target) => this.preserveBladeDirectivesInScripts(target))
@@ -1321,7 +1322,6 @@ export default class Formatter {
         `@props(${util
           .formatRawStringAsPhp(this.rawPropsBlocks[p1], {
             ...this.options,
-            printWidth: util.printWidthForInline,
           })
           .trimRight()})`,
     );
