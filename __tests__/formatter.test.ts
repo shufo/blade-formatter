@@ -5310,4 +5310,32 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
+
+  test('nested long props', async () => {
+    const content = [
+      `<div>`,
+      `@props(['name', 'title' => 'Please Confirm', 'message' => 'Are you sure?', 'level' => 'info', 'icon' => 'heroicon-o-question-mark-circle', 'cancelButtonText' => 'No', 'cancelButtonType' => 'muted', 'affirmButtonText' => 'Yes', 'affirmButtonType' => 'success', 'affirmButtonDisabled' => false])`,
+      `</div>`,
+    ].join('\n');
+
+    const expected = [
+      `<div>`,
+      `    @props([`,
+      `        'name',`,
+      `        'title' => 'Please Confirm',`,
+      `        'message' => 'Are you sure?',`,
+      `        'level' => 'info',`,
+      `        'icon' => 'heroicon-o-question-mark-circle',`,
+      `        'cancelButtonText' => 'No',`,
+      `        'cancelButtonType' => 'muted',`,
+      `        'affirmButtonText' => 'Yes',`,
+      `        'affirmButtonType' => 'success',`,
+      `        'affirmButtonDisabled' => false,`,
+      `    ])`,
+      `</div>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
 });

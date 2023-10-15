@@ -1315,16 +1315,19 @@ export default class Formatter {
 
   async restoreRawPropsBlock(content: any) {
     const regex = this.getRawPropsPlaceholder('(\\d+)');
-    return _.replace(
-      content,
-      new RegExp(regex, 'gms'),
-      (_match: any, p1: any) =>
-        `@props(${util
-          .formatRawStringAsPhp(this.rawPropsBlocks[p1], {
-            ...this.options,
-          })
-          .trimRight()})`,
-    );
+    return _.replace(content, new RegExp(regex, 'gms'), (_match: any, p1: any) => {
+      const placeholder = this.getRawPropsPlaceholder(p1.toString());
+      const matchedLine = content.match(new RegExp(`^(.*?)${placeholder}`, 'gmi')) ?? [''];
+      const indent = detectIndent(matchedLine[0]);
+
+      const formatted = `@props(${util
+        .formatRawStringAsPhp(this.rawPropsBlocks[p1], {
+          ...this.options,
+        })
+        .trim()})`;
+
+      return this.indentRawPhpBlock(indent, formatted);
+    });
   }
 
   isInline(content: any) {
