@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.38.4](https://github.com/shufo/blade-formatter/compare/v1.38.3...v1.38.4) (2023-10-15)
+
+
+### Fixes
+
+* 🐛 long props collapse into single line ([#876](https://github.com/shufo/blade-formatter/issues/876)) ([3936ece](https://github.com/shufo/blade-formatter/commit/3936ece4cce109ecf6ba11497e4e8e41728a2074))
+
 ## [1.38.3](https://github.com/shufo/blade-formatter/compare/v1.38.2...v1.38.3) (2023-10-09)
 
 
