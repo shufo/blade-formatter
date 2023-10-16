@@ -1,0 +1,29 @@
+------------------------------------options----------------------------------------
+{}
+------------------------------------content----------------------------------------
+<button class="m-2.5 h-5 w-5 scale-125 cursor-pointer p-1" data-tippy-content="Modifier la prestation"
+            :class="isHovered && !currently_dragging ? 'opacity-100 delay-50' : 'opacity-0 delay-0'"x-data="{ tippyInstance: null }" x-init="tippyInstance = window.tippy($root)" x-on:click="tippyInstance.hide(); $dispatch('open-prestation-modal', {{ $task->id }})">
+            @include('svg.misc.tag')
+        </button>
+        <button class="m-2.5 h-5 w-5 scale-125 cursor-pointer p-1" data-tippy-content="Modifier la durée" :class="isHovered && !currently_dragging ? 'opacity-100 delay-50' : 'opacity-0 delay-0'" x-data="{ tippyInstance: null }" x-init="tippyInstance = window.tippy($root)" x-on:click="tippyInstance.hide(); $dispatch('open-duration-modal', {{ $task->id }})">
+            @include('svg.misc.extand')
+        </button>
+        <button class="m-2.5 h-5 w-5 scale-125 cursor-pointer p-0.5" data-tippy-content="Dupliquer cette tâche" :class="isHovered && !currently_dragging ? 'opacity-100 delay-50' : 'opacity-0 delay-0'" wire:click="duplicate"x-data="{ tippyInstance: null }" x-init="tippyInstance = window.tippy($root)">
+            @include('svg.misc.duplicate')
+        </button>
+------------------------------------expected----------------------------------------
+<button class="m-2.5 h-5 w-5 scale-125 cursor-pointer p-1" data-tippy-content="Modifier la prestation"
+    :class="isHovered && !currently_dragging ? 'opacity-100 delay-50' : 'opacity-0 delay-0'"x-data="{ tippyInstance: null }"
+    x-init="tippyInstance = window.tippy($root)" x-on:click="tippyInstance.hide(); $dispatch('open-prestation-modal', {{ $task->id }})">
+    @include('svg.misc.tag')
+</button>
+<button class="m-2.5 h-5 w-5 scale-125 cursor-pointer p-1" data-tippy-content="Modifier la durée"
+    :class="isHovered && !currently_dragging ? 'opacity-100 delay-50' : 'opacity-0 delay-0'" x-data="{ tippyInstance: null }"
+    x-init="tippyInstance = window.tippy($root)" x-on:click="tippyInstance.hide(); $dispatch('open-duration-modal', {{ $task->id }})">
+    @include('svg.misc.extand')
+</button>
+<button class="m-2.5 h-5 w-5 scale-125 cursor-pointer p-0.5" data-tippy-content="Dupliquer cette tâche"
+    :class="isHovered && !currently_dragging ? 'opacity-100 delay-50' : 'opacity-0 delay-0'"
+    wire:click="duplicate"x-data="{ tippyInstance: null }" x-init="tippyInstance = window.tippy($root)">
+    @include('svg.misc.duplicate')
+</button>
