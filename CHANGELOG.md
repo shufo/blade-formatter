@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.38.5](https://github.com/shufo/blade-formatter/compare/v1.38.4...v1.38.5) (2023-10-16)
+
+
+### Fixes
+
+* 🐛 unexpected result when attrs are not separated by space ([#879](https://github.com/shufo/blade-formatter/issues/879)) ([847a0d1](https://github.com/shufo/blade-formatter/commit/847a0d1a52819872e0dc9535618d56824715f4c2))
+
+
+### Miscellaneous
+
+* **deps:** bump @babel/traverse from 7.16.7 to 7.23.2 ([8c2793a](https://github.com/shufo/blade-formatter/commit/8c2793a09f3a661d46506a5e9a7b7d7df0856b22))
+* **deps:** update pozil/auto-assign-issue action to v1.13.0 ([7798e2b](https://github.com/shufo/blade-formatter/commit/7798e2bee31b8ba2c94ff65fb7d40662bec68533))
+
 ## [1.38.4](https://github.com/shufo/blade-formatter/compare/v1.38.3...v1.38.4) (2023-10-15)
 
 
