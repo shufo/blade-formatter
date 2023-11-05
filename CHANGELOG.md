@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.38.6](https://github.com/shufo/blade-formatter/compare/v1.38.5...v1.38.6) (2023-11-05)
+
+
+### Fixes
+
+* 🐛 incorrect format when inline directive and endif exists ([2010b5d](https://github.com/shufo/blade-formatter/commit/2010b5dd9f70941f03cdc695e9f420150cad0724))
+
+
+### Miscellaneous
+
+* **deps:** update actions/setup-node action to v4 ([afe2190](https://github.com/shufo/blade-formatter/commit/afe21907cc40cd61b316b88677e6ad875caa5053))
+* **deps:** update dependency @types/node to v20 ([f5dc6ba](https://github.com/shufo/blade-formatter/commit/f5dc6ba838a55e7cc9387c6a145ad65953d2187c))
+* **deps:** update node.js to v21 ([7b2a59f](https://github.com/shufo/blade-formatter/commit/7b2a59fd34ed3bb5b0e2cf4daf8459d69170229a))
+
 ## [1.38.5](https://github.com/shufo/blade-formatter/compare/v1.38.4...v1.38.5) (2023-10-16)
 
 
