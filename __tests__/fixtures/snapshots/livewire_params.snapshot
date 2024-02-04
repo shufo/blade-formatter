@@ -1,0 +1,8 @@
+------------------------------------options----------------------------------------
+{}
+------------------------------------content----------------------------------------
+<livewire:account.messenger.listing :foo="$user"
+                                    :messengers="$messengers"
+                                    :key="messenger-index" />
+------------------------------------expected----------------------------------------
+<livewire:account.messenger.listing :foo="$user" :messengers="$messengers" :key="messenger-index" />
