@@ -2161,6 +2161,10 @@ export default class Formatter {
               return match;
             }
 
+            if (matchedLine[0].startsWith('<livewire')) {
+              return `${p2}${p3}${p4}`;
+            }
+
             if (p2.startsWith('::')) {
               return `${p2}${p3}${beautify
                 .js_beautify(p4, {
