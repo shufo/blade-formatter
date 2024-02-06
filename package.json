@@ -101,7 +101,8 @@
     "ts-loader": "^9.2.6",
     "ts-migrate": "^0.1.27",
     "ts-node": "^10.4.0",
-    "typescript": "^5.0.0"
+    "typescript": "^5.0.0",
+    "vitest": "^1.2.2"
   },
   "repository": {
     "type": "git",
