@@ -3,12 +3,13 @@ import _ from 'lodash';
 import fs from 'fs';
 import os from 'os';
 import chalk from 'chalk';
-import prettier from 'prettier/standalone.js';
+import * as prettier from 'prettier/standalone.js';
 // @ts-ignore
 // eslint-disable-next-line
-import phpPlugin from '@prettier/plugin-php/standalone.js';
+import phpPlugin from '@prettier/plugin-php/standalone';
 import detectIndent from 'detect-indent';
-import { indentStartTokens, phpKeywordStartTokens, phpKeywordEndTokens } from './indent';
+import replaceAsync from 'string-replace-async';
+import { indentStartTokens, phpKeywordEndTokens, phpKeywordStartTokens } from './indent';
 import { nestedParenthesisRegex } from './regex';
 import { EndOfLine } from './runtimeConfig';
 
@@ -58,14 +59,14 @@ const defaultFormatPhpOption = {
   noSingleQuote: false,
 };
 
-export function formatStringAsPhp(content: any, params: FormatPhpOption = {}) {
+export async function formatStringAsPhp(content: any, params: FormatPhpOption = {}): Promise<string> {
   const options = {
     ...defaultFormatPhpOption,
     ...params,
   };
 
   try {
-    return prettier.format(content.replace(/\n$/, ''), {
+    return await prettier.format(content.replace(/\n$/, ''), {
       parser: 'php',
       printWidth: 1000,
       singleQuote: !options.noSingleQuote,
@@ -82,15 +83,15 @@ export function formatStringAsPhp(content: any, params: FormatPhpOption = {}) {
   }
 }
 
-export function formatRawStringAsPhp(content: string, params: FormatPhpOption = {}) {
+export async function formatRawStringAsPhp(content: string, params: FormatPhpOption = {}) {
   const options = {
     ...defaultFormatPhpOption,
     ...params,
   };
 
   try {
-    return prettier
-      .format(`<?php echo ${content} ?>`, {
+    return (
+      await prettier.format(`<?php echo ${content} ?>`, {
         parser: 'php',
         printWidth: options.printWidth,
         singleQuote: !options.noSingleQuote,
@@ -99,7 +100,7 @@ export function formatRawStringAsPhp(content: string, params: FormatPhpOption = 
         trailingCommaPHP: options.trailingCommaPHP,
         plugins: [phpPlugin],
       })
-      .replace(/<\?php echo (.*)?\?>/gs, (match: any, p1: any) => p1.trim().replace(/;\s*$/, ''));
+    ).replace(/<\?php echo (.*)?\?>/gs, (match: any, p1: any) => p1.trim().replace(/;\s*$/, ''));
   } catch (error) {
     if (options.noPhpSyntaxCheck === false) {
       throw error;
@@ -109,16 +110,18 @@ export function formatRawStringAsPhp(content: string, params: FormatPhpOption = 
   }
 }
 
-export function getArgumentsCount(expression: any) {
+export async function getArgumentsCount(expression: string) {
   const code = `<?php tmp_func${expression}; ?>`;
-  // @ts-ignore
-  // eslint-disable-next-line no-underscore-dangle
-  const { ast } = prettier.__debug.parse(code, {
-    parser: 'php',
-    phpVersion: '8.0',
-    plugins: [phpPlugin],
-  });
+
   try {
+    // @ts-ignore
+    // eslint-disable-next-line no-underscore-dangle
+    const { ast } = await prettier.__debug.parse(code, {
+      parser: 'php',
+      phpVersion: '8.1',
+      plugins: [phpPlugin],
+    });
+
     return ast.children[0].expression.arguments.length || 0;
   } catch (e) {
     return 0;
@@ -175,8 +178,8 @@ export async function prettifyPhpContentWithUnescapedTags(content: string, optio
 
   return new Promise((resolve) => resolve(content))
     .then((res: any) =>
-      _.replace(res, directiveRegexes, (match: any, p1: any, p2: any, p3: any) =>
-        formatStringAsPhp(`<?php ${p1.substr('1')}${p2}(${p3}) ?>`, options)
+      replaceAsync(res, directiveRegexes, async (match: any, p1: any, p2: any, p3: any) =>
+        (await formatStringAsPhp(`<?php ${p1.substr('1')}${p2}(${p3}) ?>`, options))
           .replace(
             /<\?php\s(.*?)(\s*?)\((.*?)\);*\s\?>\n/gs,
             (match2: any, j1: any, j2: any, j3: any) => `@${j1.trim()}${j2}(${j3.trim()})`,

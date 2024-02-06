@@ -8,6 +8,7 @@ import beautify, { JSBeautifyOptions } from 'js-beautify';
 import _ from 'lodash';
 import * as vscodeTmModule from 'vscode-textmate';
 import xregexp from 'xregexp';
+import replaceAsync from 'string-replace-async';
 import { formatPhpComment } from './comment';
 import constants from './constants';
 import {
@@ -1282,48 +1283,52 @@ export default class Formatter {
   }
 
   async restoreRawPhpBlock(content: any) {
-    return _.replace(content, new RegExp(`${this.getRawPlaceholder('(\\d+)')}`, 'gm'), (match: any, p1: number) => {
-      let rawBlock = this.rawBlocks[p1];
-      const placeholder = this.getRawPlaceholder(p1.toString());
-      const matchedLine = content.match(new RegExp(`^(.*?)${placeholder}`, 'gmi')) ?? [''];
-      const indent = detectIndent(matchedLine[0]);
+    return replaceAsync(
+      content,
+      new RegExp(`${this.getRawPlaceholder('(\\d+)')}`, 'gm'),
+      async (match: any, p1: number) => {
+        let rawBlock = this.rawBlocks[p1];
+        const placeholder = this.getRawPlaceholder(p1.toString());
+        const matchedLine = content.match(new RegExp(`^(.*?)${placeholder}`, 'gmi')) ?? [''];
+        const indent = detectIndent(matchedLine[0]);
 
-      if (this.isInline(rawBlock) && this.isMultilineStatement(rawBlock)) {
-        rawBlock = util.formatStringAsPhp(`<?php\n${rawBlock}\n?>`, this.options).trim();
-      } else if (rawBlock.split('\n').length > 1) {
-        rawBlock = util.formatStringAsPhp(`<?php${rawBlock}?>`, this.options).trimRight('\n');
-      } else {
-        rawBlock = `<?php${rawBlock}?>`;
-      }
-
-      return _.replace(rawBlock, /^(\s*)?<\?php(.*?)\?>/gms, (_matched: any, _q1: any, q2: any) => {
-        if (this.isInline(rawBlock)) {
-          return `@php${q2}@endphp`;
+        if (this.isInline(rawBlock) && (await this.isMultilineStatement(rawBlock))) {
+          rawBlock = (await util.formatStringAsPhp(`<?php\n${rawBlock}\n?>`, this.options)).trim();
+        } else if (rawBlock.split('\n').length > 1) {
+          rawBlock = (await util.formatStringAsPhp(`<?php${rawBlock}?>`, this.options)).trimEnd();
+        } else {
+          rawBlock = `<?php${rawBlock}?>`;
         }
 
-        let preserved = this.preserveStringLiteralInPhp(q2);
-        preserved = this.preservePhpComment(preserved);
-        let indented = this.indentRawBlock(indent, preserved);
-        indented = this.restorePhpComment(indented);
-        const restored = this.restoreStringLiteralInPhp(indented);
+        return _.replace(rawBlock, /^(\s*)?<\?php(.*?)\?>/gms, (_matched: any, _q1: any, q2: any) => {
+          if (this.isInline(rawBlock)) {
+            return `@php${q2}@endphp`;
+          }
 
-        return `@php${restored}@endphp`;
-      });
-    });
+          let preserved = this.preserveStringLiteralInPhp(q2);
+          preserved = this.preservePhpComment(preserved);
+          let indented = this.indentRawBlock(indent, preserved);
+          indented = this.restorePhpComment(indented);
+          const restored = this.restoreStringLiteralInPhp(indented);
+
+          return `@php${restored}@endphp`;
+        });
+      },
+    );
   }
 
   async restoreRawPropsBlock(content: any) {
     const regex = this.getRawPropsPlaceholder('(\\d+)');
-    return _.replace(
+    return replaceAsync(
       content,
       new RegExp(regex, 'gms'),
-      (_match: any, p1: any) =>
-        `@props(${util
-          .formatRawStringAsPhp(this.rawPropsBlocks[p1], {
+      async (_match: any, p1: any) =>
+        `@props(${(
+          await util.formatRawStringAsPhp(this.rawPropsBlocks[p1], {
             ...this.options,
             printWidth: util.printWidthForInline,
           })
-          .trimRight()})`,
+        ).trimRight()})`,
     );
   }
 
@@ -1331,8 +1336,8 @@ export default class Formatter {
     return _.split(content, '\n').length === 1;
   }
 
-  isMultilineStatement(rawBlock: any) {
-    return util.formatStringAsPhp(`<?php${rawBlock}?>`, this.options).trimRight().split('\n').length > 1;
+  async isMultilineStatement(rawBlock: any) {
+    return (await util.formatStringAsPhp(`<?php${rawBlock}?>`, this.options)).trimRight().split('\n').length > 1;
   }
 
   indentRawBlock(indent: detectIndent.Indent, content: any) {
@@ -1559,7 +1564,7 @@ export default class Formatter {
     });
   }
 
-  restoreBladeDirectivesInScripts(content: any) {
+  async restoreBladeDirectivesInScripts(content: any) {
     const regex = new RegExp(`${this.getBladeDirectivePlaceholder('(\\d+)')}`, 'gm');
 
     // restore inline blade directive
@@ -1571,7 +1576,7 @@ export default class Formatter {
       return this.indentBladeDirectiveBlock(indent, this.bladeDirectives[p1]);
     });
 
-    result = _.replace(result, /(?<=<script[^>]*?(?<!=)>)(.*?)(?=<\/script>)/gis, (match: string) => {
+    result = await replaceAsync(result, /(?<=<script[^>]*?(?<!=)>)(.*?)(?=<\/script>)/gis, async (match: string) => {
       let formatted: string = match;
 
       // restore begin
@@ -1610,20 +1615,20 @@ export default class Formatter {
       );
 
       // restore php block
-      formatted = _.replace(
+      formatted = await replaceAsync(
         formatted,
         new RegExp(`${this.getRawPlaceholder('(\\d+)')}`, 'gm'),
         // eslint-disable-next-line no-shadow
-        (match: any, p1: number) => {
+        async (match: any, p1: number) => {
           let rawBlock = this.rawBlocks[p1];
           const placeholder = this.getRawPlaceholder(p1.toString());
           const matchedLine = content.match(new RegExp(`^(.*?)${placeholder}`, 'gmi')) ?? [''];
           const indent = detectIndent(matchedLine[0]);
 
-          if (this.isInline(rawBlock) && this.isMultilineStatement(rawBlock)) {
-            rawBlock = util.formatStringAsPhp(`<?php\n${rawBlock}\n?>`, this.options).trim();
+          if (this.isInline(rawBlock) && (await this.isMultilineStatement(rawBlock))) {
+            rawBlock = (await util.formatStringAsPhp(`<?php\n${rawBlock}\n?>`, this.options)).trim();
           } else if (rawBlock.split('\n').length > 1) {
-            rawBlock = util.formatStringAsPhp(`<?php${rawBlock}?>`, this.options).trim();
+            rawBlock = (await util.formatStringAsPhp(`<?php${rawBlock}?>`, this.options)).trim();
           } else {
             rawBlock = `<?php${rawBlock}?>`;
           }
@@ -1662,7 +1667,7 @@ export default class Formatter {
     });
 
     if (regex.test(result)) {
-      result = this.restoreBladeDirectivesInScripts(result);
+      result = await this.restoreBladeDirectivesInScripts(result);
     }
 
     return result;
@@ -1716,53 +1721,56 @@ export default class Formatter {
     );
   }
 
-  restoreBladeBrace(content: any) {
+  async restoreBladeBrace(content: any) {
     return new Promise((resolve) => resolve(content)).then((res: any) =>
-      _.replace(res, new RegExp(`${this.getBladeBracePlaceholder('(\\d+)')}`, 'gm'), (_match: string, p1: number) => {
-        const placeholder = this.getBladeBracePlaceholder(p1.toString());
-        const matchedLine = content.match(new RegExp(`^(.*?)${placeholder}`, 'gmi')) ?? [''];
-        const indent = detectIndent(matchedLine[0]);
-        const bladeBrace = this.bladeBraces[p1];
+      replaceAsync(
+        res,
+        new RegExp(`${this.getBladeBracePlaceholder('(\\d+)')}`, 'gm'),
+        async (_match: string, p1: number) => {
+          const placeholder = this.getBladeBracePlaceholder(p1.toString());
+          const matchedLine = content.match(new RegExp(`^(.*?)${placeholder}`, 'gmi')) ?? [''];
+          const indent = detectIndent(matchedLine[0]);
+          const bladeBrace = this.bladeBraces[p1];
 
-        if (bladeBrace.trim() === '') {
-          return `{{${bladeBrace}}}`;
-        }
+          if (bladeBrace.trim() === '') {
+            return `{{${bladeBrace}}}`;
+          }
 
-        if (this.isInline(bladeBrace)) {
-          return `{{ ${util
-            .formatRawStringAsPhp(bladeBrace, {
-              ...this.options,
-              trailingCommaPHP: false,
-              printWidth: util.printWidthForInline,
-            })
-            .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
-            .split('\n')
-            .map((line) => line.trim())
-            .join('')
-            // @ts-expect-error ts-migrate(2554) FIXME: Expected 0 arguments, but got 1.
-            .trimRight('\n')} }}`;
-        }
+          if (this.isInline(bladeBrace)) {
+            return `{{ ${(
+              await util.formatRawStringAsPhp(bladeBrace, {
+                ...this.options,
+                trailingCommaPHP: false,
+                printWidth: util.printWidthForInline,
+              })
+            )
+              .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
+              .split('\n')
+              .map((line) => line.trim())
+              .join('')
+              // @ts-expect-error ts-migrate(2554) FIXME: Expected 0 arguments, but got 1.
+              .trimRight('\n')} }}`;
+          }
 
-        return `{{ ${this.indentRawPhpBlock(
-          indent,
-          util
-            .formatRawStringAsPhp(bladeBrace, this.options)
-            .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
-            .trim()
-            // @ts-expect-error ts-migrate(2554) FIXME: Expected 0 arguments, but got 1.
-            .trimRight('\n'),
-        )} }}`;
-      }),
+          return `{{ ${this.indentRawPhpBlock(
+            indent,
+            (await util.formatRawStringAsPhp(bladeBrace, this.options))
+              .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
+              .trim()
+              .trimEnd(),
+          )} }}`;
+        },
+      ),
     );
   }
 
-  restoreRawBladeBrace(content: any) {
+  async restoreRawBladeBrace(content: any) {
     return new Promise((resolve) => resolve(content)).then((res) =>
-      _.replace(
+      replaceAsync(
         // @ts-expect-error ts-migrate(2345) FIXME: Argument of type 'unknown' is not assignable to pa... Remove this comment to see the full error message
         res,
         new RegExp(`${this.getRawBladeBracePlaceholder('(\\d+)')}`, 'gms'),
-        (_match: any, p1: any) => {
+        async (_match: any, p1: any) => {
           const placeholder = this.getRawBladeBracePlaceholder(p1);
           const matchedLine = content.match(new RegExp(`^(.*?)${placeholder}`, 'gmi')) ?? [''];
           const indent = detectIndent(matchedLine[0]);
@@ -1774,8 +1782,7 @@ export default class Formatter {
 
           return this.indentRawPhpBlock(
             indent,
-            `{!! ${util
-              .formatRawStringAsPhp(bladeBrace, this.options)
+            `{!! ${(await util.formatRawStringAsPhp(bladeBrace, this.options))
               .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
               .trim()} !!}`,
           );
@@ -1798,17 +1805,21 @@ export default class Formatter {
     );
   }
 
-  restoreConditions(content: any) {
+  async restoreConditions(content: any) {
     return new Promise((resolve) => resolve(content)).then((res: any) =>
-      _.replace(res, new RegExp(`${this.getConditionPlaceholder('(\\d+)')}`, 'gms'), (_match: any, p1: any) => {
-        const placeholder = this.getConditionPlaceholder(p1);
-        const matchedLine = content.match(new RegExp(`^(.*?)${placeholder}`, 'gmi')) ?? [''];
-        const indent = detectIndent(matchedLine[0]);
+      replaceAsync(
+        res,
+        new RegExp(`${this.getConditionPlaceholder('(\\d+)')}`, 'gms'),
+        async (_match: any, p1: any) => {
+          const placeholder = this.getConditionPlaceholder(p1);
+          const matchedLine = content.match(new RegExp(`^(.*?)${placeholder}`, 'gmi')) ?? [''];
+          const indent = detectIndent(matchedLine[0]);
 
-        const matched = this.conditions[p1];
+          const matched = this.conditions[p1];
 
-        return this.formatExpressionInsideBladeDirective(matched, indent);
-      }),
+          return this.formatExpressionInsideBladeDirective(matched, indent);
+        },
+      ),
     );
   }
 
@@ -1821,21 +1832,22 @@ export default class Formatter {
     );
   }
 
-  restoreInlinePhpDirective(content: any) {
+  async restoreInlinePhpDirective(content: any) {
     return new Promise((resolve) => resolve(content)).then((res) =>
-      _.replace(
+      replaceAsync(
         // @ts-expect-error ts-migrate(2345) FIXME: Argument of type 'unknown' is not assignable to pa... Remove this comment to see the full error message
         res,
         new RegExp(`${this.getInlinePhpPlaceholder('(\\d+)')}`, 'gm'),
-        (_match: any, p1: any) => {
+        async (_match: any, p1: any) => {
           const matched = this.inlinePhpDirectives[p1];
           const placeholder = this.getInlinePhpPlaceholder(p1);
           const matchedLine = content.match(new RegExp(`^(.*?)${placeholder}`, 'gmi')) ?? [''];
           const indent = detectIndent(matchedLine[0]);
 
           if (matched.includes('@php')) {
-            return `${util
-              .formatRawStringAsPhp(matched, { ...this.options, printWidth: util.printWidthForInline })
+            return `${(
+              await util.formatRawStringAsPhp(matched, { ...this.options, printWidth: util.printWidthForInline })
+            )
               .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
               .trim()
               // @ts-expect-error ts-migrate(2554) FIXME: Expected 0 arguments, but got 1.
@@ -1843,13 +1855,13 @@ export default class Formatter {
           }
 
           if (new RegExp(inlinePhpDirectives.join('|'), 'gi').test(matched)) {
-            const formatted = _.replace(
+            const formatted = replaceAsync(
               matched,
               new RegExp(
                 `(?<=@(${_.map(inlinePhpDirectives, (token) => token.substring(1)).join('|')}).*?\\()(.*)(?=\\))`,
                 'gis',
               ),
-              (match2: any, p3: any, p4: any) => {
+              async (match2: any, p3: any, p4: any) => {
                 let wrapLength = this.wrapLineLength;
 
                 if (['button', 'class'].includes(p3)) {
@@ -1867,21 +1879,21 @@ export default class Formatter {
             return formatted;
           }
 
-          return `${util
-            .formatRawStringAsPhp(matched, { ...this.options, printWidth: util.printWidthForInline })
-            .trimEnd()}`;
+          return `${(
+            await util.formatRawStringAsPhp(matched, { ...this.options, printWidth: util.printWidthForInline })
+          ).trimEnd()}`;
         },
       ),
     );
   }
 
-  restoreRawPhpTags(content: any) {
+  async restoreRawPhpTags(content: any) {
     return new Promise((resolve) => resolve(content)).then((res) =>
-      _.replace(
+      replaceAsync(
         // @ts-expect-error ts-migrate(2345) FIXME: Argument of type 'unknown' is not assignable to pa... Remove this comment to see the full error message
         res,
         new RegExp(`${this.getRawPhpTagPlaceholder('(\\d+)')}`, 'gms'),
-        (_match: any, p1: any) => {
+        async (_match: any, p1: any) => {
           // const result= this.rawPhpTags[p1];
           try {
             const matched = this.rawPhpTags[p1];
@@ -1895,7 +1907,7 @@ export default class Formatter {
               return matched;
             }
 
-            const result = util.formatStringAsPhp(this.rawPhpTags[p1], this.options).trim().trimRight('\n');
+            const result = (await util.formatStringAsPhp(this.rawPhpTags[p1], this.options)).trim().trimEnd();
 
             if (this.isInline(result)) {
               return result;
@@ -1973,22 +1985,24 @@ export default class Formatter {
   }
 
   async restoreInlineCustomDirective(content: string) {
-    return _.replace(
+    return replaceAsync(
       content,
       new RegExp(`${this.getInlineCustomDirectivePlaceholder('(\\d+)')}`, 'gim'),
-      (_match: any, p1: number) => {
+      async (_match: any, p1: number) => {
         const placeholder = this.getInlineCustomDirectivePlaceholder(p1.toString());
         const matchedLine = content.match(new RegExp(`^(.*?)${_.escapeRegExp(placeholder)}`, 'gmi')) ?? [''];
         const indent = detectIndent(matchedLine[0]);
 
         const matched = `${this.customDirectives[p1]}`;
-        return _.replace(matched, /(@[a-zA-z0-9\-_]+)(.*)/gis, (match2: string, p2: string, p3: string) => {
+
+        return replaceAsync(matched, /(@[a-zA-z0-9\-_]+)(.*)/gis, async (match2: string, p2: string, p3: string) => {
           try {
-            const formatted = util
-              .formatRawStringAsPhp(`func${p3}`, {
+            const formatted = (
+              await util.formatRawStringAsPhp(`func${p3}`, {
                 ...this.options,
                 printWidth: util.printWidthForInline,
               })
+            )
               .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
               .replace(/,(\s*?\))$/gm, (_m, p4) => p4)
               .trim()
@@ -2003,20 +2017,21 @@ export default class Formatter {
   }
 
   async restoreBeginCustomDirective(content: string) {
-    return _.replace(
+    return replaceAsync(
       content,
       new RegExp(`@customdirective\\(___(\\d+)___\\)\\s*?(${nestedParenthesisRegex})*`, 'gim'),
-      (_match: any, p1: number) => {
+      async (_match: any, p1: number) => {
         const placeholder = this.getBeginCustomDirectivePlaceholder(p1.toString());
         const matchedLine = content.match(new RegExp(`^(.*?)${_.escapeRegExp(placeholder)}`, 'gmi')) ?? [''];
 
         const indent = detectIndent(matchedLine[0]);
         const matched = `${this.customDirectives[p1]}`;
 
-        return _.replace(matched, /(@[a-zA-z0-9\-_]+)(.*)/gis, (match2: string, p3: string, p4: string) => {
+        return replaceAsync(matched, /(@[a-zA-z0-9\-_]+)(.*)/gis, async (match2: string, p3: string, p4: string) => {
           try {
-            const formatted = util
-              .formatRawStringAsPhp(`func${p4}`, { ...this.options, trailingCommaPHP: false })
+            const formatted = (
+              await util.formatRawStringAsPhp(`func${p4}`, { ...this.options, trailingCommaPHP: false })
+            )
               .replace(/([\n\s]*)->([\n\s]*)/gs, '->')
               .trim()
               .substring(4);
@@ -2136,20 +2151,20 @@ export default class Formatter {
     );
   }
 
-  restoreComponentAttribute(content: string): string {
-    return _.replace(
+  async restoreComponentAttribute(content: string) {
+    return replaceAsync(
       content,
       new RegExp(`${this.getComponentAttributePlaceholder('(\\d+)')}`, 'gim'),
-      (_match: any, p1: any) => {
+      async (_match: any, p1: any) => {
         const placeholder = this.getComponentAttributePlaceholder(p1);
         const matchedLine = content.match(new RegExp(`^(.*?)${placeholder}`, 'gmi')) ?? [''];
         const indent = detectIndent(matchedLine[0]);
 
         const matched = this.componentAttributes[p1];
-        const formatted = _.replace(
+        const formatted = await replaceAsync(
           matched,
           /(:{1,2}.*?=)(["'])(.*?)(?=\2)/gis,
-          (match, p2: string, p3: string, p4: string) => {
+          async (match, p2: string, p3: string, p4: string) => {
             if (p4 === '') {
               return match;
             }
@@ -2165,23 +2180,23 @@ export default class Formatter {
 
             if (this.isInline(p4)) {
               try {
-                return `${p2}${p3}${util
-                  .formatRawStringAsPhp(p4, {
+                return `${p2}${p3}${(
+                  await util.formatRawStringAsPhp(p4, {
                     ...this.options,
                     printWidth: this.wrapLineLength - indent.amount,
                   })
-                  .trimEnd()}`;
+                ).trimEnd()}`;
               } catch (error) {
                 return `${p2}${p3}${p4}`;
               }
             }
 
-            return `${p2}${p3}${util
-              .formatRawStringAsPhp(p4, {
+            return `${p2}${p3}${(
+              await util.formatRawStringAsPhp(p4, {
                 ...this.options,
                 printWidth: this.wrapLineLength - indent.amount,
               })
-              .trimEnd()}`;
+            ).trimEnd()}`;
           },
         );
 
@@ -2236,15 +2251,15 @@ export default class Formatter {
     this.currentIndentLevel = 0;
     this.shouldBeIndent = false;
 
-    const splitedLines = util.splitByLines(content);
+    const splittedLines = util.splitByLines(content);
+
     const vsctmModule = await new vsctm.VscodeTextmate(this.vsctm, this.oniguruma);
-    // @ts-expect-error ts-migrate(2554) FIXME: Expected 0 arguments, but got 1.
-    const registry = vsctmModule.createRegistry(content);
+    const registry = vsctmModule.createRegistry();
 
     const formatted = registry
       .loadGrammar('text.html.php.blade')
-      .then((grammar: any) => vsctmModule.tokenizeLines(splitedLines, grammar))
-      .then((tokenizedLines: any) => this.formatTokenizedLines(splitedLines, tokenizedLines))
+      .then((grammar: any) => vsctmModule.tokenizeLines(splittedLines, grammar))
+      .then((tokenizedLines: any) => this.formatTokenizedLines(splittedLines, tokenizedLines))
       .catch((err: any) => {
         throw err;
       });
@@ -2252,23 +2267,23 @@ export default class Formatter {
     return formatted;
   }
 
-  formatTokenizedLines(splitedLines: any, tokenizedLines: any) {
+  async formatTokenizedLines(splittedLines: any, tokenizedLines: any) {
     this.result = [];
     this.stack = [];
-    for (let i = 0; i < splitedLines.length; i += 1) {
-      const originalLine = splitedLines[i];
+    for (let i = 0; i < splittedLines.length; i += 1) {
+      const originalLine = splittedLines[i];
       const tokenizeLineResult = tokenizedLines[i];
-      this.processLine(tokenizeLineResult, originalLine);
+      await this.processLine(tokenizeLineResult, originalLine);
     }
 
     return this.result.join(this.endOfLine);
   }
 
-  processLine(tokenizeLineResult: any, originalLine: any) {
-    this.processTokenizeResult(tokenizeLineResult, originalLine);
+  async processLine(tokenizeLineResult: any, originalLine: any) {
+    await this.processTokenizeResult(tokenizeLineResult, originalLine);
   }
 
-  processKeyword(token: any) {
+  async processKeyword(token: string) {
     if (_.includes(phpKeywordStartTokens, token)) {
       if (_.last(this.stack) === '@case' && token === '@case') {
         this.decrementIndentLevel();
@@ -2337,29 +2352,41 @@ export default class Formatter {
     }
   }
 
-  processToken(tokenStruct: any, token: any) {
+  async processToken(tokenStruct: any, token: string) {
     if (_.includes(tokenStruct.scopes, 'punctuation.definition.comment.begin.blade')) {
       this.isInsideCommentBlock = true;
     }
 
     if (this.argumentCheck) {
-      const { count, inString, stack } = this.argumentCheck;
+      const { count, inString, stack, unindentOn } = this.argumentCheck;
       if (!inString && token === ')') {
         stack.push(token);
         count[token] += 1;
         if (count['('] === count[token]) {
           // finished
           const expression = stack.join('');
-          const argumentCount = util.getArgumentsCount(expression);
-          if (argumentCount >= this.argumentCheck.unindentOn) this.shouldBeIndent = false;
+          const argumentCount = await util.getArgumentsCount(expression);
+
+          if (argumentCount >= unindentOn) {
+            this.shouldBeIndent = false;
+          }
+
           this.argumentCheck = false;
         }
         return;
       }
+
       stack.push(token);
-      if (inString === token) this.argumentCheck.inString = false;
-      else if (!inString && (token === '"' || token === "'")) this.argumentCheck.inString = token;
-      if (token === '(' && !inString) count[token] += 1;
+
+      if (inString === token) {
+        this.argumentCheck.inString = false;
+      } else if (!inString && (token === '"' || token === "'")) {
+        this.argumentCheck.inString = token;
+      }
+
+      if (token === '(' && !inString) {
+        count[token] += 1;
+      }
     }
 
     if (_.includes(tokenStruct.scopes, 'punctuation.definition.comment.end.blade')) {
@@ -2381,7 +2408,8 @@ export default class Formatter {
       return;
     }
 
-    this.processKeyword(token.toLowerCase());
+    await this.processKeyword(token.toLowerCase());
+
     if (_.includes(Object.keys(optionalStartWithoutEndTokens), token.toLowerCase())) {
       this.argumentCheck = {
         // @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
@@ -2393,7 +2421,7 @@ export default class Formatter {
     }
   }
 
-  processTokenizeResult(tokenizeLineResult: any, originalLine: any) {
+  async processTokenizeResult(tokenizeLineResult: any, originalLine: any) {
     if (this.shouldBeIndent) {
       this.incrementIndentLevel();
       this.shouldBeIndent = false;
@@ -2409,7 +2437,7 @@ export default class Formatter {
 
       const token = originalLine.substring(tokenStruct.startIndex, tokenStruct.endIndex).trim();
 
-      this.processToken(tokenStruct, token);
+      await this.processToken(tokenStruct, token);
     }
 
     this.insertFormattedLineToResult(originalLine);
@@ -2446,13 +2474,13 @@ export default class Formatter {
     this.currentIndentLevel -= level;
   }
 
-  formatExpressionInsideBladeDirective(
+  async formatExpressionInsideBladeDirective(
     matchedExpression: string,
     indent: detectIndent.Indent,
     wrapLength: number | undefined = undefined,
   ) {
     const formatTarget = `func(${matchedExpression})`;
-    const formattedExpression = util.formatRawStringAsPhp(formatTarget, {
+    const formattedExpression = await util.formatRawStringAsPhp(formatTarget, {
       ...this.options,
       printWidth: wrapLength ?? this.defaultPhpFormatOption.printWidth,
     });
