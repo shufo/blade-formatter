@@ -1,6 +1,7 @@
 import assert from 'assert';
 import path from 'path';
 import { Formatter, FormatterOption } from '../../../src/main';
+import { describe, test } from 'vitest';
 
 const formatter = () => {
   return new Formatter({ indentSize: 4 });

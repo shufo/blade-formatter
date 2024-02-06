@@ -9,6 +9,7 @@ import * as cmd from './support/cmd';
 import * as util from './support/util';
 import { assertFormatted, assertNotFormatted } from './support/assertion';
 import { version } from '../package.json';
+import { describe, test, expect } from 'vitest';
 
 const binPath = path.resolve('bin', 'blade-formatter.js');
 

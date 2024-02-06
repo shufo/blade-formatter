@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import * as cmd from './cmd';
+import { expect } from 'vitest';
 
 export function assertFormatted(file: any) {
   const response = cmd.executeSync(path.resolve('bin', 'blade-formatter.js'), [file, '-c']);

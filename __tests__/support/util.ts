@@ -2,6 +2,7 @@ import path from 'path';
 import fs from 'fs-extra';
 import { BladeFormatter, FormatterOption, CLIOption } from '../../src/main';
 import * as cmd from './cmd';
+import { expect } from 'vitest';
 
 export function populateFixtures(targetDir: any) {
   fs.copySync(path.resolve('__tests__', 'fixtures'), targetDir);

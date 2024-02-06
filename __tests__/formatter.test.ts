@@ -4,6 +4,7 @@ import fs from 'fs';
 import { BladeFormatter, Formatter } from '../src/main.js';
 import * as cmd from './support/cmd';
 import * as util from './support/util';
+import { describe, test, expect } from 'vitest';
 
 const formatter = () => {
   return new Formatter({ indentSize: 4 });

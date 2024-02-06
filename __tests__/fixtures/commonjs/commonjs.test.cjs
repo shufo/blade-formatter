@@ -1,6 +1,7 @@
 const assert = require('assert');
 const path = require('path');
 const { Formatter } = require('../../../');
+import { describe, test } from 'vitest';
 
 const formatter = () => {
   return new Formatter({ indentSize: 4 });

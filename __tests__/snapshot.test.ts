@@ -1,6 +1,7 @@
 import path from 'path';
 import { readdirSync, readFileSync } from 'fs';
 import * as util from './support/util';
+import { describe, test } from 'vitest';
 
 describe('snapshot test', () => {
   const targetDir = path.resolve(__dirname, './fixtures/snapshots');
