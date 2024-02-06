@@ -1792,14 +1792,13 @@
     tiny-glob "^0.2.9"
     tslib "^2.4.0"
 
-"@prettier/plugin-php@^0.19.0":
-  version "0.19.0"
-  resolved "https://registry.yarnpkg.com/@prettier/plugin-php/-/plugin-php-0.19.0.tgz#b70bbfac172d6e76acf8a2376c8c8cdde70f0b75"
-  integrity sha512-WWFd0KDcF1EHsLpxU7DvgHjxdyZSal3ykDaCL9DzJSyIBo9qfk11spJR2svrEc/38CZioYy/OtbdyoQ5YEGASA==
+"@prettier/plugin-php@^0.22.2":
+  version "0.22.2"
+  resolved "https://registry.yarnpkg.com/@prettier/plugin-php/-/plugin-php-0.22.2.tgz#9a575f7f53ce102d72bb17fa0bd6580f1618bbd9"
+  integrity sha512-md0+7tNbsP0oy+wIP3KZZc6fzx1k1jtWaMjOy/gM8yU9f2BDYEi+iHOc/UNPihYvPI28zFTbjvlhH4QXQjQwNg==
   dependencies:
-    linguist-languages "^7.21.0"
-    mem "^8.0.0"
-    php-parser "3.1.0"
+    linguist-languages "^7.27.0"
+    php-parser "^3.1.5"
 
 "@shufo/tailwindcss-class-sorter@3.0.1":
   version "3.0.1"
@@ -5151,10 +5150,10 @@ lines-and-columns@^1.1.6:
   resolved "https://registry.yarnpkg.com/lines-and-columns/-/lines-and-columns-1.2.4.tgz#eca284f75d2965079309dc0ad9255abb2ebc1632"
   integrity sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==
 
-linguist-languages@^7.21.0:
-  version "7.21.0"
-  resolved "https://registry.yarnpkg.com/linguist-languages/-/linguist-languages-7.21.0.tgz#da0184f622367cb092f1f8ba435937a85534f675"
-  integrity sha512-KrWJJbFOvlDhjlt5OhUipVlXg+plUfRurICAyij1ZVxQcqPt/zeReb9KiUVdGUwwhS/2KS9h3TbyfYLA5MDlxQ==
+linguist-languages@^7.27.0:
+  version "7.27.0"
+  resolved "https://registry.yarnpkg.com/linguist-languages/-/linguist-languages-7.27.0.tgz#bf42d6c62bd04655c8f60ed2f77a84eaeae4023a"
+  integrity sha512-Wzx/22c5Jsv2ag+uKy+ITanGA5hzvBZngrNGDXLTC7ZjGM6FLCYGgomauTkxNJeP9of353OM0pWqngYA180xgw==
 
 lint-staged@>=10:
   version "12.3.3"
@@ -5297,13 +5296,6 @@ makeerror@1.0.12:
   dependencies:
     tmpl "1.0.5"
 
-map-age-cleaner@^0.1.3:
-  version "0.1.3"
-  resolved "https://registry.npmjs.org/map-age-cleaner/-/map-age-cleaner-0.1.3.tgz"
-  integrity sha512-bJzx6nMoP6PDLPBFmg7+xRKeFZvFboMrGlxmNj9ClvX53KrmvM5bXFXEWjbz4cz1AFn+jWJ9z/DJSz7hrs0w3w==
-  dependencies:
-    p-defer "^1.0.0"
-
 map-cache@^0.2.2:
   version "0.2.2"
   resolved "https://registry.yarnpkg.com/map-cache/-/map-cache-0.2.2.tgz#c32abd0bd6525d9b051645bb4f26ac5dc98a0dbf"
@@ -5315,14 +5307,6 @@ map-visit@^1.0.0:
   integrity sha1-7Nyo8TFE5mDxtb1B8S80edmN+48=
   dependencies:
     object-visit "^1.0.0"
-
-mem@^8.0.0:
-  version "8.1.0"
-  resolved "https://registry.npmjs.org/mem/-/mem-8.1.0.tgz"
-  integrity sha512-FIkgXo0kTi3XpvaznV5Muk6Y6w8SkdmRXcY7ZLonQesuYezp59UooLxAVBcGuN6PH2tXN84mR3vyzSc6oSMUfA==
-  dependencies:
-    map-age-cleaner "^0.1.3"
-    mimic-fn "^3.1.0"
 
 merge-stream@^2.0.0:
   version "2.0.0"
@@ -5378,11 +5362,6 @@ mimic-fn@^2.1.0:
   version "2.1.0"
   resolved "https://registry.npmjs.org/mimic-fn/-/mimic-fn-2.1.0.tgz"
   integrity sha512-OqbOk5oEQeAZ8WXWydlu9HJjz9WVdEIvamMCcXmuqUYjTknH/sqsWvhQ3vgwKFRR1HpjvNBKQ37nbJgYzGqGcg==
-
-mimic-fn@^3.1.0:
-  version "3.1.0"
-  resolved "https://registry.npmjs.org/mimic-fn/-/mimic-fn-3.1.0.tgz"
-  integrity sha512-Ysbi9uYW9hFyfrThdDEQuykN4Ey6BuwPD2kpI5ES/nFTDn/98yxYNLZJcgUAKPT/mcrLLKaGzJR9YVxJrIdASQ==
 
 minimatch@9.0.1:
   version "9.0.1"
@@ -5645,11 +5624,6 @@ os-homedir@^1.0.0:
   resolved "https://registry.yarnpkg.com/os-homedir/-/os-homedir-1.0.2.tgz#ffbc4988336e0e833de0c168c7ef152121aa7fb3"
   integrity sha1-/7xJiDNuDoM94MFox+8VISGqf7M=
 
-p-defer@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.npmjs.org/p-defer/-/p-defer-1.0.0.tgz"
-  integrity sha1-n26xgvbJqozXQwBKfU+WsZaw+ww=
-
 p-limit@^1.1.0:
   version "1.3.0"
   resolved "https://registry.npmjs.org/p-limit/-/p-limit-1.3.0.tgz"
@@ -5778,12 +5752,7 @@ path-type@^4.0.0:
   resolved "https://registry.npmjs.org/path-type/-/path-type-4.0.0.tgz"
   integrity sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==
 
-php-parser@3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/php-parser/-/php-parser-3.1.0.tgz#5ca8e0bac9846e85233a26e3162fdfc4fb9a0a58"
-  integrity sha512-EwtoPSCqggAgTcPbV4YXsvUjYRQCZCxsQzxa7z8RX8rJ8bWAglMMi1tFNxdzwf5uNPFWFjHYhXA3REuWKzgMuw==
-
-php-parser@3.1.5:
+php-parser@3.1.5, php-parser@^3.1.5:
   version "3.1.5"
   resolved "https://registry.yarnpkg.com/php-parser/-/php-parser-3.1.5.tgz#84500e5b5c6a0907e32c38b931bb4e7d3f275026"
   integrity sha512-jEY2DcbgCm5aclzBdfW86GM6VEIWcSlhTBSHN1qhJguVePlYe28GhwS0yoeLYXpM2K8y6wzLwrbq814n2PHSoQ==
@@ -5965,10 +5934,10 @@ prettier-linter-helpers@^1.0.0:
   dependencies:
     fast-diff "^1.1.2"
 
-prettier@^2.2.0:
-  version "2.7.1"
-  resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.7.1.tgz#e235806850d057f97bb08368a4f7d899f7760c64"
-  integrity sha512-ujppO+MkdPqoVINuDFDRLClm7D78qbDt0/NR+wp5FqEZOoTNAjPHWj17QRhu7geIHJfcNhRk1XVQmF8Bp3ye+g==
+prettier@^3.2.5:
+  version "3.2.5"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-3.2.5.tgz#e52bc3090586e824964a8813b09aba6233b28368"
+  integrity sha512-3/GWa9aOC0YeD7LUfvOG2NiDyhOWRvt1k+rcKhOuYnMY24iiCphgneUfJDyFXd6rZCAnuLBv6UeAULtrhT/F4A==
 
 pretty-format@^29.0.0, pretty-format@^29.0.3:
   version "29.0.3"
@@ -6554,6 +6523,11 @@ string-length@^4.0.1:
   dependencies:
     char-regex "^1.0.2"
     strip-ansi "^6.0.0"
+
+string-replace-async@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/string-replace-async/-/string-replace-async-2.0.0.tgz#c3224e89d1216d6116e6e229cf74223cd84a733b"
+  integrity sha512-AHMupZscUiDh07F1QziX7PLoB1DQ/pzu19vc8Xa8LwZcgnOXaw7yCgBuSYrxVEfaM2d8scc3Gtp+i+QJZV+spw==
 
 string-width@^3.0.0:
   version "3.1.0"
@@ -7186,10 +7160,10 @@ v8-to-istanbul@^9.0.1:
     "@types/istanbul-lib-coverage" "^2.0.1"
     convert-source-map "^1.6.0"
 
-vscode-oniguruma@2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/vscode-oniguruma/-/vscode-oniguruma-2.0.0.tgz#cdddaff982a0c112f9aebf29f877099014b93736"
-  integrity sha512-QWb6OZHNMxk1/nNOA6gjmbwA7gkKOYPAgteCOy8hX8/3FzoEb4pLHt2b2VHGy9gDdzGt3l5NqiQyo1HEQIanhw==
+vscode-oniguruma@1.7.0:
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/vscode-oniguruma/-/vscode-oniguruma-1.7.0.tgz#439bfad8fe71abd7798338d1cd3dc53a8beea94b"
+  integrity sha512-L9WMGRfrjOhgHSdOYgCt/yRMsXzLDJSL7BPrOZt73gU0iWO4mpqzqQzOz5srxqTvMBaR0XZTSrVWo4j55Rc6cA==
 
 vscode-textmate@^7.0.1:
   version "7.0.1"
