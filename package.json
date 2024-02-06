@@ -25,7 +25,7 @@
     "build": "cross-env NODE_ENV=production node esbuild.js && cross-env NODE_ENV=production ESM_BUILD=true node esbuild.js",
     "prepublish": "tsc src/main.ts --declaration --emitDeclarationOnly --outDir ./dist/types || true",
     "watch": "node esbuild.js",
-    "test": "yarn run build && node --experimental-vm-modules node_modules/.bin/jest",
+    "test": "yarn run build && yarn run vitest run",
     "lint": "eslint src -c .eslintrc.json --ext ts",
     "fix": "prettier {src,__tests__}/**/*.ts --write",
     "check_formatted": "prettier **/*.ts -c",
