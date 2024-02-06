@@ -5,6 +5,7 @@ import { fileURLToPath } from 'url';
 import { createRequire as topLevelCreateRequire } from 'module';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+import { describe, test } from 'vitest';
 
 const formatter = () => {
   return new Formatter({ indentSize: 4 });
