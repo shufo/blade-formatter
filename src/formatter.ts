@@ -2284,6 +2284,7 @@ export default class Formatter {
     for (let i = 0; i < splittedLines.length; i += 1) {
       const originalLine = splittedLines[i];
       const tokenizeLineResult = tokenizedLines[i];
+      // eslint-disable-next-line no-await-in-loop
       await this.processLine(tokenizeLineResult, originalLine);
     }
 
@@ -2448,6 +2449,7 @@ export default class Formatter {
 
       const token = originalLine.substring(tokenStruct.startIndex, tokenStruct.endIndex).trim();
 
+      // eslint-disable-next-line no-await-in-loop
       await this.processToken(tokenStruct, token);
     }
 
