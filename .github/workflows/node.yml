@@ -29,7 +29,7 @@ jobs:
 
       - name: npm install
         run: |
-          yarn install
+          yarn install --ignore-engines
         env:
           CI: true
       - name: linting
