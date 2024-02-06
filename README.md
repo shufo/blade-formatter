@@ -190,10 +190,10 @@ $ blade-formatter -c -d resources/**/*.blade.php
       --no-single-quote               Use double quotes instead of single quotes for php expression.  [boolean] [default: false]
   -E, --extra-liners                  Comma separated list of tags that should have an extra newline before them.  [string] [default: "head,body,/html"]
       --no-multiple-empty-lines       Merge multiple blank lines into a single blank line  [boolean] [default: false]
-      --no-php-syntax-check           Disable PHP sytnax checking  [boolean] [default: false]
+      --no-php-syntax-check           Disable PHP syntax checking  [boolean] [default: false]
       --no-trailing-comma-php         If set to true, no trailing commas are printed for php expression.  [boolean] [default: false]
   -p, --progress                      Print progress  [boolean] [default: false]
-      --stdin                         format code provided on <STDIN>  [boolean] [default: false]
+      --stdin                         Format code provided on <STDIN>  [boolean] [default: false]
       --config                        Use this configuration, overriding .bladeformatterrc config options if present  [string] [default: null]
       --ignore-path                   Specify path of ignore file  [string] [default: null]
   -h, --help                          Show help  [boolean]
@@ -485,6 +485,13 @@ $ make debug # attach
         </a>
     </td>
     <td align="center">
+        <a href="https://github.com/garrettboone">
+            <img src="https://avatars.githubusercontent.com/u/47018474?v=4" width="100;" alt="garrettboone"/>
+            <br />
+            <sub><b>Garrett Boone</b></sub>
+        </a>
+    </td>
+    <td align="center">
         <a href="https://github.com/gagansday">
             <img src="https://avatars.githubusercontent.com/u/25811413?v=4" width="100;" alt="gagansday"/>
             <br />
@@ -511,7 +518,8 @@ $ make debug # attach
             <br />
             <sub><b>Jumpei Tanaka</b></sub>
         </a>
-    </td>
+    </td></tr>
+<tr>
     <td align="center">
         <a href="https://github.com/ldommer">
             <img src="https://avatars.githubusercontent.com/u/65616313?v=4" width="100;" alt="ldommer"/>

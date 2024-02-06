@@ -8,7 +8,7 @@
     "formatter",
     "laravel"
   ],
-  "version": "1.38.1",
+  "version": "1.38.6",
   "description": "An opinionated blade template formatter for Laravel",
   "main": "./dist/bundle.cjs",
   "types": "./dist/types/main.d.ts",
@@ -74,7 +74,7 @@
     "@types/js-beautify": "^1.13.3",
     "@types/lodash": "^4.14.178",
     "@types/mocha": "^10.0.0",
-    "@types/node": "^18.0.0",
+    "@types/node": "^20.0.0",
     "@types/xregexp": "^4.4.0",
     "@typescript-eslint/eslint-plugin": "^5.8.1",
     "@typescript-eslint/parser": "^5.8.1",

@@ -141,7 +141,7 @@ export default async function cli() {
     })
     .option('no-php-syntax-check', {
       type: 'boolean',
-      description: 'Disable PHP sytnax checking',
+      description: 'Disable PHP syntax checking',
       default: false,
     })
     .option('php-syntax-check', {
@@ -169,7 +169,7 @@ export default async function cli() {
     })
     .option('stdin', {
       type: 'boolean',
-      description: 'format code provided on <STDIN>',
+      description: 'Format code provided on <STDIN>',
       default: false,
     })
     .option('config', {

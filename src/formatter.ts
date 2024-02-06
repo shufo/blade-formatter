@@ -194,8 +194,9 @@ export default class Formatter {
       .then((target) => this.preserveBladeBrace(target))
       .then((target) => this.preserveRawBladeBrace(target))
       .then((target) => this.preserveConditions(target))
-      .then((target) => this.preserveInlineDirective(target))
+      .then((target) => this.preservePropsBlock(target))
       .then((target) => this.preserveInlinePhpDirective(target))
+      .then((target) => this.preserveInlineDirective(target))
       .then((target) => this.preserveBladeDirectivesInScripts(target))
       .then((target) => this.preserveBladeDirectivesInStyles(target))
       .then((target) => this.preserveCustomDirective(target))
@@ -209,21 +210,21 @@ export default class Formatter {
       .then((target) => this.sortTailwindcssClasses(target))
       .then((target) => this.formatXInit(target))
       .then((target) => this.formatXData(target))
+      .then((target) => this.preservePhpBlock(target))
+      .then((target) => this.sortHtmlAttributes(target))
+      .then((target) => this.preserveHtmlAttributes(target))
       .then((target) => this.preserveComponentAttribute(target))
       .then((target) => this.preserveShorthandBinding(target))
-      .then((target) => this.sortHtmlAttributes(target))
-      .then((target) => this.preservePhpBlock(target))
-      .then((target) => this.preserveHtmlAttributes(target))
       .then((target) => this.preserveXslot(target))
       .then((target) => this.preserveHtmlTags(target))
       .then((target) => this.formatAsHtml(target))
       .then((target) => this.formatAsBlade(target))
       .then((target) => this.restoreHtmlTags(target))
       .then((target) => this.restoreXslot(target))
-      .then((target) => this.restoreHtmlAttributes(target))
-      .then((target) => this.restorePhpBlock(target))
       .then((target) => this.restoreShorthandBinding(target))
       .then((target) => this.restoreComponentAttribute(target))
+      .then((target) => this.restoreHtmlAttributes(target))
+      .then((target) => this.restorePhpBlock(target))
       .then((target) => this.restoreXData(target))
       .then((target) => this.restoreXInit(target))
       .then((target) => this.restoreScripts(target))
@@ -231,8 +232,8 @@ export default class Formatter {
       .then((target) => this.restoreCustomDirective(target))
       .then((target) => this.restoreBladeDirectivesInStyles(target))
       .then((target) => this.restoreBladeDirectivesInScripts(target))
-      .then((target) => this.restoreInlinePhpDirective(target))
       .then((target) => this.restoreInlineDirective(target))
+      .then((target) => this.restoreInlinePhpDirective(target))
       .then((target) => this.restoreConditions(target))
       .then((target) => this.restoreRawBladeBrace(target))
       .then((target) => this.restoreBladeBrace(target))
@@ -881,7 +882,7 @@ export default class Formatter {
   async preserveHtmlAttributes(content: any) {
     return _.replace(
       content,
-      /(?<=<[\w]*?[\s].*?)[\w\-\_\:]+?=(["']).*?(?<!\\)\1(?=.*?(?<!=)>)/gms,
+      /(?<=<[\w\-\.\:\_]+[^]*\s)(?!x-bind)([^\s\:][^\s\'\"]+\s*=\s*(["'])(?<!\\)[^\2]*?(?<!\\)\2)(?=[^]*(?<!=)\/?>)/gms,
       (match: string) => `${this.storeHtmlAttribute(match)}`,
     );
   }
@@ -908,7 +909,7 @@ export default class Formatter {
   async preserveShorthandBinding(content: string) {
     return _.replace(
       content,
-      /(?<=<(?!livewire:)[^<]*?(\s|x-bind)):{1}(?<!=>)[\w\-_.]*?=(["'])(?!=>)[^]*?\2(?=[^>]*?\/*?>)/gim,
+      /(?<=<(?!livewire:)[^<]*?(\s|x-bind)):{1}(?<!=>)[\w\-_.]*?=(["'])(?!=>)[^\2]*?\2(?=[^>]*?\/*?>)/gim,
       (match: any) => `${this.storeShorthandBinding(match)}`,
     );
   }
@@ -916,7 +917,7 @@ export default class Formatter {
   async preserveComponentAttribute(content: string) {
     return _.replace(
       content,
-      /(?<=<(x-|livewire:)[^<]*?\s):{1,2}(?<!=>)[\w\-_.]*?=(["'])(?!=>)[^]*?\2(?=[^>]*?\/*?>)/gim,
+      /(?<=<(x-|livewire:)[^<]*?\s):{1,2}(?<!=>)[\w\-_.]*?=(["'])(?!=>)[^\2]*?\2(?=[^>]*?\/*?>)/gim,
       (match: any) => `${this.storeComponentAttribute(match)}`,
     );
   }
@@ -1322,13 +1323,19 @@ export default class Formatter {
     return replaceAsync(
       content,
       new RegExp(regex, 'gms'),
-      async (_match: any, p1: any) =>
-        `@props(${(
-          await util.formatRawStringAsPhp(this.rawPropsBlocks[p1], {
+      async (_match: any, p1: any) => {
+        const placeholder = this.getRawPropsPlaceholder(p1.toString());
+        const matchedLine = content.match(new RegExp(`^(.*?)${placeholder}`, 'gmi')) ?? [''];
+        const indent = detectIndent(matchedLine[0]);
+
+        const formatted = `@props(${await util
+          .formatRawStringAsPhp(this.rawPropsBlocks[p1], {
             ...this.options,
-            printWidth: util.printWidthForInline,
           })
-        ).trimRight()})`,
+          .trim()})`;
+
+        return this.indentRawPhpBlock(indent, formatted);
+      }
     );
   }
 
@@ -1360,6 +1367,10 @@ export default class Formatter {
 
         if (index === lines.length - 1) {
           return prefixForEnd + line;
+        }
+
+        if (line.length === 0) {
+          return line;
         }
 
         return prefix + line;
@@ -2169,6 +2180,10 @@ export default class Formatter {
               return match;
             }
 
+            if (matchedLine[0].startsWith('<livewire')) {
+              return `${p2}${p3}${p4}`;
+            }
+
             if (p2.startsWith('::')) {
               return `${p2}${p3}${beautify
                 .js_beautify(p4, {
@@ -2231,13 +2246,13 @@ export default class Formatter {
 
             if (this.isInline(p4)) {
               try {
-                return `${p2}${p3}${beautify.js_beautify(p4, beautifyOpts).trimEnd()}`;
+                return `${p2}${p3}${beautify.js_beautify(p4.trim(), beautifyOpts).trim()}`;
               } catch (error) {
-                return `${p2}${p3}${p4}`;
+                return `${p2}${p3}${p4.trim()}`;
               }
             }
 
-            return `${p2}${p3}${beautify.js_beautify(p4, beautifyOpts).trimEnd()}`;
+            return `${p2}${p3}${beautify.js_beautify(p4.trim(), beautifyOpts).trim()}`;
           },
         );
 

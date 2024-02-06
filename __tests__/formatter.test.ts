@@ -2115,12 +2115,10 @@ describe('formatter', () => {
 
     const expected = [
       `<password-input name="password_confirmation" type="password"`,
-      `    @if ('password') error error-message="{{ $message }}" @endif placeholder="password: "`,
-      `    outlined>`,
+      `    @if ('password') error error-message="{{ $message }}" @endif placeholder="password: " outlined>`,
       `</password-input>`,
       `<password-input name="password_confirmation" type="password"`,
-      `    @if ('password') error error-message="{{ $message }}" @endif placeholder="password: "`,
-      `    outlined>`,
+      `    @if ('password') error error-message="{{ $message }}" @endif placeholder="password: " outlined>`,
       `</password-input>`,
       `<password-input name="password_confirmation" type="password"`,
       `    @if ('password') error error-message="{{ $message }}" @endif placeholder="password: "`,
@@ -5283,6 +5281,58 @@ describe('formatter', () => {
       `        Foo bar`,
       `    </x-slot>`,
       `</x-alert>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
+
+  test('long props', async () => {
+    const content = [
+      `@props(['name', 'title' => 'Please Confirm', 'message' => 'Are you sure?', 'level' => 'info', 'icon' => 'heroicon-o-question-mark-circle', 'cancelButtonText' => 'No', 'cancelButtonType' => 'muted', 'affirmButtonText' => 'Yes', 'affirmButtonType' => 'success', 'affirmButtonDisabled' => false])`,
+    ].join('\n');
+
+    const expected = [
+      `@props([`,
+      `    'name',`,
+      `    'title' => 'Please Confirm',`,
+      `    'message' => 'Are you sure?',`,
+      `    'level' => 'info',`,
+      `    'icon' => 'heroicon-o-question-mark-circle',`,
+      `    'cancelButtonText' => 'No',`,
+      `    'cancelButtonType' => 'muted',`,
+      `    'affirmButtonText' => 'Yes',`,
+      `    'affirmButtonType' => 'success',`,
+      `    'affirmButtonDisabled' => false,`,
+      `])`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
+
+  test('nested long props', async () => {
+    const content = [
+      `<div>`,
+      `@props(['name', 'title' => 'Please Confirm', 'message' => 'Are you sure?', 'level' => 'info', 'icon' => 'heroicon-o-question-mark-circle', 'cancelButtonText' => 'No', 'cancelButtonType' => 'muted', 'affirmButtonText' => 'Yes', 'affirmButtonType' => 'success', 'affirmButtonDisabled' => false])`,
+      `</div>`,
+    ].join('\n');
+
+    const expected = [
+      `<div>`,
+      `    @props([`,
+      `        'name',`,
+      `        'title' => 'Please Confirm',`,
+      `        'message' => 'Are you sure?',`,
+      `        'level' => 'info',`,
+      `        'icon' => 'heroicon-o-question-mark-circle',`,
+      `        'cancelButtonText' => 'No',`,
+      `        'cancelButtonType' => 'muted',`,
+      `        'affirmButtonText' => 'Yes',`,
+      `        'affirmButtonType' => 'success',`,
+      `        'affirmButtonDisabled' => false,`,
+      `    ])`,
+      `</div>`,
       ``,
     ].join('\n');
 
