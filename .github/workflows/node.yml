@@ -38,7 +38,7 @@ jobs:
           yarn run check_formatted
         env:
           CI: true
-      - name: yarn run test --runInBand
+      - name: yarn run test
         run: |
           yarn test
         env:
