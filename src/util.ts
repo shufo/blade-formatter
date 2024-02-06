@@ -3,7 +3,7 @@ import _ from 'lodash';
 import fs from 'fs';
 import os from 'os';
 import chalk from 'chalk';
-import * as prettier from 'prettier/standalone.js';
+import * as prettier from 'prettier/standalone';
 // @ts-ignore
 // eslint-disable-next-line
 import phpPlugin from '@prettier/plugin-php/standalone';
