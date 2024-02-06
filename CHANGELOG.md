@@ -1,5 +1,23 @@
 # Changelog
 
+## [1.40.0](https://github.com/shufo/blade-formatter/compare/v1.38.6...v1.40.0) (2024-02-06)
+
+
+### Fixes
+
+* 🐛 livewire params is formatted unexpectedly ([83a42dc](https://github.com/shufo/blade-formatter/commit/83a42dc260689fce5ff670346c3cc64c226eb3ed))
+* 🐛 make functions to be async ([29d3b4b](https://github.com/shufo/blade-formatter/commit/29d3b4ba1b43d8fc2c5e78b74714f0a8bc02a1d1))
+
+
+### Miscellaneous
+
+* 🤖 add string-replace-async to dependencies ([5da8392](https://github.com/shufo/blade-formatter/commit/5da839223deed3811aa812faa80ca26b9664cc65))
+* 🤖 bump prettier to 3.2.5 ([04a0dcf](https://github.com/shufo/blade-formatter/commit/04a0dcf6fb247df646f3263aad27dbaf0ce069b2))
+* 🤖 bump prettier/plugin-php to 0.22.2 ([835a1e5](https://github.com/shufo/blade-formatter/commit/835a1e5c8be8802dfb2faab515f2d61095cce59c))
+* 🤖 revert vscode-oniguruma to 1.7.0 ([15b1608](https://github.com/shufo/blade-formatter/commit/15b1608e7b024edb8ac86071ff1d55655581f3c5))
+* 🤖 update yarn.lock file to latest state ([c0246ee](https://github.com/shufo/blade-formatter/commit/c0246ee24cb2eb37846b322b97f24027b43fe996))
+* release 1.40.0 ([7e65fda](https://github.com/shufo/blade-formatter/commit/7e65fda234abbfeff79587e01902cb911d183bb0))
+
 ## [1.38.6](https://github.com/shufo/blade-formatter/compare/v1.38.5...v1.38.6) (2023-11-05)
 
 
