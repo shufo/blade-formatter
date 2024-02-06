@@ -1320,23 +1320,19 @@ export default class Formatter {
 
   async restoreRawPropsBlock(content: any) {
     const regex = this.getRawPropsPlaceholder('(\\d+)');
-    return replaceAsync(
-      content,
-      new RegExp(regex, 'gms'),
-      async (_match: any, p1: any) => {
-        const placeholder = this.getRawPropsPlaceholder(p1.toString());
-        const matchedLine = content.match(new RegExp(`^(.*?)${placeholder}`, 'gmi')) ?? [''];
-        const indent = detectIndent(matchedLine[0]);
+    return replaceAsync(content, new RegExp(regex, 'gms'), async (_match: any, p1: any) => {
+      const placeholder = this.getRawPropsPlaceholder(p1.toString());
+      const matchedLine = content.match(new RegExp(`^(.*?)${placeholder}`, 'gmi')) ?? [''];
+      const indent = detectIndent(matchedLine[0]);
 
-        const formatted = `@props(${await util
-          .formatRawStringAsPhp(this.rawPropsBlocks[p1], {
-            ...this.options,
-          })
-          .trim()})`;
+      const formatted = `@props(${(
+        await util.formatRawStringAsPhp(this.rawPropsBlocks[p1], {
+          ...this.options,
+        })
+      ).trim()})`;
 
-        return this.indentRawPhpBlock(indent, formatted);
-      }
-    );
+      return this.indentRawPhpBlock(indent, formatted);
+    });
   }
 
   isInline(content: any) {
