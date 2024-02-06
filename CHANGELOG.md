@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.40.1](https://github.com/shufo/blade-formatter/compare/v1.40.0...v1.40.1) (2024-02-06)
+
+
+### Fixes
+
+* 🐛 invalid import from prettier ([36cbc28](https://github.com/shufo/blade-formatter/commit/36cbc28f15dbc0bfd1135a049cc8922a5c636254))
+
 ## [1.40.0](https://github.com/shufo/blade-formatter/compare/v1.38.6...v1.40.0) (2024-02-06)
 
 
