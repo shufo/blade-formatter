@@ -17,10 +17,5 @@
     use Eagle\Utilities\Dates\TimeZone;
     // assert blank line will not be indented
 
-    $timezone_options =
-        ['' => ''] +
-        TimeZone::create()
-            ->format('tz-label')
-            ->countryCodePriority('US')
-            ->get();
+    $timezone_options = ['' => ''] + TimeZone::create()->format('tz-label')->countryCodePriority('US')->get();
 @endphp
