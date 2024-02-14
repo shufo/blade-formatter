@@ -5339,4 +5339,29 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
+
+  test('@php blocks should wrap long statements (#908)', async () => {
+    const content = [
+      `@php`,
+      `$categories = App\\Models\\Category::whereIn('id', $catids)`,
+      `->orderBy('description')`,
+      `->orderBy('description')`,
+      `->orderBy('description')`,
+      `->get();`,
+      `@endphp`,
+    ].join('\n');
+
+    const expected = [
+      `@php`,
+      `    $categories = App\\Models\\Category::whereIn('id', $catids)`,
+      `        ->orderBy('description')`,
+      `        ->orderBy('description')`,
+      `        ->orderBy('description')`,
+      `        ->get();`,
+      `@endphp`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
 });

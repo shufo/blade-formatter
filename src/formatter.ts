@@ -1298,8 +1298,13 @@ export default class Formatter {
         if (isOnSingleLine && isMultipleStatements) {
           // multiple statements on a single line
           rawBlock = (await util.formatStringAsPhp(`<?php\n${rawBlock}\n?>`, this.options)).trim();
+        } else if (isMultipleStatements) {
+          // multiple statments on mult lines
+          rawBlock = (
+            await util.formatStringAsPhp(`<?php${rawBlock}?>`, { ...this.options, useProjectPrintWidth: true })
+          ).trimEnd();
         } else if (!isOnSingleLine) {
-          // single or multiple statements on mult lines
+          // single statement on mult lines
           rawBlock = (await util.formatStringAsPhp(`<?php${rawBlock}?>`, this.options)).trimEnd();
         } else {
           // single statement on single line
