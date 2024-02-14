@@ -253,6 +253,7 @@ export default class Formatter {
       wrap_line_length: util.optional(this.options).wrapLineLength || 120,
       wrap_attributes: util.optional(this.options).wrapAttributes || 'auto',
       wrap_attributes_min_attrs: util.optional(this.options).wrapAttributesMinAttrs,
+      html_formatter: util.optional(this.options).htmlFormatter || 'js_beatify',
       indent_inner_html: util.optional(this.options).indentInnerHtml || false,
       end_with_newline: util.optional(this.options).endWithNewline || true,
       max_preserve_newlines: util.optional(this.options).noMultipleEmptyLines ? 1 : undefined,
@@ -265,7 +266,11 @@ export default class Formatter {
 
     const promise = new Promise((resolve) => resolve(data))
       .then((content) => util.preserveDirectives(content))
-      .then((preserved) => beautify.html_beautify(preserved, options))
+      .then((preserved) =>
+        options.html_formatter === 'prettier'
+          ? util.formatStringAsHtml(preserved, this.options)
+          : beautify.html_beautify(preserved, options),
+      )
       .then((content) => util.revertDirectives(content));
 
     return Promise.resolve(promise);

@@ -42,6 +42,7 @@ export type FormatterOption = {
   sortTailwindcssClasses?: true;
   tailwindcssConfigPath?: string;
   tailwindcssConfig?: TailwindConfig;
+  htmlFormatter?: string;
   sortHtmlAttributes?: SortHtmlAttributes;
   customHtmlAttributesOrder?: string[] | string;
   noMultipleEmptyLines?: boolean;
