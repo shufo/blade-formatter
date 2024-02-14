@@ -1300,8 +1300,15 @@ export default class Formatter {
           rawBlock = (await util.formatStringAsPhp(`<?php\n${rawBlock}\n?>`, this.options)).trim();
         } else if (isMultipleStatements) {
           // multiple statments on mult lines
+
+          const indentLevel = (indent.amount + 1) * this.indentSize;
+
           rawBlock = (
-            await util.formatStringAsPhp(`<?php${rawBlock}?>`, { ...this.options, useProjectPrintWidth: true })
+            await util.formatStringAsPhp(`<?php${rawBlock}?>`, {
+              ...this.options,
+              useProjectPrintWidth: true,
+              adjustPrintWidthBy: indentLevel,
+            })
           ).trimEnd();
         } else if (!isOnSingleLine) {
           // single statement on mult lines
