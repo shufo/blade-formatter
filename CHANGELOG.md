@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.41.0](https://github.com/shufo/blade-formatter/compare/v1.40.1...v1.41.0) (2024-02-20)
+
+
+### Features
+
+* **formatter:** improve alignment with plugin-php in [@php](https://github.com/php) blocks ([b5dd55a](https://github.com/shufo/blade-formatter/commit/b5dd55a23da24442695b20f08276f35ef44d1ce1))
+* **formatter:** respect indent level when formatting [@php](https://github.com/php) blocks ([6b5ba60](https://github.com/shufo/blade-formatter/commit/6b5ba600b6b0e14e8895440f2600b6ae92a25380))
+
+
+### Miscellaneous
+
+* 🤖 add vitest to dependencies ([e3a0558](https://github.com/shufo/blade-formatter/commit/e3a0558f7fd9fb2f7049b37901aac9abebc8f5e4))
+* 🤖 delete jest configs ([e16b4c7](https://github.com/shufo/blade-formatter/commit/e16b4c7f9dbb786d3d62a47b5bed586349b45bc4))
+* 🤖 remove jest related dependencies ([fd19f6e](https://github.com/shufo/blade-formatter/commit/fd19f6e1bd82d3eebbccc214cb2a2306b80527de))
+
 ## [1.40.1](https://github.com/shufo/blade-formatter/compare/v1.40.0...v1.40.1) (2024-02-06)
 
 
