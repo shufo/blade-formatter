@@ -449,6 +449,13 @@ $ make debug # attach
         </a>
     </td>
     <td align="center">
+        <a href="https://github.com/claytonrcarter">
+            <img src="https://avatars.githubusercontent.com/u/1420419?v=4" width="100;" alt="claytonrcarter"/>
+            <br />
+            <sub><b>Null</b></sub>
+        </a>
+    </td>
+    <td align="center">
         <a href="https://github.com/slovenianGooner">
             <img src="https://avatars.githubusercontent.com/u/1257629?v=4" width="100;" alt="slovenianGooner"/>
             <br />
@@ -468,15 +475,15 @@ $ make debug # attach
             <br />
             <sub><b>Schelmo</b></sub>
         </a>
-    </td>
+    </td></tr>
+<tr>
     <td align="center">
         <a href="https://github.com/Dave-iFour">
             <img src="https://avatars.githubusercontent.com/u/110526667?v=4" width="100;" alt="Dave-iFour"/>
             <br />
             <sub><b>Dave</b></sub>
         </a>
-    </td></tr>
-<tr>
+    </td>
     <td align="center">
         <a href="https://github.com/notdian">
             <img src="https://avatars.githubusercontent.com/u/4225509?v=4" width="100;" alt="notdian"/>
@@ -511,15 +518,15 @@ $ make debug # attach
             <br />
             <sub><b>Joshua Chapman</b></sub>
         </a>
-    </td>
+    </td></tr>
+<tr>
     <td align="center">
         <a href="https://github.com/jtanaka">
             <img src="https://avatars.githubusercontent.com/u/1379640?v=4" width="100;" alt="jtanaka"/>
             <br />
             <sub><b>Jumpei Tanaka</b></sub>
         </a>
-    </td></tr>
-<tr>
+    </td>
     <td align="center">
         <a href="https://github.com/ldommer">
             <img src="https://avatars.githubusercontent.com/u/65616313?v=4" width="100;" alt="ldommer"/>
