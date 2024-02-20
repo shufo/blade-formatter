@@ -5339,4 +5339,82 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
+
+  test('@php blocks should wrap long statements (#908)', async () => {
+    const content = [
+      `@php`,
+      `$categories = App\\Models\\Category::whereIn('id', $catids)`,
+      `->orderBy('description')`,
+      `->orderBy('description')`,
+      `->orderBy('description')`,
+      `->get();`,
+      `@endphp`,
+    ].join('\n');
+
+    const expected = [
+      `@php`,
+      `    $categories = App\\Models\\Category::whereIn('id', $catids)`,
+      `        ->orderBy('description')`,
+      `        ->orderBy('description')`,
+      `        ->orderBy('description')`,
+      `        ->get();`,
+      `@endphp`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
+
+  test('@php blocks should attempt to respect to current indent level', async () => {
+    // This statement is 119 chars long and should fit on 1 line w/ the default print width of 120.
+    // Once it's indented within the @php block, though, the line will exceed 120, so it should have
+    // been indented.
+    let content = [
+      `@php`,
+      `$categories = App\\Models\\Category::whereIn('idss', $catids)`,
+      `->orderBy('description')`,
+      `->orderBy('description')`,
+      `->getNone();`,
+      `@endphp`,
+    ].join('\n');
+
+    let expected = [
+      `@php`,
+      `    $categories = App\\Models\\Category::whereIn('idss', $catids)`,
+      `        ->orderBy('description')`,
+      `        ->orderBy('description')`,
+      `        ->getNone();`,
+      `@endphp`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+
+    // Now wrap the @php in a <div> and make the PHP statement 4 chars shorter to confirm that it
+    // still works at higher indent levels.
+    content = [
+      `<div>`,
+      `@php`,
+      `$categories = App\\Models\\Category::whereIn('idss', $catids)`,
+      `->orderBy('description')`,
+      `->orderBy('description')`,
+      `->get();`,
+      `@endphp`,
+      `</div>`,
+    ].join('\n');
+
+    expected = [
+      `<div>`,
+      `    @php`,
+      `        $categories = App\\Models\\Category::whereIn('idss', $catids)`,
+      `            ->orderBy('description')`,
+      `            ->orderBy('description')`,
+      `            ->get();`,
+      `    @endphp`,
+      `</div>`,
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
 });

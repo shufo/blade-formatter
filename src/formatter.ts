@@ -1293,11 +1293,28 @@ export default class Formatter {
         const matchedLine = content.match(new RegExp(`^(.*?)${placeholder}`, 'gmi')) ?? [''];
         const indent = detectIndent(matchedLine[0]);
 
-        if (this.isInline(rawBlock) && (await this.isMultilineStatement(rawBlock))) {
+        const isOnSingleLine = this.isInline(rawBlock);
+        const isMultipleStatements = await this.isMultilineStatement(rawBlock);
+        if (isOnSingleLine && isMultipleStatements) {
+          // multiple statements on a single line
           rawBlock = (await util.formatStringAsPhp(`<?php\n${rawBlock}\n?>`, this.options)).trim();
-        } else if (rawBlock.split('\n').length > 1) {
+        } else if (isMultipleStatements) {
+          // multiple statments on mult lines
+
+          const indentLevel = (indent.amount + 1) * this.indentSize;
+
+          rawBlock = (
+            await util.formatStringAsPhp(`<?php${rawBlock}?>`, {
+              ...this.options,
+              useProjectPrintWidth: true,
+              adjustPrintWidthBy: indentLevel,
+            })
+          ).trimEnd();
+        } else if (!isOnSingleLine) {
+          // single statement on mult lines
           rawBlock = (await util.formatStringAsPhp(`<?php${rawBlock}?>`, this.options)).trimEnd();
         } else {
+          // single statement on single line
           rawBlock = `<?php${rawBlock}?>`;
         }
 

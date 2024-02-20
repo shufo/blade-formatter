@@ -65,10 +65,12 @@ export async function formatStringAsPhp(content: any, params: FormatPhpOption = 
     ...params,
   };
 
+  const adjust = params.adjustPrintWidthBy ?? 0;
+  const printWidth = params.useProjectPrintWidth ? options.printWidth - adjust : printWidthForInline;
   try {
     return await prettier.format(content.replace(/\n$/, ''), {
       parser: 'php',
-      printWidth: 1000,
+      printWidth,
       singleQuote: !options.noSingleQuote,
       // @ts-ignore
       phpVersion: options.phpVersion,
