@@ -1301,8 +1301,7 @@ export default class Formatter {
         } else if (isMultipleStatements) {
           // multiple statments on mult lines
 
-          const indentLevel = (indent.amount + 1) * this.indentSize;
-
+          const indentLevel = indent.amount + this.indentSize;
           rawBlock = (
             await util.formatStringAsPhp(`<?php${rawBlock}?>`, {
               ...this.options,
