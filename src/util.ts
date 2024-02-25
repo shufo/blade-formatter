@@ -7,6 +7,7 @@ import * as prettier from 'prettier/standalone';
 // @ts-ignore
 // eslint-disable-next-line
 import phpPlugin from '@prettier/plugin-php/standalone';
+import htmlParser from 'prettier/parser-html';
 import detectIndent from 'detect-indent';
 import replaceAsync from 'string-replace-async';
 import { indentStartTokens, phpKeywordEndTokens, phpKeywordStartTokens } from './indent';
@@ -58,6 +59,20 @@ const defaultFormatPhpOption = {
   phpVersion: '8.1',
   noSingleQuote: false,
 };
+
+export async function formatStringAsHtml(content: any, params: FormatPhpOption = {}): Promise<string> {
+  const options = {
+    ...defaultFormatPhpOption,
+    ...params,
+  };
+
+  return prettier.format(content, {
+    parser: 'html',
+    printWidth: options.printWidth,
+    singleQuote: !options.noSingleQuote,
+    plugins: [htmlParser],
+  });
+}
 
 export async function formatStringAsPhp(content: any, params: FormatPhpOption = {}): Promise<string> {
   const options = {
