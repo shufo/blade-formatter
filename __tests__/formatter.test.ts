@@ -5417,4 +5417,54 @@ describe('formatter', () => {
 
     await util.doubleFormatCheck(content, expected);
   });
+
+  test('@php blocks respect indent level for deeply indented code (issue #915)', async () => {
+    let content = [
+      '<div>',
+      '<div>',
+      '<div>',
+      '<div>',
+      '<div>',
+      '<div>',
+      '@php',
+      "$percent = $item['historical'] ?? null ? round((100 * ($item['today'] - $item['historical'])) / $item['historical']) : null;",
+      '',
+      "$color = $percent < 0 ? '#8b0000' : '#006400';",
+      '@endphp',
+      '</div>',
+      '</div>',
+      '</div>',
+      '</div>',
+      '</div>',
+      '</div>',
+    ].join('\n');
+
+    // this is slightly different than the code presented in #915 because that
+    // code was wrapped to 80 columns, but these tests all use 120
+    let expected = [
+      '<div>',
+      '    <div>',
+      '        <div>',
+      '            <div>',
+      '                <div>',
+      '                    <div>',
+      '                        @php',
+      '                            $percent =',
+      "                                $item['historical'] ?? null",
+      "                                    ? round((100 * ($item['today'] - $item['historical'])) / $item['historical'])",
+      '                                    : null;',
+      '',
+      "                            $color = $percent < 0 ? '#8b0000' : '#006400';",
+      '                        @endphp',
+      '                    </div>',
+      '                </div>',
+      '            </div>',
+      '        </div>',
+      '    </div>',
+      '</div>',
+      ``,
+    ].join('\n');
+
+    await util.doubleFormatCheck(content, expected);
+  });
 });
