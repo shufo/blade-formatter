@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.41.1](https://github.com/shufo/blade-formatter/compare/v1.41.0...v1.41.1) (2024-02-25)
+
+
+### Fixes
+
+* **formatter:** correct indent level for raw [@php](https://github.com/php) blocks (close [#915](https://github.com/shufo/blade-formatter/issues/915)) ([470f503](https://github.com/shufo/blade-formatter/commit/470f50375a31aa39644767927f42eb59bd584b27))
+
 ## [1.41.0](https://github.com/shufo/blade-formatter/compare/v1.40.1...v1.41.0) (2024-02-20)
 
 
