@@ -1,7 +1,11 @@
 import path from "node:path";
 import fs from "fs-extra";
 import { expect } from "vitest";
-import { BladeFormatter, type CLIOption, type FormatterOption } from "../../src/main";
+import {
+	BladeFormatter,
+	type CLIOption,
+	type FormatterOption,
+} from "../../src/main";
 import * as cmd from "./cmd";
 
 export function populateFixtures(targetDir: any) {

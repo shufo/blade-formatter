@@ -12,14 +12,10 @@ import type { Config as TailwindConfig } from "tailwindcss/types/config";
 import FormatError from "./errors/formatError";
 import Formatter from "./formatter";
 import {
-	type 
-	EndOfLine,
-	type 
-	RuntimeConfig,
-	type 
-	SortHtmlAttributes,
-	type 
-	WrapAttributes,
+	type EndOfLine,
+	type RuntimeConfig,
+	type SortHtmlAttributes,
+	type WrapAttributes,
 	findRuntimeConfig,
 	readRuntimeConfig,
 } from "./runtimeConfig";
