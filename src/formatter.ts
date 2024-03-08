@@ -795,8 +795,7 @@ export default class Formatter {
 	 */
 	breakLineBeforeAndAfterDirective(content: string): string {
 		// handle directive around html tags
-		// eslint-disable-next-line
-		content = _.replace(
+		let formattedContent = _.replace(
 			content,
 			new RegExp(
 				`(?<=<.*?(?<!=)>)(${_.without(indentStartTokens, "@php").join(
@@ -808,8 +807,8 @@ export default class Formatter {
 		);
 
 		// eslint-disable-next-line
-		content = _.replace(
-			content,
+		formattedContent = _.replace(
+			formattedContent,
 			new RegExp(
 				`(?<=<.*?(?<!=)>).*?(${_.without(indentEndTokens, "@endphp").join(
 					"|",
@@ -821,9 +820,8 @@ export default class Formatter {
 
 		const unbalancedConditions = ["@case", ...indentElseTokens];
 
-		// eslint-disable-next-line
-		content = _.replace(
-			content,
+		formattedContent = _.replace(
+			formattedContent,
 			new RegExp(
 				`(\\s*?)(${unbalancedConditions.join(
 					"|",
@@ -834,9 +832,8 @@ export default class Formatter {
 			// handle else directive
 		);
 
-		// eslint-disable-next-line
-		content = _.replace(
-			content,
+		formattedContent = _.replace(
+			formattedContent,
 			new RegExp(
 				`\\s*?(?!(${_.without(indentElseTokens, "@else").join("|")}))@else\\s+`,
 				"gim",
@@ -845,18 +842,20 @@ export default class Formatter {
 			// handle case directive
 		);
 
-		// eslint-disable-next-line
-		content = _.replace(content, /@case\S*?\s*?@case/gim, (match) => {
-			// handle unbalanced echos
-			return `${match.replace("\n", "")}`;
-		});
+		formattedContent = _.replace(
+			formattedContent,
+			/@case\S*?\s*?@case/gim,
+			(match) => {
+				// handle unbalanced echos
+				return `${match.replace("\n", "")}`;
+			},
+		);
 
 		const unbalancedEchos = ["@break"];
 
 		_.forEach(unbalancedEchos, (directive) => {
-			// eslint-disable-next-line
-			content = _.replace(
-				content,
+			formattedContent = _.replace(
+				formattedContent,
 				new RegExp(`(\\s*?)${directive}\\s+`, "gmi"),
 				(match) => {
 					return `\n${match.trim()}\n\n`;
@@ -866,9 +865,8 @@ export default class Formatter {
 
 		// other directives
 		_.forEach(["@default"], (directive) => {
-			// eslint-disable-next-line
-			content = _.replace(
-				content,
+			formattedContent = _.replace(
+				formattedContent,
 				new RegExp(`(\\s*?)${directive}\\s*`, "gmi"),
 				(match) => {
 					return `\n\n${match.trim()}\n`;
@@ -884,7 +882,7 @@ export default class Formatter {
 		_.forEach(directives, (directive: any) => {
 			try {
 				const recursivelyMatched = xregexp.matchRecursive(
-					content,
+					formattedContent,
 					`\\@${directive}`,
 					`\\@end${directive}`,
 					"gmi",
@@ -897,13 +895,11 @@ export default class Formatter {
 					return;
 				}
 
-				// eslint-disable-next-line
 				for (const matched of recursivelyMatched) {
 					if (matched.name === "match") {
 						if (new RegExp(indentStartTokens.join("|")).test(matched.value)) {
-							// eslint-disable-next-line
-							content = _.replace(
-								content,
+							formattedContent = _.replace(
+								formattedContent,
 								matched.value,
 								this.breakLineBeforeAndAfterDirective(
 									util.escapeReplacementString(matched.value),
@@ -928,9 +924,8 @@ export default class Formatter {
 							},
 						);
 
-						// eslint-disable-next-line
-						content = _.replace(
-							content,
+						formattedContent = _.replace(
+							formattedContent,
 							matched.value,
 							util.escapeReplacementString(replaced),
 						);
@@ -941,7 +936,7 @@ export default class Formatter {
 			}
 		});
 
-		return content;
+		return formattedContent;
 	}
 
 	async preserveEscapedBladeDirective(content: string) {
