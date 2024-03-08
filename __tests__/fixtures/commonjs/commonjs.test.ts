@@ -55,10 +55,10 @@ describe("commonjs", () => {
 			tailwindcssConfigPath: path.resolve(__dirname, "tailwind.config.js"),
 		};
 
-		return new Formatter(options).formatContent(content).then((
-			result: string,
-		) => {
-			assert.equal(result, expected);
-		});
+		return new Formatter(options)
+			.formatContent(content)
+			.then((result: string) => {
+				assert.equal(result, expected);
+			});
 	});
 });

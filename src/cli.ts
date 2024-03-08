@@ -70,7 +70,8 @@ export default async function cli() {
 		.option("wrap-attributes", {
 			alias: "wrap-atts",
 			type: "string",
-			description: "The way to wrap attributes.\n[auto|force|force-aligned|force-expand-multiline|aligned-multiple|preserve|preserve-aligned]",
+			description:
+				"The way to wrap attributes.\n[auto|force|force-aligned|force-expand-multiline|aligned-multiple|preserve|preserve-aligned]",
 			default: "auto",
 		})
 		.option("wrap-attributes-min-attrs", {
