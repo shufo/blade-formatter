@@ -26,9 +26,10 @@
     "prepublish": "tsc src/main.ts --declaration --emitDeclarationOnly --outDir ./dist/types || true",
     "watch": "node esbuild.js",
     "test": "yarn run build && yarn run vitest run",
-    "lint": "eslint src -c .eslintrc.json --ext ts",
-    "fix": "prettier {src,__tests__}/**/*.ts --write",
-    "check_formatted": "prettier **/*.ts -c",
+    "lint": "biome lint .",
+    "fix": "biome lint . --apply",
+    "format": "biome format . --write",
+    "check_formatted": "biome format .",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0",
     "prepare": "husky install",
     "bin": "cross-env ./bin/blade-formatter.cjs"
