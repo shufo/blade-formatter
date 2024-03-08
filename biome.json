@@ -12,5 +12,14 @@
 			}
 		},
 		"ignore": ["coverage/**", ".yalc/**", "dist/**", "**/*.cjs"]
+	},
+	"formatter": {
+		"ignore": [
+			"coverage/**",
+			".yalc/**",
+			"dist/**",
+			"**/*.cjs",
+			"./__tests__/formatter.test.ts"
+		]
 	}
 }
