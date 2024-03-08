@@ -1064,7 +1064,7 @@ export default class Formatter {
 	async preserveHtmlAttributes(content: any) {
 		return _.replace(
 			content,
-			/(?<=<[\w\-\.\:\_]+[^]*\s)(?!x-bind)([^\s\:][^\s\'\"]+\s*=\s*(["'])(?<!\\)[^\2]*?(?<!\\)\2)(?=[^]*(?<!=)\/?>)/gms,
+			/(?<=<[\w\-\.\:\_]+.*\s)(?!x-bind)([^\s\:][^\s\'\"]+\s*=\s*(["'])(?<!\\)[^\2]*?(?<!\\)\2)(?=.*(?<!=)\/?>)/gms,
 			(match: string) => `${this.storeHtmlAttribute(match)}`,
 		);
 	}
@@ -3018,7 +3018,7 @@ export default class Formatter {
 			.replace(/([\n\s]*)->([\n\s]*)/gs, "->")
 			.replace(/(?<!(['"]).*)(?<=\()[\n\s]+?(?=\w)/gm, "")
 			.replace(
-				/([^]*)],[\n\s]*?\)$/gm,
+				/(.*)],[\n\s]*?\)$/gm,
 				(match: string, p1: string) => `${p1}]\n)`,
 			)
 			.replace(/,[\n\s]*?\)/gs, ")")

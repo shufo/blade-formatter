@@ -292,7 +292,7 @@ class BladeFormatter {
 	}
 
 	static fulFillFiles(paths: any) {
-		this.targetFiles.push(paths);
+		BladeFormatter.targetFiles.push(paths);
 
 		return Promise.resolve(paths);
 	}

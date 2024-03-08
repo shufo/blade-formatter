@@ -15,6 +15,7 @@ export class VscodeTextmate {
 
 	constructor(vsctm: any, oniguruma: any) {
 		// @ts-ignore
+		// biome-ignore lint/correctness/noConstructorReturn: <explanation>
 		return (async () => {
 			this.vsctm = vsctm.default ?? vsctm;
 			// @ts-ignore
