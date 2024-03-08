@@ -5124,10 +5124,10 @@ string-argv@^0.3.1:
   resolved "https://registry.yarnpkg.com/string-argv/-/string-argv-0.3.1.tgz#95e2fbec0427ae19184935f816d74aaa4c5c19da"
   integrity sha512-a1uQGz7IyVy9YwhqjZIZu1c8JO8dNIe20xBmSS6qu9kv++k3JGzCVmprbNN5Kn+BgzD5E7YYwg1CcjuJMRNsvg==
 
-string-replace-async@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/string-replace-async/-/string-replace-async-2.0.0.tgz#c3224e89d1216d6116e6e229cf74223cd84a733b"
-  integrity sha512-AHMupZscUiDh07F1QziX7PLoB1DQ/pzu19vc8Xa8LwZcgnOXaw7yCgBuSYrxVEfaM2d8scc3Gtp+i+QJZV+spw==
+string-replace-async@^3.0.0:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/string-replace-async/-/string-replace-async-3.0.2.tgz#5aaa94b38dc57a3fd05a2d83cb4c989ba33663dd"
+  integrity sha512-s6hDtXJ7FKyRap/amefqrOMpkEQvxUDueyvJygQeHxCK5Za90dOMgdibCCrPdfdAYAkr8imrZ1PPXW7DOf0RzQ==
 
 string-width@^3.0.0:
   version "3.1.0"
