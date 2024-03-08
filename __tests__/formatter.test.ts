@@ -154,7 +154,7 @@ describe("formatter", () => {
 		"error",
 	];
 
-	builtInDirectives.forEach((directive) => {
+	for (const directive of builtInDirectives) {
 		test(`builtin directive test: ${directive}`, () => {
 			const content = [
 				"<section>",
@@ -184,11 +184,11 @@ describe("formatter", () => {
 					assert.equal(result, expected);
 				});
 		});
-	});
+	}
 
 	const phpDirectives = ["if", "while"];
 
-	phpDirectives.forEach((directive) => {
+	for (const directive of phpDirectives) {
 		test("php builtin directive test", () => {
 			const content = [
 				"<section>",
@@ -218,11 +218,11 @@ describe("formatter", () => {
 					assert.equal(result, expected);
 				});
 		});
-	});
+	}
 
 	const tokenWithoutParams = ["auth", "guest", "production", "once"];
 
-	tokenWithoutParams.forEach((directive) => {
+	for (const directive of tokenWithoutParams) {
 		test("token without param directive test", () => {
 			const content = [
 				"<div>",
@@ -252,7 +252,7 @@ describe("formatter", () => {
 					assert.equal(result, expected);
 				});
 		});
-	});
+	}
 
 	test("section directive test", () => {
 		const content = [
@@ -1256,7 +1256,7 @@ describe("formatter", () => {
 		"PHP_FLOAT_DIG",
 	];
 
-	predefinnedConstants.forEach((constant) => {
+	for (const constant of predefinnedConstants) {
 		test("should format php predefined constants", async () => {
 			const content = [`{{ ${constant} }}`].join("\n");
 			const expected = [`{{ ${constant} }}`, ""].join("\n");
@@ -1265,7 +1265,7 @@ describe("formatter", () => {
 				assert.equal(result, expected);
 			});
 		});
-	});
+	}
 
 	test("should format null safe operator", async () => {
 		const content = ["{{ $entity->executors->first()?->name() }}"].join("\n");
@@ -1372,7 +1372,7 @@ describe("formatter", () => {
 
 	const elseEnabledDirectives = ["can", "canany", "cannot"];
 
-	elseEnabledDirectives.forEach((directive) => {
+	for (const directive of elseEnabledDirectives) {
 		test(`else directives test - ${directive}`, async () => {
 			const content = [
 				"<section>",
@@ -1410,7 +1410,7 @@ describe("formatter", () => {
 					assert.equal(result, expected);
 				});
 		});
-	});
+	}
 
 	test("should break chained method in directive", async () => {
 		const content = [
@@ -1617,7 +1617,7 @@ describe("formatter", () => {
 			},
 		];
 
-		directives.forEach(async (target) => {
+		for (const target of directives) {
 			const content = [
 				`<div class="">`,
 				`${target.start}('foo')`,
@@ -1635,7 +1635,7 @@ describe("formatter", () => {
 			].join("\n");
 
 			await util.doubleFormatCheck(content, expected);
-		});
+		}
 	});
 
 	test("@class directive", async () => {

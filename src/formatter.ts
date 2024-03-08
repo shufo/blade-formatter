@@ -3055,7 +3055,7 @@ export default class Formatter {
 			js: [],
 			entangle: [],
 		};
-		Object.keys(tempVarStore).forEach((directive) => {
+		for (const directive of Object.keys(tempVarStore)) {
 			code = code.replace(
 				new RegExp(
 					`@${directive}\\((?:[^)(]+|\\((?:[^)(]+|\\([^)(]*\\))*\\))*\\)`,
@@ -3066,15 +3066,15 @@ export default class Formatter {
 					return this.getPlaceholder(directive, index, m.length);
 				},
 			);
-		});
+		}
 		code = beautify.js_beautify(code, { brace_style: "preserve-inline" });
 
-		Object.keys(tempVarStore).forEach((directive) => {
+		for (const directive of Object.keys(tempVarStore)) {
 			code = code.replace(
 				new RegExp(this.getPlaceholder(directive, "_*(\\d+)"), "gms"),
 				(_match: any, p1: any) => tempVarStore[directive][p1],
 			);
-		});
+		}
 
 		return code;
 	}
