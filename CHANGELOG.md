@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.41.2](https://github.com/shufo/blade-formatter/compare/v1.41.1...v1.41.2) (2024-03-08)
+
+
+### Miscellaneous
+
+* 🤖 add biome config file ([4d12f19](https://github.com/shufo/blade-formatter/commit/4d12f19e4d2811711eaa69cb0a8703a998688096))
+* 🤖 add biomejs to dev dependencies ([f99f8c2](https://github.com/shufo/blade-formatter/commit/f99f8c224ff250df24e636e26e1d5f942cfb9a42))
+* 🤖 add project vscode setting files ([28c8a44](https://github.com/shufo/blade-formatter/commit/28c8a445a46c68c2eefecca7041f9c6255b4a7e6))
+* 🤖 bump biomejs to 1.6.0 ([da04b14](https://github.com/shufo/blade-formatter/commit/da04b14093e9bd8469b1cb73269308d88ebd7380))
+* 🤖 remove eslint related packages from dev dependencies ([b2c506a](https://github.com/shufo/blade-formatter/commit/b2c506abb9ccceb2c8f6dec023b99804992870f3))
+* **deps:** bump json5 from 2.2.1 to 2.2.3 ([6f606d4](https://github.com/shufo/blade-formatter/commit/6f606d45bd0d9d73dd6e73e49abb633bf7cd85b0))
+* **deps:** update dependency esbuild to ^0.20.0 ([662950f](https://github.com/shufo/blade-formatter/commit/662950f76cad6d97890f6380949bd8c76c85e471))
+
 ## [1.41.1](https://github.com/shufo/blade-formatter/compare/v1.41.0...v1.41.1) (2024-02-25)
 
 
