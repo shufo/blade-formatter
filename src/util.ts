@@ -1,13 +1,13 @@
-/* eslint-disable max-len */
-import _ from "lodash";
 import fs from "fs";
 import os from "os";
-import chalk from "chalk";
-import * as prettier from "prettier/standalone";
 // @ts-ignore
 // eslint-disable-next-line
 import phpPlugin from "@prettier/plugin-php/standalone";
+import chalk from "chalk";
 import detectIndent from "detect-indent";
+/* eslint-disable max-len */
+import _ from "lodash";
+import * as prettier from "prettier/standalone";
 import replaceAsync from "string-replace-async";
 import {
 	indentStartTokens,
