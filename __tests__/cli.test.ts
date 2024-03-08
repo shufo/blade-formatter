@@ -1,15 +1,15 @@
 /* eslint-disable max-len */
 
+import { spawnSync } from "child_process";
 import fs from "fs";
 import os from "os";
 import path from "path";
-import { spawnSync } from "child_process";
 import { performance } from "perf_hooks";
+import { describe, expect, test } from "vitest";
+import { version } from "../package.json";
+import { assertFormatted, assertNotFormatted } from "./support/assertion";
 import * as cmd from "./support/cmd";
 import * as util from "./support/util";
-import { assertFormatted, assertNotFormatted } from "./support/assertion";
-import { version } from "../package.json";
-import { describe, test, expect } from "vitest";
 
 const binPath = path.resolve("bin", "blade-formatter.js");
 

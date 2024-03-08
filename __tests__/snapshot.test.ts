@@ -1,7 +1,7 @@
+import { readFileSync, readdirSync } from "fs";
 import path from "path";
-import { readdirSync, readFileSync } from "fs";
-import * as util from "./support/util";
 import { describe, test } from "vitest";
+import * as util from "./support/util";
 
 describe("snapshot test", () => {
 	const targetDir = path.resolve(__dirname, "./fixtures/snapshots");

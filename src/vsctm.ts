@@ -1,7 +1,7 @@
 import { promises as fs } from "fs";
+import path from "path";
 import _ from "lodash";
 import * as vscodeOniguruma from "vscode-oniguruma";
-import path from "path";
 import { readFile } from "./util";
 
 export class VscodeTextmate {

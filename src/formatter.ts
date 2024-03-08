@@ -6,9 +6,9 @@ import detectIndent from "detect-indent";
 import { sortAttributes } from "html-attribute-sorter";
 import beautify, { JSBeautifyOptions } from "js-beautify";
 import _ from "lodash";
+import replaceAsync from "string-replace-async";
 import * as vscodeTmModule from "vscode-textmate";
 import xregexp from "xregexp";
-import replaceAsync from "string-replace-async";
 import { formatPhpComment } from "./comment";
 import constants from "./constants";
 import {

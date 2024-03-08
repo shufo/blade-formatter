@@ -1,5 +1,5 @@
+import { describe, expect, test } from "vitest";
 import { Formatter } from "../dist/bundle";
-import { describe, test, expect } from "vitest";
 
 describe("import test", () => {
 	test("it can format via imported class", async () => {
