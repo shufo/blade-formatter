@@ -1,0 +1,25 @@
+{
+	"$schema": "https://biomejs.dev/schemas/1.5.3/schema.json",
+	"organizeImports": {
+		"enabled": true
+	},
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"recommended": true,
+			"suspicious": {
+				"noExplicitAny": "off"
+			}
+		},
+		"ignore": ["coverage/**", ".yalc/**", "dist/**", "**/*.cjs"]
+	},
+	"formatter": {
+		"ignore": [
+			"coverage/**",
+			".yalc/**",
+			"dist/**",
+			"**/*.cjs",
+			"./__tests__/formatter.test.ts"
+		]
+	}
+}

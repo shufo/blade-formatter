@@ -1,5 +1,5 @@
 const constants = {
-  defaultPrintWidth: 120,
+	defaultPrintWidth: 120,
 };
 
 export default constants;
