@@ -43,10 +43,10 @@ describe("The blade formatter CLI", () => {
 			path.resolve("__tests__", "fixtures", "formatted.edit.blade.php"),
 		];
 
-		formattedFiles.forEach((file) => {
+		for (const file of formattedFiles) {
 			const data = `${fs.readFileSync(file).toString("utf-8")}\n`;
 			expect(response).toContain(data);
-		});
+		}
 	});
 
 	test.concurrent(

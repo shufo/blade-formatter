@@ -7,7 +7,7 @@ describe("snapshot test", () => {
 	const targetDir = path.resolve(__dirname, "./fixtures/snapshots");
 	const files = readdirSync(targetDir);
 
-	files.forEach((file) => {
+	for (const file of files) {
 		test.concurrent(`can format ${path.basename(file)}`, async () => {
 			const realPath = path.resolve(targetDir, file);
 			const spec = readFileSync(realPath).toString("utf-8");
@@ -22,5 +22,5 @@ describe("snapshot test", () => {
 				options,
 			);
 		});
-	});
+	}
 });
