@@ -11,6 +11,6 @@
 				"noExplicitAny": "off"
 			}
 		},
-		"ignore": ["coverage/**", ".yalc/**", "dist/**"]
+		"ignore": ["coverage/**", ".yalc/**", "dist/**", "**/*.cjs"]
 	}
 }
