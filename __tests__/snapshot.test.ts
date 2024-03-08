@@ -1,5 +1,5 @@
-import { readFileSync, readdirSync } from "fs";
-import path from "path";
+import { readFileSync, readdirSync } from "node:fs";
+import path from "node:path";
 import { describe, test } from "vitest";
 import * as util from "./support/util";
 

@@ -1,6 +1,6 @@
-import fs from "fs";
-import path from "path";
-import Ajv, { JSONSchemaType } from "ajv";
+import fs from "node:fs";
+import path from "node:path";
+import Ajv, { type JSONSchemaType } from "ajv";
 import findConfig from "find-config";
 
 const ajv = new Ajv();

@@ -1,10 +1,10 @@
 /* eslint-disable max-len */
 
-import { spawnSync } from "child_process";
-import fs from "fs";
-import os from "os";
-import path from "path";
-import { performance } from "perf_hooks";
+import { spawnSync } from "node:child_process";
+import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
+import { performance } from "node:perf_hooks";
 import { describe, expect, test } from "vitest";
 import { version } from "../package.json";
 import { assertFormatted, assertNotFormatted } from "./support/assertion";

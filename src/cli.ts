@@ -4,8 +4,8 @@ import _ from "lodash";
 import { loadWASM } from "vscode-oniguruma";
 import yargs from "yargs";
 
-import { promises as fs } from "fs";
-import os from "os";
+import { promises as fs } from "node:fs";
+import os from "node:os";
 
 import { hideBin } from "yargs/helpers";
 import { name, version } from "../package.json";

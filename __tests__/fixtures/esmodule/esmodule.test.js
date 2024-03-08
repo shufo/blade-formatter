@@ -1,8 +1,8 @@
-import assert from "assert";
-import path from "path";
+import assert from "node:assert";
+import path from "node:path";
 import { Formatter } from "../../../";
-import { fileURLToPath } from "url";
-import { createRequire as topLevelCreateRequire } from "module";
+import { fileURLToPath } from "node:url";
+import { createRequire as topLevelCreateRequire } from "node:module";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 import { describe, test } from "vitest";

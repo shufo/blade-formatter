@@ -1,6 +1,6 @@
-import assert from "assert";
-import path from "path";
-import { Formatter, FormatterOption } from "../../../src/main";
+import assert from "node:assert";
+import path from "node:path";
+import { Formatter, type FormatterOption } from "../../../src/main";
 import { describe, test } from "vitest";
 
 const formatter = () => {

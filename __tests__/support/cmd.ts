@@ -1,6 +1,6 @@
-import { spawn, spawnSync } from "child_process";
+import { spawn, spawnSync } from "node:child_process";
 import concat from "concat-stream";
-import process from "process";
+import process from "node:process";
 
 function createProcess(processPath: any, args = [], env = {}) {
 	const concatedArgs = [processPath].concat(args);

@@ -4,7 +4,7 @@ import { sortClasses } from "@shufo/tailwindcss-class-sorter";
 import Aigle from "aigle";
 import detectIndent from "detect-indent";
 import { sortAttributes } from "html-attribute-sorter";
-import beautify, { JSBeautifyOptions } from "js-beautify";
+import beautify, { type JSBeautifyOptions } from "js-beautify";
 import _ from "lodash";
 import replaceAsync from "string-replace-async";
 import * as vscodeTmModule from "vscode-textmate";
@@ -30,9 +30,9 @@ import {
 	tokenForIndentStartOrElseTokens,
 	unbalancedStartTokens,
 } from "./indent";
-import { BladeFormatterOption, CLIOption, FormatterOption } from "./main";
+import type { BladeFormatterOption, CLIOption, FormatterOption } from "./main";
 import { nestedParenthesisRegex } from "./regex";
-import { SortHtmlAttributes } from "./runtimeConfig";
+import type { SortHtmlAttributes } from "./runtimeConfig";
 import { adjustSpaces } from "./space";
 import * as util from "./util";
 import * as vsctm from "./vsctm";

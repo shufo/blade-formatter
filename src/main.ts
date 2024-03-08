@@ -1,20 +1,24 @@
 import ignore from "ignore";
 
-import fs from "fs";
-import nodepath from "path";
-import nodeutil from "util";
+import fs from "node:fs";
+import nodepath from "node:path";
+import nodeutil from "node:util";
 import chalk from "chalk";
 import findConfig from "find-config";
 import glob from "glob";
 import _ from "lodash";
-import process from "process";
-import { Config as TailwindConfig } from "tailwindcss/types/config";
+import process from "node:process";
+import type { Config as TailwindConfig } from "tailwindcss/types/config";
 import FormatError from "./errors/formatError";
 import Formatter from "./formatter";
 import {
+	type 
 	EndOfLine,
+	type 
 	RuntimeConfig,
+	type 
 	SortHtmlAttributes,
+	type 
 	WrapAttributes,
 	findRuntimeConfig,
 	readRuntimeConfig,

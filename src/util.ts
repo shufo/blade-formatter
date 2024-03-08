@@ -1,5 +1,5 @@
-import fs from "fs";
-import os from "os";
+import fs from "node:fs";
+import os from "node:os";
 // @ts-ignore
 // eslint-disable-next-line
 import phpPlugin from "@prettier/plugin-php/standalone";
@@ -15,7 +15,7 @@ import {
 	phpKeywordStartTokens,
 } from "./indent";
 import { nestedParenthesisRegex } from "./regex";
-import { EndOfLine } from "./runtimeConfig";
+import type { EndOfLine } from "./runtimeConfig";
 
 export const optional = (obj: any) => {
 	const chain = {

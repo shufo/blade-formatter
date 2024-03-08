@@ -1,5 +1,5 @@
-import { promises as fs } from "fs";
-import path from "path";
+import { promises as fs } from "node:fs";
+import path from "node:path";
 import _ from "lodash";
 import * as vscodeOniguruma from "vscode-oniguruma";
 import { readFile } from "./util";
