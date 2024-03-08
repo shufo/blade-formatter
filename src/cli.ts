@@ -18,7 +18,7 @@ export default async function cli() {
 			`${chalk.green(
 				name,
 			)} ${version}\nAn opinionated blade template formatter for Laravel. \n\n ${chalk.yellow(
-				`Usage:`,
+				"Usage:",
 			)} $0 [options] [file glob | ...]`,
 		)
 		.wrap(null)
@@ -70,7 +70,7 @@ export default async function cli() {
 		.option("wrap-attributes", {
 			alias: "wrap-atts",
 			type: "string",
-			description: `The way to wrap attributes.\n[auto|force|force-aligned|force-expand-multiline|aligned-multiple|preserve|preserve-aligned]`,
+			description: "The way to wrap attributes.\n[auto|force|force-aligned|force-expand-multiline|aligned-multiple|preserve|preserve-aligned]",
 			default: "auto",
 		})
 		.option("wrap-attributes-min-attrs", {
@@ -207,17 +207,17 @@ export default async function cli() {
 		.strictOptions()
 		.fail((msg, err) => {
 			if (err) throw err; // preserve stack
-			process.stdout.write(`${chalk.red(`error: `)}${msg}\n\n`);
+			process.stdout.write(`${chalk.red("error: ")}${msg}\n\n`);
 			process.stdout.write(
-				`${chalk.yellow(`Usage: `)} ${name} [options] [file glob | ...]\n\n`,
+				`${chalk.yellow("Usage: ")} ${name} [options] [file glob | ...]\n\n`,
 			);
 			process.stdout.write(
-				`For more information try ${chalk.green(`--help`)}\n`,
+				`For more information try ${chalk.green("--help")}\n`,
 			);
 			process.exit(1);
 		})
 		.epilog(
-			`Copyright Shuhei Hayashibara 2022\nFor more information, see https://github.com/shufo/blade-formatter`,
+			"Copyright Shuhei Hayashibara 2022\nFor more information, see https://github.com/shufo/blade-formatter",
 		);
 
 	// @ts-ignore

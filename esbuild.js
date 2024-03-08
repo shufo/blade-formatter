@@ -25,7 +25,7 @@ const build = async () => {
         const __filename = fileURLToPath(import.meta.url);
         const __dirname = path.dirname(__filename);
         `
-				: ``,
+				: "",
 		},
 		plugins: [
 			nodeExternalsPlugin(),
@@ -72,7 +72,7 @@ const build = async () => {
         const __filename = fileURLToPath(import.meta.url);
         const __dirname = path.dirname(__filename);
         `
-				: ``,
+				: "",
 		},
 		plugins: [
 			nodeExternalsPlugin(),

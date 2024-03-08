@@ -51,7 +51,7 @@ export class VscodeTextmate {
 					// laravel-blade-snippets-vscode/
 					// blob/master/syntaxes/blade.tmLanguage.json
 					return readFile(
-						path.resolve(__dirname, `../syntaxes/blade.tmLanguage.json`),
+						path.resolve(__dirname, "../syntaxes/blade.tmLanguage.json"),
 					).then((content: any) =>
 						this.vsctm.parseRawGrammar(
 							content.toString(),

@@ -2270,7 +2270,7 @@ export default class Formatter {
 								if (p3 === "include") {
 									wrapLength =
 										this.wrapLineLength -
-										`func`.length -
+										"func".length -
 										p1.length -
 										indent.amount;
 								}
