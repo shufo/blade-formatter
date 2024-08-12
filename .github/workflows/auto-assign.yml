@@ -10,7 +10,7 @@ jobs:
       - name: Assign author to created issue or PR
         uses: technote-space/assign-author@v1
       - name: "Auto-assign issue"
-        uses: pozil/auto-assign-issue@v1.13.0
+        uses: pozil/auto-assign-issue@v2.0.0
         with:
           assignees: shufo
           repo-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
