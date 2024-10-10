@@ -149,11 +149,11 @@ export default async function cli() {
 			alias: "P",
 			type: "string",
 			description:
-				"Component prefixs use to preserve style in html attributes.",
+				"Component prefix use to preserve style in html attributes.",
 			default: "x-,livewire:",
 			nullable: true,
 			coerce(formats) {
-				// Make sure we support comma-separated syntax: --extra-liners head,body
+				// Make sure we support comma-separated syntax: --component-prefix x-,livewire:
 				return _.flatten(
 					_.flatten([formats]).map((format) => format.split(",")),
 				);
