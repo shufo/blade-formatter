@@ -49,6 +49,7 @@ export type FormatterOption = {
 	noSingleQuote?: boolean;
 	noTrailingCommaPhp?: boolean;
 	extraLiners?: string[];
+	componentPrefix?: string[];
 };
 
 export type BladeFormatterOption = CLIOption & FormatterOption;

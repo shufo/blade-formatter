@@ -5612,6 +5612,40 @@ describe("formatter", () => {
 		});
 	});
 
+	test("Without component prefix declared, return syntax incorrect code", async () => {
+		const content = [
+			"<foo:button :key=\"$foo->bar\">",
+			"</foo:button>",
+		].join("\n");
+
+		const expected = [
+			"<foo:button :key=\"$foo - > bar\">",
+			"</foo:button>",
+			"",
+		].join("\n");
+
+		await util.doubleFormatCheck(content, expected, {
+			componentPrefix: [],
+		});
+	});
+
+	test("Component prefix option correct format", async () => {
+		const content = [
+			"<foo:button :key=\"$foo->bar\">",
+			"</foo:button>",
+		].join("\n");
+
+		const expected = [
+			"<foo:button :key=\"$foo->bar\">",
+			"</foo:button>",
+			"",
+		].join("\n");
+
+		await util.doubleFormatCheck(content, expected, {
+			componentPrefix: ['foo:'],
+		});
+	});
+
 	test("unmatched x-slot close tag", async () => {
 		const content = [
 			"<x-alert>",

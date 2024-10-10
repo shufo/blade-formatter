@@ -1101,9 +1101,11 @@ export default class Formatter {
 	}
 
 	async preserveComponentAttribute(content: string) {
+		const prefixes = Array.isArray(this.options.componentPrefix) && this.options.componentPrefix.length > 0 ? this.options.componentPrefix : ["x-", "livewire:"];
+		const regex = new RegExp(`(?<=<(${prefixes.join("|")})[^<]*?\\s):{1,2}(?<!=>)[\\w\-_.]*?=(["'])(?!=>)[^\\2]*?\\2(?=[^>]*?\/*?>)`, "gim")
 		return _.replace(
 			content,
-			/(?<=<(x-|livewire:)[^<]*?\s):{1,2}(?<!=>)[\w\-_.]*?=(["'])(?!=>)[^\2]*?\2(?=[^>]*?\/*?>)/gim,
+			regex,
 			(match: any) => `${this.storeComponentAttribute(match)}`,
 		);
 	}
