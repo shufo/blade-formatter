@@ -42,6 +42,7 @@ export interface RuntimeConfig {
 	noSingleQuote?: boolean;
 	noTrailingCommaPhp?: boolean;
 	extraLiners?: string[];
+	componentPrefix?: string[];
 }
 
 const defaultConfigNames = [".bladeformatterrc.json", ".bladeformatterrc"];
@@ -122,6 +123,12 @@ export async function readRuntimeConfig(
 				nullable: true,
 				items: { type: "string" },
 				default: ["head", "body", "/html"],
+			},
+			componentPrefix: {
+				type: "array",
+				nullable: true,
+				items: { type: "string" },
+				default: ["x-", "livewire:"],
 			},
 		},
 		additionalProperties: true,

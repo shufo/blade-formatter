@@ -145,6 +145,20 @@ export default async function cli() {
 				);
 			},
 		})
+		.option("component-prefix", {
+			alias: "P",
+			type: "string",
+			description:
+				"Component prefix use to preserve style in html attributes.",
+			default: "x-,livewire:",
+			nullable: true,
+			coerce(formats) {
+				// Make sure we support comma-separated syntax: --component-prefix x-,livewire:
+				return _.flatten(
+					_.flatten([formats]).map((format) => format.split(",")),
+				);
+			},
+		})
 		.option("no-multiple-empty-lines", {
 			type: "boolean",
 			description: "Merge multiple blank lines into a single blank line",

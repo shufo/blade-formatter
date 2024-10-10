@@ -224,7 +224,8 @@ e.g.
   "noPhpSyntaxCheck": false,
   "noSingleQuote": false,
   "noTrailingCommaPhp": false,
-  "extraLiners": []
+  "extraLiners": [],
+  "componentPrefix": ["x-", "livewire:"]
 }
 ```
 

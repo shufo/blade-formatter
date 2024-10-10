@@ -1285,6 +1285,32 @@ describe("The blade formatter CLI", () => {
 		expect(cmdResult).toEqual(formatted.toString("utf-8"));
 	});
 
+	test.concurrent("cli argument test (component prefix)", async () => {
+		const cmdResult = await cmd.execute(binPath, [
+			"--component-prefix",
+			'foo:',
+			path.resolve(
+				"__tests__",
+				"fixtures",
+				"argumentTest",
+				"componentPrefix",
+				"index.blade.php",
+			),
+		]);
+
+		const formatted = fs.readFileSync(
+			path.resolve(
+				"__tests__",
+				"fixtures",
+				"argumentTest",
+				"componentPrefix",
+				"formatted.index.blade.php",
+			),
+		);
+
+		expect(cmdResult).toEqual(formatted.toString("utf-8"));
+	});
+
 	test.concurrent("runtime config test (trailing comma php)", async () => {
 		const cmdResult = await cmd.execute(binPath, [
 			path.resolve(
