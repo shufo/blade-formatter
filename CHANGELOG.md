@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.42.0](https://github.com/shufo/blade-formatter/compare/v1.41.2...v1.42.0) (2024-12-22)
+
+
+### Features
+
+* add option `--component-prefix` ([#943](https://github.com/shufo/blade-formatter/issues/943)) ([9f089a3](https://github.com/shufo/blade-formatter/commit/9f089a30587ef5f1066f83dcfb1c1bf0c55b2e24))
+
 ## [1.41.2](https://github.com/shufo/blade-formatter/compare/v1.41.1...v1.41.2) (2024-12-22)
 
 
