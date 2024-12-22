@@ -193,6 +193,7 @@ $ blade-formatter -c -d resources/**/*.blade.php
       --no-php-syntax-check           Disable PHP syntax checking  [boolean] [default: false]
       --no-trailing-comma-php         If set to true, no trailing commas are printed for php expression.  [boolean] [default: false]
   -p, --progress                      Print progress  [boolean] [default: false]
+  -P, --component-prefix              Specify custom prefixes for component names. This changes the format rules applied to custom components e.g. preserve style in attributes. [string] [default: "x-,livewire:"]
       --stdin                         Format code provided on <STDIN>  [boolean] [default: false]
       --config                        Use this configuration, overriding .bladeformatterrc config options if present  [string] [default: null]
       --ignore-path                   Specify path of ignore file  [string] [default: null]
@@ -224,7 +225,8 @@ e.g.
   "noPhpSyntaxCheck": false,
   "noSingleQuote": false,
   "noTrailingCommaPhp": false,
-  "extraLiners": []
+  "extraLiners": [],
+  "componentPrefix": ["x-", "livewire:"]
 }
 ```
 
