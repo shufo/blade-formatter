@@ -3,11 +3,7 @@
 	"engines": {
 		"node": ">= 14.0.0"
 	},
-	"keywords": [
-		"php",
-		"formatter",
-		"laravel"
-	],
+	"keywords": ["php", "formatter", "laravel"],
 	"version": "1.41.2",
 	"description": "An opinionated blade template formatter for Laravel",
 	"main": "./dist/bundle.cjs",
@@ -96,14 +92,7 @@
 		"type": "git",
 		"url": "https://github.com/shufo/blade-formatter.git"
 	},
-	"files": [
-		"dist",
-		"src",
-		"bin",
-		"wasm",
-		"syntaxes",
-		"CHANGELOG.md"
-	],
+	"files": ["dist", "src", "bin", "wasm", "syntaxes", "CHANGELOG.md"],
 	"lint-staged": {
 		"*.ts": "yarn run fix"
 	}
