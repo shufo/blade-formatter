@@ -535,6 +535,13 @@ $ make debug # attach
             <br />
             <sub><b>Lennart Dommer</b></sub>
         </a>
+    </td>
+    <td align="center">
+        <a href="https://github.com/RayGuo-ergou">
+            <img src="https://avatars.githubusercontent.com/u/33137074?v=4" width="100;" alt="RayGuo-ergou"/>
+            <br />
+            <sub><b>Ergou</b></sub>
+        </a>
     </td></tr>
 </table>
 <!-- readme: collaborators,contributors -end -->
