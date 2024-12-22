@@ -148,8 +148,7 @@ export default async function cli() {
 		.option("component-prefix", {
 			alias: "P",
 			type: "string",
-			description:
-				"Component prefix use to preserve style in html attributes.",
+			description: "Component prefix use to preserve style in html attributes.",
 			default: "x-,livewire:",
 			nullable: true,
 			coerce(formats) {

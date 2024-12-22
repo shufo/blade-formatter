@@ -1288,7 +1288,7 @@ describe("The blade formatter CLI", () => {
 	test.concurrent("cli argument test (component prefix)", async () => {
 		const cmdResult = await cmd.execute(binPath, [
 			"--component-prefix",
-			'foo:',
+			"foo:",
 			path.resolve(
 				"__tests__",
 				"fixtures",
