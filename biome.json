@@ -15,6 +15,7 @@
 	},
 	"formatter": {
 		"ignore": [
+			"package.json",
 			"coverage/**",
 			".yalc/**",
 			"dist/**",
