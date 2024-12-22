@@ -71,7 +71,7 @@
 		"@types/js-beautify": "^1.13.3",
 		"@types/lodash": "^4.14.178",
 		"@types/mocha": "^10.0.0",
-		"@types/node": "^20.0.0",
+		"@types/node": "^22.0.0",
 		"@types/xregexp": "^4.4.0",
 		"app-root-path": "^3.0.0",
 		"codecov": "^3.8.3",
