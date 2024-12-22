@@ -1,5 +1,34 @@
 # Changelog
 
+## [1.41.2](https://github.com/shufo/blade-formatter/compare/v1.41.1...v1.41.2) (2024-12-22)
+
+
+### Fixes
+
+* **deps:** update dependency ignore to v6 ([848d7fe](https://github.com/shufo/blade-formatter/commit/848d7fec31c3226e5655b9631826fa6cf14d9bb7))
+* **deps:** update dependency php-parser to v3.2.1 ([0300735](https://github.com/shufo/blade-formatter/commit/0300735446dd3c72d83bd3c15b2d6e1e232090e2))
+
+
+### Miscellaneous
+
+* 🤖 add biome config file ([4d12f19](https://github.com/shufo/blade-formatter/commit/4d12f19e4d2811711eaa69cb0a8703a998688096))
+* 🤖 add biomejs to dev dependencies ([f99f8c2](https://github.com/shufo/blade-formatter/commit/f99f8c224ff250df24e636e26e1d5f942cfb9a42))
+* 🤖 add project vscode setting files ([28c8a44](https://github.com/shufo/blade-formatter/commit/28c8a445a46c68c2eefecca7041f9c6255b4a7e6))
+* 🤖 bump biomejs to 1.6.0 ([da04b14](https://github.com/shufo/blade-formatter/commit/da04b14093e9bd8469b1cb73269308d88ebd7380))
+* 🤖 remove eslint related packages from dev dependencies ([b2c506a](https://github.com/shufo/blade-formatter/commit/b2c506abb9ccceb2c8f6dec023b99804992870f3))
+* **deps:** bump cross-spawn from 7.0.3 to 7.0.6 ([4e92048](https://github.com/shufo/blade-formatter/commit/4e92048da938aa088a03ddf8efc2f3a6bb679989))
+* **deps:** bump json5 from 2.2.1 to 2.2.3 ([6f606d4](https://github.com/shufo/blade-formatter/commit/6f606d45bd0d9d73dd6e73e49abb633bf7cd85b0))
+* **deps:** bump nanoid from 3.3.6 to 3.3.8 ([2701c4e](https://github.com/shufo/blade-formatter/commit/2701c4e281a6589a2e8510ce888c7cb46f82accd))
+* **deps:** bump vite from 5.0.12 to 5.4.11 ([a00283b](https://github.com/shufo/blade-formatter/commit/a00283b1e8d3d5d343b3100cf5b0e50139d776ab))
+* **deps:** update all minor update of dev dependencies ([9ee9986](https://github.com/shufo/blade-formatter/commit/9ee99869885a8be7c7468407438e2e61f7e530c0))
+* **deps:** update codecov/codecov-action action to v5 ([e5842d5](https://github.com/shufo/blade-formatter/commit/e5842d53bc3c432375f08ddfe394e878dcae2993))
+* **deps:** update dependency @types/node to v22 ([8d107a9](https://github.com/shufo/blade-formatter/commit/8d107a95af304e74acf2f0f6e8d34b7309a185c3))
+* **deps:** update dependency esbuild to ^0.20.0 ([662950f](https://github.com/shufo/blade-formatter/commit/662950f76cad6d97890f6380949bd8c76c85e471))
+* **deps:** update dependency vitest to v2 ([cdf5ebb](https://github.com/shufo/blade-formatter/commit/cdf5ebb498acb1f5dcfa189c17469d934323837c))
+* **deps:** update docker/build-push-action action to v6 ([e299681](https://github.com/shufo/blade-formatter/commit/e29968131b956c36a0541e206038c7481c46c903))
+* **deps:** update pozil/auto-assign-issue action to v2 ([dd079c9](https://github.com/shufo/blade-formatter/commit/dd079c98aa66b91fc63e401e4c8a1391c0e2337e))
+* **deps:** update pozil/auto-assign-issue action to v2.0.1 ([ca4107b](https://github.com/shufo/blade-formatter/commit/ca4107b1dfab14b63b58dec9ab88887141c089f7))
+
 ## [1.41.1](https://github.com/shufo/blade-formatter/compare/v1.41.0...v1.41.1) (2024-02-25)
 
 
