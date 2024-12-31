@@ -5,7 +5,7 @@ import nodepath from "node:path";
 import nodeutil from "node:util";
 import chalk from "chalk";
 import findConfig from "find-config";
-import glob from "glob";
+import { glob } from "glob";
 import _ from "lodash";
 import process from "node:process";
 import type { Config as TailwindConfig } from "tailwindcss/types/config";
@@ -266,11 +266,7 @@ class BladeFormatter {
 	}
 
 	static globFiles(path: any) {
-		return new Promise((resolve, reject) => {
-			glob(path, (error: any, matches: any) =>
-				error ? reject(error) : resolve(matches),
-			);
-		});
+		return glob(path);
 	}
 
 	async filterFiles(paths: any) {
