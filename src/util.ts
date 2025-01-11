@@ -5,6 +5,7 @@ import os from "node:os";
 import phpPlugin from "@prettier/plugin-php/standalone";
 import chalk from "chalk";
 import detectIndent from "detect-indent";
+import beautify from "js-beautify";
 /* eslint-disable max-len */
 import _ from "lodash";
 import * as prettier from "prettier/standalone";
@@ -14,8 +15,10 @@ import {
 	phpKeywordEndTokens,
 	phpKeywordStartTokens,
 } from "./indent";
+import type { CLIOption, Formatter, FormatterOption } from "./main";
 import { nestedParenthesisRegex } from "./regex";
 import type { EndOfLine } from "./runtimeConfig";
+import * as vsctm from "./vsctm";
 
 export const optional = (obj: any) => {
 	const chain = {
@@ -493,4 +496,353 @@ export function getEndOfLine(endOfLine?: EndOfLine): string {
 		default:
 			return os.EOL;
 	}
+}
+
+export function isInline(content: any) {
+	return _.split(content, "\n").length === 1;
+}
+
+export function indentRawPhpBlock(
+	indent: detectIndent.Indent,
+	content: any,
+	formatter: Formatter,
+) {
+	if (_.isEmpty(indent.indent)) {
+		return content;
+	}
+
+	if (isInline(content)) {
+		return `${content}`;
+	}
+
+	const leftIndentAmount = indent.amount;
+	const indentLevel = leftIndentAmount / formatter.indentSize;
+	const prefixSpaces = formatter.indentCharacter.repeat(
+		indentLevel < 0 ? 0 : indentLevel * formatter.indentSize,
+	);
+
+	const lines = content.split("\n");
+
+	return _.chain(lines)
+		.map((line: any, index: any) => {
+			if (index === 0) {
+				return line.trim();
+			}
+
+			return prefixSpaces + line;
+		})
+		.value()
+		.join("\n");
+}
+
+export function indentPhpComment(
+	indent: detectIndent.Indent,
+	content: string,
+	formatter: Formatter,
+) {
+	if (_.isEmpty(indent.indent)) {
+		return content;
+	}
+
+	if (isInline(content)) {
+		return `${content}`;
+	}
+
+	const leftIndentAmount = indent.amount;
+	const indentLevel = leftIndentAmount / formatter.indentSize;
+	const prefixSpaces = formatter.indentCharacter.repeat(
+		indentLevel < 0 ? 0 : indentLevel * formatter.indentSize,
+	);
+
+	const lines = content.split("\n");
+	let withoutCommentLine = false;
+
+	return _.chain(lines)
+		.map((line: string, index: number) => {
+			if (index === 0) {
+				return line.trim();
+			}
+
+			if (!line.trim().startsWith("*")) {
+				withoutCommentLine = true;
+				return line;
+			}
+
+			if (line.trim().endsWith("*/") && withoutCommentLine) {
+				return line;
+			}
+
+			return prefixSpaces + line;
+		})
+		.join("\n")
+		.value();
+}
+
+export async function formatExpressionInsideBladeDirective(
+	matchedExpression: string,
+	indent: detectIndent.Indent,
+	formatter: Formatter,
+	wrapLength: number | undefined = undefined,
+) {
+	const formatTarget = `func(${matchedExpression})`;
+	const formattedExpression = await formatRawStringAsPhp(formatTarget, {
+		...formatter.options,
+		printWidth: wrapLength ?? formatter.defaultPhpFormatOption.printWidth,
+	});
+
+	if (formattedExpression === formatTarget) {
+		return matchedExpression;
+	}
+
+	let inside = formattedExpression
+		.replace(/([\n\s]*)->([\n\s]*)/gs, "->")
+		.replace(/(?<!(['"]).*)(?<=\()[\n\s]+?(?=\w)/gm, "")
+		.replace(/(.*)],[\n\s]*?\)$/gm, (match: string, p1: string) => `${p1}]\n)`)
+		.replace(/,[\n\s]*?\)/gs, ")")
+		.replace(/,(\s*?\))$/gm, (match, p1) => p1)
+		.trim();
+
+	if (formatter.options.useTabs || false) {
+		inside = _.replace(
+			inside,
+			/(?<=^ *) {4}/gm,
+			"\t".repeat(formatter.indentSize),
+		);
+	}
+
+	inside = inside.replace(/func\((.*)\)/gis, (match: string, p1: string) => p1);
+	if (isInline(inside.trim())) {
+		inside = inside.trim();
+	}
+
+	return indentRawPhpBlock(indent, inside, formatter);
+}
+
+export function indentBladeDirectiveBlock(
+	indent: detectIndent.Indent,
+	content: any,
+	formatter: Formatter,
+) {
+	if (_.isEmpty(indent.indent)) {
+		return content;
+	}
+
+	if (isInline(content)) {
+		return `${indent.indent}${content}`;
+	}
+
+	const leftIndentAmount = indent.amount;
+	const indentLevel = leftIndentAmount / formatter.indentSize;
+	const prefixSpaces = formatter.indentCharacter.repeat(
+		indentLevel < 0 ? 0 : indentLevel * formatter.indentSize,
+	);
+	const prefixForEnd = formatter.indentCharacter.repeat(
+		indentLevel < 0 ? 0 : indentLevel * formatter.indentSize,
+	);
+
+	const lines = content.split("\n");
+
+	return _.chain(lines)
+		.map((line: any, index: any) => {
+			if (index === lines.length - 1) {
+				return prefixForEnd + line;
+			}
+
+			return prefixSpaces + line;
+		})
+		.value()
+		.join("\n");
+}
+
+export async function isMultilineStatement(
+	rawBlock: any,
+	formatter: Formatter,
+) {
+	return (
+		(await formatStringAsPhp(`<?php${rawBlock}?>`, formatter.options))
+			.trimRight()
+			.split("\n").length > 1
+	);
+}
+
+export function indentRawBlock(
+	indent: detectIndent.Indent,
+	content: any,
+	formatter: Formatter,
+) {
+	if (isInline(content)) {
+		return `${indent.indent}${content}`;
+	}
+
+	const leftIndentAmount = indent.amount;
+	const indentLevel = leftIndentAmount / formatter.indentSize;
+	const prefix = formatter.indentCharacter.repeat(
+		indentLevel < 0 ? 0 : (indentLevel + 1) * formatter.indentSize,
+	);
+	const prefixForEnd = formatter.indentCharacter.repeat(
+		indentLevel < 0 ? 0 : indentLevel * formatter.indentSize,
+	);
+
+	const lines = content.split("\n");
+
+	return _.chain(lines)
+		.map((line: any, index: any) => {
+			if (index === 0) {
+				return line.trim();
+			}
+
+			if (index === lines.length - 1) {
+				return prefixForEnd + line;
+			}
+
+			if (line.length === 0) {
+				return line;
+			}
+
+			return prefix + line;
+		})
+		.join("\n")
+		.value();
+}
+
+export function indentComponentAttribute(
+	prefix: string,
+	content: string,
+	formatter: Formatter,
+) {
+	if (_.isEmpty(prefix)) {
+		return content;
+	}
+
+	if (isInline(content)) {
+		return `${content}`;
+	}
+
+	if (isInline(content) && /\S/.test(prefix)) {
+		return `${content}`;
+	}
+
+	const leftIndentAmount = detectIndent(prefix).amount;
+	const indentLevel = leftIndentAmount / formatter.indentSize;
+	const prefixSpaces = formatter.indentCharacter.repeat(
+		indentLevel < 0 ? 0 : indentLevel * formatter.indentSize,
+	);
+
+	const lines = content.split("\n");
+
+	return _.chain(lines)
+		.map((line: any, index: any) => {
+			if (index === 0) {
+				return line.trim();
+			}
+
+			return prefixSpaces + line;
+		})
+		.value()
+		.join("\n");
+}
+
+export function formatAsHtml(data: any, formatter: Formatter) {
+	const options = {
+		indent_size: optional(formatter.options).indentSize || 4,
+		wrap_line_length: optional(formatter.options).wrapLineLength || 120,
+		wrap_attributes: optional(formatter.options).wrapAttributes || "auto",
+		wrap_attributes_min_attrs: optional(formatter.options)
+			.wrapAttributesMinAttrs,
+		indent_inner_html: optional(formatter.options).indentInnerHtml || false,
+		end_with_newline: optional(formatter.options).endWithNewline || true,
+		max_preserve_newlines: optional(formatter.options).noMultipleEmptyLines
+			? 1
+			: undefined,
+		extra_liners: optional(formatter.options).extraLiners,
+		css: {
+			end_with_newline: false,
+		},
+		eol: formatter.endOfLine,
+	};
+
+	const promise = new Promise((resolve) => resolve(data))
+		.then((content) => preserveDirectives(content))
+		.then((preserved) => beautify.html_beautify(preserved, options))
+		.then((content) => revertDirectives(content));
+
+	return Promise.resolve(promise);
+}
+
+export async function formatAsBlade(content: any, formatter: Formatter) {
+	// init parameters
+	formatter.currentIndentLevel = 0;
+	formatter.shouldBeIndent = false;
+
+	const splittedLines = splitByLines(content);
+
+	const vsctmModule = await new vsctm.VscodeTextmate(
+		formatter.vsctm,
+		formatter.oniguruma,
+	);
+	const registry = vsctmModule.createRegistry();
+
+	const formatted = registry
+		.loadGrammar("text.html.php.blade")
+		.then((grammar: any) => vsctmModule.tokenizeLines(splittedLines, grammar))
+		.then((tokenizedLines: any) =>
+			formatter.formatTokenizedLines(splittedLines, tokenizedLines),
+		)
+		.catch((err: any) => {
+			throw err;
+		});
+
+	return formatted;
+}
+
+export function formatJS(jsCode: string): string {
+	let code: string = jsCode;
+	const tempVarStore: any = {
+		js: [],
+		entangle: [],
+	};
+	for (const directive of Object.keys(tempVarStore)) {
+		code = code.replace(
+			new RegExp(
+				`@${directive}\\((?:[^)(]+|\\((?:[^)(]+|\\([^)(]*\\))*\\))*\\)`,
+				"gs",
+			),
+			(m: any) => {
+				const index = tempVarStore[directive].push(m) - 1;
+				return getPlaceholder(directive, index, m.length);
+			},
+		);
+	}
+	code = beautify.js_beautify(code, { brace_style: "preserve-inline" });
+
+	for (const directive of Object.keys(tempVarStore)) {
+		code = code.replace(
+			new RegExp(getPlaceholder(directive, "_*(\\d+)"), "gms"),
+			(_match: any, p1: any) => tempVarStore[directive][p1],
+		);
+	}
+
+	return code;
+}
+
+export function getPlaceholder(
+	attribute: string,
+	replace: any,
+	length: any = null,
+) {
+	if (length && length > 0) {
+		const template = `___${attribute}_#___`;
+		const gap = length - template.length;
+		return _.replace(
+			`___${attribute}${_.repeat("_", gap > 0 ? gap : 1)}#___`,
+			"#",
+			replace,
+		);
+	}
+
+	if (_.isNull(length)) {
+		return _.replace(`___${attribute}_#___`, "#", replace);
+	}
+
+	return _.replace(`s___${attribute}_+?#___`, "#", replace);
 }
