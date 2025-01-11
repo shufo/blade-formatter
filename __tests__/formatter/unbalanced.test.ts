@@ -1,0 +1,75 @@
+import { describe, test } from "vitest";
+import * as util from "../support/util";
+
+describe("formatter unbalanced test", () => {
+	test("overrided unbalanced directive #554", async () => {
+		const content = [
+			`<thead class="uk-background-default">`,
+			"        <tr>",
+			`            <th><strong>{{ __('Definition') }}</strong></th>`,
+			`            <th><strong>{{ __('Job') }}</strong></th>`,
+			`            <th><strong>{{ __('Serial Numbers') }}</strong></th>`,
+			`            <th><strong>{{ __('Works from') }}</strong></th>`,
+			`            <th><strong>{{ __('T.I.P.') }}</strong></th>`,
+			`            <th><strong>{{ __('DOC.') }}</strong></th>`,
+			`            <th><strong>{{ __('PROMO') }}</strong></th>`,
+			`            @hasAccess('platform.systems.broadcasts')`,
+			`            <th><strong>{{ __('NOTIFICATION') }}</strong></th>`,
+			"            @endhasAccess",
+			`            @hasSection('techdocs')`,
+			`                <th><strong>{{ __('NOTIFICATION') }}</strong></th>`,
+			"                @endhasSection",
+			"            </tr>",
+			"        </thead>",
+			"<section>",
+			`    @hasSection('navigation')`,
+			"        @if ($user)",
+			"            {{ $user->name }}",
+			"        @endif",
+			`            @hasSection('techdocs')`,
+			`            @hasSection('foo')`,
+			`                <th><strong>{{ __('NOTIFICATION') }}</strong></th>`,
+			"                @endhasSection",
+			`                <th><strong>{{ __('NOTIFICATION') }}</strong></th>`,
+			"                @endhasSection",
+			"    @endhasSection",
+			"</section>",
+		].join("\n");
+
+		const expected = [
+			`<thead class="uk-background-default">`,
+			"    <tr>",
+			`        <th><strong>{{ __('Definition') }}</strong></th>`,
+			`        <th><strong>{{ __('Job') }}</strong></th>`,
+			`        <th><strong>{{ __('Serial Numbers') }}</strong></th>`,
+			`        <th><strong>{{ __('Works from') }}</strong></th>`,
+			`        <th><strong>{{ __('T.I.P.') }}</strong></th>`,
+			`        <th><strong>{{ __('DOC.') }}</strong></th>`,
+			`        <th><strong>{{ __('PROMO') }}</strong></th>`,
+			`        @hasAccess('platform.systems.broadcasts')`,
+			`            <th><strong>{{ __('NOTIFICATION') }}</strong></th>`,
+			"        @endhasAccess",
+			`        @hasSection('techdocs')`,
+			`            <th><strong>{{ __('NOTIFICATION') }}</strong></th>`,
+			"        @endhasSection",
+			"    </tr>",
+			"</thead>",
+			"<section>",
+			`    @hasSection('navigation')`,
+			"        @if ($user)",
+			"            {{ $user->name }}",
+			"        @endif",
+			`        @hasSection('techdocs')`,
+			`            @hasSection('foo')`,
+			`                <th><strong>{{ __('NOTIFICATION') }}</strong></th>`,
+			"            @endhasSection",
+			`            <th><strong>{{ __('NOTIFICATION') }}</strong></th>`,
+			"        @endhasSection",
+			"    @endhasSection",
+			"</section>",
+			"",
+		].join("\n");
+
+		await util.doubleFormatCheck(content, expected);
+	});
+});
