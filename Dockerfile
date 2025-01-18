@@ -3,7 +3,7 @@ WORKDIR /app
 ADD . /app
 RUN yarn install && yarn run build
 
-FROM node:21-alpine3.17
+FROM node:22-alpine3.20
 WORKDIR /app
 ADD . /app
 COPY --from=builder /app/dist /app/dist
