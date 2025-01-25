@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.42.1](https://github.com/shufo/blade-formatter/compare/v1.42.0...v1.42.1) (2025-01-25)
+
+
+### Fixes
+
+* **deps:** update dependency php-parser to v3.2.2 ([5e19279](https://github.com/shufo/blade-formatter/commit/5e192799643c609c7b0b23b1affe46a1672a9f59))
+
+
+### Miscellaneous
+
+* 🤖 bump @prettier/plugin-php to 0.22.4 ([92432cd](https://github.com/shufo/blade-formatter/commit/92432cd305bfe7d517a2e9e97e76d483099f2f63))
+* 🤖 bump js-beautify to 1.15.1 ([#963](https://github.com/shufo/blade-formatter/issues/963)) ([06c2cfc](https://github.com/shufo/blade-formatter/commit/06c2cfc4e5ba8cab381ffb3591110e274ad6c439))
+* **deps:** bump glob to v10 ([#961](https://github.com/shufo/blade-formatter/issues/961)) ([c0a165a](https://github.com/shufo/blade-formatter/commit/c0a165a07b276d2402f4a2e59491cd8d97eb2a55))
+* **deps:** update dependency vitest to v3 ([d5a7127](https://github.com/shufo/blade-formatter/commit/d5a71276ca0104cc9936ab1f7c4f08c8a58b70d5))
+* **deps:** update pozil/auto-assign-issue action to v2.1.1 ([#964](https://github.com/shufo/blade-formatter/issues/964)) ([33e2081](https://github.com/shufo/blade-formatter/commit/33e20818fb5e727d4908b09e47e4e4f0a4f75282))
+* **deps:** update pozil/auto-assign-issue action to v2.1.2 ([84501b8](https://github.com/shufo/blade-formatter/commit/84501b81da24808a3c134e91d821bb2abc197740))
+
 ## [1.42.0](https://github.com/shufo/blade-formatter/compare/v1.41.2...v1.42.0) (2024-12-22)
 
 
