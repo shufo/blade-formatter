@@ -31,6 +31,11 @@ export class IgnoredLinesProcessor extends Processor {
 					/(?:{{--\s*?blade-formatter-disable-next-line\s*?--}}|{{--\s*?prettier-ignore\s*?--}}|<!--\s*?prettier-ignore\s*?-->)[\r\n]+[^\r\n]+/gis,
 					(match: any) => this.storeIgnoredLines(match),
 				)
+				// ignore Front Matter blocks
+				.replace(
+					/^(?:(---)).*?(?:(---))/gis,
+					(match: any) => this.storeIgnoredLines(match),
+				)
 				.value()
 		);
 	}

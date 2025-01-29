@@ -102,6 +102,35 @@ describe("formatter ignore test", () => {
 		await util.doubleFormatCheck(content, expected);
 	});
 
+	test("ignore formatting within front matter blocks", async () => {
+		const content = [
+			"---",
+			"foo: bar",
+			"    bar: baz",
+			"---",
+			`@section('body')`,
+			"    @if ($user)",
+			"    {{ $user->name }}",
+			"    @endif",
+			"@endsection",
+		].join("\n");
+
+		const expected = [
+			"---",
+			"foo: bar",
+			"    bar: baz",
+			"---",
+			`@section('body')`,
+			"    @if ($user)",
+			"        {{ $user->name }}",
+			"    @endif",
+			"@endsection",
+			"",
+		].join("\n");
+
+		await util.doubleFormatCheck(content, expected);
+	});
+
 	test("prettier ignore syntax", async () => {
 		const content = [
 			"<!-- prettier-ignore-start -->",

@@ -81,7 +81,7 @@
     "codecov": "^3.8.3",
     "cross-env": "^7.0.3",
     "esbuild": "^0.24.0",
-    "esbuild-node-externals": "^1.4.1",
+    "esbuild-node-externals": "^1.16.0",
     "fs-extra": "^11.0.0",
     "husky": "^8.0.0",
     "lint-staged": ">=10",
