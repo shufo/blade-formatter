@@ -23,12 +23,12 @@ export class IgnoredLinesProcessor extends Processor {
 				)
 				// range ignore
 				.replace(
-					/(?:({{--\s*?blade-formatter-disable\s*?--}}|<!--\s*?prettier-ignore-start\s*?-->|{{--\s*?prettier-ignore-start\s*?--}})).*?(?:({{--\s*?blade-formatter-enable\s*?--}}|<!--\s*?prettier-ignore-end\s*?-->|{{--\s*?prettier-ignore-end\s*?--}}))/gis,
+					/(?:(#\s*?blade-formatter-disable|{{--\s*?blade-formatter-disable\s*?--}}|#\s*?prettier-ignore-start|<!--\s*?prettier-ignore-start\s*?-->|{{--\s*?prettier-ignore-start\s*?--}})).*?(?:(#\s*?blade-formatter-enable|{{--\s*?blade-formatter-enable\s*?--}}|#\s*?prettier-ignore-end|<!--\s*?prettier-ignore-end\s*?-->|{{--\s*?prettier-ignore-end\s*?--}}))/gis,
 					(match: any) => this.storeIgnoredLines(match),
 				)
 				// line ignore
 				.replace(
-					/(?:{{--\s*?blade-formatter-disable-next-line\s*?--}}|{{--\s*?prettier-ignore\s*?--}}|<!--\s*?prettier-ignore\s*?-->)[\r\n]+[^\r\n]+/gis,
+					/(?:#\s*?blade-formatter-disable-next-line|{{--\s*?blade-formatter-disable-next-line\s*?--}}|#\s*?prettier-ignore|{{--\s*?prettier-ignore\s*?--}}|<!--\s*?prettier-ignore\s*?-->)[\r\n]+[^\r\n]+/gis,
 					(match: any) => this.storeIgnoredLines(match),
 				)
 				.value()
