@@ -158,47 +158,47 @@ describe("formatter ignore test", () => {
 	});
 
   test("prettier ignore within front matter blocks", async () => {
-		const content = [
+    const content = [
       "---",
-			"# prettier-ignore-start",
-			"foo: bar",
-			"    bar: baz",
+      "# prettier-ignore-start",
+      "foo: bar",
+      "    bar: baz",
       "# prettier-ignore-end",
       "---",
       "",
       "---",
-			"foo: bar",
+      "foo: bar",
       "# prettier-ignore",
-			"    bar: baz",
+      "    bar: baz",
       "---",
       "",
       "---",
-			"foo: bar",
-			"    bar: baz",
+      "foo: bar",
+      "    bar: baz",
       "---",
 		].join("\n");
 
-		const expected = [
-			"---",
-			"# prettier-ignore-start",
-			"foo: bar",
-			"    bar: baz",
+    const expected = [
+      "---",
+      "# prettier-ignore-start",
+      "foo: bar",
+      "    bar: baz",
       "# prettier-ignore-end",
       "---",
       "",
       "---",
-			"foo: bar",
+      "foo: bar",
       "# prettier-ignore",
-			"    bar: baz",
+      "    bar: baz",
       "---",
       "",
       "---",
-			"foo: bar",
-			"bar: baz",
+      "foo: bar",
+      "bar: baz",
       "---",
-			"",
-		].join("\n");
+      "",
+    ].join("\n");
 
-		await util.doubleFormatCheck(content, expected);
-	});
+    await util.doubleFormatCheck(content, expected);
+  });
 });
