@@ -176,7 +176,7 @@ describe("formatter ignore test", () => {
       "foo: bar",
       "    bar: baz",
       "---",
-		].join("\n");
+    ].join("\n");
 
     const expected = [
       "---",
