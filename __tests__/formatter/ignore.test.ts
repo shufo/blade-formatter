@@ -102,7 +102,7 @@ describe("formatter ignore test", () => {
 		await util.doubleFormatCheck(content, expected);
 	});
 
-	test("prettier ignore syntax", async () => {
+	test("prettier ignore with html and blade comments", async () => {
 		const content = [
 			"<!-- prettier-ignore-start -->",
 			`<div id="foo-bar-baz"          class="bar-foo-baz" title="a sample title" data-foo="bar" data-bar="baz">`,
@@ -151,6 +151,51 @@ describe("formatter ignore test", () => {
 			"",
 			"{{-- prettier-ignore --}}",
 			`<span id="foo-bar-baz"          class="bar-foo-baz" title="a sample title" data-foo="bar" data-bar="baz" />`,
+			"",
+		].join("\n");
+
+		await util.doubleFormatCheck(content, expected);
+	});
+
+  test("prettier ignore within front matter blocks", async () => {
+		const content = [
+      "---",
+			"# prettier-ignore-start",
+			"foo: bar",
+			"    bar: baz",
+      "# prettier-ignore-end",
+      "---",
+      "",
+      "---",
+			"foo: bar",
+      "# prettier-ignore",
+			"    bar: baz",
+      "---",
+      "",
+      "---",
+			"foo: bar",
+			"    bar: baz",
+      "---",
+		].join("\n");
+
+		const expected = [
+			"---",
+			"# prettier-ignore-start",
+			"foo: bar",
+			"    bar: baz",
+      "# prettier-ignore-end",
+      "---",
+      "",
+      "---",
+			"foo: bar",
+      "# prettier-ignore",
+			"    bar: baz",
+      "---",
+      "",
+      "---",
+			"foo: bar",
+			"bar: baz",
+      "---",
 			"",
 		].join("\n");
 
