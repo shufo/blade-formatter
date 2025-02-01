@@ -127,6 +127,13 @@ export default class Formatter {
 			return;
 		}
 
+		// if @break is inside @if, decrement indent after @break
+		if (_.last(this.stack) === "@if" && token === "@break") {
+			this.shouldBeIndent = false;
+
+			return;
+		}
+
 		if (_.includes(phpKeywordEndTokens, token)) {
 			if (token === "@break") {
 				this.decrementIndentLevel();
