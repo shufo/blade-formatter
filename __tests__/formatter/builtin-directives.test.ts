@@ -867,4 +867,12 @@ describe("formatter builtin directives test", () => {
 			sortHtmlAttributes: "idiomatic",
 		});
 	});
+
+	test("@if-@break structure", async () => {
+		const content = ["@if ($user)", "    @break", "@endif"].join("\n");
+
+		const expected = ["@if ($user)", "    @break", "@endif", ""].join("\n");
+
+		await util.doubleFormatCheck(content, expected);
+	});
 });
