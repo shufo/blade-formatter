@@ -146,6 +146,7 @@ export const inlinePhpDirectives = [
 export const inlineFunctionTokens = [
 	"@set",
 	"@json",
+	"@js",
 	"@selected",
 	"@checked",
 	"@disabled",
