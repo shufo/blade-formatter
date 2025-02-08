@@ -32,9 +32,8 @@ export class IgnoredLinesProcessor extends Processor {
 					(match: any) => this.storeIgnoredLines(match),
 				)
 				// ignore Front Matter blocks
-				.replace(
-					/^---\r?\n[\s\S]*?\r?\n---(?=(\r?\n))/gis,
-					(match: any) => this.storeIgnoredLines(match),
+				.replace(/^---\r?\n[\s\S]*?\r?\n---(?=(\r?\n))/gis, (match: any) =>
+					this.storeIgnoredLines(match),
 				)
 				.value()
 		);
