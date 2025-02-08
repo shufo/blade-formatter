@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.42.2](https://github.com/shufo/blade-formatter/compare/v1.42.1...v1.42.2) (2025-02-08)
+
+
+### Fixes
+
+* 🐛 `[@js](https://github.com/js)` directive in script tag replaced as undefined ([08b67c6](https://github.com/shufo/blade-formatter/commit/08b67c6c3c7ad3786a872ab959bb06ad10921d61))
+* 🐛 unexpected indent on break directive inside if directive ([b4e954b](https://github.com/shufo/blade-formatter/commit/b4e954bd2bfc19236b82705cb87e5bcb9b31f063))
+* ignore Front Matter blocks ([#975](https://github.com/shufo/blade-formatter/issues/975)) ([15f1e71](https://github.com/shufo/blade-formatter/commit/15f1e715eaef8f3532cc90a7a104d14d80884aaa))
+
+
+### Miscellaneous
+
+* **deps:** update dependency esbuild to ^0.25.0 ([eefa4e8](https://github.com/shufo/blade-formatter/commit/eefa4e8128a5e80e8f06a6a1938ff7ab7b066267))
+* **deps:** update dependency vitest to v3.0.5 [security] ([cbff429](https://github.com/shufo/blade-formatter/commit/cbff4299d1a22ee03264fbbcd84118d87f59f437))
+* **deps:** update pozil/auto-assign-issue action to v2.2.0 ([f475d7b](https://github.com/shufo/blade-formatter/commit/f475d7be3149268ccde0253dac44d84330c8e7b7))
+
 ## [1.42.1](https://github.com/shufo/blade-formatter/compare/v1.42.0...v1.42.1) (2025-01-25)
 
 
