@@ -501,6 +501,13 @@ $ make debug # attach
         </a>
     </td>
     <td align="center">
+        <a href="https://github.com/clemblanco">
+            <img src="https://avatars.githubusercontent.com/u/668419?v=4" width="100;" alt="clemblanco"/>
+            <br />
+            <sub><b>Clem Blanco</b></sub>
+        </a>
+    </td>
+    <td align="center">
         <a href="https://github.com/gagansday">
             <img src="https://avatars.githubusercontent.com/u/25811413?v=4" width="100;" alt="gagansday"/>
             <br />
@@ -513,15 +520,15 @@ $ make debug # attach
             <br />
             <sub><b>Janos Horvath</b></sub>
         </a>
-    </td>
+    </td></tr>
+<tr>
     <td align="center">
         <a href="https://github.com/joshuachp">
             <img src="https://avatars.githubusercontent.com/u/43700905?v=4" width="100;" alt="joshuachp"/>
             <br />
             <sub><b>Joshua Chapman</b></sub>
         </a>
-    </td></tr>
-<tr>
+    </td>
     <td align="center">
         <a href="https://github.com/jtanaka">
             <img src="https://avatars.githubusercontent.com/u/1379640?v=4" width="100;" alt="jtanaka"/>
