@@ -234,7 +234,7 @@ blade-formatter will search up the directory structure until it reaches the root
 
 ## Ignore Files
 
-To ignore a specific file, put a `.bladeignore' in the root of your repository and the blade formatter will treat it as an ignored file.
+To ignore a specific file, put a `.bladeignore` in the root of your repository and the blade formatter will treat it as an ignored file.
 
 e.g.
 
