@@ -7,7 +7,7 @@ export class SortTailwindClassesProcessor extends Processor {
 		return await this.sortTailwindClasses(content);
 	}
 
-	async postProcess(content: string): Promise<any> {}
+	async postProcess(_content: string): Promise<any> {}
 
 	private async sortTailwindClasses(content: string): Promise<any> {
 		if (!this.formatter.options.sortTailwindcssClasses) {
@@ -17,7 +17,7 @@ export class SortTailwindClassesProcessor extends Processor {
 		return _.replace(
 			content,
 			/(?<=\s+(?!:)class\s*=\s*([\"\']))(.*?)(?=\1)/gis,
-			(_match, p1, p2) => {
+			(_match, _p1, p2) => {
 				if (_.isEmpty(p2)) {
 					return p2;
 				}

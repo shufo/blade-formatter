@@ -26,7 +26,7 @@ describe("The blade formatter CLI", () => {
 
 		return fs.readFile(
 			path.resolve("__tests__", "fixtures", "formatted.index.blade.php"),
-			(err: any, data: any) => {
+			(_err: any, data: any) => {
 				expect(response).toMatch(data.toString("utf-8"));
 			},
 		);
@@ -141,7 +141,7 @@ describe("The blade formatter CLI", () => {
 				"formatted_with_indent_size_2.index.blade.php",
 			);
 
-			fs.readFile(targetFile, (err: any, data: any) => {
+			fs.readFile(targetFile, (_err: any, data: any) => {
 				expect(shortHandResponse).toEqual(data.toString("utf-8"));
 				expect(longNameResponse).toEqual(data.toString("utf-8"));
 			});
@@ -159,7 +159,7 @@ describe("The blade formatter CLI", () => {
 			"formatted.commented.blade.php",
 		);
 
-		fs.readFile(expectedTarget, (err: any, expected: any) => {
+		fs.readFile(expectedTarget, (_err: any, expected: any) => {
 			expect(formatted).toEqual(expected.toString("utf-8"));
 		});
 	});

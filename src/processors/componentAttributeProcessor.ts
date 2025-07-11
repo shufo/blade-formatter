@@ -77,7 +77,7 @@ export class ComponentAttributeProcessor extends Processor {
 										printWidth: this.formatter.wrapLineLength - indent.amount,
 									})
 								).trimEnd()}`;
-							} catch (error) {
+							} catch (_error) {
 								return `${p2}${p3}${p4}`;
 							}
 						}

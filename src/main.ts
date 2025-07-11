@@ -91,7 +91,7 @@ class BladeFormatter {
 			await this.readIgnoreFile(process.cwd());
 			await this.processPaths();
 			this.printResults();
-		} catch (error) {
+		} catch (_error) {
 			// do nothing
 		}
 	}
@@ -114,7 +114,7 @@ class BladeFormatter {
 
 		try {
 			this.ignoreFile = (await fs.promises.readFile(configFilePath)).toString();
-		} catch (err) {
+		} catch (_err) {
 			// do nothing
 		}
 	}

@@ -15,7 +15,7 @@ export class VscodeTextmate {
 
 	constructor(vsctm: any, oniguruma: any) {
 		// @ts-ignore
-		// biome-ignore lint/correctness/noConstructorReturn: <explanation>
+		// biome-ignore lint/correctness/noConstructorReturn: false positive
 		return (async () => {
 			this.vsctm = vsctm.default ?? vsctm;
 			// @ts-ignore
@@ -36,7 +36,7 @@ export class VscodeTextmate {
 		if (!this.initCalled) {
 			try {
 				this.oniguruma.loadWASM(wasm.buffer);
-			} catch (error) {
+			} catch (_error) {
 				this.initCalled = true;
 			}
 
