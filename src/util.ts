@@ -15,7 +15,7 @@ import {
 	phpKeywordEndTokens,
 	phpKeywordStartTokens,
 } from "./indent";
-import type { CLIOption, Formatter, FormatterOption } from "./main";
+import type { Formatter, } from "./main";
 import { nestedParenthesisRegex } from "./regex";
 import type { EndOfLine } from "./runtimeConfig";
 import * as vsctm from "./vsctm";
@@ -119,7 +119,7 @@ export async function formatRawStringAsPhp(
 				trailingCommaPHP: options.trailingCommaPHP,
 				plugins: [phpPlugin],
 			})
-		).replace(/<\?php echo (.*)?\?>/gs, (match: any, p1: any) =>
+		).replace(/<\?php echo (.*)?\?>/gs, (_match: any, p1: any) =>
 			p1.trim().replace(/;\s*$/, ""),
 		);
 	} catch (error) {
@@ -144,7 +144,7 @@ export async function getArgumentsCount(expression: string) {
 		});
 
 		return ast.children[0].expression.arguments.length || 0;
-	} catch (e) {
+	} catch (_e) {
 		return 0;
 	}
 }
@@ -214,7 +214,7 @@ export async function prettifyPhpContentWithUnescapedTags(
 			replaceAsync(
 				res,
 				directiveRegexes,
-				async (match: any, p1: any, p2: any, p3: any) =>
+				async (_match: any, p1: any, p2: any, p3: any) =>
 					(
 						await formatStringAsPhp(
 							`<?php ${p1.substr("1")}${p2}(${p3}) ?>`,
@@ -223,7 +223,7 @@ export async function prettifyPhpContentWithUnescapedTags(
 					)
 						.replace(
 							/<\?php\s(.*?)(\s*?)\((.*?)\);*\s\?>\n/gs,
-							(match2: any, j1: any, j2: any, j3: any) =>
+							(_match2: any, j1: any, j2: any, j3: any) =>
 								`@${j1.trim()}${j2}(${j3.trim()})`,
 						)
 						.replace(/([\n\s]*)->([\n\s]*)/gs, "->")
@@ -310,7 +310,7 @@ export function indent(content: any, level: any, options: any) {
 }
 
 export function unindent(
-	directive: any,
+	_directive: any,
 	content: any,
 	level: any,
 	options: any,
@@ -347,7 +347,7 @@ export function preserveDirectives(content: any) {
 			return _.replace(
 				res,
 				regex,
-				(match: any, p1: any, p2: any, p3: any) =>
+				(_match: any, p1: any, p2: any, p3: any) =>
 					`<beautifyTag start="${p1}${p2}" exp="^^^${_.escape(p3)}^^^">`,
 			);
 		})
@@ -359,7 +359,7 @@ export function preserveDirectives(content: any) {
 			return _.replace(
 				res,
 				regex,
-				(match: any, p1: any) => `</beautifyTag end="${p1}">`,
+				(_match: any, p1: any) => `</beautifyTag end="${p1}">`,
 			);
 		});
 }
@@ -379,7 +379,7 @@ export function preserveDirectivesInTag(content: any) {
 				content,
 				regex,
 				(
-					match: any,
+					_match: any,
 					p1: any,
 					p2: any,
 					p3: any,
@@ -402,14 +402,14 @@ export function revertDirectives(content: any) {
 			_.replace(
 				res,
 				/<beautifyTag.*?start="(.*?)".*?exp=".*?\^\^\^(.*?)\^\^\^.*?"\s*>/gs,
-				(match: any, p1: any, p2: any) => `${p1}(${_.unescape(p2)})`,
+				(_match: any, p1: any, p2: any) => `${p1}(${_.unescape(p2)})`,
 			),
 		)
 		.then((res) =>
 			_.replace(
 				res,
 				/<\/beautifyTag.*?end="(.*?)"\s*>/gs,
-				(match: any, p1: any) => `${p1}`,
+				(_match: any, p1: any) => `${p1}`,
 			),
 		);
 }
@@ -420,7 +420,7 @@ export function revertDirectivesInTag(content: any) {
 			_.replace(
 				res,
 				/\|--.*?start="(.*?)".*?exp=".*?\^\^\^(.*?)\^\^\^.*?"(.*?)body=".*?\^\^\^(.*?)\^\^\^.*?".*?end="(.*?)".*?--\|/gs,
-				(match: any, p1: any, p2: any, p3: any, p4: any, p5: any) =>
+				(_match: any, p1: any, p2: any, _p3: any, p4: any, p5: any) =>
 					`${_.trimStart(p1)}(${p2}) ${_.unescape(p4)} ${p5}`,
 			),
 		)
@@ -428,7 +428,7 @@ export function revertDirectivesInTag(content: any) {
 			_.replace(
 				res,
 				/\/-- end="(.*?)"--\//gs,
-				(match: any, p1: any) => `${p1}`,
+				(_match: any, p1: any) => `${p1}`,
 			),
 		);
 }
@@ -597,9 +597,9 @@ export async function formatExpressionInsideBladeDirective(
 	let inside = formattedExpression
 		.replace(/([\n\s]*)->([\n\s]*)/gs, "->")
 		.replace(/(?<!(['"]).*)(?<=\()[\n\s]+?(?=\w)/gm, "")
-		.replace(/(.*)],[\n\s]*?\)$/gm, (match: string, p1: string) => `${p1}]\n)`)
+		.replace(/(.*)],[\n\s]*?\)$/gm, (_match: string, p1: string) => `${p1}]\n)`)
 		.replace(/,[\n\s]*?\)/gs, ")")
-		.replace(/,(\s*?\))$/gm, (match, p1) => p1)
+		.replace(/,(\s*?\))$/gm, (_match, p1) => p1)
 		.trim();
 
 	if (formatter.options.useTabs || false) {
@@ -610,7 +610,7 @@ export async function formatExpressionInsideBladeDirective(
 		);
 	}
 
-	inside = inside.replace(/func\((.*)\)/gis, (match: string, p1: string) => p1);
+	inside = inside.replace(/func\((.*)\)/gis, (_match: string, p1: string) => p1);
 	if (isInline(inside.trim())) {
 		inside = inside.trim();
 	}

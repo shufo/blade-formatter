@@ -116,7 +116,7 @@ export class BladeDirectiveInStylesProcessor extends Processor {
 				result = _.replace(
 					result,
 					inlineRegex,
-					(match: string, p1: number) => this.bladeDirectivesInStyle[p1],
+					(_match: string, p1: number) => this.bladeDirectivesInStyle[p1],
 				);
 
 				const elseRegex = new RegExp(
@@ -129,7 +129,7 @@ export class BladeDirectiveInStylesProcessor extends Processor {
 				result = _.replace(
 					result,
 					elseRegex,
-					(match: string, p1: number) => `${this.bladeDirectivesInStyle[p1]}`,
+					(_match: string, p1: number) => `${this.bladeDirectivesInStyle[p1]}`,
 				);
 
 				const startRegex = new RegExp(
@@ -142,7 +142,7 @@ export class BladeDirectiveInStylesProcessor extends Processor {
 				result = _.replace(
 					result,
 					startRegex,
-					(match: string, p1: number) => `${this.bladeDirectivesInStyle[p1]}`,
+					(_match: string, p1: number) => `${this.bladeDirectivesInStyle[p1]}`,
 				);
 
 				const endRegex = new RegExp(
@@ -155,7 +155,7 @@ export class BladeDirectiveInStylesProcessor extends Processor {
 				result = _.replace(
 					result,
 					endRegex,
-					(match: string, p1: number) => `${this.bladeDirectivesInStyle[p1]}`,
+					(_match: string, p1: number) => `${this.bladeDirectivesInStyle[p1]}`,
 				);
 
 				return result;

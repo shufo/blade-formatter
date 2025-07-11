@@ -70,12 +70,12 @@ export class CustomDirectiveProcessor extends Processor {
 			regex,
 			(
 				match: string,
-				p1: string,
+				_p1: string,
 				p2: string,
-				p3: string,
+				_p3: string,
 				p4: string,
-				p5: string,
-				p6: string,
+				_p5: string,
+				_p6: string,
 				p7: string,
 			) => {
 				if (indentStartTokens.includes(p2)) {
@@ -156,7 +156,7 @@ export class CustomDirectiveProcessor extends Processor {
 								formatted,
 								this.formatter,
 							)}`;
-						} catch (error) {
+						} catch (_error) {
 							return `${match2}`;
 						}
 					},
@@ -218,7 +218,7 @@ export class CustomDirectiveProcessor extends Processor {
 								formatted,
 								this.formatter,
 							)}`;
-						} catch (error) {
+						} catch (_error) {
 							return `${match2}`;
 						}
 					},

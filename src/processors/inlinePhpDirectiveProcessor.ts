@@ -67,7 +67,7 @@ export class InlinePhpDirectiveProcessor extends Processor {
 								).join("|")}).*?\\()(.*)(?=\\))`,
 								"gis",
 							),
-							async (match2: any, p3: any, p4: any) => {
+							async (_match2: any, p3: any, p4: any) => {
 								let wrapLength = this.formatter.wrapLineLength;
 
 								if (["button", "class"].includes(p3)) {
@@ -135,10 +135,10 @@ export class InlinePhpDirectiveProcessor extends Processor {
 			.replace(/(?<!(['"]).*)(?<=\()[\n\s]+?(?=\w)/gm, "")
 			.replace(
 				/(.*)],[\n\s]*?\)$/gm,
-				(match: string, p1: string) => `${p1}]\n)`,
+				(_match: string, p1: string) => `${p1}]\n)`,
 			)
 			.replace(/,[\n\s]*?\)/gs, ")")
-			.replace(/,(\s*?\))$/gm, (match, p1) => p1)
+			.replace(/,(\s*?\))$/gm, (_match, p1) => p1)
 			.trim();
 
 		if (this.formatter.options.useTabs || false) {
@@ -151,7 +151,7 @@ export class InlinePhpDirectiveProcessor extends Processor {
 
 		inside = inside.replace(
 			/func\((.*)\)/gis,
-			(match: string, p1: string) => p1,
+			(_match: string, p1: string) => p1,
 		);
 		if (util.isInline(inside.trim())) {
 			inside = inside.trim();

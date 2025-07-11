@@ -5,7 +5,7 @@ import { Processor } from "./processor";
 export class AdjustSpacesProcessor extends Processor {
 	private bladeComments: string[] = [];
 
-	async preProcess(content: string): Promise<any> {}
+	async preProcess(_content: string): Promise<any> {}
 
 	async postProcess(content: string): Promise<any> {
 		return await this.adjustSpaces(content);

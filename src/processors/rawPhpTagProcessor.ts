@@ -1,5 +1,4 @@
 import detectIndent from "detect-indent";
-import beautify, { type JSBeautifyOptions } from "js-beautify";
 import _ from "lodash";
 import { formatPhpComment } from "src/comment";
 import replaceAsync from "string-replace-async";
@@ -73,7 +72,7 @@ export class RawPhpTagProcessor extends Processor {
 						const restored = this.restorePhpComment(preserved);
 
 						return restored;
-					} catch (e) {
+					} catch (_e) {
 						return `${this.rawPhpTags[p1]}`;
 					}
 				},

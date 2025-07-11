@@ -10,7 +10,7 @@ export class SortHtmlAttributesProcessor extends Processor {
 		return await this.sortHtmlAttribute(content);
 	}
 
-	async postProcess(content: string): Promise<any> {}
+	async postProcess(_content: string): Promise<any> {}
 
 	private async sortHtmlAttribute(content: string): Promise<any> {
 		const strategy: SortHtmlAttributes =

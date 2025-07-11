@@ -1,4 +1,4 @@
-import beautify, { type JSBeautifyOptions } from "js-beautify";
+import beautify from "js-beautify";
 import _ from "lodash";
 import { Processor } from "./processor";
 
@@ -14,7 +14,7 @@ export class CurlyBraceForJSProcessor extends Processor {
 	}
 
 	private async preserveCurlyBraceForJS(content: string): Promise<any> {
-		return _.replace(content, /@{{(.*?)}}/gs, (match: any, p1: any) =>
+		return _.replace(content, /@{{(.*?)}}/gs, (_match: any, p1: any) =>
 			this.storeCurlyBraceForJS(p1),
 		);
 	}
