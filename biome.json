@@ -14,6 +14,6 @@
 		}
 	},
 	"formatter": {
-		"includes": ["src/**", "__tests__/**"]
+		"includes": ["**/*.ts", "src/**", "__tests__/**", "!**/*.cjs"]
 	}
 }
