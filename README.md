@@ -530,6 +530,13 @@ $ make debug # attach
         </a>
     </td>
     <td align="center">
+        <a href="https://github.com/JossMP">
+            <img src="https://avatars.githubusercontent.com/u/7403434?v=4" width="100;" alt="JossMP"/>
+            <br />
+            <sub><b>Josue Mazco Puma</b></sub>
+        </a>
+    </td>
+    <td align="center">
         <a href="https://github.com/jtanaka">
             <img src="https://avatars.githubusercontent.com/u/1379640?v=4" width="100;" alt="jtanaka"/>
             <br />
