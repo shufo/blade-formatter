@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.42.3](https://github.com/shufo/blade-formatter/compare/v1.42.2...v1.42.3) (2025-07-11)
+
+
+### Fixes
+
+* **deps:** update dependency php-parser to v3.2.5 ([81f1eb7](https://github.com/shufo/blade-formatter/commit/81f1eb70c2f13cb2021f3ad8563ee4b409abb689))
+
+
+### Miscellaneous
+
+* 🤖 bump biomejs to 2.1.1 ([3212b89](https://github.com/shufo/blade-formatter/commit/3212b89fd43620e2005563e37a89d26a0808e449))
+* 🤖 use --fix instead of --apply ([5a40e7f](https://github.com/shufo/blade-formatter/commit/5a40e7f59a718e6db0662ca4621afcd48ce19cac))
+* **deps-dev:** bump esbuild from 0.24.2 to 0.25.0 ([44be500](https://github.com/shufo/blade-formatter/commit/44be50071d0a3e2cc232e025a3fd1c3421af2542))
+* **deps:** bump vite from 6.0.11 to 6.3.5 ([ee02894](https://github.com/shufo/blade-formatter/commit/ee02894068bb01d13c9f75ddf37a954a97691641))
+
 ## [1.42.2](https://github.com/shufo/blade-formatter/compare/v1.42.1...v1.42.2) (2025-02-08)
 
 
