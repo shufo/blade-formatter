@@ -1,7 +1,13 @@
 {
 	"$schema": "https://biomejs.dev/schemas/2.1.1/schema.json",
 	"linter": {
-		"includes": ["**/*.ts", "src/**", "__tests__/**", "!**/*.cjs"],
+		"includes": [
+			"**/*.ts",
+			"src/**",
+			"__tests__/**",
+			"!**/*.cjs",
+			"!dist/**/*"
+		],
 		"enabled": true,
 		"rules": {
 			"recommended": true,
@@ -14,6 +20,6 @@
 		}
 	},
 	"formatter": {
-		"includes": ["**/*.ts", "src/**", "__tests__/**", "!**/*.cjs"]
+		"includes": ["**/*.ts", "src/**", "__tests__/**", "!**/*.cjs", "!dist/**/*"]
 	}
 }
