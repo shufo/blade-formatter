@@ -46,7 +46,7 @@ export class ShorthandBindingProcessor extends Processor {
 							brace_style: "preserve-inline",
 						};
 
-						if (p4 === "") {
+						if (p4 === "" || p4.includes('->')) {
 							return match;
 						}
 
