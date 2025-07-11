@@ -1,16 +1,16 @@
 {
 	"$schema": "https://biomejs.dev/schemas/2.1.1/schema.json",
 	"linter": {
-		"includes": ["**/*.ts", "src/**", "__tests__/**"],
+		"includes": ["**/*.ts", "src/**", "__tests__/**", "!**/*.cjs"],
 		"enabled": true,
 		"rules": {
 			"recommended": true,
 			"suspicious": {
 				"noExplicitAny": "off"
 			},
-      "complexity": {
-        "noUselessEscapeInRegex": "off"
-      }
+			"complexity": {
+				"noUselessEscapeInRegex": "off"
+			}
 		}
 	},
 	"formatter": {
