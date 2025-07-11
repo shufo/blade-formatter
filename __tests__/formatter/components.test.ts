@@ -117,7 +117,7 @@ describe("formatter components test", () => {
 		);
 
 		const expected = [
-			'<foo:button :key="$foo - > bar">',
+			'<foo:button :key="$foo->bar">',
 			"</foo:button>",
 			"",
 		].join("\n");
