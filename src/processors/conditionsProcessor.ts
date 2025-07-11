@@ -28,7 +28,7 @@ export class ConditionsProcessor extends Processor {
 		return _.replace(
 			content,
 			regex,
-			(match: any, p1: any, p2: any, p3: any) =>
+			(_match: any, p1: any, p2: any, p3: any) =>
 				`${p1}${p2}(${this.storeConditions(p3)})`,
 		);
 	}

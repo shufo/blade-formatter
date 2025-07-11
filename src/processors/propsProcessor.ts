@@ -19,7 +19,7 @@ export class PropsProcessor extends Processor {
 		return _.replace(
 			content,
 			/@props\(((?:[^\\(\\)]|\([^\\(\\)]*\))*)\)/gs,
-			(match: any, p1: any) => this.storeRawPropsBlock(p1),
+			(_match: any, p1: any) => this.storeRawPropsBlock(p1),
 		);
 	}
 

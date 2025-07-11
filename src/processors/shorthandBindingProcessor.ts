@@ -55,7 +55,7 @@ export class ShorthandBindingProcessor extends Processor {
 								return `${p2}${p3}${beautify
 									.js_beautify(p4.trim(), beautifyOpts)
 									.trim()}`;
-							} catch (error) {
+							} catch (_error) {
 								return `${p2}${p3}${p4.trim()}`;
 							}
 						}

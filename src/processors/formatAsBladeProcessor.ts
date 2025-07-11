@@ -1,4 +1,3 @@
-import _ from "lodash";
 import * as util from "../util";
 import { Processor } from "./processor";
 export class FormatAsBladeProcessor extends Processor {
@@ -6,5 +5,5 @@ export class FormatAsBladeProcessor extends Processor {
 		return await util.formatAsBlade(content, this.formatter);
 	}
 
-	async postProcess(content: string): Promise<any> {}
+	async postProcess(_content: string): Promise<any> {}
 }

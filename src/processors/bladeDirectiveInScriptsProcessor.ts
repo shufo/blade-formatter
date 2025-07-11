@@ -166,12 +166,12 @@ export class BladeDirectiveInScriptsProcessor extends Processor {
 			regex,
 			(
 				match: string,
-				p1: string,
+				_p1: string,
 				p2: string,
-				p3: string,
+				_p3: string,
 				p4: string,
-				p5: string,
-				p6: string,
+				_p5: string,
+				_p6: string,
 				p7: string,
 			) => {
 				if (indentStartTokens.includes(p2)) {
@@ -290,7 +290,7 @@ export class BladeDirectiveInScriptsProcessor extends Processor {
 					formatted,
 					new RegExp(`${this.getRawPlaceholder("(\\d+)")}`, "gm"),
 					// eslint-disable-next-line no-shadow
-					async (match: any, p1: number) => {
+					async (_match: any, p1: number) => {
 						let rawBlock = this.rawBlocks[p1];
 						const placeholder = this.getRawPlaceholder(p1.toString());
 						const matchedLine = content.match(
@@ -413,10 +413,10 @@ export class BladeDirectiveInScriptsProcessor extends Processor {
 			.replace(/(?<!(['"]).*)(?<=\()[\n\s]+?(?=\w)/gm, "")
 			.replace(
 				/(.*)],[\n\s]*?\)$/gm,
-				(match: string, p1: string) => `${p1}]\n)`,
+				(_match: string, p1: string) => `${p1}]\n)`,
 			)
 			.replace(/,[\n\s]*?\)/gs, ")")
-			.replace(/,(\s*?\))$/gm, (match, p1) => p1)
+			.replace(/,(\s*?\))$/gm, (_match, p1) => p1)
 			.trim();
 
 		if (this.formatter.options.useTabs || false) {
@@ -429,7 +429,7 @@ export class BladeDirectiveInScriptsProcessor extends Processor {
 
 		inside = inside.replace(
 			/func\((.*)\)/gis,
-			(match: string, p1: string) => p1,
+			(_match: string, p1: string) => p1,
 		);
 		if (util.isInline(inside.trim())) {
 			inside = inside.trim();

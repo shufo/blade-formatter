@@ -16,7 +16,7 @@ export class BreakLineBeforeAndAfterDirectiveProcessor extends Processor {
 		return await this.breakLineBeforeAndAfterDirective(content);
 	}
 
-	async postProcess(content: string): Promise<any> {}
+	async postProcess(_content: string): Promise<any> {}
 
 	breakLineBeforeAndAfterDirective(content: string): string {
 		// handle directive around html tags
@@ -156,7 +156,7 @@ export class BreakLineBeforeAndAfterDirectiveProcessor extends Processor {
 						);
 					}
 				}
-			} catch (error) {
+			} catch (_error) {
 				// do nothing to ignore unmatched directive pair
 			}
 		});

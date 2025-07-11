@@ -27,7 +27,7 @@ export class PhpBlockProcessor extends Processor {
 		return _.replace(
 			content,
 			/(?<!@)@php(.*?)@endphp/gs,
-			(match: any, p1: any) => this.storeRawBlock(p1),
+			(_match: any, p1: any) => this.storeRawBlock(p1),
 		);
 	}
 
@@ -35,7 +35,7 @@ export class PhpBlockProcessor extends Processor {
 		return replaceAsync(
 			content,
 			new RegExp(`${this.getRawPlaceholder("(\\d+)")}`, "gm"),
-			async (match: any, p1: number) => {
+			async (_match: any, p1: number) => {
 				let rawBlock = this.rawBlocks[p1];
 				const placeholder = this.getRawPlaceholder(p1.toString());
 				const matchedLine = content.match(

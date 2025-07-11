@@ -1,5 +1,4 @@
 import beautify from "js-beautify";
-import _ from "lodash";
 import * as util from "../util";
 import { Processor } from "./processor";
 
@@ -8,7 +7,7 @@ export class FormatAsHtmlProcessor extends Processor {
 		return await this.formatAsHtml(content);
 	}
 
-	async postProcess(content: string): Promise<any> {}
+	async postProcess(_content: string): Promise<any> {}
 
 	private async formatAsHtml(content: string): Promise<any> {
 		const options = {
