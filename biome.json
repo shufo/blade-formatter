@@ -1,26 +1,19 @@
 {
-	"$schema": "https://biomejs.dev/schemas/1.5.3/schema.json",
-	"organizeImports": {
-		"enabled": true
-	},
+	"$schema": "https://biomejs.dev/schemas/2.1.1/schema.json",
 	"linter": {
+		"includes": ["**/*.ts", "src/**", "__tests__/**"],
 		"enabled": true,
 		"rules": {
 			"recommended": true,
 			"suspicious": {
 				"noExplicitAny": "off"
-			}
-		},
-		"ignore": ["coverage/**", ".yalc/**", "dist/**", "**/*.cjs"]
+			},
+      "complexity": {
+        "noUselessEscapeInRegex": "off"
+      }
+		}
 	},
 	"formatter": {
-		"ignore": [
-			"package.json",
-			"coverage/**",
-			".yalc/**",
-			"dist/**",
-			"**/*.cjs",
-			"./__tests__/formatter.test.ts"
-		]
+		"includes": ["src/**", "__tests__/**"]
 	}
 }
