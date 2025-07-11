@@ -15,7 +15,7 @@ import {
 	phpKeywordEndTokens,
 	phpKeywordStartTokens,
 } from "./indent";
-import type { Formatter, } from "./main";
+import type { Formatter } from "./main";
 import { nestedParenthesisRegex } from "./regex";
 import type { EndOfLine } from "./runtimeConfig";
 import * as vsctm from "./vsctm";
@@ -610,7 +610,10 @@ export async function formatExpressionInsideBladeDirective(
 		);
 	}
 
-	inside = inside.replace(/func\((.*)\)/gis, (_match: string, p1: string) => p1);
+	inside = inside.replace(
+		/func\((.*)\)/gis,
+		(_match: string, p1: string) => p1,
+	);
 	if (isInline(inside.trim())) {
 		inside = inside.trim();
 	}

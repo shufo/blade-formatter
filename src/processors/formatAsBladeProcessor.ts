@@ -1,4 +1,3 @@
-
 import * as util from "../util";
 import { Processor } from "./processor";
 export class FormatAsBladeProcessor extends Processor {
