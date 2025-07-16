@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.43.0](https://github.com/shufo/blade-formatter/compare/v1.42.4...v1.43.0) (2025-07-16)
+
+
+### Features
+
+* 🎸 add `--php-version` option to CLI ([0ccf3dd](https://github.com/shufo/blade-formatter/commit/0ccf3dd3f17244f74f5b7294a4b1c821c232d0b7))
+* 🎸 bump default php format target to 8.4 ([d48e1f0](https://github.com/shufo/blade-formatter/commit/d48e1f0454b4d9adc3bfccd1e50c50388144c0ad))
+
+
+### Fixes
+
+* **deps:** update dependency @prettier/plugin-php to ^0.24.0 ([819f7f4](https://github.com/shufo/blade-formatter/commit/819f7f4622e990a30c5b75116d32a40d692e5bfe))
+
 ## [1.42.4](https://github.com/shufo/blade-formatter/compare/v1.42.3...v1.42.4) (2025-07-15)
 
 
