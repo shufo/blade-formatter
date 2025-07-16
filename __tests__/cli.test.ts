@@ -1359,4 +1359,17 @@ describe("The blade formatter CLI", () => {
 
 		expect(cmdResult).toEqual(formatted.toString("utf-8"));
 	});
+
+	test.concurrent("cli argument test (php version)", async () => {
+		const cmdResult = await cmd.execute(binPath, [
+			"--php-version", "8.2",
+			path.resolve("__tests__", "fixtures", "php_version.blade.php"),
+		]);
+
+		const formatted = fs.readFileSync(
+			path.resolve("__tests__", "fixtures", "formatted.php_version.blade.php"),
+		);
+
+		expect(cmdResult).toEqual(formatted.toString("utf-8"));
+	});
 });

@@ -192,6 +192,11 @@ export default async function cli() {
 			hidden: true,
 			default: true,
 		})
+		.option("php-version", {
+			type: "string",
+			description: "Allows specifying the PHP version you're using",
+			default: "8.4",
+		})
 		.option("progress", {
 			alias: "p",
 			type: "boolean",
