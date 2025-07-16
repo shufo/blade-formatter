@@ -192,6 +192,7 @@ $ blade-formatter -c -d resources/**/*.blade.php
       --no-multiple-empty-lines       Merge multiple blank lines into a single blank line  [boolean] [default: false]
       --no-php-syntax-check           Disable PHP syntax checking  [boolean] [default: false]
       --no-trailing-comma-php         If set to true, no trailing commas are printed for php expression.  [boolean] [default: false]
+      --php-version                   Allows specifying the PHP version you're using  [string] [default: "8.4"]
   -p, --progress                      Print progress  [boolean] [default: false]
   -P, --component-prefix              Specify custom prefixes for component names. This changes the format rules applied to custom components e.g. preserve style in attributes. [string] [default: "x-,livewire:"]
       --stdin                         Format code provided on <STDIN>  [boolean] [default: false]
