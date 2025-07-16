@@ -226,7 +226,8 @@ e.g.
   "noSingleQuote": false,
   "noTrailingCommaPhp": false,
   "extraLiners": [],
-  "componentPrefix": ["x-", "livewire:"]
+  "componentPrefix": ["x-", "livewire:"],
+  "phpVersion": "8.4"
 }
 ```
 

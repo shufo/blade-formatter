@@ -64,7 +64,7 @@ const defaultFormatPhpOption = {
 	noPhpSyntaxCheck: false,
 	printWidth: printWidthForInline,
 	trailingCommaPHP: true,
-	phpVersion: "8.1",
+	phpVersion: "8.4",
 	noSingleQuote: false,
 };
 
@@ -131,7 +131,10 @@ export async function formatRawStringAsPhp(
 	}
 }
 
-export async function getArgumentsCount(expression: string) {
+export async function getArgumentsCount(
+	expression: string,
+	options: FormatPhpOption,
+) {
 	const code = `<?php tmp_func${expression}; ?>`;
 
 	try {
@@ -139,7 +142,7 @@ export async function getArgumentsCount(expression: string) {
 		// eslint-disable-next-line no-underscore-dangle
 		const { ast } = await prettier.__debug.parse(code, {
 			parser: "php",
-			phpVersion: "8.1",
+			phpVersion: options.phpVersion,
 			plugins: [phpPlugin],
 		});
 

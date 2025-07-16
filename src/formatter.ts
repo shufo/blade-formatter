@@ -207,7 +207,10 @@ export default class Formatter {
 				if (count["("] === count[token]) {
 					// finished
 					const expression = stack.join("");
-					const argumentCount = await util.getArgumentsCount(expression);
+					const argumentCount = await util.getArgumentsCount(
+						expression,
+						this.options,
+					);
 
 					if (argumentCount >= unindentOn) {
 						this.shouldBeIndent = false;

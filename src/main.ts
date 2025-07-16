@@ -49,6 +49,7 @@ export type FormatterOption = {
 	noTrailingCommaPhp?: boolean;
 	extraLiners?: string[];
 	componentPrefix?: string[];
+	phpVersion?: string;
 };
 
 export type BladeFormatterOption = CLIOption & FormatterOption;

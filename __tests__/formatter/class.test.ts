@@ -10,7 +10,7 @@ describe("formatter class test", () => {
 		].join("\n");
 		const expected = [
 			`@props([`,
-			`    'fileExtensions' => (new AllowedExtensionsFilePolicy())->get(),`,
+			`    'fileExtensions' => new AllowedExtensionsFilePolicy()->get(),`,
 			`])`,
 			``,
 		].join("\n");
