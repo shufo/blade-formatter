@@ -1362,7 +1362,8 @@ describe("The blade formatter CLI", () => {
 
 	test.concurrent("cli argument test (php version)", async () => {
 		const cmdResult = await cmd.execute(binPath, [
-			"--php-version", "8.2",
+			"--php-version",
+			"8.2",
 			path.resolve("__tests__", "fixtures", "php_version.blade.php"),
 		]);
 
