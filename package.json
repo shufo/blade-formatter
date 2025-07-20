@@ -90,7 +90,7 @@
     "ts-migrate": "^0.1.27",
     "ts-node": "^10.4.0",
     "typescript": "^5.0.0",
-    "vitest": "^3.0.0"
+    "vitest": "^3.2.4"
   },
   "repository": {
     "type": "git",
