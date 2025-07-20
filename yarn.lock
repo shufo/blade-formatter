@@ -5616,10 +5616,10 @@ vscode-oniguruma@1.7.0:
   resolved "https://registry.yarnpkg.com/vscode-oniguruma/-/vscode-oniguruma-1.7.0.tgz#439bfad8fe71abd7798338d1cd3dc53a8beea94b"
   integrity sha512-L9WMGRfrjOhgHSdOYgCt/yRMsXzLDJSL7BPrOZt73gU0iWO4mpqzqQzOz5srxqTvMBaR0XZTSrVWo4j55Rc6cA==
 
-vscode-textmate@^7.0.1:
-  version "7.0.1"
-  resolved "https://registry.yarnpkg.com/vscode-textmate/-/vscode-textmate-7.0.1.tgz#8118a32b02735dccd14f893b495fa5389ad7de79"
-  integrity sha512-zQ5U/nuXAAMsh691FtV0wPz89nSkHbs+IQV8FDk+wew9BlSDhf4UmWGlWJfTR2Ti6xZv87Tj5fENzKf6Qk7aLw==
+vscode-textmate@^9.2.0:
+  version "9.2.0"
+  resolved "https://registry.yarnpkg.com/vscode-textmate/-/vscode-textmate-9.2.0.tgz#be2b04b3f8853135b2d67274670540215c5bb92b"
+  integrity sha512-rkvG4SraZQaPSN/5XjwKswdU0OP9MF28QjrYzUBbhb8QyG3ljB1Ky996m++jiI7KdiAP2CkBiQZd9pqEDTClqA==
 
 webidl-conversions@^3.0.0:
   version "3.0.1"
