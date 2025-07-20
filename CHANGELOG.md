@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.43.1](https://github.com/shufo/blade-formatter/compare/v1.43.0...v1.43.1) (2025-07-20)
+
+
+### Miscellaneous
+
+* 🤖 (dev-deps) bump vitest to 3.2.4 ([e26ad04](https://github.com/shufo/blade-formatter/commit/e26ad0468a3f42315d45abff81791f4671211603))
+* 🤖 bump esbuild to 0.25.8 ([c1fab0c](https://github.com/shufo/blade-formatter/commit/c1fab0c95638d7cf9a3137c3a2a99f36834adb4a))
+* 🤖 bump js-beautify to 1.15.4 ([b9f140e](https://github.com/shufo/blade-formatter/commit/b9f140ed3281e4d30d176489ad363f643a95a640))
+* 🤖 bump vscode-textmate to 9.2.0 ([72af302](https://github.com/shufo/blade-formatter/commit/72af30231cb1dee56367d1b70a5c32b281686db1))
+* **deps:** update dependency @biomejs/biome to v2.1.2 ([a39c4f4](https://github.com/shufo/blade-formatter/commit/a39c4f44ad1b99474967a941122a8c787fe302ee))
+
 ## [1.43.0](https://github.com/shufo/blade-formatter/compare/v1.42.4...v1.43.0) (2025-07-16)
 
 
