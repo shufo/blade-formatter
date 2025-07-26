@@ -79,7 +79,7 @@
     "@types/xregexp": "^4.4.0",
     "app-root-path": "^3.0.0",
     "codecov": "^3.8.3",
-    "cross-env": "^7.0.3",
+    "cross-env": "^10.0.0",
     "esbuild": "^0.25.8",
     "esbuild-node-externals": "^1.16.0",
     "fs-extra": "^11.0.0",
