@@ -1,5 +1,30 @@
 # Changelog
 
+## [1.44.0](https://github.com/shufo/blade-formatter/compare/v1.43.0...v1.44.0) (2025-08-10)
+
+
+### Features
+
+* 🎸 support `[@env](https://github.com/env)`, `[@elseauth](https://github.com/elseauth)` and `[@elseguest](https://github.com/elseguest)` directive ([8d90e0b](https://github.com/shufo/blade-formatter/commit/8d90e0bd3a091f2a82da1ce5dddd119c428343e4))
+
+
+### Fixes
+
+* 🐛 inline directive in script replaced to unexpected token ([a71f7ca](https://github.com/shufo/blade-formatter/commit/a71f7ca31d146afa08ea3ff9906491d9ea8a909e))
+* 🐛 noPhpSyntaxCheck option prevents error for phpVersion ([718a213](https://github.com/shufo/blade-formatter/commit/718a213a3476f1978b939ab9912a7e1e442c648b))
+* 🐛 typo in regex ([0daf81c](https://github.com/shufo/blade-formatter/commit/0daf81cec1816798c3dab53e92795c69c8e8879b))
+
+
+### Miscellaneous
+
+* 🤖 (dev-deps) bump vitest to 3.2.4 ([e26ad04](https://github.com/shufo/blade-formatter/commit/e26ad0468a3f42315d45abff81791f4671211603))
+* 🤖 bump esbuild to 0.25.8 ([c1fab0c](https://github.com/shufo/blade-formatter/commit/c1fab0c95638d7cf9a3137c3a2a99f36834adb4a))
+* 🤖 bump js-beautify to 1.15.4 ([b9f140e](https://github.com/shufo/blade-formatter/commit/b9f140ed3281e4d30d176489ad363f643a95a640))
+* 🤖 bump vscode-textmate to 9.2.0 ([72af302](https://github.com/shufo/blade-formatter/commit/72af30231cb1dee56367d1b70a5c32b281686db1))
+* apply review ([0e374f3](https://github.com/shufo/blade-formatter/commit/0e374f30cdfc733cde8977cf97e770e606cdb31e))
+* apply review ([d5d96ae](https://github.com/shufo/blade-formatter/commit/d5d96ae509da99f93863c79ba4ecc5860bc48510))
+* **deps:** update dependency @biomejs/biome to v2.1.2 ([a39c4f4](https://github.com/shufo/blade-formatter/commit/a39c4f44ad1b99474967a941122a8c787fe302ee))
+
 ## [1.43.0](https://github.com/shufo/blade-formatter/compare/v1.42.4...v1.43.0) (2025-07-16)
 
 
