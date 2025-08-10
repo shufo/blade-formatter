@@ -237,6 +237,9 @@ export class BladeDirectiveInScriptsProcessor extends Processor {
 			);
 		});
 
+		// restore inline custom directive
+		result = await this.restoreInlineCustomDirective(result);
+
 		result = await replaceAsync(
 			result,
 			/(?<=<script[^>]*?(?<!=)>)(.*?)(?=<\/script>)/gis,
@@ -368,6 +371,52 @@ export class BladeDirectiveInScriptsProcessor extends Processor {
 		return result;
 	}
 
+	/**
+	 * restore inline custom directives
+	 */
+	async restoreInlineCustomDirective(content: string) {
+		return replaceAsync(
+			content,
+			new RegExp(
+				`${this.getInlineCustomDirectivePlaceholder("(\\d+)")}`,
+				"gim",
+			),
+			async (_match: any, p1: number) => {
+				const placeholder = this.getInlineCustomDirectivePlaceholder(
+					p1.toString(),
+				);
+				const matchedLine = content.match(
+					new RegExp(`^(.*?)${_.escapeRegExp(placeholder)}`, "mi"),
+				) ?? [""];
+				const indent = detectIndent(matchedLine[0]);
+
+				const matched = `${this.customDirectives[p1]}`;
+
+				return replaceAsync(
+					matched,
+					/(@[a-zA-Z0-9\-_]+)(.*)/gis,
+					async (match2: string, p2: string, p3: string) => {
+						try {
+							const formatted = (
+								await util.formatRawStringAsPhp(`func${p3}`, {
+									...this.formatter.options,
+									printWidth: util.printWidthForInline,
+								})
+							)
+								.replace(/([\n\s]*)->([\n\s]*)/gs, "->")
+								.replace(/,(\s*?\))$/gm, (_m, p4) => p4)
+								.trim()
+								.substring(4);
+							return `${p2}${util.indentComponentAttribute(indent.indent, formatted, this.formatter)}`;
+						} catch (_error) {
+							return `${match2}`;
+						}
+					},
+				);
+			},
+		);
+	}
+
 	storeBladeDirective(value: any) {
 		return this.getBladeDirectivePlaceholder(
 			this.bladeDirectives.push(value) - 1,
@@ -453,7 +502,7 @@ export class BladeDirectiveInScriptsProcessor extends Processor {
 	}
 
 	getInlineCustomDirectivePlaceholder(replace: string) {
-		return _.replace("___inline_cd_#___", "#", replace);
+		return _.replace("___inline_cdis_#___", "#", replace);
 	}
 
 	preserveStringLiteralInPhp(content: any) {
