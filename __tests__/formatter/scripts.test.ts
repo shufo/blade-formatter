@@ -553,4 +553,49 @@ describe("formatter scripts test", () => {
 			"Can't format blade",
 		);
 	});
+
+	// see: https://github.com/shufo/vscode-blade-formatter/issues/967
+	test("it should handle custom directives in scripts", async () => {
+		const content = [
+			`@extends('layouts.parent-layout')`,
+			``,
+			`@section('scripts')`,
+			`    <script>`,
+			`        $(document).ready(function() {`,
+			`            @foo('submitSuccessInit',`,
+			`            2,`,
+			`            new Foo()->bar())`,
+			``,
+			`            @if (request('token'))`,
+			`              foo`,
+			`            @else`,
+			`              bar`,
+			`            @endif`,
+			`        });`,
+			`    </script>`,
+			``,
+			`@endsection`,
+		].join("\n");
+
+		const expected = [
+			`@extends('layouts.parent-layout')`,
+			``,
+			`@section('scripts')`,
+			`    <script>`,
+			`        $(document).ready(function() {`,
+			`            @foo('submitSuccessInit', 2, new Foo()->bar())`,
+			``,
+			`            @if (request('token'))`,
+			`                foo`,
+			`            @else`,
+			`                bar`,
+			`            @endif`,
+			`        });`,
+			`    </script>`,
+			`@endsection`,
+			"",
+		].join("\n");
+
+		await util.doubleFormatCheck(content, expected);
+	});
 });
