@@ -386,7 +386,7 @@ export class BladeDirectiveInScriptsProcessor extends Processor {
 					p1.toString(),
 				);
 				const matchedLine = content.match(
-					new RegExp(`^(.*?)${_.escapeRegExp(placeholder)}`, "gmi"),
+					new RegExp(`^(.*?)${_.escapeRegExp(placeholder)}`, "mi"),
 				) ?? [""];
 				const indent = detectIndent(matchedLine[0]);
 
