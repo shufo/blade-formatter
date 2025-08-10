@@ -8,7 +8,7 @@
     "formatter",
     "laravel"
   ],
-  "version": "1.44.1",
+  "version": "1.44.0",
   "description": "An opinionated blade template formatter for Laravel",
   "main": "./dist/bundle.cjs",
   "types": "./dist/types/main.d.ts",
@@ -48,7 +48,7 @@
     "concat-stream": "^2.0.0",
     "detect-indent": "^6.0.0",
     "find-config": "^1.0.0",
-    "glob": "^8.0.1",
+    "glob": "^9.0.0",
     "html-attribute-sorter": "^0.4.3",
     "ignore": "^6.0.0",
     "js-beautify": "^1.15.4",
