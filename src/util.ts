@@ -91,11 +91,16 @@ export async function formatStringAsPhp(
 			trailingCommaPHP: options.trailingCommaPHP,
 			plugins: [phpPlugin],
 		});
-	} catch (error) {
-		if (options.noPhpSyntaxCheck === false) {
+	} catch (error: any) {
+		if (errorHasPhpVersionError(error)) {
 			throw error;
 		}
-		return content;
+
+		if (options.noPhpSyntaxCheck) {
+			return content;
+		}
+
+		throw error;
 	}
 }
 
@@ -123,12 +128,22 @@ export async function formatRawStringAsPhp(
 			p1.trim().replace(/;\s*$/, ""),
 		);
 	} catch (error) {
-		if (options.noPhpSyntaxCheck === false) {
+		if (errorHasPhpVersionError(error)) {
 			throw error;
 		}
 
-		return content;
+		if (options.noPhpSyntaxCheck) {
+			return content;
+		}
+
+		throw error;
 	}
+}
+
+function errorHasPhpVersionError(error: any) {
+	return error.message.includes(
+		"Invalid phpVersion value. Expected one of the following values",
+	);
 }
 
 export async function getArgumentsCount(
