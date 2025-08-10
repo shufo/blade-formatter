@@ -212,7 +212,11 @@ class BladeFormatter {
 	}
 
 	static globFiles(path: any) {
-		return glob(path);
+		return new Promise((resolve, reject) => {
+			glob(path, (error: any, matches: any) =>
+				error ? reject(error) : resolve(matches),
+			);
+		});
 	}
 
 	async filterFiles(paths: any) {
