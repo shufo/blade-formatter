@@ -1,0 +1,50 @@
+------------------------------------options----------------------------------------
+{}
+------------------------------------content----------------------------------------
+@auth('user')
+<p>Authenticated</p>
+@elseauth
+<p>Guest</p>
+@endauth
+
+@auth('user')
+<p>Authenticated</p>
+@elseauth('web')
+<p>Guest</p>
+@endauth
+
+@auth('user')
+<p>Authenticated</p>
+@elseguest
+<p>Guest</p>
+@endauth
+
+@auth('user')
+<p>Authenticated</p>
+@elseguest('foo')
+<p>Guest</p>
+@endauth
+------------------------------------expected----------------------------------------
+@auth('user')
+    <p>Authenticated</p>
+@elseauth
+    <p>Guest</p>
+@endauth
+
+@auth('user')
+    <p>Authenticated</p>
+@elseauth('web')
+    <p>Guest</p>
+@endauth
+
+@auth('user')
+    <p>Authenticated</p>
+@elseguest
+    <p>Guest</p>
+@endauth
+
+@auth('user')
+    <p>Authenticated</p>
+@elseguest('foo')
+    <p>Guest</p>
+@endauth

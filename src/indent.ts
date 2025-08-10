@@ -93,6 +93,8 @@ export const indentEndTokens = [
 
 export const indentElseTokens = [
 	"@elseenv",
+	"@elseguest",
+	"@elseauth",
 	"@elseif",
 	"@elsecanany",
 	"@elsecannot",
