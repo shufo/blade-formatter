@@ -138,7 +138,7 @@ export class CustomDirectiveProcessor extends Processor {
 
 				return replaceAsync(
 					matched,
-					/(@[a-zA-z0-9\-_]+)(.*)/gis,
+					/(@[a-zA-Z0-9\-_]+)(.*)/gis,
 					async (match2: string, p2: string, p3: string) => {
 						try {
 							const formatted = (
@@ -201,7 +201,7 @@ export class CustomDirectiveProcessor extends Processor {
 
 				return replaceAsync(
 					matched,
-					/(@[a-zA-z0-9\-_]+)(.*)/gis,
+					/(@[a-zA-Z0-9\-_]+)(.*)/gis,
 					async (match2: string, p3: string, p4: string) => {
 						try {
 							const formatted = (
