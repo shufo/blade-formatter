@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.44.2](https://github.com/shufo/blade-formatter/compare/v1.44.1...v1.44.2) (2025-08-11)
+
+
+### Fixes
+
+* 🐛 revert glob to v10 ([40b72c2](https://github.com/shufo/blade-formatter/commit/40b72c23a82a4e67b0d5085c7667a0eef77b3fb6))
+
 ## [1.44.1](https://github.com/shufo/blade-formatter/compare/v1.44.0...v1.44.1) (2025-08-10)
 
 
