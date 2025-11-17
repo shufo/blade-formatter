@@ -52,7 +52,8 @@ const CACHED_REGEXES = {
 	endPhptag: /\/\*\*[\s\n]*?end_phptag[\s\n]*?\*\*\//g,
 	arrowOperatorWithSpaces: /([\n\s]*)->([\n\s]*)/gs,
 	trailingCommaInParen: /,\)$/,
-	asKeywordWithSpaces: /(?:\n\s*)* as(?= (?:&{0,1}\$[\w]+|list|\[\$[\w]+))/g,
+	// Fixed potential ReDoS: Changed (?:\n\s*)* to (?:\n\s+)? to avoid catastrophic backtracking
+	asKeywordWithSpaces: /(?:\n\s+)? as(?= (?:&{0,1}\$[\w]+|list|\[\$[\w]+))/g,
 	phpBlockInFormat: /<\?php\s(.*?)(\s*?)\((.*?)\);*\s\?>\n/gs,
 };
 
