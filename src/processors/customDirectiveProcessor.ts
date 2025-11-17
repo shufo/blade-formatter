@@ -16,6 +16,9 @@ import { Processor } from "./processor";
 
 export class CustomDirectiveProcessor extends Processor {
 	private customDirectives: string[] = [];
+	// Cache for frequently used arrays to avoid recomputing
+	private negativeLookAheadCache: string | null = null;
+	private inlineNegativeLookAheadCache: string | null = null;
 
 	async preProcess(content: string): Promise<any> {
 		return await this.preserveCustomDirective(content);
@@ -26,47 +29,51 @@ export class CustomDirectiveProcessor extends Processor {
 	}
 
 	private async preserveCustomDirective(content: string): Promise<any> {
-		const negativeLookAhead = [
-			..._.without(indentStartTokens, "@unless"),
-			...indentEndTokens,
-			...indentElseTokens,
-			...["@unless\\(.*?\\)"],
-		].join("|");
+		// Cache negative lookaheads to avoid recomputing arrays
+		if (!this.negativeLookAheadCache) {
+			const tokens = [
+				...indentStartTokens.filter(token => token !== "@unless"),
+				...indentEndTokens,
+				...indentElseTokens,
+				"@unless\\(.*?\\)",
+			];
+			this.negativeLookAheadCache = tokens.join("|");
+		}
 
-		const inlineNegativeLookAhead = _.chain([
-			..._.without(indentStartTokens, "@unless", "@for"),
-			...indentEndTokens,
-			...indentElseTokens,
-			...inlineFunctionTokens,
-			..._.without(phpKeywordStartTokens, "@for"),
-			...["@unless[a-z]*\\(.*?\\)", "@for\\(.*?\\)"],
-			...unbalancedStartTokens,
-			...cssAtRuleTokens,
-		])
-			.uniq()
-			.join("|")
-			.value();
+		if (!this.inlineNegativeLookAheadCache) {
+			const tokens = Array.from(new Set([
+				...indentStartTokens.filter(token => token !== "@unless" && token !== "@for"),
+				...indentEndTokens,
+				...indentElseTokens,
+				...inlineFunctionTokens,
+				...phpKeywordStartTokens.filter(token => token !== "@for"),
+				"@unless[a-z]*\\(.*?\\)",
+				"@for\\(.*?\\)",
+				...unbalancedStartTokens,
+				...cssAtRuleTokens,
+			]));
+			this.inlineNegativeLookAheadCache = tokens.join("|");
+		}
 
 		const inlineRegex = new RegExp(
-			`(?!(${inlineNegativeLookAhead}))(@([a-zA-Z1-9_\\-]+))(?!.*?@end\\3)${nestedParenthesisRegex}.*?(?<!@end\\5)`,
+			`(?!(${this.inlineNegativeLookAheadCache}))(@([a-zA-Z1-9_\\-]+))(?!.*?@end\\3)${nestedParenthesisRegex}.*?(?<!@end\\5)`,
 			"gis",
 		);
 
 		const regex = new RegExp(
-			`(?!(${negativeLookAhead}))(@(unless)*([a-zA-Z1-9_\\-]+))(?!.*?\\2)(\\s|\\(.*?\\))+(.*?)(@end\\4)`,
+			`(?!(${this.negativeLookAheadCache}))(@(unless)*([a-zA-Z1-9_\\-]+))(?!.*?\\2)(\\s|\\(.*?\\))+(.*?)(@end\\4)`,
 			"gis",
 		);
 
 		let formatted: string;
 
 		// preserve inline directives
-		formatted = _.replace(content, inlineRegex, (match: string) =>
+		formatted = content.replace(inlineRegex, (match: string) =>
 			this.storeInlineCustomDirective(match),
 		);
 
 		// preserve begin~else~end directives
-		formatted = _.replace(
-			formatted,
+		formatted = formatted.replace(
 			regex,
 			(
 				match: string,
@@ -85,16 +92,14 @@ export class CustomDirectiveProcessor extends Processor {
 				let result: string = match;
 
 				// begin directive
-				result = _.replace(
-					result,
+				result = result.replace(
 					new RegExp(`${p2}(${nestedParenthesisRegex})*`, "gim"),
 					(beginStr: string) => this.storeBeginCustomDirective(beginStr),
 				);
 				// end directive
-				result = _.replace(result, p7, this.storeEndCustomDirective(p7));
+				result = result.replace(p7, this.storeEndCustomDirective(p7));
 				// else directive
-				result = _.replace(
-					result,
+				result = result.replace(
 					new RegExp(`@else${p4}(${nestedParenthesisRegex})*`, "gim"),
 					(elseStr: string) => this.storeElseCustomDirective(elseStr),
 				);
@@ -112,10 +117,11 @@ export class CustomDirectiveProcessor extends Processor {
 	}
 
 	private async restoreCustomDirective(content: string): Promise<any> {
-		return this.restoreInlineCustomDirective(content)
-			.then((data: string) => this.restoreBeginCustomDirective(data))
-			.then((data: string) => this.restoreElseCustomDirective(data))
-			.then((data: string) => this.restoreEndCustomDirective(data));
+		let result = await this.restoreInlineCustomDirective(content);
+		result = await this.restoreBeginCustomDirective(result);
+		result = await this.restoreElseCustomDirective(result);
+		result = await this.restoreEndCustomDirective(result);
+		return result;
 	}
 
 	async restoreInlineCustomDirective(content: string) {
@@ -129,8 +135,10 @@ export class CustomDirectiveProcessor extends Processor {
 				const placeholder = this.getInlineCustomDirectivePlaceholder(
 					p1.toString(),
 				);
+				// Use simpler regex escape for placeholder
+				const escapedPlaceholder = placeholder.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 				const matchedLine = content.match(
-					new RegExp(`^(.*?)${_.escapeRegExp(placeholder)}`, "gmi"),
+					new RegExp(`^(.*?)${escapedPlaceholder}`, "gmi"),
 				) ?? [""];
 				const indent = detectIndent(matchedLine[0]);
 
@@ -166,16 +174,14 @@ export class CustomDirectiveProcessor extends Processor {
 	}
 
 	async restoreElseCustomDirective(content: string) {
-		return _.replace(
-			content,
+		return content.replace(
 			/@else\(___(\d+)___\)/gim,
 			(_match: any, p1: number) => `${this.customDirectives[p1]}`,
 		);
 	}
 
 	async restoreEndCustomDirective(content: string) {
-		return _.replace(
-			content,
+		return content.replace(
 			/@endcustomdirective\(___(\d+)___\)/gim,
 			(_match: any, p1: number) => `${this.customDirectives[p1]}`,
 		);
