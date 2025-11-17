@@ -36,7 +36,10 @@ export class BladeBraceProcessor extends Processor {
 	private async restoreBladeBrace(content: string): Promise<any> {
 		// Create regex only once per restore operation
 		if (!this.placeholderRegex) {
-			this.placeholderRegex = new RegExp(`${this.getBladeBracePlaceholder("(\\d+)")}`, "gm");
+			this.placeholderRegex = new RegExp(
+				`${this.getBladeBracePlaceholder("(\\d+)")}`,
+				"gm",
+			);
 		}
 
 		return replaceAsync(
@@ -72,12 +75,7 @@ export class BladeBraceProcessor extends Processor {
 
 				return `{{ ${util.indentRawPhpBlock(
 					indent,
-					(
-						await util.formatRawStringAsPhp(
-							bladeBrace,
-							this.formatter.options,
-						)
-					)
+					(await util.formatRawStringAsPhp(bladeBrace, this.formatter.options))
 						.replace(/([\n\s]*)->([\n\s]*)/gs, "->")
 						.trim()
 						.trimEnd(),

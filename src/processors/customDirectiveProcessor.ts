@@ -32,7 +32,7 @@ export class CustomDirectiveProcessor extends Processor {
 		// Cache negative lookaheads to avoid recomputing arrays
 		if (!this.negativeLookAheadCache) {
 			const tokens = [
-				...indentStartTokens.filter(token => token !== "@unless"),
+				...indentStartTokens.filter((token) => token !== "@unless"),
 				...indentEndTokens,
 				...indentElseTokens,
 				"@unless\\(.*?\\)",
@@ -41,17 +41,21 @@ export class CustomDirectiveProcessor extends Processor {
 		}
 
 		if (!this.inlineNegativeLookAheadCache) {
-			const tokens = Array.from(new Set([
-				...indentStartTokens.filter(token => token !== "@unless" && token !== "@for"),
-				...indentEndTokens,
-				...indentElseTokens,
-				...inlineFunctionTokens,
-				...phpKeywordStartTokens.filter(token => token !== "@for"),
-				"@unless[a-z]*\\(.*?\\)",
-				"@for\\(.*?\\)",
-				...unbalancedStartTokens,
-				...cssAtRuleTokens,
-			]));
+			const tokens = Array.from(
+				new Set([
+					...indentStartTokens.filter(
+						(token) => token !== "@unless" && token !== "@for",
+					),
+					...indentEndTokens,
+					...indentElseTokens,
+					...inlineFunctionTokens,
+					...phpKeywordStartTokens.filter((token) => token !== "@for"),
+					"@unless[a-z]*\\(.*?\\)",
+					"@for\\(.*?\\)",
+					...unbalancedStartTokens,
+					...cssAtRuleTokens,
+				]),
+			);
 			this.inlineNegativeLookAheadCache = tokens.join("|");
 		}
 
@@ -136,7 +140,10 @@ export class CustomDirectiveProcessor extends Processor {
 					p1.toString(),
 				);
 				// Use simpler regex escape for placeholder
-				const escapedPlaceholder = placeholder.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+				const escapedPlaceholder = placeholder.replace(
+					/[.*+?^${}()|[\]\\]/g,
+					"\\$&",
+				);
 				const matchedLine = content.match(
 					new RegExp(`^(.*?)${escapedPlaceholder}`, "gmi"),
 				) ?? [""];

@@ -226,7 +226,7 @@ export function generateDiff(
 		};
 	});
 
-	return diff.filter(item => item !== null);
+	return diff.filter((item) => item !== null);
 }
 
 // Cache for directive regex to avoid recompilation
@@ -284,8 +284,12 @@ export async function prettifyPhpContentWithEscapedTags(
 	options: FormatPhpOption,
 ) {
 	return new Promise((resolve) => resolve(content))
-		.then((res: any) => res.replace(CACHED_REGEXES.escapedPhpStart, "<?php /*escaped*/"))
-		.then((res) => res.replace(CACHED_REGEXES.escapedPhpEnd, "/*escaped*/ ?>\n"))
+		.then((res: any) =>
+			res.replace(CACHED_REGEXES.escapedPhpStart, "<?php /*escaped*/"),
+		)
+		.then((res) =>
+			res.replace(CACHED_REGEXES.escapedPhpEnd, "/*escaped*/ ?>\n"),
+		)
 		.then((res) => formatStringAsPhp(res, options))
 		.then((res) => res.replace(CACHED_REGEXES.formattedEscapedPhpStart, "{!! "))
 		.then((res) => res.replace(CACHED_REGEXES.formattedEscapedPhpEnd, " !!}"));
@@ -323,25 +327,27 @@ export function indent(content: any, level: any, options: any) {
 	const ignoreFirstLine = optional(options).ignoreFirstLine || false;
 	const indentChar = optional(options).useTabs ? "\t" : " ";
 	const indentSize = optional(options).indentSize || 4;
-	
-	return lines.map((line: any, index: any) => {
-		if (!line.match(/\w/)) {
-			return line;
-		}
 
-		if (ignoreFirstLine && index === 0) {
-			return line;
-		}
+	return lines
+		.map((line: any, index: any) => {
+			if (!line.match(/\w/)) {
+				return line;
+			}
 
-		const originalLineWhitespaces = detectIndent(line).amount;
-		const whitespaces = originalLineWhitespaces + indentSize * level;
+			if (ignoreFirstLine && index === 0) {
+				return line;
+			}
 
-		if (whitespaces < 0) {
-			return line;
-		}
+			const originalLineWhitespaces = detectIndent(line).amount;
+			const whitespaces = originalLineWhitespaces + indentSize * level;
 
-		return indentChar.repeat(whitespaces) + line.trimStart();
-	}).join("\n");
+			if (whitespaces < 0) {
+				return line;
+			}
+
+			return indentChar.repeat(whitespaces) + line.trimStart();
+		})
+		.join("\n");
 }
 
 export function unindent(
@@ -353,21 +359,23 @@ export function unindent(
 	const lines = content.split("\n");
 	const indentChar = optional(options).useTabs ? "\t" : " ";
 	const indentSize = optional(options).indentSize || 4;
-	
-	return lines.map((line: any) => {
-		if (!line.match(/\w/)) {
-			return line;
-		}
 
-		const originalLineWhitespaces = detectIndent(line).amount;
-		const whitespaces = originalLineWhitespaces - indentSize * level;
+	return lines
+		.map((line: any) => {
+			if (!line.match(/\w/)) {
+				return line;
+			}
 
-		if (whitespaces < 0) {
-			return line;
-		}
+			const originalLineWhitespaces = detectIndent(line).amount;
+			const whitespaces = originalLineWhitespaces - indentSize * level;
 
-		return indentChar.repeat(whitespaces) + line.trimStart();
-	}).join("\n");
+			if (whitespaces < 0) {
+				return line;
+			}
+
+			return indentChar.repeat(whitespaces) + line.trimStart();
+		})
+		.join("\n");
 }
 
 // Cache for preserve directives regex patterns
@@ -377,9 +385,11 @@ let cachedPreserveStartTokensKey: string | null = null;
 let cachedPreserveEndTokensKey: string | null = null;
 
 export function preserveDirectives(content: any) {
-	const startTokens = phpKeywordStartTokens.filter(token => token !== "@case");
-	const endTokens = phpKeywordEndTokens.filter(token => token !== "@break");
-	
+	const startTokens = phpKeywordStartTokens.filter(
+		(token) => token !== "@case",
+	);
+	const endTokens = phpKeywordEndTokens.filter((token) => token !== "@break");
+
 	const startTokensKey = startTokens.join("|");
 	const endTokensKey = endTokens.join("|");
 
@@ -406,12 +416,12 @@ export function preserveDirectives(content: any) {
 		(_match: any, p1: any, p2: any, p3: any) =>
 			`<beautifyTag start="${p1}${p2}" exp="^^^${_.escape(p3)}^^^">`,
 	);
-	
+
 	result = result.replace(
 		cachedPreserveEndRegex!,
 		(_match: any, p1: any) => `</beautifyTag end="${p1}">`,
 	);
-	
+
 	return result;
 }
 
@@ -423,7 +433,7 @@ export function preserveDirectivesInTag(content: any) {
 	const startTokensKey = phpKeywordStartTokens.join("|");
 	const endTokensKey = phpKeywordEndTokens.join("|");
 	const key = `${startTokensKey}:${endTokensKey}`;
-	
+
 	if (cachedPreserveInTagKey !== key) {
 		cachedPreserveInTagRegex = new RegExp(
 			`(<[^>]*?)(${startTokensKey})([\\s]*?)${nestedParenthesisRegex}(.*?)(${endTokensKey})([^>]*?>)`,
@@ -431,7 +441,7 @@ export function preserveDirectivesInTag(content: any) {
 		);
 		cachedPreserveInTagKey = key;
 	}
-	
+
 	return content.replace(
 		cachedPreserveInTagRegex!,
 		(
@@ -452,9 +462,11 @@ export function preserveDirectivesInTag(content: any) {
 
 // Cached regex patterns for revert operations
 const REVERT_REGEXES = {
-	beautifyTagStart: /<beautifyTag.*?start="(.*?)".*?exp=".*?\^\^\^(.*?)\^\^\^.*?"\s*>/gs,
+	beautifyTagStart:
+		/<beautifyTag.*?start="(.*?)".*?exp=".*?\^\^\^(.*?)\^\^\^.*?"\s*>/gs,
 	beautifyTagEnd: /<\/beautifyTag.*?end="(.*?)"\s*>/gs,
-	directiveInTag: /\|--.*?start="(.*?)".*?exp=".*?\^\^\^(.*?)\^\^\^.*?"(.*?)body=".*?\^\^\^(.*?)\^\^\^.*?".*?end="(.*?)".*?--\|/gs,
+	directiveInTag:
+		/\|--.*?start="(.*?)".*?exp=".*?\^\^\^(.*?)\^\^\^.*?"(.*?)body=".*?\^\^\^(.*?)\^\^\^.*?".*?end="(.*?)".*?--\|/gs,
 	directiveEndInTag: /\/-- end="(.*?)"--\//gs,
 };
 
@@ -463,12 +475,12 @@ export function revertDirectives(content: any) {
 		REVERT_REGEXES.beautifyTagStart,
 		(_match: any, p1: any, p2: any) => `${p1}(${_.unescape(p2)})`,
 	);
-	
+
 	result = result.replace(
 		REVERT_REGEXES.beautifyTagEnd,
 		(_match: any, p1: any) => `${p1}`,
 	);
-	
+
 	return result;
 }
 
@@ -478,12 +490,12 @@ export function revertDirectivesInTag(content: any) {
 		(_match: any, p1: any, p2: any, _p3: any, p4: any, p5: any) =>
 			`${p1.trimStart()}(${p2}) ${_.unescape(p4)} ${p5}`,
 	);
-	
+
 	result = result.replace(
 		REVERT_REGEXES.directiveEndInTag,
 		(_match: any, p1: any) => `${p1}`,
 	);
-	
+
 	return result;
 }
 
@@ -581,12 +593,14 @@ export function indentRawPhpBlock(
 
 	const lines = content.split("\n");
 
-	return lines.map((line: any, index: any) => {
-		if (index === 0) {
-			return line.trim();
-		}
-		return prefixSpaces + line;
-	}).join("\n");
+	return lines
+		.map((line: any, index: any) => {
+			if (index === 0) {
+				return line.trim();
+			}
+			return prefixSpaces + line;
+		})
+		.join("\n");
 }
 
 export function indentPhpComment(
