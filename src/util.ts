@@ -34,6 +34,28 @@ export const optional = (obj: any) => {
 	return obj;
 };
 
+// Cached regex patterns for performance
+const CACHED_REGEXES = {
+	escapedPhpStart: /{!!/g,
+	escapedPhpEnd: /!!}/g,
+	formattedEscapedPhpStart: /<\?php\s\/\*escaped\*\//g,
+	formattedEscapedPhpEnd: /\/\*escaped\*\/\s\?>\n/g,
+	semicolonBeforeEscapedEnd1: /;[\n\s]*!!\}/g,
+	semicolonBeforeEscapedEnd2: /;[\s\n]*!!}/g,
+	semicolonBeforeBladeEnd1: /;[\n\s]*}}/g,
+	semicolonBeforeBladeEnd2: /; }}/g,
+	semicolonBeforeComment: /; --}}/g,
+	phpTagStart: /<\?php/g,
+	phpTagEnd: /\?>/g,
+	phptagStartComment: /\/\*\*[\s\n]*?phptag_start[\s\n]*?\*\*\//gs,
+	endPhptagWithSemicolon: /\/\*\*[\s\n]*?end_phptag[\s\n]*?\*\*\/[\s];\n/g,
+	endPhptag: /\/\*\*[\s\n]*?end_phptag[\s\n]*?\*\*\//g,
+	arrowOperatorWithSpaces: /([\n\s]*)->([\n\s]*)/gs,
+	trailingCommaInParen: /,\)$/,
+	asKeywordWithSpaces: /(?:\n\s*)* as(?= (?:&{0,1}\$[\w]+|list|\[\$[\w]+))/g,
+	phpBlockInFormat: /<\?php\s(.*?)(\s*?)\((.*?)\);*\s\?>\n/gs,
+};
+
 export async function readFile(path: any) {
 	return new Promise((resolve, reject) => {
 		fs.readFile(path, (error: any, data: any) =>
@@ -177,7 +199,7 @@ export function normalizeIndentLevel(length: any) {
 
 export function printDiffs(diffs: any) {
 	return Promise.all(
-		_.map(diffs, async (diff: any) => {
+		diffs.map(async (diff: any) => {
 			process.stdout.write(`path: ${chalk.bold(diff.path)}:${diff.line}\n`);
 			process.stdout.write(chalk.red(`--${diff.original}\n`));
 			process.stdout.write(chalk.green(`++${diff.formatted}\n`));
@@ -190,12 +212,8 @@ export function generateDiff(
 	originalLines: any,
 	formattedLines: any,
 ) {
-	const diff = _.map(originalLines, (originalLine: any, index: any) => {
-		if (_.isEmpty(originalLine)) {
-			return null;
-		}
-
-		if (originalLine === formattedLines[index]) {
+	const diff = originalLines.map((originalLine: any, index: any) => {
+		if (!originalLine || originalLine === formattedLines[index]) {
 			return null;
 		}
 
@@ -207,8 +225,12 @@ export function generateDiff(
 		};
 	});
 
-	return _.without(diff, null);
+	return diff.filter(item => item !== null);
 }
+
+// Cache for directive regex to avoid recompilation
+let cachedDirectiveRegex: RegExp | null = null;
+let cachedDirectivesKey: string | null = null;
 
 export async function prettifyPhpContentWithUnescapedTags(
 	content: string,
@@ -221,17 +243,21 @@ export async function prettifyPhpContentWithUnescapedTags(
 		"@php",
 	).join("|");
 
-	const directiveRegexes = new RegExp(
-		// eslint-disable-next-line max-len
-		`(?!\\/\\*.*?\\*\\/)(${directives})(\\s*?)${nestedParenthesisRegex}`,
-		"gmi",
-	);
+	// Use cached regex if directives haven't changed
+	if (cachedDirectivesKey !== directives) {
+		cachedDirectiveRegex = new RegExp(
+			// eslint-disable-next-line max-len
+			`(?!\\/\\*.*?\\*\\/)(${directives})(\\s*?)${nestedParenthesisRegex}`,
+			"gmi",
+		);
+		cachedDirectivesKey = directives;
+	}
 
 	return new Promise((resolve) => resolve(content))
 		.then((res: any) =>
 			replaceAsync(
 				res,
-				directiveRegexes,
+				cachedDirectiveRegex!,
 				async (_match: any, p1: any, p2: any, p3: any) =>
 					(
 						await formatStringAsPhp(
@@ -240,16 +266,13 @@ export async function prettifyPhpContentWithUnescapedTags(
 						)
 					)
 						.replace(
-							/<\?php\s(.*?)(\s*?)\((.*?)\);*\s\?>\n/gs,
+							CACHED_REGEXES.phpBlockInFormat,
 							(_match2: any, j1: any, j2: any, j3: any) =>
 								`@${j1.trim()}${j2}(${j3.trim()})`,
 						)
-						.replace(/([\n\s]*)->([\n\s]*)/gs, "->")
-						.replace(/,\)$/, ")")
-						.replace(
-							/(?:\n\s*)* as(?= (?:&{0,1}\$[\w]+|list|\[\$[\w]+))/g,
-							" as",
-						),
+						.replace(CACHED_REGEXES.arrowOperatorWithSpaces, "->")
+						.replace(CACHED_REGEXES.trailingCommaInParen, ")")
+						.replace(CACHED_REGEXES.asKeywordWithSpaces, " as"),
 			),
 		)
 		.then((res) => formatStringAsPhp(res, options));
@@ -260,22 +283,21 @@ export async function prettifyPhpContentWithEscapedTags(
 	options: FormatPhpOption,
 ) {
 	return new Promise((resolve) => resolve(content))
-		.then((res: any) => _.replace(res, /{!!/g, "<?php /*escaped*/"))
-		.then((res) => _.replace(res, /!!}/g, "/*escaped*/ ?>\n"))
+		.then((res: any) => res.replace(CACHED_REGEXES.escapedPhpStart, "<?php /*escaped*/"))
+		.then((res) => res.replace(CACHED_REGEXES.escapedPhpEnd, "/*escaped*/ ?>\n"))
 		.then((res) => formatStringAsPhp(res, options))
-		.then((res) => _.replace(res, /<\?php\s\/\*escaped\*\//g, "{!! "))
-		.then((res) => _.replace(res, /\/\*escaped\*\/\s\?>\n/g, " !!}"));
+		.then((res) => res.replace(CACHED_REGEXES.formattedEscapedPhpStart, "{!! "))
+		.then((res) => res.replace(CACHED_REGEXES.formattedEscapedPhpEnd, " !!}"));
 }
 
 export async function removeSemicolon(content: any) {
-	return new Promise((resolve) => {
-		resolve(content);
-	})
-		.then((res: any) => _.replace(res, /;[\n\s]*!!\}/g, " !!}"))
-		.then((res) => _.replace(res, /;[\s\n]*!!}/g, " !!}"))
-		.then((res) => _.replace(res, /;[\n\s]*}}/g, " }}"))
-		.then((res) => _.replace(res, /; }}/g, " }}"))
-		.then((res) => _.replace(res, /; --}}/g, " --}}"));
+	// Batch all replacements to avoid multiple intermediate string allocations
+	return content
+		.replace(CACHED_REGEXES.semicolonBeforeEscapedEnd1, " !!}")
+		.replace(CACHED_REGEXES.semicolonBeforeEscapedEnd2, " !!}")
+		.replace(CACHED_REGEXES.semicolonBeforeBladeEnd1, " }}")
+		.replace(CACHED_REGEXES.semicolonBeforeBladeEnd2, " }}")
+		.replace(CACHED_REGEXES.semicolonBeforeComment, " --}}");
 }
 
 export async function formatAsPhp(content: string, options: FormatPhpOption) {
@@ -283,47 +305,41 @@ export async function formatAsPhp(content: string, options: FormatPhpOption) {
 }
 
 export async function preserveOriginalPhpTagInHtml(content: any) {
-	return new Promise((resolve) => resolve(content))
-		.then((res: any) => _.replace(res, /<\?php/g, "/** phptag_start **/"))
-		.then((res) => _.replace(res, /\?>/g, "/** end_phptag **/"));
+	return content
+		.replace(CACHED_REGEXES.phpTagStart, "/** phptag_start **/")
+		.replace(CACHED_REGEXES.phpTagEnd, "/** end_phptag **/");
 }
 
 export function revertOriginalPhpTagInHtml(content: any) {
-	return new Promise((resolve) => resolve(content))
-		.then((res: any) =>
-			_.replace(res, /\/\*\*[\s\n]*?phptag_start[\s\n]*?\*\*\//gs, "<?php"),
-		)
-		.then((res) =>
-			_.replace(res, /\/\*\*[\s\n]*?end_phptag[\s\n]*?\*\*\/[\s];\n/g, "?>;"),
-		)
-		.then((res) =>
-			_.replace(res, /\/\*\*[\s\n]*?end_phptag[\s\n]*?\*\*\//g, "?>"),
-		);
+	return content
+		.replace(CACHED_REGEXES.phptagStartComment, "<?php")
+		.replace(CACHED_REGEXES.endPhptagWithSemicolon, "?>;")
+		.replace(CACHED_REGEXES.endPhptag, "?>");
 }
 
 export function indent(content: any, level: any, options: any) {
 	const lines = content.split("\n");
-	return _.map(lines, (line: any, index: any) => {
+	const ignoreFirstLine = optional(options).ignoreFirstLine || false;
+	const indentChar = optional(options).useTabs ? "\t" : " ";
+	const indentSize = optional(options).indentSize || 4;
+	
+	return lines.map((line: any, index: any) => {
 		if (!line.match(/\w/)) {
 			return line;
 		}
-
-		const ignoreFirstLine = optional(options).ignoreFirstLine || false;
 
 		if (ignoreFirstLine && index === 0) {
 			return line;
 		}
 
 		const originalLineWhitespaces = detectIndent(line).amount;
-		const indentChar = optional(options).useTabs ? "\t" : " ";
-		const indentSize = optional(options).indentSize || 4;
 		const whitespaces = originalLineWhitespaces + indentSize * level;
 
 		if (whitespaces < 0) {
 			return line;
 		}
 
-		return indentChar.repeat(whitespaces) + line.trimLeft();
+		return indentChar.repeat(whitespaces) + line.trimStart();
 	}).join("\n");
 }
 
@@ -334,122 +350,142 @@ export function unindent(
 	options: any,
 ) {
 	const lines = content.split("\n");
-	return _.map(lines, (line: any) => {
+	const indentChar = optional(options).useTabs ? "\t" : " ";
+	const indentSize = optional(options).indentSize || 4;
+	
+	return lines.map((line: any) => {
 		if (!line.match(/\w/)) {
 			return line;
 		}
 
 		const originalLineWhitespaces = detectIndent(line).amount;
-		const indentChar = optional(options).useTabs ? "\t" : " ";
-		const indentSize = optional(options).indentSize || 4;
 		const whitespaces = originalLineWhitespaces - indentSize * level;
 
 		if (whitespaces < 0) {
 			return line;
 		}
 
-		return indentChar.repeat(whitespaces) + line.trimLeft();
+		return indentChar.repeat(whitespaces) + line.trimStart();
 	}).join("\n");
 }
 
+// Cache for preserve directives regex patterns
+let cachedPreserveStartRegex: RegExp | null = null;
+let cachedPreserveEndRegex: RegExp | null = null;
+let cachedPreserveStartTokensKey: string | null = null;
+let cachedPreserveEndTokensKey: string | null = null;
+
 export function preserveDirectives(content: any) {
-	const startTokens = _.without(phpKeywordStartTokens, "@case");
-	const endTokens = _.without(phpKeywordEndTokens, "@break");
+	const startTokens = phpKeywordStartTokens.filter(token => token !== "@case");
+	const endTokens = phpKeywordEndTokens.filter(token => token !== "@break");
+	
+	const startTokensKey = startTokens.join("|");
+	const endTokensKey = endTokens.join("|");
 
-	return new Promise((resolve) => resolve(content))
-		.then((res: any) => {
-			const regex = new RegExp(
-				`(${startTokens.join("|")})([\\s]*?)${nestedParenthesisRegex}`,
-				"gis",
-			);
-			return _.replace(
-				res,
-				regex,
-				(_match: any, p1: any, p2: any, p3: any) =>
-					`<beautifyTag start="${p1}${p2}" exp="^^^${_.escape(p3)}^^^">`,
-			);
-		})
-		.then((res: any) => {
-			const regex = new RegExp(
-				`(?!end=".*)(${endTokens.join("|")})(?!.*")`,
-				"gi",
-			);
-			return _.replace(
-				res,
-				regex,
-				(_match: any, p1: any) => `</beautifyTag end="${p1}">`,
-			);
-		});
-}
-
-export function preserveDirectivesInTag(content: any) {
-	return new Promise((resolve) => {
-		const regex = new RegExp(
-			`(<[^>]*?)(${phpKeywordStartTokens.join(
-				"|",
-			)})([\\s]*?)${nestedParenthesisRegex}(.*?)(${phpKeywordEndTokens.join(
-				"|",
-			)})([^>]*?>)`,
+	// Cache start regex
+	if (cachedPreserveStartTokensKey !== startTokensKey) {
+		cachedPreserveStartRegex = new RegExp(
+			`(${startTokensKey})([\\s]*?)${nestedParenthesisRegex}`,
 			"gis",
 		);
-		resolve(
-			_.replace(
-				content,
-				regex,
-				(
-					_match: any,
-					p1: any,
-					p2: any,
-					p3: any,
-					p4: any,
-					p5: any,
-					p6: any,
-					p7: any,
-				) =>
-					`${p1}|-- start="${p2}${p3}" exp="^^^${p4}^^^" body="^^^${_.escape(
-						_.trim(p5),
-					)}^^^" end="${p6}" --|${p7}`,
-			),
+		cachedPreserveStartTokensKey = startTokensKey;
+	}
+
+	// Cache end regex
+	if (cachedPreserveEndTokensKey !== endTokensKey) {
+		cachedPreserveEndRegex = new RegExp(
+			`(?!end=".*)(${endTokensKey})(?!.*")`,
+			"gi",
 		);
-	});
+		cachedPreserveEndTokensKey = endTokensKey;
+	}
+
+	let result = content.replace(
+		cachedPreserveStartRegex!,
+		(_match: any, p1: any, p2: any, p3: any) =>
+			`<beautifyTag start="${p1}${p2}" exp="^^^${_.escape(p3)}^^^">`,
+	);
+	
+	result = result.replace(
+		cachedPreserveEndRegex!,
+		(_match: any, p1: any) => `</beautifyTag end="${p1}">`,
+	);
+	
+	return result;
 }
 
-export function revertDirectives(content: any) {
-	return new Promise((resolve) => resolve(content))
-		.then((res: any) =>
-			_.replace(
-				res,
-				/<beautifyTag.*?start="(.*?)".*?exp=".*?\^\^\^(.*?)\^\^\^.*?"\s*>/gs,
-				(_match: any, p1: any, p2: any) => `${p1}(${_.unescape(p2)})`,
-			),
-		)
-		.then((res) =>
-			_.replace(
-				res,
-				/<\/beautifyTag.*?end="(.*?)"\s*>/gs,
-				(_match: any, p1: any) => `${p1}`,
-			),
+// Cache for preserve directives in tag regex
+let cachedPreserveInTagRegex: RegExp | null = null;
+let cachedPreserveInTagKey: string | null = null;
+
+export function preserveDirectivesInTag(content: any) {
+	const startTokensKey = phpKeywordStartTokens.join("|");
+	const endTokensKey = phpKeywordEndTokens.join("|");
+	const key = `${startTokensKey}:${endTokensKey}`;
+	
+	if (cachedPreserveInTagKey !== key) {
+		cachedPreserveInTagRegex = new RegExp(
+			`(<[^>]*?)(${startTokensKey})([\\s]*?)${nestedParenthesisRegex}(.*?)(${endTokensKey})([^>]*?>)`,
+			"gis",
 		);
+		cachedPreserveInTagKey = key;
+	}
+	
+	return content.replace(
+		cachedPreserveInTagRegex!,
+		(
+			_match: any,
+			p1: any,
+			p2: any,
+			p3: any,
+			p4: any,
+			p5: any,
+			p6: any,
+			p7: any,
+		) =>
+			`${p1}|-- start="${p2}${p3}" exp="^^^${p4}^^^" body="^^^${_.escape(
+				p5.trim(),
+			)}^^^" end="${p6}" --|${p7}`,
+	);
+}
+
+// Cached regex patterns for revert operations
+const REVERT_REGEXES = {
+	beautifyTagStart: /<beautifyTag.*?start="(.*?)".*?exp=".*?\^\^\^(.*?)\^\^\^.*?"\s*>/gs,
+	beautifyTagEnd: /<\/beautifyTag.*?end="(.*?)"\s*>/gs,
+	directiveInTag: /\|--.*?start="(.*?)".*?exp=".*?\^\^\^(.*?)\^\^\^.*?"(.*?)body=".*?\^\^\^(.*?)\^\^\^.*?".*?end="(.*?)".*?--\|/gs,
+	directiveEndInTag: /\/-- end="(.*?)"--\//gs,
+};
+
+export function revertDirectives(content: any) {
+	let result = content.replace(
+		REVERT_REGEXES.beautifyTagStart,
+		(_match: any, p1: any, p2: any) => `${p1}(${_.unescape(p2)})`,
+	);
+	
+	result = result.replace(
+		REVERT_REGEXES.beautifyTagEnd,
+		(_match: any, p1: any) => `${p1}`,
+	);
+	
+	return result;
 }
 
 export function revertDirectivesInTag(content: any) {
-	return new Promise((resolve) => resolve(content))
-		.then((res: any) =>
-			_.replace(
-				res,
-				/\|--.*?start="(.*?)".*?exp=".*?\^\^\^(.*?)\^\^\^.*?"(.*?)body=".*?\^\^\^(.*?)\^\^\^.*?".*?end="(.*?)".*?--\|/gs,
-				(_match: any, p1: any, p2: any, _p3: any, p4: any, p5: any) =>
-					`${_.trimStart(p1)}(${p2}) ${_.unescape(p4)} ${p5}`,
-			),
-		)
-		.then((res) =>
-			_.replace(
-				res,
-				/\/-- end="(.*?)"--\//gs,
-				(_match: any, p1: any) => `${p1}`,
-			),
-		);
+	let result = content.replace(
+		REVERT_REGEXES.directiveInTag,
+		(_match: any, p1: any, p2: any, _p3: any, p4: any, p5: any) =>
+			`${p1.trimStart()}(${p2}) ${_.unescape(p4)} ${p5}`,
+	);
+	
+	result = result.replace(
+		REVERT_REGEXES.directiveEndInTag,
+		(_match: any, p1: any) => `${p1}`,
+	);
+	
+	return result;
 }
+
 export function printDescription() {
 	const returnLine = "\n\n";
 	process.stdout.write(returnLine);
@@ -477,8 +513,11 @@ const escapeTags = [
 	"___attrs_+\\d+___",
 ];
 
+// Cache for escape tags regex
+const escapeTagsRegex = new RegExp(escapeTags.join("|"));
+
 export function checkResult(formatted: any) {
-	if (new RegExp(escapeTags.join("|")).test(formatted)) {
+	if (escapeTagsRegex.test(formatted)) {
 		throw new Error(
 			[
 				"Can't format blade: something goes wrong.",
@@ -496,11 +535,11 @@ export function escapeReplacementString(string: string) {
 }
 
 export function debugLog(...content: any) {
-	_.each(content, (item) => {
+	for (const item of content) {
 		console.log("------------------- content start -------------------");
 		console.log(item);
 		console.log("------------------- content end   -------------------");
-	});
+	}
 
 	return content;
 }
@@ -517,7 +556,7 @@ export function getEndOfLine(endOfLine?: EndOfLine): string {
 }
 
 export function isInline(content: any) {
-	return _.split(content, "\n").length === 1;
+	return content.split("\n").length === 1;
 }
 
 export function indentRawPhpBlock(
@@ -525,7 +564,7 @@ export function indentRawPhpBlock(
 	content: any,
 	formatter: Formatter,
 ) {
-	if (_.isEmpty(indent.indent)) {
+	if (!indent.indent) {
 		return content;
 	}
 
@@ -541,16 +580,12 @@ export function indentRawPhpBlock(
 
 	const lines = content.split("\n");
 
-	return _.chain(lines)
-		.map((line: any, index: any) => {
-			if (index === 0) {
-				return line.trim();
-			}
-
-			return prefixSpaces + line;
-		})
-		.value()
-		.join("\n");
+	return lines.map((line: any, index: any) => {
+		if (index === 0) {
+			return line.trim();
+		}
+		return prefixSpaces + line;
+	}).join("\n");
 }
 
 export function indentPhpComment(
@@ -558,7 +593,7 @@ export function indentPhpComment(
 	content: string,
 	formatter: Formatter,
 ) {
-	if (_.isEmpty(indent.indent)) {
+	if (!indent.indent) {
 		return content;
 	}
 
@@ -575,7 +610,7 @@ export function indentPhpComment(
 	const lines = content.split("\n");
 	let withoutCommentLine = false;
 
-	return _.chain(lines)
+	return lines
 		.map((line: string, index: number) => {
 			if (index === 0) {
 				return line.trim();
@@ -592,8 +627,7 @@ export function indentPhpComment(
 
 			return prefixSpaces + line;
 		})
-		.join("\n")
-		.value();
+		.join("\n");
 }
 
 export async function formatExpressionInsideBladeDirective(
@@ -613,7 +647,7 @@ export async function formatExpressionInsideBladeDirective(
 	}
 
 	let inside = formattedExpression
-		.replace(/([\n\s]*)->([\n\s]*)/gs, "->")
+		.replace(CACHED_REGEXES.arrowOperatorWithSpaces, "->")
 		.replace(/(?<!(['"]).*)(?<=\()[\n\s]+?(?=\w)/gm, "")
 		.replace(/(.*)],[\n\s]*?\)$/gm, (_match: string, p1: string) => `${p1}]\n)`)
 		.replace(/,[\n\s]*?\)/gs, ")")
@@ -621,8 +655,7 @@ export async function formatExpressionInsideBladeDirective(
 		.trim();
 
 	if (formatter.options.useTabs || false) {
-		inside = _.replace(
-			inside,
+		inside = inside.replace(
 			/(?<=^ *) {4}/gm,
 			"\t".repeat(formatter.indentSize),
 		);
@@ -644,7 +677,7 @@ export function indentBladeDirectiveBlock(
 	content: any,
 	formatter: Formatter,
 ) {
-	if (_.isEmpty(indent.indent)) {
+	if (!indent.indent) {
 		return content;
 	}
 
@@ -663,7 +696,7 @@ export function indentBladeDirectiveBlock(
 
 	const lines = content.split("\n");
 
-	return _.chain(lines)
+	return lines
 		.map((line: any, index: any) => {
 			if (index === lines.length - 1) {
 				return prefixForEnd + line;
@@ -671,7 +704,6 @@ export function indentBladeDirectiveBlock(
 
 			return prefixSpaces + line;
 		})
-		.value()
 		.join("\n");
 }
 
