@@ -121,4 +121,41 @@ describe("formatter inlined test", () => {
 
 		await util.doubleFormatCheck(content, expected);
 	});
+
+	test("inline @php with multiline match expression should not insert trailing comma", async () => {
+		const content = [
+			"@php(",
+			"    $value = match ($enum) {",
+			"        Enum::CASE_A => 'a',",
+			"        Enum::CASE_B => 'b',",
+			"        default => null,",
+			"    }",
+			")",
+			"@php($value = match ($enum) {",
+			"        Enum::CASE_A => 'a',",
+			"        Enum::CASE_B => 'b',",
+			"        default => null,",
+			"    })",
+		].join("\n");
+
+		const expected = [
+			"@php(",
+			"    $value = match ($enum) {",
+			"        Enum::CASE_A => 'a',",
+			"        Enum::CASE_B => 'b',",
+			"        default => null",
+			"    }",
+			")",
+			"@php(",
+			"    $value = match ($enum) {",
+			"        Enum::CASE_A => 'a',",
+			"        Enum::CASE_B => 'b',",
+			"        default => null",
+			"    }",
+			")",
+			"",
+		].join("\n");
+
+		await util.doubleFormatCheck(content, expected);
+	});
 });
