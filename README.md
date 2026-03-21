@@ -489,8 +489,8 @@ $ make debug # attach
         </a>
     </td>
     <td align="center">
-        <a href="https://github.com/notdian">
-            <img src="https://avatars.githubusercontent.com/u/4225509?v=4" width="100;" alt="notdian"/>
+        <a href="https://github.com/dianfishekqi">
+            <img src="https://avatars.githubusercontent.com/u/4225509?v=4" width="100;" alt="dianfishekqi"/>
             <br />
             <sub><b>Null</b></sub>
         </a>
