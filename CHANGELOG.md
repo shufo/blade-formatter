@@ -1,5 +1,26 @@
 # Changelog
 
+## [1.44.3](https://github.com/shufo/blade-formatter/compare/v1.44.2...v1.44.3) (2026-03-21)
+
+
+### Fixes
+
+* **deps:** update dependency glob to v13 ([e45e666](https://github.com/shufo/blade-formatter/commit/e45e6668e165a595a7a937251a9bc232c48fc9b9))
+* **deps:** update dependency php-parser to v3.4.0 ([0b3d97f](https://github.com/shufo/blade-formatter/commit/0b3d97f00bfa94ab390f4f81d7a3c98463f3a54a))
+
+
+### Miscellaneous
+
+* **deps:** bump ajv from 8.11.0 to 8.18.0 ([e7f6cf6](https://github.com/shufo/blade-formatter/commit/e7f6cf68f5ba57f207c6a1aa5cd6869082bdf6dc))
+* **deps:** bump flatted from 3.2.7 to 3.4.2 ([6f969f1](https://github.com/shufo/blade-formatter/commit/6f969f198490c2cbef42d0b14161af74fffc7786))
+* **deps:** update dependency glob to v10.5.0 [security] ([b5add9e](https://github.com/shufo/blade-formatter/commit/b5add9eea67bab5b229848e5d44813241449d73f))
+* **deps:** update dependency lodash to v4.17.23 [security] ([b11ede7](https://github.com/shufo/blade-formatter/commit/b11ede7b1d287bd74b4a4b167e07f40bc8a2c1d7))
+* **deps:** update dependency vitest to v4 ([e428b01](https://github.com/shufo/blade-formatter/commit/e428b01fb8d4a867a074d86c97fbd30302a9a59a))
+* **deps:** update docker/build-push-action action to v7 ([fa3c0de](https://github.com/shufo/blade-formatter/commit/fa3c0decf1369d8f52cc19bc4804215642ae9e79))
+* **deps:** update docker/login-action action to v4 ([b8e6bf1](https://github.com/shufo/blade-formatter/commit/b8e6bf1652745237c278e9a532fe4a2b90a6838d))
+* **deps:** update docker/setup-buildx-action action to v4 ([06bdcaa](https://github.com/shufo/blade-formatter/commit/06bdcaa7f24f96079274ba434546d2a5f5bb574d))
+* **deps:** update docker/setup-qemu-action action to v4 ([4aed560](https://github.com/shufo/blade-formatter/commit/4aed5608f17743ab36aeefc11b6feb673b0b1fb0))
+
 ## [1.44.2](https://github.com/shufo/blade-formatter/compare/v1.44.1...v1.44.2) (2025-08-11)
 
 
