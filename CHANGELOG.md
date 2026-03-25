@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.44.4](https://github.com/shufo/blade-formatter/compare/v1.44.3...v1.44.4) (2026-03-25)
+
+
+### Fixes
+
+* **deps:** update dependency php-parser to v3.5.0 ([deced46](https://github.com/shufo/blade-formatter/commit/deced46f75c718a35cab696638deb89814d971c8))
+
+
+### Miscellaneous
+
+* **deps:** update dependency node to v24 ([deba253](https://github.com/shufo/blade-formatter/commit/deba2533c0975d281b3ead3cd1d4e65d75a56ae1))
+
 ## [1.44.3](https://github.com/shufo/blade-formatter/compare/v1.44.2...v1.44.3) (2026-03-21)
 
 
