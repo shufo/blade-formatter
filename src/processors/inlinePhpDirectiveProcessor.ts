@@ -22,9 +22,7 @@ export class InlinePhpDirectiveProcessor extends Processor {
 			content,
 			// eslint-disable-next-line max-len
 			new RegExp(
-				`(?!\\/\\*.*?\\*\\/)(${inlineFunctionTokens.join(
-					"|",
-				)})(\\s*?)${nestedParenthesisRegex}`,
+				`(?!\\/\\*.*?\\*\\/)(${inlineFunctionTokens.join("|")})(\\s*?)${nestedParenthesisRegex}`,
 				"gmsi",
 			),
 			(match: any) => this.storeInlinePhpDirective(match),
@@ -49,6 +47,7 @@ export class InlinePhpDirectiveProcessor extends Processor {
 						return `${(
 							await util.formatRawStringAsPhp(matched, {
 								...this.formatter.options,
+								trailingCommaPHP: false,
 								printWidth: util.printWidthForInline,
 							})
 						)
@@ -62,9 +61,7 @@ export class InlinePhpDirectiveProcessor extends Processor {
 						const formatted = replaceAsync(
 							matched,
 							new RegExp(
-								`(?<=@(${_.map(inlinePhpDirectives, (token) =>
-									token.substring(1),
-								).join("|")}).*?\\()(.*)(?=\\))`,
+								`(?<=@(${_.map(inlinePhpDirectives, (token) => token.substring(1)).join("|")}).*?\\()(.*)(?=\\))`,
 								"gis",
 							),
 							async (_match2: any, p3: any, p4: any) => {
