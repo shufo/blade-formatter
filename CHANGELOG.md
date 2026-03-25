@@ -5,6 +5,7 @@
 
 ### Fixes
 
+* fix: inline php directive with multiline php code unexpectedly inserts trailing comma [#1063](https://github.com/shufo/blade-formatter/pull/1063) | Thanks @McTom234!
 * **deps:** update dependency php-parser to v3.5.0 ([deced46](https://github.com/shufo/blade-formatter/commit/deced46f75c718a35cab696638deb89814d971c8))
 
 
