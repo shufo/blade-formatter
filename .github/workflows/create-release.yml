@@ -6,6 +6,9 @@ name: create-release
 permissions:
   id-token: write  # Required for OIDC
   contents: read
+  issues: write
+  pull-requests: write
+
 jobs:
   release-please:
     runs-on: ubuntu-latest
