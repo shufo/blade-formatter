@@ -3,6 +3,9 @@ on:
     branches:
       - main
 name: create-release
+permissions:
+  id-token: write  # Required for OIDC
+  contents: read
 jobs:
   release-please:
     runs-on: ubuntu-latest
