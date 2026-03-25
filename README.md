@@ -482,10 +482,17 @@ $ make debug # attach
     </td></tr>
 <tr>
     <td align="center">
-        <a href="https://github.com/Dave-iFour">
-            <img src="https://avatars.githubusercontent.com/u/110526667?v=4" width="100;" alt="Dave-iFour"/>
+        <a href="https://github.com/McTom234">
+            <img src="https://avatars.githubusercontent.com/u/57347686?v=4" width="100;" alt="McTom234"/>
             <br />
-            <sub><b>Dave</b></sub>
+            <sub><b>Null</b></sub>
+        </a>
+    </td>
+    <td align="center">
+        <a href="https://github.com/garrettboone">
+            <img src="https://avatars.githubusercontent.com/u/47018474?v=4" width="100;" alt="garrettboone"/>
+            <br />
+            <sub><b>Garrett Boone</b></sub>
         </a>
     </td>
     <td align="center">
@@ -496,10 +503,10 @@ $ make debug # attach
         </a>
     </td>
     <td align="center">
-        <a href="https://github.com/garrettboone">
-            <img src="https://avatars.githubusercontent.com/u/47018474?v=4" width="100;" alt="garrettboone"/>
+        <a href="https://github.com/Dave-iFour">
+            <img src="https://avatars.githubusercontent.com/u/110526667?v=4" width="100;" alt="Dave-iFour"/>
             <br />
-            <sub><b>Garrett Boone</b></sub>
+            <sub><b>Dave</b></sub>
         </a>
     </td>
     <td align="center">
@@ -515,15 +522,15 @@ $ make debug # attach
             <br />
             <sub><b>Gagandeep Singh</b></sub>
         </a>
-    </td>
+    </td></tr>
+<tr>
     <td align="center">
         <a href="https://github.com/hjanos1">
             <img src="https://avatars.githubusercontent.com/u/3355793?v=4" width="100;" alt="hjanos1"/>
             <br />
             <sub><b>Janos Horvath</b></sub>
         </a>
-    </td></tr>
-<tr>
+    </td>
     <td align="center">
         <a href="https://github.com/joshuachp">
             <img src="https://avatars.githubusercontent.com/u/43700905?v=4" width="100;" alt="joshuachp"/>
