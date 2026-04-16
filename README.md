@@ -131,6 +131,8 @@ $ yarn global add blade-formatter
 
 ```bash
 $ docker run -it -v $(pwd):/app -w /app shufo/blade-formatter resources/**/*.blade.php
+# From stdin
+$ cat test.blade.php | docker run -i shufo/blade-formatter --stdin
 ```
 
 ## Usage
