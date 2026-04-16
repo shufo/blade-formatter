@@ -9,5 +9,6 @@ ADD . /app
 COPY --from=builder /app/dist /app/dist
 RUN yarn install --production
 RUN ln -s $(pwd)/bin/blade-formatter.js /usr/local/bin/blade-formatter
+RUN yarn cache clean
 
 ENTRYPOINT ["blade-formatter"]
