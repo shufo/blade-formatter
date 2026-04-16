@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.44.5](https://github.com/shufo/blade-formatter/compare/v1.44.4...v1.44.5) (2026-04-16)
+
+
+### Fixes
+
+* 🐛 symbolic link missing ([4a2e266](https://github.com/shufo/blade-formatter/commit/4a2e2669518e72874134f5bf58b8d7a05b5cc0ca))
+
 ## [1.44.4](https://github.com/shufo/blade-formatter/compare/v1.44.3...v1.44.4) (2026-03-25)
 
 
