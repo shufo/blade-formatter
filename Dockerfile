@@ -7,8 +7,8 @@ FROM node:24-alpine3.20
 WORKDIR /app
 ADD . /app
 COPY --from=builder /app/dist /app/dist
-RUN yarn install --production
+RUN yarn install --production && \
+  yarn cache clean
 RUN ln -s $(pwd)/bin/blade-formatter.js /usr/local/bin/blade-formatter
-RUN yarn cache clean
 
 ENTRYPOINT ["blade-formatter"]
