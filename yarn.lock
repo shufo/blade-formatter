@@ -4418,10 +4418,10 @@ pathe@^2.0.3:
   resolved "https://registry.yarnpkg.com/pathe/-/pathe-2.0.3.tgz#3ecbec55421685b70a9da872b2cff3e1cbed1716"
   integrity sha512-WUjGcAqP1gQacoQe+OBJsFA7Ld4DyXuUIjZ5cc75cLHvJ7dtNsTugphxIADwspS+AraAUePCKrSVtPLFj/F88w==
 
-php-parser@3.5.0:
-  version "3.5.0"
-  resolved "https://registry.yarnpkg.com/php-parser/-/php-parser-3.5.0.tgz#c1c8e5aa663efe92e8e1ecd99a4e9d1b44e24060"
-  integrity sha512-EHdzSckQNP86jQRCEsMYhs+YzS4BfvfxnyhvzHVhVRoRUGEMFi8f3xKfuS9xdChBazZSyvb10SZbqhYQLGBcQg==
+php-parser@3.7.0:
+  version "3.7.0"
+  resolved "https://registry.yarnpkg.com/php-parser/-/php-parser-3.7.0.tgz#b40b82dc9ba2ad3068b418130f50a84b663d29ac"
+  integrity sha512-JRc1t78GZAEa+MuzVC5A5RJS1NDFTS4UnprUEu/NnsN9cyHbGZLUqghO9IQZUSCay62HYQiWd3PxyWAEF45zmA==
 
 php-parser@^3.2.5:
   version "3.2.5"
