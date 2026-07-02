@@ -52,6 +52,7 @@ export class ScriptsProcessor extends Processor {
 						extra_liners: util.optional(this.formatter.options).extraLiners,
 						indent_with_tabs: useTabs,
 						end_with_newline: false,
+						js: util.optional(this.formatter.options).jsBeautify || {},
 						templating: ["php"],
 					};
 

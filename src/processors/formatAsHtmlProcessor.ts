@@ -27,6 +27,7 @@ export class FormatAsHtmlProcessor extends Processor {
 				? 1
 				: undefined,
 			extra_liners: util.optional(this.formatter.options).extraLiners,
+			js: util.optional(this.formatter.options).jsBeautify || {},
 			css: {
 				end_with_newline: false,
 			},
