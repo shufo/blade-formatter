@@ -50,6 +50,7 @@ export type FormatterOption = {
 	extraLiners?: string[];
 	componentPrefix?: string[];
 	phpVersion?: string;
+	jsBeautify?: Record<string, unknown>;
 };
 
 export type BladeFormatterOption = CLIOption & FormatterOption;
