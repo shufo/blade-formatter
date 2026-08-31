@@ -548,4 +548,99 @@ describe("formatter php test", () => {
 
 		await util.doubleFormatCheck(content, expected);
 	});
+
+	test("@php block keeps indentation when a line comment contains a single quote", async () => {
+		const content = [
+			"@php",
+			"    // it's here",
+			"    $a = 'x';",
+			"@endphp",
+		].join("\n");
+
+		const expected = [
+			"@php",
+			"    // it's here",
+			"    $a = 'x';",
+			"@endphp",
+			"",
+		].join("\n");
+
+		await util.doubleFormatCheck(content, expected);
+	});
+
+	test("@php block keeps indentation when a hash comment contains a single quote", async () => {
+		const content = [
+			"@php",
+			"    # it's here",
+			"    $a = 'x';",
+			"@endphp",
+		].join("\n");
+
+		const expected = [
+			"@php",
+			"    # it's here",
+			"    $a = 'x';",
+			"@endphp",
+			"",
+		].join("\n");
+
+		await util.doubleFormatCheck(content, expected);
+	});
+
+	test("@php block keeps indentation when a block comment contains a single quote", async () => {
+		const content = [
+			"@php",
+			"    /* it's here */",
+			"    $a = 'x';",
+			"@endphp",
+		].join("\n");
+
+		const expected = [
+			"@php",
+			"    /* it's here */",
+			"    $a = 'x';",
+			"@endphp",
+			"",
+		].join("\n");
+
+		await util.doubleFormatCheck(content, expected);
+	});
+
+	test("@php block keeps indentation when a comment contains an unpaired double quote", async () => {
+		const content = [
+			"@php",
+			'    // he said "hello',
+			'    $a = "x$b";',
+			"@endphp",
+		].join("\n");
+
+		const expected = [
+			"@php",
+			'    // he said "hello',
+			'    $a = "x$b";',
+			"@endphp",
+			"",
+		].join("\n");
+
+		await util.doubleFormatCheck(content, expected);
+	});
+
+	test("@php block does not treat a comment marker inside a string as a comment", async () => {
+		const content = [
+			"@php",
+			"    $a = '// not a comment';",
+			"    $b = 'y';",
+			"@endphp",
+		].join("\n");
+
+		const expected = [
+			"@php",
+			"    $a = '// not a comment';",
+			"    $b = 'y';",
+			"@endphp",
+			"",
+		].join("\n");
+
+		await util.doubleFormatCheck(content, expected);
+	});
 });
