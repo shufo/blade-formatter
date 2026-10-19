@@ -158,6 +158,7 @@ export const inlineFunctionTokens = [
 	"@includewhen",
 	"@includeunless",
 	"@includefirst",
+	"@includeisolated",
 	"@button",
 	"@class",
 	"@props",

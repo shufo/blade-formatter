@@ -717,6 +717,29 @@ describe("formatter builtin directives test", () => {
 		await util.doubleFormatCheck(content, expected);
 	});
 
+	test("@includeIsolated directive", async () => {
+		const content = [
+			"<div>",
+			`@includeIsolated('livewire.cx.equipment-list-internal.account',['status'=>'complete',`,
+			`'foo'=>$user,'bar'=>$bbb,'baz'=>$myVariable])`,
+			"</div>",
+		].join("\n");
+
+		const expected = [
+			"<div>",
+			`    @includeIsolated('livewire.cx.equipment-list-internal.account', [`,
+			`        'status' => 'complete',`,
+			`        'foo' => $user,`,
+			`        'bar' => $bbb,`,
+			`        'baz' => $myVariable,`,
+			"    ])",
+			"</div>",
+			"",
+		].join("\n");
+
+		await util.doubleFormatCheck(content, expected);
+	});
+
 	test("@aware directive #576", async () => {
 		const content = [
 			`@aware(['color'=>'gray'])`,
