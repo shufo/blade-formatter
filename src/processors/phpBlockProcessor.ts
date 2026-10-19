@@ -113,6 +113,10 @@ export class PhpBlockProcessor extends Processor {
 		return _.replace("___raw_block_#___", "#", replace);
 	}
 
+	isPhpComment(token: string): boolean {
+		return /^(\/\*|\/\/|#)/.test(token);
+	}
+
 	preserveStringLiteralInPhp(content: any) {
 		return _.replace(
 			content,
