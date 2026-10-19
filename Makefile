@@ -16,8 +16,8 @@ run:
 
 .PHONY: test
 test:
-	docker run --rm --entrypoint=/bin/sh -v $(PWD)/__tests__:/app/__tests__ $(DOCKER_IMAGE_NAME) -c "yarn install && yarn run test"
+	docker run --rm --entrypoint=/bin/sh -v $(PWD)/__tests__:/app/__tests__ $(DOCKER_IMAGE_NAME) -c "npm install && npm run test"
 
 .PHONY: debug
-debug: 
-	docker run --rm -it --entrypoint=/bin/sh $(DOCKER_IMAGE_NAME) 
+debug:
+	docker run --rm -it --entrypoint=/bin/sh $(DOCKER_IMAGE_NAME)
