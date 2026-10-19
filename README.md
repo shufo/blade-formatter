@@ -491,6 +491,13 @@ $ make debug # attach
         </a>
     </td>
     <td align="center">
+        <a href="https://github.com/stebrl">
+            <img src="https://avatars.githubusercontent.com/u/6735216?v=4" width="100;" alt="stebrl"/>
+            <br />
+            <sub><b>Stefan</b></sub>
+        </a>
+    </td>
+    <td align="center">
         <a href="https://github.com/garrettboone">
             <img src="https://avatars.githubusercontent.com/u/47018474?v=4" width="100;" alt="garrettboone"/>
             <br />
@@ -517,15 +524,15 @@ $ make debug # attach
             <br />
             <sub><b>Clem Blanco</b></sub>
         </a>
-    </td>
+    </td></tr>
+<tr>
     <td align="center">
         <a href="https://github.com/gagansday">
             <img src="https://avatars.githubusercontent.com/u/25811413?v=4" width="100;" alt="gagansday"/>
             <br />
             <sub><b>Gagandeep Singh</b></sub>
         </a>
-    </td></tr>
-<tr>
+    </td>
     <td align="center">
         <a href="https://github.com/hjanos1">
             <img src="https://avatars.githubusercontent.com/u/3355793?v=4" width="100;" alt="hjanos1"/>
@@ -560,7 +567,8 @@ $ make debug # attach
             <br />
             <sub><b>Lennart Dommer</b></sub>
         </a>
-    </td>
+    </td></tr>
+<tr>
     <td align="center">
         <a href="https://github.com/RayGuo-ergou">
             <img src="https://avatars.githubusercontent.com/u/33137074?v=4" width="100;" alt="RayGuo-ergou"/>
