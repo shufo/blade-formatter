@@ -9,7 +9,7 @@
 * 🐛 single quote in a `@php` block comment strips indentation [#1126](https://github.com/shufo/blade-formatter/pull/1126)
 * 🐛 symbolic link missing ([4a2e266](https://github.com/shufo/blade-formatter/commit/4a2e2669518e72874134f5bf58b8d7a05b5cc0ca))
 * 🐛 update base image to node26-alpine3.23 ([a94c32b](https://github.com/shufo/blade-formatter/commit/a94c32bdac0fee74f728e248ed230b3fb7360f8c))
-* format `@includeIsolated` arguments like the other include directives [#1135](https://github.com/shufo/blade-formatter/pull/1135)
+* format `@includeIsolated` arguments like the other include directives [#1135](https://github.com/shufo/blade-formatter/pull/1135) | Thanks @antennaio!
 
 
 ### Miscellaneous
