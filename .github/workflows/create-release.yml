@@ -22,7 +22,7 @@ jobs:
         if: ${{ steps.release.outputs.release_created }}
       - name: Set up Node.js
         if: ${{ steps.release.outputs.release_created }}
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version: 24.x
           registry-url: 'https://registry.npmjs.org'
