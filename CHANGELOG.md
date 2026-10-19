@@ -1,5 +1,32 @@
 # Changelog
 
+## [1.44.5](https://github.com/shufo/blade-formatter/compare/v1.44.4...v1.44.5) (2026-10-19)
+
+
+### Fixes
+
+* 🐛 quote in a heredoc body in a `@php` block strips indentation [#1142](https://github.com/shufo/blade-formatter/pull/1142) | Thanks @stebrl!
+* 🐛 single quote in a `@php` block comment strips indentation [#1126](https://github.com/shufo/blade-formatter/pull/1126)
+* 🐛 symbolic link missing ([4a2e266](https://github.com/shufo/blade-formatter/commit/4a2e2669518e72874134f5bf58b8d7a05b5cc0ca))
+* 🐛 update base image to node26-alpine3.23 ([a94c32b](https://github.com/shufo/blade-formatter/commit/a94c32bdac0fee74f728e248ed230b3fb7360f8c))
+* format `@includeIsolated` arguments like the other include directives [#1135](https://github.com/shufo/blade-formatter/pull/1135) | Thanks @antennaio!
+
+
+### Miscellaneous
+
+* 🤖 bump js-beautify to 2.0.3 ([c222f70](https://github.com/shufo/blade-formatter/commit/c222f70d3670ed91a5e3d02cdd96fb0982da57dc))
+* **deps:** bump fast-uri from 3.1.0 to 3.1.8 ([fa7ee4d](https://github.com/shufo/blade-formatter/commit/fa7ee4d346857367246e9e42a198d383e41b8d3b))
+* **deps:** bump source-map-js from 1.0.2 to 1.2.2 ([b427d81](https://github.com/shufo/blade-formatter/commit/b427d81abe8238539829236c9f8bafd846eeeb49))
+* **deps:** update actions/cache action to v6 ([0f1d0ee](https://github.com/shufo/blade-formatter/commit/0f1d0ee44fbe9f6652472d781bc9d2be4a00810a))
+* **deps:** update actions/checkout action to v7 ([ca9ca0b](https://github.com/shufo/blade-formatter/commit/ca9ca0b47b57ec6ad635827a0a7443ccfcf02940))
+* **deps:** update actions/setup-node action to v7 ([569eb79](https://github.com/shufo/blade-formatter/commit/569eb79b9224fc98e23560bc68016b76684ff15a))
+* **deps:** update actions/stale action to v11 ([48ef7c9](https://github.com/shufo/blade-formatter/commit/48ef7c92f3e233bca806d7cc907e88f10a874112))
+* **deps:** update babel monorepo to v8 ([4976a21](https://github.com/shufo/blade-formatter/commit/4976a21bc95f9429df584951b1b6a77bf2883149))
+* **deps:** update dependency @babel/core to v7.29.6 [security] ([596f025](https://github.com/shufo/blade-formatter/commit/596f0253a8387bfd1d2ff07aa127c032420c9c21))
+* **deps:** update dependency typescript to v7 ([39d7782](https://github.com/shufo/blade-formatter/commit/39d7782b33c29edf54cec79cbc271384315c21f8))
+* **deps:** update dependency vitest to v4.1.11 [security] ([d2ccea4](https://github.com/shufo/blade-formatter/commit/d2ccea4ed7e8b4a4b1344182817c8f01191d4680))
+* **deps:** update googlecloudplatform/release-please-action action to v5 ([f318bce](https://github.com/shufo/blade-formatter/commit/f318bce5b5209abf0674f23e77933828dc91668a))
+
 ## [1.44.4](https://github.com/shufo/blade-formatter/compare/v1.44.3...v1.44.4) (2026-03-25)
 
 
