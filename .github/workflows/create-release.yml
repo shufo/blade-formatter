@@ -42,7 +42,5 @@ jobs:
         if: ${{ steps.release.outputs.release_created }}
       - name: publish to npm
         if: ${{ steps.release.outputs.release_created }}
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_AUTH_TOKEN}}
         run: |
           yarn publish --non-interactive --new-version ${{ steps.release.outputs.major }}.${{ steps.release.outputs.minor }}.${{ steps.release.outputs.patch }}
