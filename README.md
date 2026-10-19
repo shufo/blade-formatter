@@ -469,32 +469,32 @@ $ make debug # attach
         </a>
     </td>
     <td align="center">
+        <a href="https://github.com/stebrl">
+            <img src="https://avatars.githubusercontent.com/u/6735216?v=4" width="100;" alt="stebrl"/>
+            <br />
+            <sub><b>Stefan</b></sub>
+        </a>
+    </td>
+    <td align="center">
         <a href="https://github.com/yaegassy">
             <img src="https://avatars.githubusercontent.com/u/188642?v=4" width="100;" alt="yaegassy"/>
             <br />
             <sub><b>Yaegassy</b></sub>
         </a>
-    </td>
+    </td></tr>
+<tr>
     <td align="center">
         <a href="https://github.com/schelmo">
             <img src="https://avatars.githubusercontent.com/u/47602?v=4" width="100;" alt="schelmo"/>
             <br />
             <sub><b>Schelmo</b></sub>
         </a>
-    </td></tr>
-<tr>
+    </td>
     <td align="center">
         <a href="https://github.com/McTom234">
             <img src="https://avatars.githubusercontent.com/u/57347686?v=4" width="100;" alt="McTom234"/>
             <br />
             <sub><b>Null</b></sub>
-        </a>
-    </td>
-    <td align="center">
-        <a href="https://github.com/stebrl">
-            <img src="https://avatars.githubusercontent.com/u/6735216?v=4" width="100;" alt="stebrl"/>
-            <br />
-            <sub><b>Stefan</b></sub>
         </a>
     </td>
     <td align="center">
@@ -562,13 +562,20 @@ $ make debug # attach
         </a>
     </td>
     <td align="center">
+        <a href="https://github.com/antennaio">
+            <img src="https://avatars.githubusercontent.com/u/530421?v=4" width="100;" alt="antennaio"/>
+            <br />
+            <sub><b>Kazik</b></sub>
+        </a>
+    </td></tr>
+<tr>
+    <td align="center">
         <a href="https://github.com/ldommer">
             <img src="https://avatars.githubusercontent.com/u/65616313?v=4" width="100;" alt="ldommer"/>
             <br />
             <sub><b>Lennart Dommer</b></sub>
         </a>
-    </td></tr>
-<tr>
+    </td>
     <td align="center">
         <a href="https://github.com/RayGuo-ergou">
             <img src="https://avatars.githubusercontent.com/u/33137074?v=4" width="100;" alt="RayGuo-ergou"/>
