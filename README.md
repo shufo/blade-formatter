@@ -398,8 +398,8 @@ module.exports = {
 ## Development
 
 ```bash
-$ yarn install
-$ yarn run watch # watch changes
+$ npm install
+$ npm run watch # watch changes
 ```
 
 You can use local docker image for development.

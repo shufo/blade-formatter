@@ -25,7 +25,7 @@
     "build": "cross-env NODE_ENV=production node esbuild.js && cross-env NODE_ENV=production ESM_BUILD=true node esbuild.js",
     "prepublish": "tsc src/main.ts --declaration --emitDeclarationOnly --outDir ./dist/types || true",
     "watch": "node esbuild.js",
-    "test": "yarn run build && yarn run vitest run",
+    "test": "npm run build && npx vitest run",
     "lint": "biome lint .",
     "fix": "biome lint . --fix",
     "format": "biome format . --write",
@@ -63,7 +63,7 @@
     "yargs": "^17.3.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.6.4",
+    "@babel/core": "^8.0.0",
     "@babel/plugin-transform-modules-commonjs": "^8.0.0",
     "@babel/preset-env": "^8.0.0",
     "@babel/preset-typescript": "^8.0.0",
@@ -105,6 +105,7 @@
     "CHANGELOG.md"
   ],
   "lint-staged": {
-    "*.ts": "yarn run fix"
-  }
+    "*.ts": "npm run fix"
+  },
+  "packageManager": "^npm@11.20.0"
 }
