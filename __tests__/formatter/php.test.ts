@@ -643,4 +643,125 @@ describe("formatter php test", () => {
 
 		await util.doubleFormatCheck(content, expected);
 	});
+
+	test("@php block keeps indentation when a heredoc body contains a single quote", async () => {
+		const content = [
+			"@php",
+			"    $a = <<<TXT",
+			"    it's here",
+			"    TXT;",
+			"    $b = 'y';",
+			"@endphp",
+		].join("\n");
+
+		const expected = [
+			"@php",
+			"    $a = <<<TXT",
+			"    it's here",
+			"    TXT;",
+			"    $b = 'y';",
+			"@endphp",
+			"",
+		].join("\n");
+
+		await util.doubleFormatCheck(content, expected);
+	});
+
+	test("@php block keeps indentation when a nowdoc body contains an unpaired double quote", async () => {
+		const content = [
+			"@php",
+			"    $a = <<<'TXT'",
+			'    he said "hello',
+			"    TXT;",
+			'    $b = "x$c";',
+			"@endphp",
+		].join("\n");
+
+		const expected = [
+			"@php",
+			"    $a = <<<'TXT'",
+			'    he said "hello',
+			"    TXT;",
+			'    $b = "x$c";',
+			"@endphp",
+			"",
+		].join("\n");
+
+		await util.doubleFormatCheck(content, expected);
+	});
+
+	test("@php block keeps the closing marker of a heredoc relative to its body", async () => {
+		const content = [
+			"<div>",
+			"    @php",
+			"        $a = <<<TXT",
+			"            it's indented",
+			"          TXT;",
+			"        $b = 'y';",
+			"    @endphp",
+			"</div>",
+		].join("\n");
+
+		const expected = [
+			"<div>",
+			"    @php",
+			"        $a = <<<TXT",
+			"          it's indented",
+			"        TXT;",
+			"        $b = 'y';",
+			"    @endphp",
+			"</div>",
+			"",
+		].join("\n");
+
+		await util.doubleFormatCheck(content, expected);
+	});
+
+	test("@php block keeps indentation with several heredocs containing quotes", async () => {
+		const content = [
+			"@php",
+			"    $a = <<<TXT",
+			"    it's one",
+			"    TXT;",
+			"    $b = <<<TXT",
+			"    it's two",
+			"    TXT;",
+			"    $c = 'y';",
+			"@endphp",
+		].join("\n");
+
+		const expected = [
+			"@php",
+			"    $a = <<<TXT",
+			"    it's one",
+			"    TXT;",
+			"    $b = <<<TXT",
+			"    it's two",
+			"    TXT;",
+			"    $c = 'y';",
+			"@endphp",
+			"",
+		].join("\n");
+
+		await util.doubleFormatCheck(content, expected);
+	});
+
+	test("@php block does not treat a heredoc marker inside a string as a heredoc", async () => {
+		const content = [
+			"@php",
+			"    $a = '<<<TXT';",
+			"    $b = 'y';",
+			"@endphp",
+		].join("\n");
+
+		const expected = [
+			"@php",
+			"    $a = '<<<TXT';",
+			"    $b = 'y';",
+			"@endphp",
+			"",
+		].join("\n");
+
+		await util.doubleFormatCheck(content, expected);
+	});
 });
