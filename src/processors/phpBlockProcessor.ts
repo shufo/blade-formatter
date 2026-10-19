@@ -5,6 +5,10 @@ import replaceAsync from "string-replace-async";
 import * as util from "../util";
 import { Processor } from "./processor";
 
+function isPhpComment(token: string): boolean {
+	return /^(\/\*|\/\/|#)/.test(token);
+}
+
 export class PhpBlockProcessor extends Processor {
 	private rawBlocks: string[] = [];
 	private rawPropsBlocks: string[] = [];
@@ -116,8 +120,9 @@ export class PhpBlockProcessor extends Processor {
 	preserveStringLiteralInPhp(content: any) {
 		return _.replace(
 			content,
-			/(\"([^\\]|\\.)*?\"|\'([^\\]|\\.)*?\')/gm,
-			(match: string) => `${this.storeStringLiteralInPhp(match)}`,
+			/(\/\*[\s\S]*?\*\/|\/\/[^\n]*|#(?!\[)[^\n]*|\"([^\\]|\\.)*?\"|\'([^\\]|\\.)*?\')/gm,
+			(match: string) =>
+				isPhpComment(match) ? match : `${this.storeStringLiteralInPhp(match)}`,
 		);
 	}
 
