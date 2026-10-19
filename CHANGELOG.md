@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.44.6](https://github.com/shufo/blade-formatter/compare/v1.44.5...v1.44.6) (2026-10-19)
+
+
+### Miscellaneous
+
+* 🤖 bump `@prettier/plugin-php` to 0.25.0 ([6df4666](https://github.com/shufo/blade-formatter/commit/6df4666ead812bb0be9f1199fede517ce1514af0))
+* 🤖 bump lodash to 4.18.1 ([978441c](https://github.com/shufo/blade-formatter/commit/978441c9f536435a5bce4e8d4ca489418f2de104))
+* 🤖 bump php-parser to 3.7.0 ([7ed8f6e](https://github.com/shufo/blade-formatter/commit/7ed8f6e0e490d9a36a10d2dbbd734728aecd6fec))
+
 ## [1.44.5](https://github.com/shufo/blade-formatter/compare/v1.44.4...v1.44.5) (2026-10-19)
 
 
