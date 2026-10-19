@@ -120,12 +120,16 @@ export class PhpBlockProcessor extends Processor {
 	preserveStringLiteralInPhp(content: any) {
 		return _.replace(
 			content,
-			/(\/\*[\s\S]*?\*\/|\/\/[^\n]*|#(?!\[)[^\n]*|\"([^\\]|\\.)*?\"|\'([^\\]|\\.)*?\')/gm,
+			/(\/\*[\s\S]*?\*\/|\/\/[^\n]*|#(?!\[)[^\n]*|<<<[ \t]*(['"]?)([A-Za-z_]\w*)\2\r?\n[\s\S]*?^[ \t]*\3(?!\w)|\"([^\\]|\\.)*?\"|\'([^\\]|\\.)*?\')/gm,
 			(match: string) =>
-				this.isPhpComment(match)
+				this.isCommentOrHeredoc(match)
 					? match
 					: `${this.storeStringLiteralInPhp(match)}`,
 		);
+	}
+
+	private isCommentOrHeredoc(token: string): boolean {
+		return /^(\/\*|\/\/|#|<<<)/.test(token);
 	}
 
 	storeStringLiteralInPhp(value: any) {
