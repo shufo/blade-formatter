@@ -5,10 +5,6 @@ import replaceAsync from "string-replace-async";
 import * as util from "../util";
 import { Processor } from "./processor";
 
-function isPhpComment(token: string): boolean {
-	return /^(\/\*|\/\/|#)/.test(token);
-}
-
 export class PhpBlockProcessor extends Processor {
 	private rawBlocks: string[] = [];
 	private rawPropsBlocks: string[] = [];
@@ -120,10 +116,16 @@ export class PhpBlockProcessor extends Processor {
 	preserveStringLiteralInPhp(content: any) {
 		return _.replace(
 			content,
-			/(\/\*[\s\S]*?\*\/|\/\/[^\n]*|#(?!\[)[^\n]*|\"([^\\]|\\.)*?\"|\'([^\\]|\\.)*?\')/gm,
+			/(\/\*[\s\S]*?\*\/|\/\/[^\n]*|#(?!\[)[^\n]*|<<<[ \t]*(['"]?)([A-Za-z_]\w*)\2\r?\n[\s\S]*?^[ \t]*\3(?!\w)|\"([^\\]|\\.)*?\"|\'([^\\]|\\.)*?\')/gm,
 			(match: string) =>
-				isPhpComment(match) ? match : `${this.storeStringLiteralInPhp(match)}`,
+				this.isCommentOrHeredoc(match)
+					? match
+					: `${this.storeStringLiteralInPhp(match)}`,
 		);
+	}
+
+	private isCommentOrHeredoc(token: string): boolean {
+		return /^(\/\*|\/\/|#|<<<)/.test(token);
 	}
 
 	storeStringLiteralInPhp(value: any) {
