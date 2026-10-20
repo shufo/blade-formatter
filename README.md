@@ -230,11 +230,24 @@ e.g.
   "noTrailingCommaPhp": false,
   "extraLiners": [],
   "componentPrefix": ["x-", "livewire:"],
-  "phpVersion": "8.4"
+  "phpVersion": "8.4",
+  "jsBeautify": {
+    "space_after_anon_function": true,
+    "space_in_paren": false,
+    "brace_style": "collapse",
+    "break_chained_methods": false,
+    "keep_array_indentation": false
+  }
 }
 ```
 
 blade-formatter will search up the directory structure until it reaches the root directory.
+
+### Formatting embedded `<script>` blocks
+
+The JavaScript inside `<script>` blocks is formatted with [js-beautify](https://github.com/beautifier/js-beautify). The `jsBeautify` option is an object passed straight through to js-beautify, so you can control the embedded-script style. Any keys you omit fall back to js-beautify's defaults, so leaving `jsBeautify` unset keeps the current behaviour. See the [js-beautify options](https://github.com/beautifier/js-beautify#options) for the full list.
+
+Indentation and line width for `<script>` blocks are already derived from blade-formatter's own `indentSize` and `wrapLineLength` options, so prefer those rather than the js-beautify equivalents.
 
 ## Ignore Files
 
