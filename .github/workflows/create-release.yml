@@ -31,4 +31,4 @@ jobs:
       - name: publish to npm
         if: ${{ steps.release.outputs.release_created }}
         run: |
-          npm publish 
+          npm publish --provenance
