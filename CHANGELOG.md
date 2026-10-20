@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.44.7](https://github.com/shufo/blade-formatter/compare/v1.44.6...v1.44.7) (2026-10-20)
+
+
+### Miscellaneous
+
+* 🤖 bump `@babel/core` to 8.0.0 ([c1da0e8](https://github.com/shufo/blade-formatter/commit/c1da0e861220a5d570ac04730cc37f49699634ff))
+* 🤖 migrate yarn to npm ([983ddc8](https://github.com/shufo/blade-formatter/commit/983ddc8980b8d929377988a2191dbb5e98ce5b46))
+* migrate yarn to npm ([8fd0ef2](https://github.com/shufo/blade-formatter/commit/8fd0ef212e6c42dc8ad650f66187ecf01e264cff))
+
 ## [1.44.6](https://github.com/shufo/blade-formatter/compare/v1.44.5...v1.44.6) (2026-10-19)
 
 
