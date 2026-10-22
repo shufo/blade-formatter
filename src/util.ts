@@ -8,6 +8,7 @@ import detectIndent from "detect-indent";
 import beautify from "js-beautify";
 /* eslint-disable max-len */
 import _ from "lodash";
+import { Engine as PhpEngine } from "php-parser";
 import * as prettier from "prettier/standalone";
 import replaceAsync from "string-replace-async";
 import {
@@ -540,6 +541,7 @@ export function indentRawPhpBlock(
 	);
 
 	const lines = content.split("\n");
+	const linesInsideString = getLinesStartingInsidePhpString(content);
 
 	return _.chain(lines)
 		.map((line: any, index: any) => {
@@ -547,10 +549,48 @@ export function indentRawPhpBlock(
 				return line.trim();
 			}
 
+			if (linesInsideString.has(index)) {
+				return line;
+			}
+
 			return prefixSpaces + line;
 		})
 		.value()
 		.join("\n");
+}
+
+const phpStringTokens = [
+	"T_CONSTANT_ENCAPSED_STRING",
+	"T_ENCAPSED_AND_WHITESPACE",
+	"T_START_HEREDOC",
+];
+
+/**
+ * Returns the indexes of lines that begin inside a PHP string literal.
+ * Indenting such a line would change the value of the string.
+ */
+function getLinesStartingInsidePhpString(content: string) {
+	const source = /^\s*<\?(php|=)/i.test(content) ? content : `<?php ${content}`;
+	const tokens = new PhpEngine({ lexer: { all_tokens: true } }).tokenGetAll(
+		source,
+	);
+	const lines = new Set<number>();
+	let lineIndex = 0;
+
+	for (const token of tokens) {
+		const [name, text] = Array.isArray(token) ? token : [token, token];
+		const newlines = (text.match(/\n/g) ?? []).length;
+
+		if (phpStringTokens.includes(name)) {
+			for (let i = 1; i <= newlines; i++) {
+				lines.add(lineIndex + i);
+			}
+		}
+
+		lineIndex += newlines;
+	}
+
+	return lines;
 }
 
 export function indentPhpComment(

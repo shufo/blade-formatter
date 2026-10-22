@@ -234,4 +234,48 @@ describe("formatter braces test", () => {
 
 		await util.doubleFormatCheck(content, expected);
 	});
+
+	test("multi-line string literals keep their content in nested braces and directives", async () => {
+		const content = [
+			"<div>",
+			"    <div>",
+			"        <p>{{ __('First part of a long sentence that the author wrapped by hand,",
+			"            second part of the sentence.') }}</p>",
+			'        <p>{!! __("Raw {$name} first part,',
+			'            raw second part.") !!}</p>',
+			"        @include('partials.card', [",
+			"            'description' => 'First part of a long description,",
+			"                second part of the description.',",
+			"        ])",
+			"        <?php",
+			"            $label = 'First part of a label,",
+			"                second part of the label.';",
+			"        ?>",
+			"    </div>",
+			"</div>",
+		].join("\n");
+
+		const expected = [
+			"<div>",
+			"    <div>",
+			"        <p>{{ __('First part of a long sentence that the author wrapped by hand,",
+			"            second part of the sentence.') }}",
+			"        </p>",
+			'        <p>{!! __("Raw {$name} first part,',
+			'            raw second part.") !!}</p>',
+			"        @include('partials.card', [",
+			"            'description' => 'First part of a long description,",
+			"                second part of the description.',",
+			"        ])",
+			"        <?php",
+			"        $label = 'First part of a label,",
+			"                second part of the label.';",
+			"        ?>",
+			"    </div>",
+			"</div>",
+			"",
+		].join("\n");
+
+		await util.doubleFormatCheck(content, expected);
+	});
 });
