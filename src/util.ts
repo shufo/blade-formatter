@@ -559,15 +559,11 @@ export function indentRawPhpBlock(
 		.join("\n");
 }
 
-const phpStringTokens = [
-	"T_CONSTANT_ENCAPSED_STRING",
-	"T_ENCAPSED_AND_WHITESPACE",
-	"T_START_HEREDOC",
-];
-
 /**
- * Returns the indexes of lines that begin inside a PHP string literal.
- * Indenting such a line would change the value of the string.
+ * Returns the indexes of lines that begin inside a quoted or backtick PHP string.
+ * Indenting such a line would change the value of the string. Heredoc and
+ * nowdoc bodies are left out: PHP strips the closing marker's indentation
+ * from every body line, so indenting the whole heredoc keeps its value.
  */
 function getLinesStartingInsidePhpString(content: string) {
 	const source = /^\s*<\?(php|=)/i.test(content) ? content : `<?php ${content}`;
@@ -576,12 +572,20 @@ function getLinesStartingInsidePhpString(content: string) {
 	);
 	const lines = new Set<number>();
 	let lineIndex = 0;
+	let openQuote: string | null = null;
 
 	for (const token of tokens) {
 		const [name, text] = Array.isArray(token) ? token : [token, token];
 		const newlines = (text.match(/\n/g) ?? []).length;
 
-		if (phpStringTokens.includes(name)) {
+		if (name === '"' || name === "`") {
+			openQuote = openQuote === name ? null : (openQuote ?? name);
+		}
+
+		if (
+			name === "T_CONSTANT_ENCAPSED_STRING" ||
+			(openQuote !== null && name === "T_ENCAPSED_AND_WHITESPACE")
+		) {
 			for (let i = 1; i <= newlines; i++) {
 				lines.add(lineIndex + i);
 			}
