@@ -559,6 +559,8 @@ export function indentRawPhpBlock(
 		.join("\n");
 }
 
+const phpEngine = new PhpEngine({});
+
 /**
  * Returns the indexes of lines that begin inside a quoted or backtick PHP string.
  * Indenting such a line would change the value of the string. Heredoc and
@@ -567,9 +569,7 @@ export function indentRawPhpBlock(
  */
 function getLinesStartingInsidePhpString(content: string) {
 	const source = /^\s*<\?(php|=)/i.test(content) ? content : `<?php ${content}`;
-	const tokens = new PhpEngine({ lexer: { all_tokens: true } }).tokenGetAll(
-		source,
-	);
+	const tokens = phpEngine.tokenGetAll(source);
 	const lines = new Set<number>();
 	let lineIndex = 0;
 	let openQuote: string | null = null;
