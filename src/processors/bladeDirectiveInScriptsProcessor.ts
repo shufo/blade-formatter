@@ -407,7 +407,7 @@ export class BladeDirectiveInScriptsProcessor extends Processor {
 								.replace(/,(\s*?\))$/gm, (_m, p4) => p4)
 								.trim()
 								.substring(4);
-							return `${p2}${util.indentComponentAttribute(indent.indent, formatted, this.formatter)}`;
+							return `${p2}${util.indentComponentAttribute(indent.indent, formatted, this.formatter, util.getLinesStartingInsidePhpString(formatted))}`;
 						} catch (_error) {
 							return `${match2}`;
 						}

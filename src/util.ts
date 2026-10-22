@@ -8,6 +8,7 @@ import detectIndent from "detect-indent";
 import beautify from "js-beautify";
 /* eslint-disable max-len */
 import _ from "lodash";
+import { Engine as PhpEngine } from "php-parser";
 import * as prettier from "prettier/standalone";
 import replaceAsync from "string-replace-async";
 import {
@@ -539,18 +540,74 @@ export function indentRawPhpBlock(
 		indentLevel < 0 ? 0 : indentLevel * formatter.indentSize,
 	);
 
-	const lines = content.split("\n");
+	return indentLinesAfterFirstLine(
+		content,
+		prefixSpaces,
+		getLinesStartingInsidePhpString(content),
+	);
+}
 
-	return _.chain(lines)
-		.map((line: any, index: any) => {
+/**
+ * Trims the first line and prefixes every later line, except the lines in
+ * `preservedLines`, which are kept exactly as they are.
+ */
+function indentLinesAfterFirstLine(
+	content: string,
+	prefix: string,
+	preservedLines: Set<number>,
+) {
+	return content
+		.split("\n")
+		.map((line, index) => {
 			if (index === 0) {
 				return line.trim();
 			}
 
-			return prefixSpaces + line;
+			if (preservedLines.has(index)) {
+				return line;
+			}
+
+			return prefix + line;
 		})
-		.value()
 		.join("\n");
+}
+
+const phpEngine = new PhpEngine({});
+
+/**
+ * Returns the indexes of lines that begin inside a quoted or backtick PHP string.
+ * Indenting such a line would change the value of the string. Heredoc and
+ * nowdoc bodies are left out: PHP strips the closing marker's indentation
+ * from every body line, so indenting the whole heredoc keeps its value.
+ */
+export function getLinesStartingInsidePhpString(content: string) {
+	const source = /^\s*<\?(php|=)/i.test(content) ? content : `<?php ${content}`;
+	const tokens = phpEngine.tokenGetAll(source);
+	const lines = new Set<number>();
+	let lineIndex = 0;
+	let openQuote: string | null = null;
+
+	for (const token of tokens) {
+		const [name, text] = Array.isArray(token) ? token : [token, token];
+		const newlines = (text.match(/\n/g) ?? []).length;
+
+		if (name === '"' || name === "`") {
+			openQuote = openQuote === name ? null : (openQuote ?? name);
+		}
+
+		if (
+			name === "T_CONSTANT_ENCAPSED_STRING" ||
+			(openQuote !== null && name === "T_ENCAPSED_AND_WHITESPACE")
+		) {
+			for (let i = 1; i <= newlines; i++) {
+				lines.add(lineIndex + i);
+			}
+		}
+
+		lineIndex += newlines;
+	}
+
+	return lines;
 }
 
 export function indentPhpComment(
@@ -730,6 +787,7 @@ export function indentComponentAttribute(
 	prefix: string,
 	content: string,
 	formatter: Formatter,
+	linesInsideString: Set<number>,
 ) {
 	if (_.isEmpty(prefix)) {
 		return content;
@@ -749,18 +807,7 @@ export function indentComponentAttribute(
 		indentLevel < 0 ? 0 : indentLevel * formatter.indentSize,
 	);
 
-	const lines = content.split("\n");
-
-	return _.chain(lines)
-		.map((line: any, index: any) => {
-			if (index === 0) {
-				return line.trim();
-			}
-
-			return prefixSpaces + line;
-		})
-		.value()
-		.join("\n");
+	return indentLinesAfterFirstLine(content, prefixSpaces, linesInsideString);
 }
 
 export function formatAsHtml(data: any, formatter: Formatter) {
