@@ -155,6 +155,7 @@ export class CustomDirectiveProcessor extends Processor {
 								indent.indent,
 								formatted,
 								this.formatter,
+								util.getLinesStartingInsidePhpString(formatted),
 							)}`;
 						} catch (_error) {
 							return `${match2}`;
@@ -217,6 +218,7 @@ export class CustomDirectiveProcessor extends Processor {
 								indent.indent,
 								formatted,
 								this.formatter,
+								util.getLinesStartingInsidePhpString(formatted),
 							)}`;
 						} catch (_error) {
 							return `${match2}`;

@@ -66,7 +66,7 @@ export class ShorthandBindingProcessor extends Processor {
 					},
 				);
 
-				return `${util.indentComponentAttribute(indent.indent, formatted, this.formatter)}`;
+				return `${util.indentComponentAttribute(indent.indent, formatted, this.formatter, new Set())}`;
 			},
 		);
 	}

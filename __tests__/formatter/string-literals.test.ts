@@ -35,4 +35,60 @@ describe("formatter multi-line string literals test", () => {
 
 		await util.doubleFormatCheck(content, content);
 	});
+
+	test("custom directive argument keeps its content", async () => {
+		const content = [
+			"<div>",
+			"    <div>",
+			"        @mydirective('First part of an argument,",
+			"            second part of the argument.')",
+			"    </div>",
+			"</div>",
+			"",
+		].join("\n");
+
+		await util.doubleFormatCheck(content, content);
+	});
+
+	test("custom directive argument in a script keeps its content", async () => {
+		const content = [
+			"<div>",
+			"    <script>",
+			"        @mydirective('First part of an argument,",
+			"            second part of the argument.')",
+			"    </script>",
+			"</div>",
+			"",
+		].join("\n");
+
+		await util.doubleFormatCheck(content, content);
+	});
+
+	test("component attribute keeps its content", async () => {
+		const content = [
+			"<div>",
+			"    <div>",
+			`        <x-card :title="__('First part of a title,`,
+			`            second part of the title.')" />`,
+			"    </div>",
+			"</div>",
+			"",
+		].join("\n");
+
+		await util.doubleFormatCheck(content, content);
+	});
+
+	test("livewire component attribute keeps its content", async () => {
+		const content = [
+			"<div>",
+			"    <div>",
+			`        <livewire:card :title="__('First part of a title,`,
+			`            second part of the title.')" />`,
+			"    </div>",
+			"</div>",
+			"",
+		].join("\n");
+
+		await util.doubleFormatCheck(content, content);
+	});
 });

@@ -47,6 +47,7 @@ export class ComponentAttributeProcessor extends Processor {
 				const indent = detectIndent(matchedLine[0]);
 
 				const matched = this.componentAttributes[p1];
+				let linesInsideString = new Set<number>();
 				const formatted = await replaceAsync(
 					matched,
 					/(:{1,2}.*?=)(["'])(.*?)(?=\2)/gis,
@@ -56,6 +57,7 @@ export class ComponentAttributeProcessor extends Processor {
 						}
 
 						if (matchedLine[0].startsWith("<livewire")) {
+							linesInsideString = util.getLinesStartingInsidePhpString(p4);
 							return `${p2}${p3}${p4}`;
 						}
 
@@ -82,16 +84,19 @@ export class ComponentAttributeProcessor extends Processor {
 							}
 						}
 
-						return `${p2}${p3}${(
+						const php = (
 							await util.formatRawStringAsPhp(p4, {
 								...this.formatter.options,
 								printWidth: this.formatter.wrapLineLength - indent.amount,
 							})
-						).trimEnd()}`;
+						).trimEnd();
+						linesInsideString = util.getLinesStartingInsidePhpString(php);
+
+						return `${p2}${p3}${php}`;
 					},
 				);
 
-				return `${util.indentComponentAttribute(indent.indent, formatted, this.formatter)}`;
+				return `${util.indentComponentAttribute(indent.indent, formatted, this.formatter, linesInsideString)}`;
 			},
 		);
 	}

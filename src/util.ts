@@ -540,22 +540,35 @@ export function indentRawPhpBlock(
 		indentLevel < 0 ? 0 : indentLevel * formatter.indentSize,
 	);
 
-	const lines = content.split("\n");
-	const linesInsideString = getLinesStartingInsidePhpString(content);
+	return indentLinesAfterFirstLine(
+		content,
+		prefixSpaces,
+		getLinesStartingInsidePhpString(content),
+	);
+}
 
-	return _.chain(lines)
-		.map((line: any, index: any) => {
+/**
+ * Trims the first line and prefixes every later line, except the lines in
+ * `preservedLines`, which are kept exactly as they are.
+ */
+function indentLinesAfterFirstLine(
+	content: string,
+	prefix: string,
+	preservedLines: Set<number>,
+) {
+	return content
+		.split("\n")
+		.map((line, index) => {
 			if (index === 0) {
 				return line.trim();
 			}
 
-			if (linesInsideString.has(index)) {
+			if (preservedLines.has(index)) {
 				return line;
 			}
 
-			return prefixSpaces + line;
+			return prefix + line;
 		})
-		.value()
 		.join("\n");
 }
 
@@ -567,7 +580,7 @@ const phpEngine = new PhpEngine({});
  * nowdoc bodies are left out: PHP strips the closing marker's indentation
  * from every body line, so indenting the whole heredoc keeps its value.
  */
-function getLinesStartingInsidePhpString(content: string) {
+export function getLinesStartingInsidePhpString(content: string) {
 	const source = /^\s*<\?(php|=)/i.test(content) ? content : `<?php ${content}`;
 	const tokens = phpEngine.tokenGetAll(source);
 	const lines = new Set<number>();
@@ -774,6 +787,7 @@ export function indentComponentAttribute(
 	prefix: string,
 	content: string,
 	formatter: Formatter,
+	linesInsideString: Set<number>,
 ) {
 	if (_.isEmpty(prefix)) {
 		return content;
@@ -793,18 +807,7 @@ export function indentComponentAttribute(
 		indentLevel < 0 ? 0 : indentLevel * formatter.indentSize,
 	);
 
-	const lines = content.split("\n");
-
-	return _.chain(lines)
-		.map((line: any, index: any) => {
-			if (index === 0) {
-				return line.trim();
-			}
-
-			return prefixSpaces + line;
-		})
-		.value()
-		.join("\n");
+	return indentLinesAfterFirstLine(content, prefixSpaces, linesInsideString);
 }
 
 export function formatAsHtml(data: any, formatter: Formatter) {
