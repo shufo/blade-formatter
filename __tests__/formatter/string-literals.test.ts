@@ -2,6 +2,67 @@ import { describe, test } from "vitest";
 import * as util from "../support/util";
 
 describe("formatter multi-line string literals test", () => {
+	test("blade brace keeps its content", async () => {
+		const content = [
+			"<div>",
+			"    <div>",
+			"        {{ __('First part of a long sentence that the author wrapped by hand,",
+			"    second part of the sentence,",
+			"                    third part of the sentence.') }}",
+			"    </div>",
+			"</div>",
+			"",
+		].join("\n");
+
+		await util.doubleFormatCheck(content, content);
+	});
+
+	test("raw blade brace keeps the content of a double-quoted string", async () => {
+		const content = [
+			"<div>",
+			"    <div>",
+			'        {!! __("Raw {$name} first part,',
+			'            raw second part.") !!}',
+			"    </div>",
+			"</div>",
+			"",
+		].join("\n");
+
+		await util.doubleFormatCheck(content, content);
+	});
+
+	test("include directive argument keeps its content", async () => {
+		const content = [
+			"<div>",
+			"    <div>",
+			"        @include('partials.card', [",
+			"            'description' => 'First part of a long description,",
+			"                second part of the description.',",
+			"        ])",
+			"    </div>",
+			"</div>",
+			"",
+		].join("\n");
+
+		await util.doubleFormatCheck(content, content);
+	});
+
+	test("string in a nested php tag keeps its content", async () => {
+		const content = [
+			"<div>",
+			"    <div>",
+			"        <?php",
+			"        $label = 'First part of a label,",
+			"            second part of the label.';",
+			"        ?>",
+			"    </div>",
+			"</div>",
+			"",
+		].join("\n");
+
+		await util.doubleFormatCheck(content, content);
+	});
+
 	test("heredoc in a nested php tag is indented with the block", async () => {
 		const content = [
 			"<div>",
