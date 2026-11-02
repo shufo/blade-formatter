@@ -197,6 +197,8 @@ $ blade-formatter -c -d resources/**/*.blade.php
       --php-version                   Allows specifying the PHP version you\'re using  [string] [default: "8.4"]
   -p, --progress                      Print progress  [boolean] [default: false]
   -P, --component-prefix              Specify custom prefixes for component names. This changes the format rules applied to custom components e.g. preserve style in attributes. [string] [default: "x-,livewire:"]
+      --cache                         Skip files unchanged since they were last formatted or checked. Use --no-cache to disable  [boolean] [default: true]
+      --cache-file                    Path of the cache file  [string] [default: ".bladeformatter.cache"]
       --stdin                         Format code provided on <STDIN>  [boolean] [default: false]
       --config                        Use this configuration, overriding .bladeformatterrc config options if present  [string] [default: null]
       --ignore-path                   Specify path of ignore file  [string] [default: null]
