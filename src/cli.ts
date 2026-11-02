@@ -203,6 +203,17 @@ export default async function cli() {
 			description: "Print progress",
 			default: false,
 		})
+		.option("cache", {
+			type: "boolean",
+			description:
+				"Skip files unchanged since they were last formatted or checked. Use --no-cache to disable",
+			default: true,
+		})
+		.option("cache-file", {
+			type: "string",
+			description: "Path of the cache file",
+			default: ".bladeformatter.cache",
+		})
 		.option("stdin", {
 			type: "boolean",
 			description: "Format code provided on <STDIN>",

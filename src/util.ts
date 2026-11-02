@@ -1,5 +1,8 @@
+import crypto from "node:crypto";
 import fs from "node:fs";
 import os from "node:os";
+import nodepath from "node:path";
+import process from "node:process";
 // @ts-ignore
 // eslint-disable-next-line
 import phpPlugin from "@prettier/plugin-php/standalone";
@@ -40,6 +43,47 @@ export async function readFile(path: any) {
 			error ? reject(error) : resolve(data),
 		);
 	});
+}
+
+/**
+ * Write via a temp file + rename so the target is never left truncated
+ * if the process dies mid-write.
+ */
+export async function writeFileAtomic(path: string, content: string) {
+	const target = await fs.promises.realpath(path).catch(() => path);
+	const tmp = nodepath.join(
+		nodepath.dirname(target),
+		`.${nodepath.basename(target)}.${process.pid}.${crypto.randomBytes(6).toString("hex")}.tmp`,
+	);
+
+	try {
+		const stat = await fs.promises.stat(target).catch(() => null);
+		await fs.promises.writeFile(tmp, content);
+		if (stat) await fs.promises.chmod(tmp, stat.mode);
+		await fs.promises.rename(tmp, target);
+	} catch (error) {
+		await fs.promises.rm(tmp, { force: true });
+		throw error;
+	}
+}
+
+export async function mapLimit<T, R>(
+	items: T[],
+	limit: number,
+	fn: (item: T) => Promise<R>,
+): Promise<R[]> {
+	const results: R[] = new Array(items.length);
+	let next = 0;
+	const worker = async () => {
+		while (next < items.length) {
+			const i = next++;
+			results[i] = await fn(items[i]);
+		}
+	};
+	await Promise.all(
+		Array.from({ length: Math.min(limit, items.length) }, worker),
+	);
+	return results;
 }
 
 export function splitByLines(content: any) {

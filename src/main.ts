@@ -8,6 +8,7 @@ import { glob } from "glob";
 import ignore from "ignore";
 import _ from "lodash";
 import type { Config as TailwindConfig } from "tailwindcss/types/config";
+import FormatCache, { DEFAULT_CACHE_FILE, stableStringify } from "./cache";
 import FormatError from "./errors/formatError";
 import Formatter from "./formatter";
 import {
@@ -27,7 +28,36 @@ export type CLIOption = {
 	progress?: boolean;
 	ignoreFilePath?: string;
 	runtimeConfigPath?: string;
+	cache?: boolean;
+	cacheFile?: string;
 };
+
+// Options that only steer the CLI and have no effect on formatted output
+const NON_FORMATTING_OPTIONS = [
+	"_",
+	"$0",
+	"write",
+	"w",
+	"diff",
+	"d",
+	"checkFormatted",
+	"check-formatted",
+	"c",
+	"progress",
+	"p",
+	"stdin",
+	"cache",
+	"cacheFile",
+	"cache-file",
+	"config",
+	"runtimeConfigPath",
+	"ignore-path",
+	"ignorePath",
+	"ignoreFilePath",
+];
+
+// Formatting is CPU bound, this only bounds open files and memory
+const MAX_CONCURRENT_FILES = 16;
 
 export type FormatterOption = {
 	indentSize?: number;
@@ -68,6 +98,8 @@ class BladeFormatter {
 	static targetFiles: any = [];
 	runtimeConfigPath: string | null;
 	runtimeConfigCache: RuntimeConfig = {};
+	cache: FormatCache | null = null;
+	tailwindConfigContents: Record<string, string> = {};
 
 	constructor(options: BladeFormatterOption = {}, paths: any = []) {
 		this.options = options;
@@ -87,6 +119,27 @@ class BladeFormatter {
 	}
 
 	async formatFromCLI() {
+		// Printing to stdout must always format, so only cache when the
+		// result is written back or merely checked
+		if (
+			this.options.cache &&
+			(this.options.write || this.options.checkFormatted)
+		) {
+			this.cache = new FormatCache(
+				this.options.cacheFile || DEFAULT_CACHE_FILE,
+			);
+		}
+
+		// Keep the progress made so far if the run is aborted
+		const onSignal = (signal: NodeJS.Signals) => {
+			this.cache?.save();
+			process.exit(signal === "SIGINT" ? 130 : 143);
+		};
+		if (this.cache) {
+			process.once("SIGINT", onSignal);
+			process.once("SIGTERM", onSignal);
+		}
+
 		try {
 			this.printPreamble();
 			await this.readIgnoreFile(process.cwd());
@@ -94,6 +147,10 @@ class BladeFormatter {
 			this.printResults();
 		} catch (_error) {
 			// do nothing
+		} finally {
+			process.off("SIGINT", onSignal);
+			process.off("SIGTERM", onSignal);
+			this.cache?.save();
 		}
 	}
 
@@ -236,7 +293,9 @@ class BladeFormatter {
 	}
 
 	async formatFiles(paths: any) {
-		await Promise.all(paths.map(async (path: any) => this.formatFile(path)));
+		await util.mapLimit(paths, MAX_CONCURRENT_FILES, (path: any) =>
+			this.formatFile(path),
+		);
 	}
 
 	async formatFile(path: any) {
@@ -244,23 +303,54 @@ class BladeFormatter {
 		await this.readRuntimeConfig(path);
 
 		try {
-			const content = await util
-				.readFile(path)
-				.then((data: any) => data.toString("utf-8"));
+			const content = (await fs.promises.readFile(path)).toString("utf-8");
+			const signature = this.cache ? await this.cacheSignature() : "";
+
+			if (this.cache?.isFormatted(path, content, signature)) {
+				if (this.options.progress || this.options.write)
+					process.stdout.write(chalk.green("."));
+				return;
+			}
+
 			const formatted = await new Formatter(this.options).formatContent(
 				content,
 			);
-			await this.checkFormatted(path, formatted);
-			await this.writeToFile(path, formatted);
+			const changed = this.checkFormatted(path, content, formatted);
+
+			if (!changed) {
+				this.cache?.markFormatted(path, content, signature);
+			} else if (await this.writeToFile(path, formatted)) {
+				this.cache?.markFormatted(path, formatted, signature);
+			}
 		} catch (err) {
+			this.cache?.forget(path);
 			this.handleError(path, err);
 		}
 	}
 
-	async checkFormatted(path: any, formatted: any) {
+	/**
+	 * Fingerprint of everything that influences the output for a file.
+	 */
+	async cacheSignature() {
+		const options = _.omit(this.options, NON_FORMATTING_OPTIONS);
+
+		let tailwindConfig = "";
+		const tailwindConfigPath = this.options.tailwindcssConfigPath;
+		if (this.options.sortTailwindcssClasses && tailwindConfigPath) {
+			if (!(tailwindConfigPath in this.tailwindConfigContents)) {
+				this.tailwindConfigContents[tailwindConfigPath] = await fs.promises
+					.readFile(tailwindConfigPath, "utf-8")
+					.catch(() => "");
+			}
+			tailwindConfig = this.tailwindConfigContents[tailwindConfigPath];
+		}
+
+		return stableStringify({ options, tailwindConfig });
+	}
+
+	checkFormatted(path: any, originalContent: string, formatted: any) {
 		this.printFormattedOutput(path, formatted);
 
-		const originalContent = fs.readFileSync(path, "utf-8");
 		const originalLines = util.splitByLines(originalContent);
 		const formattedLines = util.splitByLines(formatted);
 		const diff = util.generateDiff(path, originalLines, formattedLines);
@@ -280,7 +370,7 @@ class BladeFormatter {
 			process.stdout.write(chalk.green("."));
 		}
 
-		return Promise.resolve(formatted);
+		return diff.length > 0;
 	}
 
 	printFormattedOutput(path: any, formatted: any) {
@@ -294,21 +384,17 @@ class BladeFormatter {
 		}
 	}
 
-	writeToFile(path: any, content: any) {
+	async writeToFile(path: any, content: any): Promise<boolean> {
 		if (
 			!this.options.write ||
 			this.options.checkFormatted ||
 			!content ||
 			_.isEmpty(content)
 		)
-			return;
+			return false;
 
-		fs.writeFile(path, content, (err: any) => {
-			if (err) {
-				process.stdout.write(`${chalk.red(err.message)}\n`);
-				process.exit(1);
-			}
-		});
+		await util.writeFileAtomic(path, content);
+		return true;
 	}
 
 	handleError(path: any, error: any) {
